@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  crudkit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    restart: unless-stopped
+    networks:
+      - crudkit-network
+
+  # Future services can be added here
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_DB: crudkit
+  #     POSTGRES_USER: crudkit
+  #     POSTGRES_PASSWORD: crudkit
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - crudkit-network
+
+networks:
+  crudkit-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
