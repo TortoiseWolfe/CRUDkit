@@ -1,92 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Text from '@/components/subatomic/Text/Text';
-
-type FontSize = 'small' | 'medium' | 'large' | 'x-large';
-type LineHeight = 'compact' | 'normal' | 'relaxed';
-type FontFamily = 'sans-serif' | 'serif' | 'mono';
+import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 export default function AccessibilityPage() {
-  const [fontSize, setFontSize] = useState<FontSize>('medium');
-  const [lineHeight, setLineHeight] = useState<LineHeight>('normal');
-  const [fontFamily, setFontFamily] = useState<FontFamily>('sans-serif');
-
-  useEffect(() => {
-    // Load saved preferences
-    const savedFontSize = localStorage.getItem('fontSize') as FontSize || 'medium';
-    const savedLineHeight = localStorage.getItem('lineHeight') as LineHeight || 'normal';
-    const savedFontFamily = localStorage.getItem('fontFamily') as FontFamily || 'sans-serif';
-    
-    setFontSize(savedFontSize);
-    setLineHeight(savedLineHeight);
-    setFontFamily(savedFontFamily);
-    
-    applyAccessibilitySettings(savedFontSize, savedLineHeight, savedFontFamily);
-  }, []);
-
-  const applyAccessibilitySettings = (size: FontSize, height: LineHeight, family: FontFamily) => {
-    const root = document.documentElement;
-    
-    // Font size settings
-    const fontSizes = {
-      'small': '14px',
-      'medium': '16px',
-      'large': '18px',
-      'x-large': '20px'
-    };
-    
-    // Line height settings
-    const lineHeights = {
-      'compact': '1.25',
-      'normal': '1.5',
-      'relaxed': '1.75'
-    };
-    
-    // Font family settings
-    const fontFamilies = {
-      'sans-serif': 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-      'serif': 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
-      'mono': 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
-    };
-    
-    root.style.setProperty('--base-font-size', fontSizes[size]);
-    root.style.setProperty('--base-line-height', lineHeights[height]);
-    root.style.setProperty('--base-font-family', fontFamilies[family]);
-    
-    // Apply to body
-    document.body.style.fontSize = fontSizes[size];
-    document.body.style.lineHeight = lineHeights[height];
-    document.body.style.fontFamily = fontFamilies[family];
-  };
-
-  const handleFontSizeChange = (size: FontSize) => {
-    setFontSize(size);
-    localStorage.setItem('fontSize', size);
-    applyAccessibilitySettings(size, lineHeight, fontFamily);
-  };
-
-  const handleLineHeightChange = (height: LineHeight) => {
-    setLineHeight(height);
-    localStorage.setItem('lineHeight', height);
-    applyAccessibilitySettings(fontSize, height, fontFamily);
-  };
-
-  const handleFontFamilyChange = (family: FontFamily) => {
-    setFontFamily(family);
-    localStorage.setItem('fontFamily', family);
-    applyAccessibilitySettings(fontSize, lineHeight, family);
-  };
-
-  const resetSettings = () => {
-    setFontSize('medium');
-    setLineHeight('normal');
-    setFontFamily('sans-serif');
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('lineHeight');
-    localStorage.removeItem('fontFamily');
-    applyAccessibilitySettings('medium', 'normal', 'sans-serif');
-  };
+  const { settings, updateSettings, resetSettings } = useAccessibility();
+  const { fontSize, lineHeight, fontFamily } = settings;
 
   return (
     <main className="min-h-screen bg-base-100">
@@ -106,7 +24,7 @@ export default function AccessibilityPage() {
                   {(['small', 'medium', 'large', 'x-large'] as const).map((size) => (
                     <button
                       key={size}
-                      onClick={() => handleFontSizeChange(size)}
+                      onClick={() => updateSettings({ fontSize: size })}
                       className={`btn ${fontSize === size ? 'btn-primary' : 'btn-outline'}`}
                     >
                       {size.charAt(0).toUpperCase() + size.slice(1).replace('-', ' ')}
@@ -124,7 +42,7 @@ export default function AccessibilityPage() {
                   {(['compact', 'normal', 'relaxed'] as const).map((height) => (
                     <button
                       key={height}
-                      onClick={() => handleLineHeightChange(height)}
+                      onClick={() => updateSettings({ lineHeight: height })}
                       className={`btn ${lineHeight === height ? 'btn-primary' : 'btn-outline'}`}
                     >
                       {height.charAt(0).toUpperCase() + height.slice(1)}
@@ -142,7 +60,7 @@ export default function AccessibilityPage() {
                   {(['sans-serif', 'serif', 'mono'] as const).map((family) => (
                     <button
                       key={family}
-                      onClick={() => handleFontFamilyChange(family)}
+                      onClick={() => updateSettings({ fontFamily: family })}
                       className={`btn ${fontFamily === family ? 'btn-primary' : 'btn-outline'}`}
                     >
                       {family === 'sans-serif' ? 'Sans' : family === 'serif' ? 'Serif' : 'Mono'}
@@ -167,26 +85,26 @@ export default function AccessibilityPage() {
           <div className="divider my-12">Preview</div>
           
           <div className="card bg-base-100 shadow-xl">
-            <div className="card-body">
-              <Text variant="h2">Sample Heading</Text>
-              <Text variant="lead">
+            <div className="card-body accessibility-preview" style={{ fontSize: `var(--base-font-size)` }}>
+              <h2 className="text-2xl font-bold" style={{ fontSize: `calc(2rem * var(--font-scale, 1))` }}>Sample Heading</h2>
+              <p className="text-lg" style={{ fontSize: `calc(1.125rem * var(--font-scale, 1))` }}>
                 This is a lead paragraph showing how your accessibility settings affect the text display.
-              </Text>
-              <Text variant="body">
+              </p>
+              <p style={{ fontSize: `calc(1rem * var(--font-scale, 1))` }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </Text>
-              <Text variant="small">
+              </p>
+              <p className="text-sm" style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}>
                 Small text: These accessibility controls are saved to your browser and will persist across sessions.
-              </Text>
+              </p>
               <div className="mt-4">
-                <Text variant="code">
-                  {`// Code example
+                <pre className="bg-base-200 p-4 rounded" style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}>
+                  <code>{`// Code example
 const settings = {
   fontSize: "${fontSize}",
   lineHeight: "${lineHeight}",
   fontFamily: "${fontFamily}"
-};`}
-                </Text>
+};`}</code>
+                </pre>
               </div>
             </div>
           </div>

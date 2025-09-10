@@ -1,0 +1,51 @@
+{
+  "name": "CRUDkit - Modern Web Starter",
+  "short_name": "CRUDkit",
+  "description": "A comprehensive starter kit with themes, components, and PWA features",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#570df8",
+  "background_color": "#ffffff",
+  "categories": ["developer", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/next.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Themes",
+      "url": "/themes",
+      "description": "Browse and switch themes"
+    },
+    {
+      "name": "Components",
+      "url": "/components",
+      "description": "View component gallery"
+    },
+    {
+      "name": "Accessibility",
+      "url": "/accessibility",
+      "description": "Adjust reading preferences"
+    }
+  ]
+}
