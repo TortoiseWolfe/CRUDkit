@@ -1,4 +1,7 @@
-# Universal PWA Meta-Template Constitution v1.0.0
+# CRUDkit - Universal PWA Meta-Template Constitution v1.0.0
+
+**Repository**: https://github.com/TortoiseWolfe/CRUDkit  
+**Description**: Evolutionary meta-template with 12 themes, PWA, and AI-optimized patterns
 
 ## REFERENCE TEMPLATES
 Learn from these implementations, improve upon them:
