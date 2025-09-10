@@ -42,11 +42,6 @@ export const Link: React.FC<LinkProps> = ({
   rel,
 }) => {
   const combinedClassName = `${variantStyles[variant]} ${className}`.trim();
-  
-  // Ensure internal links have trailing slash for our config
-  const processedHref = !external && !href.startsWith('http') && !href.endsWith('/') 
-    ? `${href}/` 
-    : href;
 
   // External links or anchors use regular <a> tag
   if (external || href.startsWith('http') || href.startsWith('#')) {
@@ -62,10 +57,10 @@ export const Link: React.FC<LinkProps> = ({
     );
   }
 
-  // Internal links use Next.js Link
+  // Internal links use Next.js Link - let Next.js handle basePath and trailing slashes
   return (
     <NextLink 
-      href={processedHref}
+      href={href}
       className={combinedClassName}
       target={target}
       rel={rel}
