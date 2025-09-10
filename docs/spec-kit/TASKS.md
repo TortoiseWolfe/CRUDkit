@@ -212,11 +212,11 @@ Every phase includes deployment milestones. GitHub Pages deployment from Day 1.
 
 ## Phase 2: Dual Theme System with Live Demo (Days 5-7)
 
-⬜ **Task 060** 🎯 [Day 5: Deploy Theme Switchers]
-   - Live theme switching at https://[username].github.io/crudkit/themes
+✅ **Task 060** 🎯 [Day 5: Deploy Theme Switchers]
+   - Live theme switching at https://tortoisewolfe.github.io/CRUDkit/themes
 
-⬜ **Task 061** 🎯 [Day 6: Typography Accessibility Controls]
-   - Accessibility controls live at https://[username].github.io/crudkit/accessibility
+✅ **Task 061** 🎯 [Day 6: Typography Accessibility Controls]
+   - Accessibility controls live at https://tortoisewolfe.github.io/CRUDkit/accessibility
 
 ⬜ **Task 062** 🎯 [Day 7: Integration & Smoke Tests]
    - All 72 theme combinations working live
