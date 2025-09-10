@@ -23,10 +23,13 @@ export default function Home() {
             <Link href="/themes" className="btn btn-primary">
               Explore Themes
             </Link>
+            <Link href="/components" className="btn btn-secondary">
+              Components
+            </Link>
             <Link href="/accessibility" className="btn btn-accent">
               Accessibility
             </Link>
-            <a href={storybookUrl} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+            <a href={storybookUrl} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
               View Storybook
             </a>
           </div>
