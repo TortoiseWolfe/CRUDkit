@@ -33,7 +33,7 @@ export default function ThemesPage() {
                 <Text variant="lead">Lead paragraph text</Text>
                 <Text variant="body">Body text for regular content in the current theme.</Text>
                 <Text variant="small">Small text for secondary information</Text>
-                <Text variant="code">const theme = "current";</Text>
+                <Text variant="code">const theme = &quot;current&quot;;</Text>
               </div>
             </div>
           </div>

@@ -77,7 +77,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
     
     setSettings(initialSettings);
     applySettings(initialSettings);
-  }, []);
+  }, [applySettings]);
 
   // Listen for storage events (changes from other tabs/windows)
   useEffect(() => {
@@ -95,7 +95,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [settings]);
+  }, [settings, applySettings]);
 
   // Update settings function
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {

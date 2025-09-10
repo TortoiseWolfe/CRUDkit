@@ -30,7 +30,7 @@ export default function ComponentsPage() {
                   <Text variant="lead">Lead paragraph text for emphasis</Text>
                   <Text variant="body">Body text for regular content. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
                   <Text variant="small">Small text for secondary information</Text>
-                  <Text variant="code">const example = "code text";</Text>
+                  <Text variant="code">const example = &quot;code text&quot;;</Text>
                   <Text variant="emphasis">Emphasized text for special attention</Text>
                   <Text variant="caption">Caption text for descriptions</Text>
                 </div>
