@@ -1,16 +1,16 @@
 // Service Worker for CRUDkit PWA
-const CACHE_NAME = 'crudkit-v1';
+const CACHE_NAME = 'crudkit-v2';
 const urlsToCache = [
-  '/',
-  '/themes',
-  '/components',
-  '/accessibility',
-  '/manifest.json',
-  '/next.svg',
-  '/vercel.svg',
-  '/file.svg',
-  '/globe.svg',
-  '/window.svg'
+  '/CRUDkit/',
+  '/CRUDkit/themes/',
+  '/CRUDkit/components/',
+  '/CRUDkit/accessibility/',
+  '/CRUDkit/manifest.json',
+  '/CRUDkit/next.svg',
+  '/CRUDkit/vercel.svg',
+  '/CRUDkit/file.svg',
+  '/CRUDkit/globe.svg',
+  '/CRUDkit/window.svg'
 ];
 
 // Install event - cache resources
@@ -87,7 +87,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // Offline fallback
         if (event.request.destination === 'document') {
-          return caches.match('/');
+          return caches.match('/CRUDkit/');
         }
       })
   );
