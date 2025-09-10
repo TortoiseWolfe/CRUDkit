@@ -57,7 +57,7 @@ export const Link: React.FC<LinkProps> = ({
     );
   }
 
-  // Internal links use Next.js Link - let Next.js handle basePath and trailing slashes
+  // Internal links use Next.js Link
   return (
     <NextLink 
       href={href}
