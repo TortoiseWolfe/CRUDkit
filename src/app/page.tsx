@@ -20,13 +20,13 @@ export default function Home() {
             <p className="text-base text-base-content/70">Deploy Early, Deploy Often</p>
           </div>
           <div className="flex gap-4 justify-center mt-8 flex-wrap">
-            <Link href="/themes" className="btn btn-primary">
+            <Link href="themes" className="btn btn-primary">
               <span className="text-base">Explore Themes</span>
             </Link>
-            <Link href="/components" className="btn btn-secondary">
+            <Link href="components" className="btn btn-secondary">
               <span className="text-base">Components</span>
             </Link>
-            <Link href="/accessibility" className="btn btn-accent">
+            <Link href="accessibility" className="btn btn-accent">
               <span className="text-base">Accessibility</span>
             </Link>
             <a href={storybookUrl} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
