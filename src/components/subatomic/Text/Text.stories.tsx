@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Text } from './Text';
 
 const meta = {
@@ -110,6 +110,9 @@ export const Caption: Story = {
 };
 
 export const AllVariants: Story = {
+  args: {
+    children: 'All Variants Display',
+  },
   render: () => (
     <div className="space-y-4">
       <Text variant="h1">Heading 1</Text>
@@ -121,7 +124,7 @@ export const AllVariants: Story = {
       <Text variant="lead">Lead paragraph text for introductions</Text>
       <Text variant="body">Regular body text for normal content</Text>
       <Text variant="small">Small text for less important info</Text>
-      <Text variant="code">console.log("Code snippet")</Text>
+      <Text variant="code">console.log(&quot;Code snippet&quot;)</Text>
       <Text variant="emphasis">Emphasized text for importance</Text>
       <Text variant="caption">Caption text for images or figures</Text>
     </div>
