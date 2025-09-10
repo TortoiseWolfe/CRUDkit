@@ -1,10 +1,17 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 export default function AccessibilityPage() {
   const { settings, updateSettings, resetSettings } = useAccessibility();
   const { fontSize, lineHeight, fontFamily } = settings;
+
+  useEffect(() => {
+    // Load and apply saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
 
   return (
     <main className="min-h-screen bg-base-100">
