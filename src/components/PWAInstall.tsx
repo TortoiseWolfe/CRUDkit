@@ -16,7 +16,9 @@ export default function PWAInstall() {
     // Register service worker
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(
+        // Use basePath for GitHub Pages
+        const swPath = process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
+        navigator.serviceWorker.register(swPath).then(
           (registration) => {
             console.log('Service Worker registered:', registration);
           },
