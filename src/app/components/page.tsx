@@ -1,14 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import Text from '@/components/subatomic/Text/Text';
 
 export default function ComponentsPage() {
-  useEffect(() => {
-    // Load and apply saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
   return (
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">

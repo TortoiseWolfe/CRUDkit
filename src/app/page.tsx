@@ -1,13 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-
 export default function Home() {
-  useEffect(() => {
-    // Load and apply saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
 
   return (
     <main className="hero min-h-screen bg-base-200">
