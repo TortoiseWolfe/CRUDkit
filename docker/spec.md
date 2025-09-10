@@ -10,6 +10,7 @@ CRUDkit is a Universal PWA Meta-Template that serves as an evolutionary foundati
 - **Test-First Development** - Validation before implementation
 - **Docker-First Infrastructure** - Consistency across all environments
 - **Accessibility-First Design** - WCAG AA compliance from the start
+- **Deploy Early, Deploy Often** - GitHub Pages from Day 1, iterative deployments
 
 ## 2. System Architecture
 
@@ -44,11 +45,23 @@ CRUDkit is a Universal PWA Meta-Template that serves as an evolutionary foundati
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Component Architecture (Atomic Design)
+### 2.2 Component Architecture (Atomic Design + Sub-Atomic)
 ```
 src/
 ├── components/
-│   ├── atoms/                 # Basic building blocks
+│   ├── subatomic/             # Pure text elements (NEW)
+│   │   ├── Text/
+│   │   │   ├── Text.tsx
+│   │   │   ├── Text.test.tsx
+│   │   │   ├── Text.stories.tsx
+│   │   │   └── index.ts
+│   │   ├── Heading/
+│   │   ├── Paragraph/
+│   │   ├── Caption/
+│   │   ├── Code/
+│   │   ├── List/
+│   │   └── Emphasis/
+│   ├── atoms/                 # Basic building blocks (use subatomic)
 │   │   ├── Button/
 │   │   │   ├── Button.tsx
 │   │   │   ├── Button.test.tsx
@@ -57,7 +70,6 @@ src/
 │   │   ├── Input/
 │   │   ├── Label/
 │   │   ├── Icon/
-│   │   ├── Typography/
 │   │   └── Link/
 │   ├── molecules/             # Combinations of atoms
 │   │   ├── FormField/
@@ -81,6 +93,262 @@ src/
 ```
 
 ## 3. Detailed Requirements
+
+### 3.0 Sub-Atomic Typography System
+
+#### 3.0.1 Text Component Interface
+```typescript
+interface TextProps {
+  as?: 'span' | 'p' | 'div' | 'strong' | 'em' | 'mark' | 'del' | 'ins' | 'sub' | 'sup';
+  variant?: 'body' | 'label' | 'caption' | 'overline' | 'code' | 'quote';
+  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
+  weight?: 'thin' | 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
+  align?: 'left' | 'center' | 'right' | 'justify';
+  color?: 'primary' | 'secondary' | 'muted' | 'accent' | 'error' | 'warning' | 'success' | 'info';
+  font?: 'sans' | 'serif' | 'mono' | 'display';
+  truncate?: boolean | number; // true for single line, number for multi-line
+  wrap?: 'normal' | 'nowrap' | 'balance' | 'pretty';
+  leading?: 'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose';
+  tracking?: 'tighter' | 'tight' | 'normal' | 'wide' | 'wider' | 'widest';
+  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
+  decoration?: 'none' | 'underline' | 'line-through' | 'overline';
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface HeadingProps extends Omit<TextProps, 'as' | 'variant'> {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  level?: 1 | 2 | 3 | 4 | 5 | 6; // Visual level independent of semantic level
+  gradient?: boolean; // Enable gradient text
+}
+
+interface ParagraphProps extends Omit<TextProps, 'as' | 'variant'> {
+  indent?: boolean;
+  columns?: 1 | 2 | 3 | 4;
+  dropcap?: boolean;
+  maxWidth?: 'prose' | 'narrow' | 'wide' | 'full';
+}
+
+interface CodeProps {
+  children: string;
+  language?: string;
+  inline?: boolean;
+  showLineNumbers?: boolean;
+  highlightLines?: number[];
+  theme?: 'light' | 'dark' | 'auto';
+  copyButton?: boolean;
+}
+
+interface ListProps {
+  as?: 'ul' | 'ol';
+  variant?: 'disc' | 'circle' | 'square' | 'decimal' | 'alpha' | 'roman' | 'none';
+  spacing?: 'tight' | 'normal' | 'loose';
+  indent?: boolean;
+  items: Array<string | React.ReactNode>;
+}
+```
+
+#### 3.0.2 Font Theme System
+```typescript
+interface FontTheme {
+  id: string;
+  name: string;
+  description: string;
+  fonts: {
+    sans: {
+      family: string[];
+      variable?: string; // CSS variable font settings
+      features?: string[]; // OpenType features
+    };
+    serif: {
+      family: string[];
+      variable?: string;
+      features?: string[];
+    };
+    mono: {
+      family: string[];
+      variable?: string;
+      features?: string[];
+    };
+    display?: {
+      family: string[];
+      variable?: string;
+      features?: string[];
+    };
+  };
+  scale: {
+    ratio: number; // Modular scale ratio (e.g., 1.25 for major third)
+    base: number; // Base font size in pixels
+  };
+  readingMode: 'default' | 'comfortable' | 'compact' | 'dyslexic';
+  textRendering: {
+    optimizeLegibility: boolean;
+    kerning: 'none' | 'normal' | 'auto';
+    fontSmoothing: 'auto' | 'antialiased' | 'subpixel-antialiased';
+  };
+}
+
+// Predefined Font Themes
+const fontThemes: FontTheme[] = [
+  {
+    id: 'professional',
+    name: 'Professional',
+    description: 'Clean, corporate typography',
+    fonts: {
+      sans: { family: ['Inter', 'system-ui', 'sans-serif'] },
+      serif: { family: ['Merriweather', 'Georgia', 'serif'] },
+      mono: { family: ['JetBrains Mono', 'monospace'] }
+    },
+    scale: { ratio: 1.25, base: 16 },
+    readingMode: 'default',
+    textRendering: { optimizeLegibility: true, kerning: 'normal', fontSmoothing: 'antialiased' }
+  },
+  {
+    id: 'playful',
+    name: 'Playful',
+    description: 'Fun, approachable typography',
+    fonts: {
+      sans: { family: ['Quicksand', 'Comic Neue', 'sans-serif'] },
+      serif: { family: ['Fredoka', 'serif'] },
+      mono: { family: ['Fira Code', 'monospace'] },
+      display: { family: ['Pacifico', 'cursive'] }
+    },
+    scale: { ratio: 1.333, base: 18 },
+    readingMode: 'comfortable',
+    textRendering: { optimizeLegibility: true, kerning: 'auto', fontSmoothing: 'antialiased' }
+  },
+  {
+    id: 'modern',
+    name: 'Modern',
+    description: 'Contemporary, minimalist typography',
+    fonts: {
+      sans: { family: ['Geist', 'system-ui', 'sans-serif'], variable: 'font-weight: 100 900' },
+      serif: { family: ['Lora', 'serif'] },
+      mono: { family: ['GeistMono', 'monospace'] }
+    },
+    scale: { ratio: 1.2, base: 16 },
+    readingMode: 'default',
+    textRendering: { optimizeLegibility: true, kerning: 'normal', fontSmoothing: 'subpixel-antialiased' }
+  },
+  {
+    id: 'classic',
+    name: 'Classic',
+    description: 'Traditional, timeless typography',
+    fonts: {
+      sans: { family: ['Helvetica Neue', 'Helvetica', 'sans-serif'] },
+      serif: { family: ['Times New Roman', 'Times', 'serif'] },
+      mono: { family: ['Courier New', 'monospace'] }
+    },
+    scale: { ratio: 1.25, base: 16 },
+    readingMode: 'default',
+    textRendering: { optimizeLegibility: false, kerning: 'auto', fontSmoothing: 'auto' }
+  },
+  {
+    id: 'accessible',
+    name: 'Accessible',
+    description: 'Optimized for readability and dyslexia',
+    fonts: {
+      sans: { family: ['OpenDyslexic', 'Atkinson Hyperlegible', 'sans-serif'] },
+      serif: { family: ['OpenDyslexic', 'serif'] },
+      mono: { family: ['OpenDyslexicMono', 'monospace'] }
+    },
+    scale: { ratio: 1.15, base: 18 },
+    readingMode: 'dyslexic',
+    textRendering: { optimizeLegibility: true, kerning: 'none', fontSmoothing: 'antialiased' }
+  },
+  {
+    id: 'monospace',
+    name: 'Monospace',
+    description: 'Code-focused typography',
+    fonts: {
+      sans: { family: ['SF Mono', 'Monaco', 'monospace'] },
+      serif: { family: ['IBM Plex Mono', 'monospace'] },
+      mono: { family: ['Cascadia Code', 'Fira Code', 'monospace'], features: ['liga', 'calt'] }
+    },
+    scale: { ratio: 1.125, base: 14 },
+    readingMode: 'compact',
+    textRendering: { optimizeLegibility: false, kerning: 'none', fontSmoothing: 'antialiased' }
+  }
+];
+```
+
+#### 3.0.3 Typography Accessibility Features
+```typescript
+interface TypographyAccessibility {
+  // User preferences
+  preferences: {
+    fontSize: 'default' | 'large' | 'larger' | 'largest' | 'custom';
+    customScale?: number; // 0.8 to 2.0
+    lineHeight: 'default' | 'relaxed' | 'loose' | 'custom';
+    customLineHeight?: number; // 1.0 to 2.0
+    letterSpacing: 'default' | 'wide' | 'wider' | 'custom';
+    customLetterSpacing?: number; // -0.05 to 0.2
+    wordSpacing: 'default' | 'wide' | 'custom';
+    customWordSpacing?: number; // 0 to 0.5
+    paragraphSpacing: 'default' | 'double' | 'custom';
+    customParagraphSpacing?: number; // 0.5 to 3.0
+  };
+  
+  // Reading aids
+  readingAids: {
+    highlightCurrentLine: boolean;
+    highlightCurrentWord: boolean;
+    bionic: boolean; // Bold first part of words
+    ruler: boolean; // Reading ruler overlay
+    focus: boolean; // Highlight focus area, dim rest
+    contrast: 'default' | 'high' | 'highest' | 'inverted';
+  };
+  
+  // Font features
+  fontFeatures: {
+    ligatures: boolean;
+    tabularNumbers: boolean;
+    slashedZero: boolean;
+    caseSensitiveForms: boolean;
+    stylisticAlternates: boolean;
+  };
+  
+  // Responsive typography
+  responsive: {
+    enableFluidTypography: boolean;
+    minViewport: number; // e.g., 320
+    maxViewport: number; // e.g., 1920
+    minFontSize: number; // e.g., 14
+    maxFontSize: number; // e.g., 20
+  };
+}
+
+// Typography utilities
+class TypographyUtils {
+  // Calculate fluid typography
+  static fluidType(min: number, max: number, minVw: number, maxVw: number): string {
+    const slope = (max - min) / (maxVw - minVw);
+    const yAxisIntersection = -minVw * slope + min;
+    return `clamp(${min}px, ${yAxisIntersection}px + ${slope * 100}vw, ${max}px)`;
+  }
+  
+  // Calculate modular scale
+  static modularScale(base: number, ratio: number, step: number): number {
+    return base * Math.pow(ratio, step);
+  }
+  
+  // Calculate optimal line length
+  static optimalLineLength(fontSize: number, characters = 65): number {
+    return fontSize * characters * 0.5; // Approximate pixel width
+  }
+  
+  // Check contrast ratio
+  static contrastRatio(fg: string, bg: string): number {
+    // Implementation of WCAG contrast calculation
+    return 0; // Placeholder
+  }
+  
+  // Apply text balancing
+  static balanceText(element: HTMLElement): void {
+    // CSS text-wrap: balance polyfill for older browsers
+  }
+}
+```
 
 ### 3.1 Theme System Requirements
 
@@ -1717,6 +1985,14 @@ crudkit/
 │   │   ├── page.tsx
 │   │   └── global.css
 │   ├── components/
+│   │   ├── subatomic/
+│   │   │   ├── Text/
+│   │   │   ├── Heading/
+│   │   │   ├── Paragraph/
+│   │   │   ├── Caption/
+│   │   │   ├── Code/
+│   │   │   ├── List/
+│   │   │   └── Emphasis/
 │   │   ├── atoms/
 │   │   ├── molecules/
 │   │   ├── organisms/
@@ -1733,8 +2009,10 @@ crudkit/
 │   │   └── utils/
 │   ├── providers/
 │   │   ├── ThemeProvider.tsx
+│   │   ├── FontThemeProvider.tsx
 │   │   ├── AuthProvider.tsx
-│   │   └── PWAProvider.tsx
+│   │   ├── PWAProvider.tsx
+│   │   └── TypographyProvider.tsx
 │   ├── schemas/
 │   │   ├── forms/
 │   │   ├── api/
@@ -1745,6 +2023,8 @@ crudkit/
 │   │   └── storage/
 │   ├── stores/
 │   │   ├── theme.store.ts
+│   │   ├── fontTheme.store.ts
+│   │   ├── typography.store.ts
 │   │   ├── auth.store.ts
 │   │   └── app.store.ts
 │   ├── styles/
@@ -2188,6 +2468,172 @@ class MetricsCollector {
 ```
 
 ## 10. Deployment Configuration
+
+### 10.0 Iterative Deployment Strategy
+
+#### 10.0.1 Deploy Early, Deploy Often
+```yaml
+# Deployment Timeline
+Day 1: Initial Setup
+  - GitHub Pages enabled
+  - Basic Next.js app deployed
+  - Smoke test: "Hello CRUDkit" page live
+  - URL: https://[username].github.io/crudkit
+
+Day 2-4: Sub-Atomic Components
+  - Deploy Storybook with Text components
+  - URL: https://[username].github.io/crudkit/storybook
+  - Smoke test: All text variants visible
+
+Day 5-7: Dual Theme System
+  - Deploy theme switcher demo
+  - Both color and font themes live
+  - Smoke test: Theme persistence working
+
+Day 8-10: Atomic Components
+  - Deploy component showcase
+  - Interactive Storybook
+  - Smoke test: All components render
+
+Every 3 Days: Incremental Updates
+  - Deploy latest features
+  - Update Storybook documentation
+  - Stakeholder review and feedback
+```
+
+#### 10.0.2 Dual Deployment Architecture
+```
+GitHub Pages Structure:
+├── / (main app)
+│   ├── index.html
+│   ├── _next/
+│   └── public/
+├── /storybook (component docs)
+│   ├── index.html
+│   ├── iframe.html
+│   └── static/
+```
+
+#### 10.0.3 Automated Deployment Pipeline
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run test:smoke
+      
+  deploy-app:
+    needs: smoke-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run export
+      - uses: actions/deploy-pages@v4
+        with:
+          path: ./out
+          
+  deploy-storybook:
+    needs: smoke-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build-storybook
+      - uses: actions/deploy-pages@v4
+        with:
+          path: ./storybook-static
+          target-folder: storybook
+```
+
+#### 10.0.4 Smoke Test Suite
+```typescript
+// tests/smoke.test.ts
+describe('Smoke Tests', () => {
+  test('App builds without errors', async () => {
+    const result = await exec('pnpm run build');
+    expect(result.exitCode).toBe(0);
+  });
+  
+  test('App starts without errors', async () => {
+    const server = await startServer();
+    const response = await fetch('http://localhost:3000');
+    expect(response.status).toBe(200);
+    await server.close();
+  });
+  
+  test('Storybook builds without errors', async () => {
+    const result = await exec('pnpm run build-storybook');
+    expect(result.exitCode).toBe(0);
+  });
+  
+  test('All themes load', async () => {
+    const themes = ['velvet-cake', 'forest-floor', /* ... */];
+    for (const theme of themes) {
+      const css = await loadTheme(theme);
+      expect(css).toBeDefined();
+    }
+  });
+  
+  test('All font themes load', async () => {
+    const fontThemes = ['professional', 'playful', /* ... */];
+    for (const theme of fontThemes) {
+      const fonts = await loadFontTheme(theme);
+      expect(fonts).toBeDefined();
+    }
+  });
+});
+```
+
+#### 10.0.5 Progressive Feature Flags
+```typescript
+// config/features.ts
+export const features = {
+  // Phase 1 (Day 1-4)
+  subatomicComponents: true,
+  textComponent: true,
+  headingComponent: true,
+  
+  // Phase 2 (Day 5-7)
+  colorThemes: process.env.NEXT_PUBLIC_FEATURE_COLOR_THEMES === 'true',
+  fontThemes: process.env.NEXT_PUBLIC_FEATURE_FONT_THEMES === 'true',
+  
+  // Phase 3 (Day 8-10)
+  atomicComponents: process.env.NEXT_PUBLIC_FEATURE_ATOMIC === 'true',
+  
+  // Phase 4 (Day 11-13)
+  pwa: process.env.NEXT_PUBLIC_FEATURE_PWA === 'true',
+  
+  // Later phases
+  emailIntegration: false,
+  advancedForms: false,
+  analytics: false
+};
+```
 
 ### 10.1 Environment Variables
 ```bash
