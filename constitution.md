@@ -26,6 +26,14 @@
 - Code comments MUST reference original PRP/Spec requirements
 - Living documentation: Code becomes the source of truth
 
+#### PRP Methodology Standards (FROM 001_template)
+- **Master Template**: Standardized PRP template for consistency
+- **Atomic Organization**: PRPs organized by atoms/molecules/organisms/templates/system
+- **Technical Specifications**: Detailed props, state, behavior, and edge cases
+- **Acceptance Criteria**: Clear success metrics for each component
+- **AI-Optimized**: Written specifically for AI-assisted development
+- **Version Control**: PRPs versioned alongside code
+
 ### IV. Test-First Development (NON-NEGOTIABLE)
 - TDD mandatory: Write tests → Get approval → Watch fail → Then implement
 - Red-Green-Refactor cycle strictly enforced
@@ -59,6 +67,10 @@
 - Reduced motion preferences respected
 - Color contrast ratios meeting WCAG AA standards
 - Accessibility testing in Storybook
+- Colorblind accessibility testing mandatory (FROM 000_Template)
+- Testing for Deuteranopia, Protanopia, Tritanopia
+- High contrast mode support and validation
+- Pa11y CI integration with multiple scenarios
 
 ### VII. GitHub Pages Dual-Deployment
 - Main app deployed to: `https://[username].github.io/[repo]/`
@@ -76,6 +88,17 @@
 - Theme-aware components supporting multiple themes
 - Composition over configuration
 - Monorepo-ready package structure (FROM ARCHIVED VERSION)
+
+#### Component Documentation Standards (FROM 001_template)
+- **Four Files Per Component**:
+  - `Component.tsx`: Implementation with TypeScript
+  - `Component.stories.tsx`: Storybook stories with all variants
+  - `Component.test.tsx`: Unit and integration tests
+  - `README.md`: Usage documentation and examples
+- **Props Documentation**: JSDoc comments for all props
+- **Accessibility Notes**: ARIA requirements documented
+- **Performance Considerations**: Memo usage, lazy loading notes
+- **Version History**: Breaking changes tracked in README
 
 ### Project Structure (ENHANCED FROM ARCHIVED VERSION)
 - `/src` for application code when using frameworks
@@ -110,6 +133,15 @@
 - **PR Checks**: Full Test Suite + Build + Visual Regression
 - **Main Branch**: E2E + Deploy
 
+### Validation Loops (FROM 000_Template)
+- **Level 1 - Syntax**: `lint:fix && format`
+- **Level 2 - Types**: `type-check`
+- **Level 3 - Unit Tests**: `test:unit`
+- **Level 4 - Integration**: `test:integration`
+- **Level 5 - Accessibility**: `test:a11y && test:colorblind`
+- **Level 6 - Performance**: `lighthouse`
+- Must complete ALL levels before marking features complete
+
 ### CI/CD Pipeline (ENHANCED FROM ARCHIVED VERSION)
 - Separate workflows for testing, deployment, preview, and visual regression
 - Docker-based CI/CD for consistency
@@ -127,6 +159,19 @@
 - Rollback documentation for major changes
 - Senior designer audit prompts for theme systems
 
+#### AI Context Documentation (FROM 001_template + 000_Template)
+- **CLAUDE.md Required**: Comprehensive AI context file for every project
+- **Contents**: Project overview, tech stack, structure, patterns, commands
+- **Development Guidelines**: Common tasks, troubleshooting, best practices
+- **DO's and DON'Ts**: Explicit guidance for AI assistants
+- **Confidence Scoring**: Rate documentation completeness (x/10)
+- **Known Gotchas**: Framework-specific issues and solutions
+- **Current Context**: Active features and technical debt tracking
+- **Validation Loops**: All 6 levels must be documented
+- **Version Tracking**: Keep synchronized with project changes
+- **Error Solutions**: Document common issues and fixes
+- **Command Reference**: All available scripts and their purposes
+
 ## Intake System Standards
 
 ### Form Requirements
@@ -136,11 +181,30 @@
 - Accessibility-compliant form labels
 - Anti-spam measures (honeypot, rate limiting)
 
+#### Advanced Form Patterns (FROM 001_template)
+- **React Hook Form + Zod**: Standard form validation stack
+- **Multi-Step Forms**: Progress indicators and state persistence
+- **Real-Time Validation**: Debounced field validation with user feedback
+- **Error Recovery**: Form state restoration after errors
+- **Honeypot Implementation**: Hidden fields for bot detection
+- **Rate Limiting**: Client-side and server-side throttling
+- **File Uploads**: Drag-and-drop with progress indicators
+- **Conditional Fields**: Dynamic form structure based on user input
+
 ### Calendly Integration
 - Lazy-loaded embed for performance
 - Fallback link for blocked scripts
 - Mobile-responsive integration
 - Analytics event tracking
+
+### Email Service Integration (FROM 001_template)
+- **Multi-Provider Strategy**: Support Web3Forms, EmailJS, Resend, SendGrid
+- **Privacy-First**: Prefer Web3Forms (no backend required, GDPR compliant)
+- **Abstraction Layer**: Provider-agnostic email service interface
+- **Fallback Chain**: Primary → Secondary → Tertiary providers
+- **Rate Limiting**: Provider-specific limits respected
+- **Template System**: Reusable email templates with variables
+- **Testing Mode**: Local email capture for development
 
 ## Security Requirements
 
@@ -164,6 +228,28 @@
 - **Middleware Exclusions**: PWA routes excluded from middleware
 - **CORS Configuration**: Strict origin validation
 - **Rate Limiting**: API endpoint protection
+
+### Security Policy Framework (FROM 000_Template)
+- **Vulnerability Reporting**: Dedicated security email and process
+- **Security Checklist**: Pre-production validation required
+- **Compliance Standards**: OWASP ASVS, PCI DSS, GDPR, SOC 2
+- **Scanning Schedule**:
+  - Daily: Dependency vulnerability scanning
+  - Weekly: Static code analysis
+  - Monthly: Dynamic application security testing
+  - Quarterly: Penetration testing
+  - Annually: Full security audit
+- **Built-in Protections**: CSRF tokens, secure sessions, input validation
+
+#### Privacy-First Approach (FROM 001_template)
+- **No Cookies Without Consent**: LocalStorage for anonymous users
+- **Privacy-Focused Providers**: Web3Forms over Google Forms
+- **Data Minimization**: Only collect essential information
+- **Local-First**: Process data client-side when possible
+- **Clear Privacy Policy**: Transparent data handling
+- **GDPR Compliance**: Right to deletion, data portability
+- **Analytics Opt-In**: Disabled by default, user choice
+- **No Third-Party Tracking**: Self-hosted analytics preferred
 
 ### Deployment Security
 - **PR Preview Isolation**: Separate preview environments
@@ -217,7 +303,7 @@
 - **Component Documentation**: Auto-generated from props
 - **Cross-linking**: Bidirectional navigation app ↔ Storybook
 
-### Configuration Architecture (FROM ARCHIVED VERSION)
+### Configuration Architecture (FROM ARCHIVED VERSION + 000_Template)
 - Centralized `/config` directory structure
 - `config/docker/`: All Docker configurations
 - `config/testing/`: Jest/Vitest configurations
@@ -225,6 +311,8 @@
 - `config/editor/`: EditorConfig and VS Code settings
 - `config/framework/`: Next.js/Vite configurations
 - `config/links.config.ts`: Centralized URL management
+- `config/pa11y/`: Accessibility testing scenarios
+- `config/lighthouse/`: Performance budget configurations
 
 ### Automation Scripts
 - `initialize-template.sh`: Project setup
@@ -244,12 +332,22 @@
 - `test:unit`: Unit tests only
 - `test:e2e`: Playwright E2E tests
 - `test:coverage`: Coverage reporting
+- `test:a11y`: Pa11y accessibility testing
+- `test:colorblind`: Colorblind accessibility validation
+- `test:visual`: Visual regression with Playwright
 - `typecheck`: TypeScript validation without emit
 - `lint`: ESLint with flat config
+- `lint:fix`: Auto-fix linting issues
+- `format`: Prettier code formatting
 - `storybook`: Component development
 - `build-storybook`: Static Storybook build
 - `chromatic`: Visual regression testing
 - `analyze`: Bundle size analysis
+- `validate`: Run all validation checks
+- `validate:env`: Environment variable checking
+- `validate:deps`: Dependency security audit
+- `security:scan`: Trufflehog secret scanning
+- `lighthouse`: Performance audit
 
 ## Environment Configuration & Feature Flags
 
@@ -267,13 +365,15 @@
 - Build-time optimization flags
 - Runtime configuration switching
 
-## Advanced Tooling (FROM ARCHIVED VERSION)
+## Advanced Tooling (FROM ARCHIVED VERSION + 000_Template)
 
 ### Design System Tools
 - Theme color audit script for OKLCH analysis
 - WCAG compliance checking automation
 - Professional design system validation
 - Automated theme generation from base colors
+- Colorblind simulation filters
+- Contrast ratio validation tools
 
 ### Development Tools  
 - Agent context updater for AI-assisted development
@@ -311,7 +411,24 @@
 - Patterns extracted to templates
 - Regular knowledge transfer sessions
 
-**Version**: 0.0.3 | **Created**: 2025-09-09 | **Last Updated**: 2025-09-09
+**Version**: 0.0.5 | **Created**: 2025-09-09 | **Last Updated**: 2025-09-09
+
+**v0.0.5 changes** (FROM 000_Template):
+- Added validation loops methodology (6-level process)
+- Enhanced colorblind accessibility testing requirements
+- Expanded AI context documentation with DO's/DON'Ts and confidence scoring
+- Added comprehensive security policy framework with compliance standards
+- Extended NPM scripts for validation, security, and accessibility
+- Added Pa11y CI integration for multi-scenario testing
+- Enhanced Docker Compose patterns with service profiles
+
+**v0.0.4 changes** (FROM 001_template):
+- Added PRP methodology standards for AI-assisted development
+- Added AI context documentation requirements (CLAUDE.md)
+- Enhanced email service integration with multi-provider strategy
+- Expanded form patterns with React Hook Form + Zod standards
+- Added component documentation standards (4 files per component)
+- Added privacy-first security approach with GDPR compliance
 
 **v0.0.3 changes**: 
 - Added advanced PWA service worker strategies with offline queue
