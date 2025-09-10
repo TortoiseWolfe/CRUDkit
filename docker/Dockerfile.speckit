@@ -1,0 +1,26 @@
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user FIRST (following Bret Fisher's best practices)
+# Using UID 1000 which typically matches the first user on Linux systems
+RUN useradd -m -s /bin/bash -u 1000 appuser
+
+# Install Python packages as root (faster and cleaner)
+RUN pip install uv
+
+# Create workspace directory with correct permissions
+RUN mkdir -p /workspace && chown -R appuser:appuser /workspace
+
+# Switch to non-root user for security
+USER appuser
+WORKDIR /workspace
+
+# Install spec-kit as the appuser (installs to user's home)
+RUN uv tool install git+https://github.com/github/spec-kit.git
+
+# Update PATH for the appuser
+ENV PATH="/home/appuser/.local/bin:${PATH}"
+
+CMD ["bash"]
