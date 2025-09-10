@@ -7,7 +7,7 @@ const basePath = isGithubPages ? '/CRUDkit' : '';
 const nextConfig: NextConfig = {
   output: 'export',
   basePath: basePath,
-  assetPrefix: basePath,
+  assetPrefix: basePath ? `${basePath}/` : '',
   trailingSlash: true,
   images: {
     unoptimized: true,
