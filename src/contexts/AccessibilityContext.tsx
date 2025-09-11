@@ -29,30 +29,30 @@ const AccessibilityContext = createContext<AccessibilityContextType | undefined>
 export function AccessibilityProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<AccessibilitySettings>(defaultSettings);
 
-  // Font scale factors
-  const scaleFactors: Record<FontSize, number> = {
-    'small': 1.25,    // 20px - minimum comfortable size
-    'medium': 1.5,    // 24px - good default
-    'large': 1.75,    // 28px - easy to read
-    'x-large': 2.125  // 34px - very accessible
-  };
-  
-  // Line heights
-  const lineHeights: Record<LineHeight, string> = {
-    'compact': '1.25',
-    'normal': '1.5',
-    'relaxed': '1.75'
-  };
-  
-  // Font families
-  const fontFamilies: Record<FontFamily, string> = {
-    'sans-serif': 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-    'serif': 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
-    'mono': 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
-  };
-
   // Apply settings to DOM
   const applySettings = useCallback((newSettings: AccessibilitySettings) => {
+    // Font scale factors
+    const scaleFactors: Record<FontSize, number> = {
+      'small': 1.25,    // 20px - minimum comfortable size
+      'medium': 1.5,    // 24px - good default
+      'large': 1.75,    // 28px - easy to read
+      'x-large': 2.125  // 34px - very accessible
+    };
+    
+    // Line heights
+    const lineHeights: Record<LineHeight, string> = {
+      'compact': '1.25',
+      'normal': '1.5',
+      'relaxed': '1.75'
+    };
+    
+    // Font families
+    const fontFamilies: Record<FontFamily, string> = {
+      'sans-serif': 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      'serif': 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
+      'mono': 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
+    };
+
     const root = document.documentElement;
     
     root.style.setProperty('--font-scale-factor', scaleFactors[newSettings.fontSize].toString());

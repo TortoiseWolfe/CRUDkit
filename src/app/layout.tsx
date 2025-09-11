@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PWAInstall from "@/components/PWAInstall";
 import ThemeScript from "@/components/ThemeScript";
-import ResourceHints from "@/components/ResourceHints";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 
 const geistSans = Geist({
@@ -68,7 +67,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
-        <ResourceHints />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
