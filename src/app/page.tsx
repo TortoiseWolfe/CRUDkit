@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-base-200 via-base-100 to-base-200">
       {/* Skip to main content for accessibility */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 btn btn-sm btn-primary">
-        Skip to main content
+      <a href="#tutorial" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 btn btn-sm btn-primary">
+        Skip to tutorial
       </a>
 
       {/* Floating Progress Badge */}
@@ -251,7 +251,7 @@ export default function Home() {
               </div>
               
               {/* Tutorial Section - Full Width */}
-              <div className="card bg-base-100 shadow-xl mt-4">
+              <div id="tutorial" className="card bg-base-100 shadow-xl mt-4">
                 <div className="card-body">
                   <div className="p-3 bg-primary/10 rounded-lg">
                     <p className="text-sm font-medium mb-2">
