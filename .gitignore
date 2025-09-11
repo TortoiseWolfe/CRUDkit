@@ -42,3 +42,6 @@ next-env.d.ts
 
 # pnpm
 .pnpm-store/
+
+# Generated files (copied during build)
+public/TASKS.md

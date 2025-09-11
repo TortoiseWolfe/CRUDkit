@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "cp docs/spec-kit/TASKS.md public/TASKS.md",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
