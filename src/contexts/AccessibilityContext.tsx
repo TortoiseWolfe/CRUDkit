@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 type FontSize = 'small' | 'medium' | 'large' | 'x-large';
 type LineHeight = 'compact' | 'normal' | 'relaxed';
@@ -52,7 +52,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
   };
 
   // Apply settings to DOM
-  const applySettings = (newSettings: AccessibilitySettings) => {
+  const applySettings = useCallback((newSettings: AccessibilitySettings) => {
     const root = document.documentElement;
     
     root.style.setProperty('--font-scale-factor', scaleFactors[newSettings.fontSize].toString());
@@ -61,7 +61,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
     
     document.body.style.lineHeight = lineHeights[newSettings.lineHeight];
     document.body.style.fontFamily = fontFamilies[newSettings.fontFamily];
-  };
+  }, []);
 
   // Load settings from localStorage on mount
   useEffect(() => {

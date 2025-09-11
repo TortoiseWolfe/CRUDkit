@@ -26,6 +26,9 @@ export default function Home() {
             <a href="https://tortoisewolfe.github.io/CRUDkit/accessibility/" className="btn btn-accent">
               Accessibility
             </a>
+            <a href="https://tortoisewolfe.github.io/CRUDkit/status/" className="btn btn-info">
+              Status
+            </a>
             <a href="https://tortoisewolfe.github.io/CRUDkit/storybook/" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
               Storybook
             </a>

@@ -7,6 +7,7 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-docs",
     "@chromatic-com/storybook",
+    "@storybook/addon-themes",
   ],
   framework: {
     name: "@storybook/nextjs",

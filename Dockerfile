@@ -5,6 +5,7 @@ FROM node:22-alpine AS base
 RUN corepack enable && corepack prepare pnpm@latest --activate
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN pnpm config set store-dir /pnpm/store --global
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -26,15 +27,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Expose port 3000
-EXPOSE 3000
+# Expose ports for Next.js and Storybook
+EXPOSE 3000 6006
 
 # Set hostname and port
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
 
-# Start development server
-CMD ["pnpm", "run", "dev"]
+# Start both development server and Storybook
+CMD ["sh", "-c", "pnpm run dev & pnpm run storybook & wait"]
 
 # Builder stage for production
 FROM base AS builder
