@@ -1,10 +1,7 @@
 // Service Worker for CRUDkit PWA
-const CACHE_NAME = 'crudkit-v2';
+const CACHE_NAME = 'crudkit-v3';
+// Only cache assets, not HTML pages (to ensure theme scripts always run)
 const urlsToCache = [
-  '/CRUDkit/',
-  '/CRUDkit/themes/',
-  '/CRUDkit/components/',
-  '/CRUDkit/accessibility/',
   '/CRUDkit/manifest.json',
   '/CRUDkit/next.svg',
   '/CRUDkit/vercel.svg',
@@ -55,6 +52,25 @@ self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // Don't cache HTML documents to ensure theme scripts always run
+  const isHTMLRequest = event.request.destination === 'document' || 
+                        event.request.headers.get('accept')?.includes('text/html');
+  
+  if (isHTMLRequest) {
+    // Always fetch HTML fresh from network
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        // Offline fallback - return a basic offline page
+        return new Response('Offline - Please check your connection', {
+          status: 503,
+          headers: { 'Content-Type': 'text/html' }
+        });
+      })
+    );
+    return;
+  }
+
+  // For non-HTML resources, use cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -75,7 +91,7 @@ self.addEventListener('fetch', (event) => {
           // Clone the response
           const responseToCache = response.clone();
 
-          // Add to cache for next time
+          // Add to cache for next time (only non-HTML)
           caches.open(CACHE_NAME)
             .then((cache) => {
               cache.put(event.request, responseToCache);
@@ -83,12 +99,6 @@ self.addEventListener('fetch', (event) => {
 
           return response;
         });
-      })
-      .catch(() => {
-        // Offline fallback
-        if (event.request.destination === 'document') {
-          return caches.match('/CRUDkit/');
-        }
       })
   );
 });

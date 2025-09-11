@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     title: "CRUDkit - Modern Web Starter",
     description: "A comprehensive starter kit with themes, components, and PWA features",
   },
+  other: {
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  },
 };
 
 export default function RootLayout({
