@@ -24,17 +24,17 @@ Learn from these implementations, improve upon them:
 - **Accessibility**: WCAG AA, colorblind support, keyboard nav **[⚠️ Basic controls, ❌ WCAG testing]**
 
 ### Development Philosophy
-- **PRP→Spec→Implementation**: Problem definition first **[❌ NOT IMPLEMENTED]**
-- **Test-First Development**: TDD mandatory **[❌ ZERO TESTS - 0% coverage]**
+- **PRP→Spec→Implementation**: Problem definition first (recommended for complex features) **[❌ NOT IMPLEMENTED]**
+- **Test-First Development**: TDD strongly encouraged **[❌ ZERO TESTS - 0% coverage]**
 - **Performance Gates**: <100ms interactions, >90 Lighthouse **[⚠️ Not enforced, manual only]**
 
-## 3. DEVELOPMENT PIPELINE (Order matters)
+## 3. DEVELOPMENT PIPELINE (Flexible by Feature Complexity)
 
-1. **PRP Creation** - Define the problem **[❌ Not implemented]**
+1. **PRP Creation** - Define the problem (recommended for complex features) **[❌ Not implemented]**
 2. **Spec Generation** - Design the solution **[⚠️ Partial - has spec.md]**
 3. **Test Writing** - Validation first **[❌ No test framework]**
 4. **Implementation** - Code second **[✅ Built without tests]**
-5. **Validation Loops** - 6 levels **[❌ Not implemented]**
+5. **Validation** - Basic checks **[❌ Not implemented]**
 6. **Documentation** - AI context, component docs **[⚠️ Storybook only]**
 
 ## 4. TECHNICAL STANDARDS
@@ -51,10 +51,10 @@ Learn from these implementations, improve upon them:
 - **PR Checks**: Full test suite + Visual regression + Build **[⚠️ Build only]**
 - **Main Branch**: E2E tests + Deploy **[⚠️ Deploy only]**
 
-### Testing Strategy
-- **Unit**: 60% coverage minimum **[❌ 0% - no framework]**
-- **Integration**: 30% critical paths **[❌ Not implemented]**
-- **E2E**: 10% user journeys **[❌ No Playwright]**
+### Testing Strategy (Progressive Targets)
+- **Initial Goal**: 25% coverage on critical paths **[❌ 0% - no framework]**
+- **Sprint 3 Target**: 40% coverage **[❌ Not implemented]**
+- **Long-term Goal**: 60% coverage **[❌ Future target]**
 - **Accessibility**: Pa11y CI **[❌ Not configured]**
 - **Visual**: Chromatic/Percy **[❌ Not setup]**
 
@@ -99,9 +99,43 @@ When generating code:
 - Build-time optimization (reference: Punk_Stack SKIP_PWA flag)
 - Runtime configuration (reference: 001_template provider switching)
 
-## 7. IMPLEMENTATION STATUS (Reality Check)
+## 7. REQUIRED INTEGRATIONS
 
-### ✅ What CRUDkit v1.0 Actually Delivered (~40% of requirements)
+### Core Features
+- **Storybook**: Component development and documentation
+- **PWA**: Service worker, manifest, offline support
+- **Forms**: Multi-provider email (Web3Forms, EmailJS, Resend)
+- **Calendar**: Calendly or Cal.com integration
+- **Analytics**: Privacy-first, opt-in only
+
+### Developer Tools
+- **Chromatic/Percy**: Visual regression testing
+- **Lighthouse CI**: Performance monitoring
+- **Sentry**: Error tracking (optional)
+- **GitHub Actions**: CI/CD pipeline
+
+## 8. COMPLETED FOUNDATION (CRUDkit v1.0)
+
+### Established Infrastructure (~40% of Original Requirements)
+- **Next.js 15.5.2**: App Router with static export for GitHub Pages
+- **32-Theme System**: DaisyUI with localStorage persistence
+- **PWA Implementation**: Service Worker, offline support, app install
+- **Component Library**: Atomic design pattern (subatomic → atomic)
+- **Status Dashboard**: Web Vitals, Lighthouse testing, PWA features
+- **Docker Development**: Containerized with pnpm package manager
+- **GitHub Pages**: Dual deployment (app + Storybook)
+- **Accessibility**: Font size/spacing controls, ARIA support
+
+### Reference Patterns to Extend
+- **ThemeSwitcher** (`/src/components/theme/ThemeSwitcher.tsx`) → Foundation for FontSwitcher
+- **PWAInstall** (`/src/components/PWAInstall.tsx`) → Pattern for permission-based features
+- **Status Dashboard** (`/src/app/status/page.tsx`) → Integration point for Analytics
+- **Atomic Components** (`/src/components/atomic/`) → Structure for new components
+- **Docker Setup** (`Dockerfile` + `docker-compose.yml`) → Development harness
+
+## 9. IMPLEMENTATION STATUS (Reality Check)
+
+### ✅ What Was Actually Delivered (~40% of requirements)
 - Docker setup (basic, no health checks)
 - 32-theme system (exceeded 12 theme requirement) 
 - PWA basics (manifest + service worker, no background sync)
@@ -126,7 +160,7 @@ When generating code:
 - WCAG AA compliance testing
 - Colorblind support
 - Spec-kit structure
-- 6-level validation loops
+- 6-level validation loops (overly complex - consider removing)
 - AI context documentation
 - Forms integration (Web3Forms, EmailJS, Resend)
 - Calendar integration
@@ -145,99 +179,55 @@ When generating code:
 5. **IMPLEMENTATION GUIDANCE**: 10% ❌ (didn't study references)
 6. **DEPLOYMENT**: 60% ✅ (GitHub Pages works)
 
-## 8. SPRINT 2 PRIORITIES (Fix the Foundation First)
+## 10. SPRINT 2 PRIORITIES (Fix the Foundation First)
 
 ### Before Adding New Features, Fix These Critical Gaps:
 
-#### Week 1: Testing Infrastructure
-- [ ] Install vitest and create first test
-- [ ] Add pre-commit hooks with husky
-- [ ] Create example test for each component type
-- [ ] Set up coverage reporting
+#### Sprint 2.1: Minimal Testing Foundation (2 weeks)
+- [ ] Install Vitest and create one smoke test
+- [ ] Add basic pre-commit hook for linting only
+- [ ] GitHub Action for build verification
+- [ ] Set up basic coverage reporting (target: 10%)
 
-#### Week 2: Development Methodology
-- [ ] Implement PRP templates
-- [ ] Add validation with Zod  
-- [ ] Create SECURITY.md
+#### Sprint 2.2: Developer Experience (2 weeks)
+- [ ] Fix HMR issues in Docker environment
+- [ ] Add Prettier for code formatting
+- [ ] Configure Dependabot for dependency updates
+- [ ] Improve error messages and logging
+
+#### Sprint 2.3: First Simple Feature (2 weeks)
+- [ ] Create simple 2D dice component (no animations)
+- [ ] Write basic unit test for dice logic
+- [ ] Add Storybook story for dice component
+- [ ] Document component pattern for future features
+
+#### Sprint 2.4: Quality Baseline (2 weeks)
+- [ ] Add Zod for basic input validation
+- [ ] Create minimal SECURITY.md
+- [ ] Set up pre-push hook for type checking
+- [ ] Reach 25% test coverage on critical paths
+
+#### Sprint 2.5: Foundation Completion (2 weeks)
 - [ ] Add Docker health checks
-- [ ] Configure Pa11y accessibility testing
+- [ ] Basic accessibility testing setup
+- [ ] Simple performance monitoring
+- [ ] Documentation updates
 
-#### Week 3: Quality Gates
-- [ ] Configure pre-push hooks
-- [ ] Add GitHub Actions test runner
-- [ ] Implement performance budgets
-- [ ] Set up dependency scanning
+### Only After Foundation is Fixed (Sprint 3+):
+Then implement new features from Section 11 (Analytics, Enhanced Dice, Map, Font Switcher)
 
-### Only After Foundation is Fixed:
-Then implement new features from Section 10 (Analytics, Dice, Map, Font Switcher)
-
-## 9. REQUIRED INTEGRATIONS
-
-### Core Features
-- **Storybook**: Component development and documentation
-- **PWA**: Service worker, manifest, offline support
-- **Forms**: Multi-provider email (Web3Forms, EmailJS, Resend)
-- **Calendar**: Calendly or Cal.com integration
-- **Analytics**: Privacy-first, opt-in only
-
-### Developer Tools
-- **Chromatic/Percy**: Visual regression testing
-- **Lighthouse CI**: Performance monitoring
-- **Sentry**: Error tracking (optional)
-- **GitHub Actions**: CI/CD pipeline
-
-## 8. GOVERNANCE
-
-### Evolution Principles
-- Learn from references, don't just copy
-- Each generation should improve upon the last
-- Document what was improved and why
-- Track metrics to prove improvements
-
-### Review Cycles
-- Quarterly constitution reviews
-- Update reference templates as they improve
-- Capture learnings in ADRs
-- Version control all changes
-
-### Success Metrics
-- Setup time: <30 minutes from clone to running
-- Performance: >95 Lighthouse scores
-- Test coverage: >80% for critical paths
-- Developer satisfaction: Measure and improve
-
----
-
-## 9. COMPLETED FOUNDATION (CRUDkit v1.0)
-
-### Established Infrastructure (100% Complete - 96/96 tasks)
-- **Next.js 15.5.2**: App Router with static export for GitHub Pages
-- **32-Theme System**: DaisyUI with localStorage persistence
-- **PWA Implementation**: Service Worker, offline support, app install
-- **Component Library**: Atomic design pattern (subatomic → atomic)
-- **Status Dashboard**: Web Vitals, Lighthouse testing, PWA features
-- **Docker Development**: Containerized with pnpm package manager
-- **GitHub Pages**: Dual deployment (app + Storybook)
-- **Accessibility**: Font size/spacing controls, ARIA support
-
-### Reference Patterns to Extend
-- **ThemeSwitcher** (`/src/components/theme/ThemeSwitcher.tsx`) → Foundation for FontSwitcher
-- **PWAInstall** (`/src/components/PWAInstall.tsx`) → Pattern for permission-based features
-- **Status Dashboard** (`/src/app/status/page.tsx`) → Integration point for Analytics
-- **Atomic Components** (`/src/components/atomic/`) → Structure for new components
-- **Docker Setup** (`Dockerfile` + `docker-compose.yml`) → Development harness
-
-## 10. NEXT SPRINT FEATURES (v2.0)
+## 11. NEXT SPRINT FEATURES (v2.0)
 
 ### Development Philosophy
 - **Extend, Don't Replace**: Build upon CRUDkit v1.0 foundation
 - **Docker-First**: All development within containers using pnpm
 - **Pattern Replication**: Mirror existing successful patterns
 - **Live Documentation**: Document as we build
+- **Start Simple**: MVP first, enhance iteratively
 
-### Sprint 2 Features
+### Sprint 3 Features (After Foundation is Fixed)
 
-#### 10.1 Google Analytics Integration
+#### 11.1 Google Analytics Integration
 - **Foundation**: Extend Status Dashboard monitoring capabilities
 - **Implementation**: 
   - Environment configuration via `.env` file
@@ -248,29 +238,30 @@ Then implement new features from Section 10 (Analytics, Dice, Map, Font Switcher
 - **Docker Config**: Pass env variables via docker-compose
 - **Testing**: Consent flows, data collection, blocking scenarios
 
-#### 10.2 Interactive Dice Component
+#### 11.2 Interactive Dice Component (Enhanced Version)
 - **Foundation**: Follow atomic Card component structure
 - **Implementation**:
   - Location: `/src/components/atomic/Dice/`
   - Files: `Dice.tsx`, `Dice.stories.tsx`, `index.ts`
-  - 3D CSS animations or React Spring
+  - Start with 2D SVG, add animations later
   - Theme-aware using DaisyUI classes
   - Configurable sides (d4, d6, d8, d10, d12, d20)
 - **Accessibility**: Screen reader announcements for rolls
 - **Testing**: Randomization fairness, animation performance
 
-#### 10.3 Geolocated Map Component
+#### 11.3 Geolocated Map Component
 - **Foundation**: Permission pattern from PWA install component
 - **Implementation**:
   - Location: `/src/components/atomic/Map/`
-  - Leaflet or Mapbox integration
+  - Start with browser geolocation API + static image
+  - Later: Leaflet or Mapbox integration
   - Progressive enhancement (works without location)
   - Graceful permission handling
   - Fallback to IP-based location
 - **Docker**: Proxy configuration for tile servers
 - **Testing**: Permission states, offline mode, accuracy levels
 
-#### 10.4 Font Switcher System
+#### 11.4 Font Switcher System
 - **Foundation**: Mirror ThemeSwitcher component exactly
 - **Implementation**:
   - Location: `/src/components/theme/FontSwitcher.tsx`
@@ -281,7 +272,7 @@ Then implement new features from Section 10 (Analytics, Dice, Map, Font Switcher
 - **Performance**: Lazy loading, local caching
 - **Testing**: Font loading, fallbacks, persistence
 
-## 11. IMPLEMENTATION TUTORIAL
+## 12. IMPLEMENTATION TUTORIAL
 
 ### How We Extend CRUDkit (Live Documentation)
 
@@ -342,7 +333,27 @@ services:
 - Add inline comments explaining "why" not "what"
 - Create Storybook stories for all components
 
-## 12. PACKAGE MANAGEMENT STANDARD
+## 13. GOVERNANCE
+
+### Evolution Principles
+- Learn from references, don't just copy
+- Each generation should improve upon the last
+- Document what was improved and why
+- Track metrics to prove improvements
+
+### Review Cycles
+- Quarterly constitution reviews
+- Update reference templates as they improve
+- Capture learnings in ADRs
+- Version control all changes
+
+### Success Metrics
+- Setup time: <30 minutes from clone to running
+- Performance: >90 Lighthouse scores (realistic target)
+- Test coverage: Progressive targets (10% → 25% → 40%)
+- Developer satisfaction: Measure and improve
+
+## 14. PACKAGE MANAGEMENT STANDARD
 
 ### Official Package Manager: pnpm
 - **Why pnpm**: Faster installs, disk-efficient, strict dependencies
@@ -376,10 +387,23 @@ pnpm outdated         # Check for updates
 
 ---
 
-**Version**: 2.1.0  
+**Version**: 2.2.0  
 **Updated**: 2025-01-11  
 **Foundation Status**: ~40% compliant with original constitution
 **Philosophy**: Fix the foundation before building higher
+
+**Note**: Consider future split into HISTORY.md (what was built), STATUS.md (current state), and ROADMAP.md (future plans) for better clarity.
+
+**What's New in v2.2.0**:
+- Fixed duplicate section numbering (merged Section 8s)
+- Reorganized sections for logical flow (1-14 sequential)
+- Removed contradictory "100% Complete" claim
+- Made Sprint 2 timeline realistic (3 weeks → 10 weeks with 2-week sprints)
+- Simplified requirements (PRP optional, lower test targets 60%→25%→40%→60%)
+- Added DevX fundamentals to Sprint 2.2 priorities
+- Simplified feature complexity (2D dice first, basic geolocation)
+- Moved Governance section to end for better flow
+- Changed Development Philosophy from "mandatory" to "encouraged/recommended"
 
 **What's New in v2.1.0**:
 - Added honest implementation status tracking (Section 7)
