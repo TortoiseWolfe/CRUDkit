@@ -1,410 +1,344 @@
-# CRUDkit Implementation Tasks
-
-Generated from PLAN.md - 2025-09-10 13:02
-*Last Updated: 2025-09-11 11:55 (100% Complete - 96/96 Tasks)*
-
-## Progress Summary
-- ✅ **Phase 0 Complete**: Next.js app deployed to GitHub Pages
-- ✅ **Phase 1 Complete**: Storybook deployed with Text component
-- ✅ **Phase 2 Complete**: Theme system with 32 themes
-- ✅ **Phase 3 Complete**: Component gallery deployed
-- ✅ **Phase 4 Complete**: PWA features with testing and monitoring
-- ✅ **Project Complete**: Dynamic status page with real-time testing added
-
-### Key Accomplishments:
-- Docker-first development environment with pnpm
-- Next.js 15.5 app live at https://tortoisewolfe.github.io/CRUDkit/
-- Storybook 9.1.5 live at https://tortoisewolfe.github.io/CRUDkit/storybook/
-- 32 DaisyUI themes with persistent theme switcher
-- Accessibility controls for font size and spacing
-- PWA installable with service worker and offline support
-- Component gallery with themes, components, and accessibility pages
-- Fixed GitHub Pages routing and caching issues
-- Theme persistence across navigation without hard refresh
-
-### Phase 4 Completed Features:
-- ✅ **PWA Testing Utilities** (src/utils/pwa-test.ts)
-  - Comprehensive test suite with timeout protection
-  - Tests Service Worker, installability, offline capability, background sync, notifications
-  - Real-time testing with visual feedback
-- ✅ **Enhanced Service Worker** (public/sw.js)
-  - Background sync for offline form submissions
-  - Separate cache names for dev/prod environments
-  - Development mode enabled for better testing
-  - Smart caching strategies (cache-first for assets, network-first for HTML)
-- ✅ **Status Dashboard** (/status page)
-  - Live PWA feature tests with auto-refresh
-  - Web Vitals monitoring (FCP, LCP, CLS, TTFB, FID, INP)
-  - System health metrics and deployment info
-  - Visual indicators for test status (pass/fail/warning)
-  - **NEW**: Dynamic Lighthouse testing via PageSpeed API
-  - **NEW**: Real-time TASKS.md progress tracking
-  - **NEW**: Unified "Run All Tests" button
-- ✅ **GitHub Actions Monitoring** (.github/workflows/monitor.yml)
-  - Daily automated health checks
-  - Lighthouse CI integration
-  - PWA test automation
-  - Deployment verification
-  - Fixed artifact naming conflicts
-- ✅ **Web Vitals Integration** (src/utils/web-vitals.ts)
-  - Core Web Vitals tracking without external dependencies
-  - Performance Observer API implementation
-  - Analytics integration ready
-  - **NEW**: Force collection for all metrics
-- ✅ **PWA Install Component** (src/components/PWAInstall.tsx)
-  - Smart install prompt handling
-  - Development mode support
-  - Dismissal persistence
-  - Responsive UI with DaisyUI styling
-
-### Project Completion:
-- ✅ All 96 core tasks completed successfully
-- ✅ Visual regression tests deferred to post-project optimizations
-- ✅ See IMPROVEMENTS.md for future enhancement opportunities
-
-## Deploy Early, Deploy Often Strategy
-
-Every phase includes deployment milestones. GitHub Pages deployment from Day 1.
+# CRUDkit Sprint 2 Tasks: Fix the Foundation
 
+## Task Overview
+**Total Tasks**: 65  
+**Duration**: 10 weeks  
+**Priority**: P0 (Critical Foundation)  
 
-## Phase 0: Project Initialization & First Deploy (Day 1)
-*Note: Completed using Docker-first approach instead of exact commands listed*
+## Phase 1: Testing Foundation (Weeks 1-2)
+### Week 1 Tasks
 
-✅ **Task 001** 🔧 [Morning: Environment Setup]
-   - Execute: npx create-next-app@latest crudkit \
+**T001** 📦 Install Vitest and testing dependencies  
+`pnpm add -D vitest @vitest/ui @vitest/coverage-v8 @testing-library/react @testing-library/jest-dom jsdom`  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 002** 🔧 [Morning: Environment Setup]
-   - Execute: git init
+**T002** 📝 Create vitest.config.ts  
+Create configuration file with jsdom environment and coverage settings  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 003** 🔧 [Morning: Environment Setup]
-   - Execute: gh repo create crudkit --public
+**T003** 📁 Set up test directory structure  
+Create `/src/test/setup.ts` with testing utilities and mocks  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 004** 🔧 [Morning: Environment Setup]
-   - Execute: git remote add origin https://github.com/[username]/crudkit.git
+**T004** 🧪 Write first component test  
+Create `/src/components/subatomic/Text/Text.test.tsx`  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 005** 🔧 [Morning: Environment Setup]
-   - Execute: gh repo edit --enable-pages --pages-branch main
+**T005** ✅ Verify test runner works  
+Run `pnpm test` and ensure tests pass  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 006** 🔧 [Afternoon: First Deployment]
-   - Execute: cat > src/app/page.tsx << 'EOF'
+**T006** 📊 Set up coverage reporting  
+Configure coverage thresholds at 10% initially  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 007** 🔧 [Afternoon: First Deployment]
-   - Execute: mkdir -p .github/workflows
+### Week 2 Tasks
 
-✅ **Task 008** 🔧 [Afternoon: First Deployment]
-   - Execute: cat > .github/workflows/deploy.yml << 'EOF'
+**T007** 🐶 Install and configure Husky  
+`pnpm add -D husky lint-staged && pnpm exec husky install`  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 009** 🔧 [Afternoon: First Deployment]
-   - Execute: - uses: pnpm/action-setup@v4
+**T008** 🪝 Create pre-commit hook  
+Set up `.husky/pre-commit` for linting  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 010** 🔧 [Afternoon: First Deployment]
-   - Execute: cache: 'pnpm'
+**T009** 📝 Update package.json scripts  
+Add test, lint:staged, and type-check scripts  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 011** 🔧 [Afternoon: First Deployment]
-   - Execute: - run: pnpm install
+**T010** 🔄 Create GitHub Actions workflow  
+Create `.github/workflows/ci.yml` for CI pipeline  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 012** 🔧 [Afternoon: First Deployment]
-   - Execute: - run: pnpm run build
+**T011** 🧪 Add more component tests  
+Test Button and Input components  
+**Priority**: P1 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
-✅ **Task 013** 🔧 [Afternoon: First Deployment]
-   - Execute: - run: pnpm run export
+**T012** 📚 Document testing approach  
+Create TESTING.md with guidelines  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 014** 🔧 [Afternoon: First Deployment]
-   - Execute: cat > next.config.js << 'EOF'
+## Phase 2: Developer Experience (Weeks 3-4)
+### Week 3 Tasks
 
-✅ **Task 015** 🔧 [Afternoon: First Deployment]
-   - Execute: npm pkg set scripts.export="next build"
+**T013** 🐳 Fix Docker HMR issues  
+Update docker-compose.yml with polling and HMR port  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 016** 🔧 [Afternoon: First Deployment]
-   - Execute: git add .
+**T014** 🔧 Add Docker health check  
+Implement basic health check endpoint  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 017** 🔧 [Afternoon: First Deployment]
-   - Execute: git commit -m "Initial CRUDkit setup with GitHub Pages deployment"
+**T015** 💅 Install Prettier  
+`pnpm add -D prettier prettier-plugin-tailwindcss`  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 018** 🔧 [Afternoon: First Deployment]
-   - Execute: git push -u origin main
+**T016** 📝 Configure Prettier  
+Create `.prettierrc.json` and `.prettierignore`  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 019** 📋 [Afternoon: First Deployment]
-   - uses: actions/checkout@v4
+**T017** 🎨 Format existing code  
+Run `pnpm format` on entire codebase  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 020** 📋 [Afternoon: First Deployment]
-   - uses: pnpm/action-setup@v4
+**T018** 🪝 Add format check to pre-commit  
+Update husky hook to include formatting  
+**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 021** 📋 [Afternoon: First Deployment]
-   - uses: actions/setup-node@v4
+### Week 4 Tasks
 
-✅ **Task 022** 📋 [Afternoon: First Deployment]
-   - run: pnpm install
+**T019** 🤖 Set up Dependabot  
+Create `.github/dependabot.yml`  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 023** 📋 [Afternoon: First Deployment]
-   - run: pnpm run build
+**T020** 📦 Group dependency updates  
+Configure Dependabot grouping strategy  
+**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 024** 📋 [Afternoon: First Deployment]
-   - run: pnpm run export
+**T021** 🛠 Create error handler utility  
+Implement `/src/utils/error-handler.ts`  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 025** 📋 [Afternoon: First Deployment]
-   - uses: actions/configure-pages@v4
+**T022** 📝 Add error boundary component  
+Create React error boundary for app  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 026** 📋 [Afternoon: First Deployment]
-   - uses: actions/upload-pages-artifact@v3
+**T023** 🔍 Improve TypeScript config  
+Enable stricter type checking rules  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 027** 📋 [Afternoon: First Deployment]
-   - uses: actions/deploy-pages@v4
+**T024** 📚 Create CONTRIBUTING.md  
+Document development workflow  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 028** 🔧 [Evening: Verify Deployment]
-   - Execute: gh run list --workflow=deploy.yml
+## Phase 3: First Simple Feature (Weeks 5-6)
+### Week 5 Tasks
 
-✅ **Task 029** 🔧 [Evening: Verify Deployment]
-   - Execute: curl https://[username].github.io/crudkit
+**T025** 📁 Create Dice component structure  
+Set up `/src/components/atomic/Dice/` directory  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 030** 🔧 [Evening: Verify Deployment]
-   - Execute: pnpm run test:smoke
+**T026** 📝 Define Dice TypeScript types  
+Create `types.ts` with interfaces  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 031** 🎯 [Evening: Verify Deployment]
-   - App live at https://tortoisewolfe.github.io/CRUDkit/
+**T027** 🎲 Implement basic Dice component  
+Create `Dice.tsx` with roll functionality  
+**Priority**: P0 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
+**T028** 🎨 Add Dice styling  
+Implement size and theme variants  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-## Phase 1: Sub-Atomic Typography & Storybook Deploy (Days 2-4)
-*Note: Using Docker-first approach with pnpm, Storybook 9.1.5*
+**T029** ♿ Add ARIA attributes  
+Ensure accessibility compliance  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 032** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: pnpm dlx storybook@latest init
+**T030** 🔄 Add roll animation  
+Implement visual feedback during roll  
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 033** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: cat > .storybook/main.ts << 'EOF'
+### Week 6 Tasks
 
-✅ **Task 034** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: cat >> .github/workflows/deploy.yml << 'EOF'
+**T031** 🧪 Write Dice component tests  
+Create comprehensive test suite  
+**Priority**: P0 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
-✅ **Task 035** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: - uses: pnpm/action-setup@v4
+**T032** 📚 Create Dice Storybook story  
+Add `Dice.stories.tsx` with variants  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 036** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: cache: 'pnpm'
+**T033** 📝 Document Dice usage  
+Add JSDoc comments and README  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 037** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: - run: pnpm install
+**T034** 🎲 Add dice to main app  
+Integrate component in pages  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 038** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: - run: pnpm run build-storybook
+**T035** 🧪 Test coverage for Dice  
+Ensure 80%+ coverage for component  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 039** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: mkdir -p storybook-deploy
+**T036** 📋 Create component template  
+Document pattern for future components  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 040** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: - uses: peaceiris/actions-gh-pages@v3
+## Phase 4: Quality Baseline (Weeks 7-8)
+### Week 7 Tasks
 
-✅ **Task 041** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: github_token: ${{ secrets.GITHUB_TOKEN }}
+**T037** 📦 Install Zod  
+`pnpm add zod`  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 042** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: mkdir -p src/components/subatomic/Text
+**T038** 📝 Create form schemas  
+Implement `/src/schemas/forms.ts`  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 043** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: cat > src/components/subatomic/Text/Text.stories.tsx << 'EOF'
+**T039** 🔒 Add input validation  
+Apply Zod schemas to forms  
+**Priority**: P0 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
-✅ **Task 044** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: git add .
+**T040** 🧪 Test validation logic  
+Write tests for schemas  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 045** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: git commit -m "Add Storybook with Text component"
+**T041** 📚 Create SECURITY.md  
+Document security policies  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 046** 🔧 [Day 2: Setup Storybook with Deployment]
-   - Execute: git push
+**T042** 🔍 Security audit  
+Run `pnpm audit` and fix issues  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 047** 📋 [Day 2: Setup Storybook with Deployment]
-   - uses: actions/checkout@v4
+### Week 8 Tasks
 
-✅ **Task 048** 📋 [Day 2: Setup Storybook with Deployment]
-   - uses: pnpm/action-setup@v4
+**T043** 🪝 Create pre-push hook  
+Add `.husky/pre-push` for tests  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 049** 📋 [Day 2: Setup Storybook with Deployment]
-   - uses: actions/setup-node@v4
+**T044** 📊 Increase coverage target  
+Update threshold to 25%  
+**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 050** 📋 [Day 2: Setup Storybook with Deployment]
-   - run: pnpm install
+**T045** 🧪 Add integration tests  
+Test component interactions  
+**Priority**: P1 | **Estimate**: 4hr | **Status**: [ ] Not Started
 
-✅ **Task 051** 📋 [Day 2: Setup Storybook with Deployment]
-   - run: pnpm run build-storybook
+**T046** 📝 Type-check in CI  
+Add TypeScript checking to pipeline  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 052** 📋 [Day 2: Setup Storybook with Deployment]
-   - uses: peaceiris/actions-gh-pages@v3
+**T047** 🔒 Add CSP headers  
+Verify Content Security Policy  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 053** 🎯 [Day 2: Setup Storybook with Deployment]
-   - GitHub Actions workflow successfully configured
+**T048** 📚 Update documentation  
+Reflect new quality standards  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 054** 📋 [Day 2: Setup Storybook with Deployment]
-   - Storybook live at https://tortoisewolfe.github.io/CRUDkit/storybook/
+## Phase 5: Foundation Completion (Weeks 9-10)
+### Week 9 Tasks
 
-✅ **Task 055** 📋 [Day 2: Setup Storybook with Deployment]
-   - All sub-atomic text components visible and interactive (local Storybook at http://localhost:6006)
+**T049** 🏥 Create health endpoint  
+Implement `/api/health` route  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 056** 📋 [Day 3-4: Complete Sub-Atomic Components]
-   - Implement Heading, Paragraph, Caption, Code, List, Emphasis (H1-H6, body, lead, small, code, emphasis, caption)
+**T050** 🐳 Update Docker health check  
+Configure proper health monitoring  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 057** 📋 [Day 3-4: Complete Sub-Atomic Components]
-   - Add stories for each component (12 variants + AllVariants story)
+**T051** ♿ Install Pa11y  
+`pnpm add -D pa11y pa11y-ci`  
+**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 058** 📋 [Day 3-4: Complete Sub-Atomic Components]
-   - Deploy updates daily
+**T052** 📝 Configure Pa11y  
+Create `.pa11yci.json`  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 059** 📋 [Day 3-4: Complete Sub-Atomic Components]
-   - Run smoke tests after each deployment
+**T053** 🧪 Run accessibility tests  
+Test all main routes  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
+**T054** 🔧 Fix a11y issues  
+Address any failures  
+**Priority**: P1 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
-## Phase 2: Dual Theme System with Live Demo (Days 5-7)
+### Week 10 Tasks
 
-✅ **Task 060** 🎯 [Day 5: Deploy Theme Switchers]
-   - Live theme switching at https://tortoisewolfe.github.io/CRUDkit/themes
+**T055** 📊 Add Web Vitals  
+`pnpm add web-vitals`  
+**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
 
-✅ **Task 061** 🎯 [Day 6: Typography Accessibility Controls]
-   - Accessibility controls live at https://tortoisewolfe.github.io/CRUDkit/accessibility
+**T056** 📝 Implement performance monitoring  
+Create `/src/utils/performance.ts`  
+**Priority**: P1 | **Estimate**: 3hr | **Status**: [ ] Not Started
 
-✅ **Task 062** 🎯 [Day 7: Integration & Smoke Tests]
-   - All 32 theme combinations working live
+**T057** 🔄 Update CI/CD pipeline  
+Add new checks to GitHub Actions  
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
+**T058** 📚 Create ADR template  
+Set up Architecture Decision Records  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-## Phase 3: Atomic Components Showcase (Days 8-10)
+**T059** 📝 Document Sprint 2 decisions  
+Create ADRs for key choices  
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 063** 🎯 [Day 8: Deploy Component Gallery]
-   - Component gallery live at https://tortoisewolfe.github.io/CRUDkit/components
+**T060** 🧹 Code cleanup  
+Remove dead code and TODOs  
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 064** 📋 [Day 9-10: Progressive Component Deployment]
-   - ✅ Deploy new components as they're built (Component gallery deployed)
+## Wrap-up Tasks
 
-✅ **Task 065** 📋 [Day 9-10: Progressive Component Deployment]
-   - ✅ Update Storybook documentation (Storybook live and functional)
+**T061** 🧪 Final test coverage check  
+Ensure 25% coverage achieved  
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 066** 📋 [Day 9-10: Progressive Component Deployment]
-   - ✅ Visual regression tests (Deferred to post-project optimizations - see IMPROVEMENTS.md)
+**T062** 📊 Performance baseline  
+Record current metrics  
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-✅ **Task 067** 📋 [Day 9-10: Progressive Component Deployment]
-   - ✅ N/A - No external stakeholders in this project
+**T063** 📚 Update all documentation  
+README, CONTRIBUTING, etc.  
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
+**T064** 🎉 Create Sprint 2 summary  
+Document achievements  
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
-## Phase 4: PWA Features with Live Testing (Days 11-13)
+**T065** 📋 Plan Sprint 3  
+Identify next priorities  
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
 
-✅ **Task 068** 🔧 [Day 11: Deploy PWA Shell]
-   - Execute: cat > public/manifest.json << 'EOF'
+## Task Statistics
 
-✅ **Task 069** 🔧 [Day 11: Deploy PWA Shell]
-   - Execute: git add .
+| Phase | Tasks | Estimated Hours |
+|-------|-------|-----------------|
+| Phase 1: Testing Foundation | 12 | 14.5 hrs |
+| Phase 2: Developer Experience | 12 | 14 hrs |
+| Phase 3: First Simple Feature | 12 | 19 hrs |
+| Phase 4: Quality Baseline | 12 | 18.5 hrs |
+| Phase 5: Foundation Completion | 12 | 20 hrs |
+| Wrap-up | 5 | 7 hrs |
+| **Total** | **65** | **93 hrs** |
 
-✅ **Task 070** 🔧 [Day 11: Deploy PWA Shell]
-   - Execute: git commit -m "Add PWA manifest"
+## Priority Breakdown
 
-✅ **Task 071** 🔧 [Day 11: Deploy PWA Shell]
-   - Execute: git push
+- **P0 (Critical)**: 32 tasks - Must complete for sprint success
+- **P1 (Important)**: 24 tasks - Should complete for quality
+- **P2 (Nice to have)**: 9 tasks - Complete if time permits
 
-✅ **Task 072** 🔧 [Day 11: Deploy PWA Shell]
-   - Execute: echo "Visit https://tortoisewolfe.github.io/CRUDkit on mobile to test PWA installation"
+## Quick Start Commands
 
-✅ **Task 073** 🎯 [Day 11: Deploy PWA Shell]
-   - PWA installable from GitHub Pages
+```bash
+# Phase 1: Testing Setup
+pnpm add -D vitest @vitest/ui @vitest/coverage-v8 @testing-library/react @testing-library/jest-dom jsdom husky lint-staged
 
-✅ **Task 074** 📋 [Day 12-13: Offline Functionality]
-   - Deploy service worker
+# Phase 2: DevEx
+pnpm add -D prettier prettier-plugin-tailwindcss
 
-✅ **Task 075** 📋 [Day 12-13: Offline Functionality]
-   - Test offline mode on live site
+# Phase 3: Feature (no new deps)
 
-✅ **Task 076** 📋 [Day 12-13: Offline Functionality]
-   - Validate background sync
+# Phase 4: Quality
+pnpm add zod
 
-✅ **Task 077** 📋 [Day 12-13: Offline Functionality]
-   - Smoke test PWA features
+# Phase 5: Monitoring
+pnpm add web-vitals
+pnpm add -D pa11y pa11y-ci
+```
 
-✅ **Task 078** 📋 [Day 12-13: Offline Functionality]
-   - cron: '0 18 * * *'  # 6 PM UTC daily
+## Definition of Done
 
-✅ **Task 079** 🎯 [Day 12-13: Offline Functionality]
-   - https://tortoisewolfe.github.io/CRUDkit/status
-
-✅ **Task 080** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 1: Basic app deployed
-
-✅ **Task 081** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 2: Storybook deployed
-
-✅ **Task 082** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 5: Themes demo live
-
-✅ **Task 083** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 8: Component gallery live
-
-✅ **Task 084** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 11: PWA installable
-
-✅ **Task 085** 📋 [Day 12-13: Offline Functionality]
-   - ✅ Day 14: Status dashboard with monitoring
-
-✅ **Task 086** 📋 [Day 12-13: Monitoring & Documentation]
-   - ✅ Status dashboard with detailed tooltips
-
-✅ **Task 087** 📋 [Day 12-13: Monitoring & Documentation]
-   - ✅ Web Vitals with proper collection
-
-✅ **Task 088** 📋 [Day 12-13: Monitoring & Documentation]
-   - ✅ Documentation complete (README, IMPROVEMENTS.md)
-
-✅ **Task 089** 📋 [Day 12-13: Monitoring & Documentation]
-   - ✅ Performance tracking implemented
-
-✅ **Task 090** 📋 [Day 12-13: Monitoring & Documentation]
-   - ✅ Production ready with monitoring
-
-✅ **Task 091** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ Deployment success rate: 100%
-
-✅ **Task 092** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ Build time: <3 minutes
-
-✅ **Task 093** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ PWA test suite implemented
-
-✅ **Task 094** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ Lighthouse scores: All >90
-
-✅ **Task 095** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ Zero downtime deployments via GitHub Pages
-
-✅ **Task 096** 📋 [Day 12-13: Metrics Achieved]
-   - ✅ Improvement opportunities documented
-
-
-## Post-Project Optimizations (Future Work)
-
-See [IMPROVEMENTS.md](../../IMPROVEMENTS.md) for detailed optimization opportunities.
-
-### Quick Wins (< 30 minutes each)
-- [ ] Add maskable PWA icons (192x192, 512x512)
-- [ ] Add Apple touch icon
-- [ ] Improve button accessibility labels
-- [ ] Add form input labels
-- [ ] Add SRI to external resources
-
-### Performance Optimizations
-- [ ] Reduce JavaScript bundle size
-- [ ] Implement code splitting
-- [ ] Optimize Time to Interactive
-- [ ] Remove unused dependencies
-
-### Security Enhancements
-- [ ] Implement Content Security Policy
-- [ ] Add security headers
-- [ ] Set up rate limiting
-
-### Advanced PWA Features
-- [ ] Web Share API
-- [ ] Push Notifications
-- [ ] App Badging
-- [ ] File Handling
-- [ ] Clipboard Access
+Each task is complete when:
+- [ ] Code is written and tested
+- [ ] Tests pass locally
+- [ ] Code is formatted (Prettier)
+- [ ] TypeScript has no errors
+- [ ] Documentation is updated
+- [ ] Committed with conventional message
 
 ---
 
-Total Tasks: 96 ✅ (100% Complete)
-Post-Project Optimizations: 17 identified (see IMPROVEMENTS.md)
-Milestones: 8
-Commands: 41
-Implementation Tasks: 47
+*Sprint 2 begins with T001. Track progress by checking off completed tasks.*

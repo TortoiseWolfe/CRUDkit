@@ -5,77 +5,65 @@ All notable changes to this project's sprint iterations are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project's constitution follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Sprint-002] - Planned
-### Goals
-- Enhanced testing coverage (80% target)
-- User authentication system
-- Form provider integrations
-- Performance optimizations
-- Real-time error tracking
+## [Sprint-002] - Started 2025-09-11
+### Sprint Goal
+Fix the Foundation - 10-week sprint to establish testing, quality gates, and developer experience
+
+### Planned (65 Tasks)
+- **Weeks 1-2**: Testing Foundation - Vitest, first tests, pre-commit hooks, CI pipeline
+- **Weeks 3-4**: Developer Experience - Docker HMR fix, Prettier, Dependabot, error handling
+- **Weeks 5-6**: First Simple Feature - Dice component with tests and Storybook
+- **Weeks 7-8**: Quality Baseline - Zod validation, security docs, 25% coverage target
+- **Weeks 9-10**: Foundation Completion - Health checks, accessibility testing, performance monitoring
 
 ### Constitution Changes
-- TBD based on Sprint-001 learnings
+- **v2.2.0** - Added reality check showing ~40% actual compliance
+- Clarified spec-kit commands are AI assistant commands, not CLI
+- Fixed duplicate section numbering
+- Expanded Sprint 2 from 3 weeks to 10 weeks based on realistic assessment
 
 ---
 
-## [Sprint-001] - 2025-09-01 to 2025-09-10
-### Sprint Goal
-Build the complete foundation of CRUDkit as a universal PWA meta-template
+## [Sprint-001] - 2025-09-01 to 2025-09-11
+### Sprint Goal  
+Initial foundation setup and discovery phase
 
-### Added
-- **Core Application** - Next.js 15.5 with Turbopack, TypeScript strict mode
-- **Theme System** - 32 DaisyUI themes with OKLCH color system
-- **Component Gallery** - 25+ atomic design components with Storybook
-- **Accessibility Controls** - Font size, line height, contrast, motion preferences
-- **PWA Features** - Service worker, offline support, installable app
-- **Monitoring Dashboard** - Progress tracking, Lighthouse scores, deployment history
-- **Testing Suite** - Vitest setup, component testing framework
-- **CI/CD Pipeline** - GitHub Actions, dual deployment (App + Storybook)
-- **Documentation** - Comprehensive README, Spec Kit tutorial, architecture docs
-- **Docker Support** - Full containerization for development
+### Reality Check
+- **Claimed Completion**: 100% (per original constitution)
+- **Actual Completion**: ~40% (discovered through audit)
 
-### Changed
-- Migrated from create-next-app template to fully custom implementation
-- Replaced default styling with Tailwind + DaisyUI
-- Enhanced constitution.md with reference templates and clear principles
+### Actually Completed
+- **Core Application** - Next.js 15.5.2 with App Router setup
+- **Theme System** - 32 DaisyUI themes working
+- **Basic Components** - Initial atomic structure
+- **PWA Features** - Service worker and manifest
+- **Docker Support** - Two containers (crudkit & speckit)
+- **GitHub Pages** - Basic deployment working
 
-### Fixed
-- Hydration mismatches in date formatting
-- Theme persistence across page navigation
-- Service worker caching strategies
-- Build warnings for metadata exports
+### Not Completed (Despite Claims)
+- **Testing Infrastructure** - 0% coverage, no tests written
+- **Quality Gates** - No pre-commit hooks or CI checks
+- **Input Validation** - No Zod or validation framework
+- **Error Handling** - No error boundaries
+- **Security** - No security documentation or CSP
+- **Accessibility Testing** - No Pa11y or automated testing
+- **Performance Monitoring** - No Web Vitals collection
 
-### Constitution Version
-- **v1.0.0** - Initial constitution with complete rewrite
-  - Reduced from 446 to 170 lines (62% reduction)
-  - Added reference templates (Punk_Stack, 001_template, 000_Template)
-  - Established PRP→Spec→Implementation workflow
-  - Defined 6-level validation loops
+### Major Discoveries
+1. **Package Manager Confusion** - Both npm and pnpm lock files existed
+2. **Spec-Kit Misunderstanding** - /specify, /plan, /tasks are AI chat commands, NOT CLI
+3. **Constitution Drift** - Claims didn't match reality
 
-### Metrics
-- **Tasks Completed**: 96/96 (100%)
-- **Components Created**: 25+
-- **Themes Implemented**: 32
-- **Lighthouse Scores**: 90+ across all metrics
-- **Bundle Size**: ~102KB First Load JS
-- **Build Time**: <30 seconds
-- **Lines of Code**: ~15,000
-
-### Lessons Learned
-1. **Spec Kit Workflow** - Constitution → Spec → Plan → Tasks provides excellent structure
-2. **Human Review Critical** - Each phase needs review and refinement before proceeding
-3. **Hydration Challenges** - Server/client date formatting needs careful handling
-4. **Theme System Success** - OKLCH provides superior color manipulation
-5. **PWA Complexity** - Service workers require careful cache strategy planning
-6. **Component Architecture** - Atomic design scales well for large projects
-7. **Docker Benefits** - Consistent environment eliminates "works on my machine"
+### Process Changes
+- Standardized on pnpm exclusively (removed package-lock.json)
+- Clarified spec-kit workflow in all documentation
+- Added reality check section to constitution
+- Expanded Sprint 2 from 3 weeks to realistic 10 weeks
 
 ### Technical Debt Identified
-- Missing test coverage (currently at setup phase)
-- Bundle size optimization opportunities
-- Code splitting not fully implemented
-- Some ESLint warnings to address
-- Performance optimizations for large lists
+- **Critical**: No testing (0% coverage), no quality gates, no validation
+- **Important**: Docker HMR broken, missing error boundaries, no security docs
+- **Nice to Have**: Component generator, visual regression, E2E framework
 
 ### Process Improvements
 - Need better task estimation (story points)
