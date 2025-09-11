@@ -10,6 +10,11 @@ export default function AccessibilityPage() {
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          <div className="mb-4">
+            <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+              ← Back to Home
+            </a>
+          </div>
           <h1 className="text-4xl font-bold mb-8">Accessibility Controls</h1>
           <p className="text-lg mb-8 text-base-content/70">
             Customize the reading experience to suit your preferences

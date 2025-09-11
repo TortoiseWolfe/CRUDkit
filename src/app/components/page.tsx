@@ -6,6 +6,11 @@ export default function ComponentsPage() {
   return (
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">
+        <div className="mb-4">
+          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+            ← Back to Home
+          </a>
+        </div>
         <Text variant="h1" className="text-center mb-8">Component Gallery</Text>
         <Text variant="lead" className="text-center mb-12 text-base-content/70">
           Text is the only atomic component we have built so far

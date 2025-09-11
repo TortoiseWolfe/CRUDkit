@@ -7,6 +7,11 @@ export default function ThemesPage() {
   return (
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">
+        <div className="mb-4">
+          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+            ← Back to Home
+          </a>
+        </div>
         <div className="text-center mb-8">
           <Text variant="h1" className="mb-4">
             CRUDkit Theme Playground
