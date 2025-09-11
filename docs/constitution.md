@@ -1,4 +1,4 @@
-# CRUDkit - Universal PWA Meta-Template Constitution v1.0.0
+# CRUDkit - Universal PWA Meta-Template Constitution v2.2.0
 
 **Repository**: https://github.com/TortoiseWolfe/CRUDkit  
 **Description**: Evolutionary meta-template with 12 themes, PWA, and AI-optimized patterns
@@ -53,7 +53,7 @@ Learn from these implementations, improve upon them:
 
 ### Testing Strategy (Progressive Targets)
 - **Initial Goal**: 25% coverage on critical paths **[❌ 0% - no framework]**
-- **Sprint 3 Target**: 40% coverage **[❌ Not implemented]**
+- **Next Goal**: 40% coverage **[❌ Not implemented]**
 - **Long-term Goal**: 60% coverage **[❌ Future target]**
 - **Accessibility**: Pa11y CI **[❌ Not configured]**
 - **Visual**: Chromatic/Percy **[❌ Not setup]**
@@ -179,53 +179,53 @@ When generating code:
 5. **IMPLEMENTATION GUIDANCE**: 10% ❌ (didn't study references)
 6. **DEPLOYMENT**: 60% ✅ (GitHub Pages works)
 
-## 10. SPRINT 2 PRIORITIES (Fix the Foundation First)
+## 10. SPRINT 2: FIX THE FOUNDATION (10 Weeks Total)
 
-### Before Adding New Features, Fix These Critical Gaps:
+### One Sprint, Five Phases - Before Adding ANY New Features:
 
-#### Sprint 2.1: Minimal Testing Foundation (2 weeks)
+#### Weeks 1-2: Minimal Testing Foundation
 - [ ] Install Vitest and create one smoke test
 - [ ] Add basic pre-commit hook for linting only
 - [ ] GitHub Action for build verification
 - [ ] Set up basic coverage reporting (target: 10%)
 
-#### Sprint 2.2: Developer Experience (2 weeks)
+#### Weeks 3-4: Developer Experience
 - [ ] Fix HMR issues in Docker environment
 - [ ] Add Prettier for code formatting
 - [ ] Configure Dependabot for dependency updates
 - [ ] Improve error messages and logging
 
-#### Sprint 2.3: First Simple Feature (2 weeks)
+#### Weeks 5-6: First Simple Feature
 - [ ] Create simple 2D dice component (no animations)
 - [ ] Write basic unit test for dice logic
 - [ ] Add Storybook story for dice component
 - [ ] Document component pattern for future features
 
-#### Sprint 2.4: Quality Baseline (2 weeks)
+#### Weeks 7-8: Quality Baseline
 - [ ] Add Zod for basic input validation
 - [ ] Create minimal SECURITY.md
 - [ ] Set up pre-push hook for type checking
 - [ ] Reach 25% test coverage on critical paths
 
-#### Sprint 2.5: Foundation Completion (2 weeks)
+#### Weeks 9-10: Foundation Completion
 - [ ] Add Docker health checks
 - [ ] Basic accessibility testing setup
 - [ ] Simple performance monitoring
 - [ ] Documentation updates
 
-### Only After Foundation is Fixed (Sprint 3+):
-Then implement new features from Section 11 (Analytics, Enhanced Dice, Map, Font Switcher)
+### Only After Sprint 2 is Complete:
+Then consider new features from Section 11
 
-## 11. NEXT SPRINT FEATURES (v2.0)
+## 11. FUTURE FEATURES (Post-Sprint 2)
 
 ### Development Philosophy
-- **Extend, Don't Replace**: Build upon CRUDkit v1.0 foundation
+- **Extend, Don't Replace**: Build upon CRUDkit foundation
 - **Docker-First**: All development within containers using pnpm
 - **Pattern Replication**: Mirror existing successful patterns
 - **Live Documentation**: Document as we build
 - **Start Simple**: MVP first, enhance iteratively
 
-### Sprint 3 Features (After Foundation is Fixed)
+### Potential Features (After Foundation is Fixed)
 
 #### 11.1 Google Analytics Integration
 - **Foundation**: Extend Status Dashboard monitoring capabilities
@@ -398,9 +398,9 @@ pnpm outdated         # Check for updates
 - Fixed duplicate section numbering (merged Section 8s)
 - Reorganized sections for logical flow (1-14 sequential)
 - Removed contradictory "100% Complete" claim
-- Made Sprint 2 timeline realistic (3 weeks → 10 weeks with 2-week sprints)
+- Made Sprint 2 timeline realistic (3 weeks → 10 weeks, one sprint with 5 phases)
 - Simplified requirements (PRP optional, lower test targets 60%→25%→40%→60%)
-- Added DevX fundamentals to Sprint 2.2 priorities
+- Added DevX fundamentals to Sprint 2 Week 3-4 priorities
 - Simplified feature complexity (2D dice first, basic geolocation)
 - Moved Governance section to end for better flow
 - Changed Development Philosophy from "mandatory" to "encouraged/recommended"
@@ -408,14 +408,14 @@ pnpm outdated         # Check for updates
 **What's New in v2.1.0**:
 - Added honest implementation status tracking (Section 7)
 - Marked all requirements with [✅/⚠️/❌] completion status
-- Created Sprint 2 priorities to fix critical gaps (Section 8)
+- Created Sprint 2 priorities to fix critical gaps (Section 10)
 - Acknowledged testing debt (0% coverage, no framework)
 - Separated "accomplished" from "aspirational"
 - Moved new features to Section 10 (after foundation fixes)
 
 **What's New in v2.0.0**:
 - Documented completed v1.0 features as foundation (Section 9)
-- Added Sprint 2 features building on existing patterns (Section 10)
+- Added future features building on existing patterns (Section 11)
 - Created implementation tutorial with live examples (Section 11)
 - Standardized on pnpm package manager (Section 12)
 - Emphasized Docker-first development workflow
