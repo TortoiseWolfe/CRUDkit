@@ -276,6 +276,11 @@ Then consider new features from Section 11
 
 ### How We Extend CRUDkit (Live Documentation)
 
+#### Understanding the Two-Container System
+CRUDkit uses two separate Docker containers for different purposes:
+1. **crudkit container** (root directory) - Application development with Next.js
+2. **speckit container** (`docs/spec-kit/`) - Specification generation with GitHub Spec-Kit
+
 #### Step 1: Pattern Recognition
 ```bash
 # Study existing pattern
@@ -306,15 +311,69 @@ docker compose exec crudkit pnpm test
 docker compose exec crudkit pnpm run build
 ```
 
-#### Step 3: Component Development Process
-1. **Planning**: Create spec in `/docs/specs/component-name.md`
-2. **Scaffolding**: Follow atomic structure
+#### Step 3: Spec-Kit Workflow (Sprint Planning)
+```bash
+# Navigate to spec-kit directory
+cd docs/spec-kit
+
+# Start the speckit container
+docker compose up -d speckit
+
+# Enter the speckit container
+docker compose exec speckit bash
+
+# Inside container, use specify commands:
+# Generate spec from constitution
+specify generate spec < ../constitution.md > spec-output.md
+
+# Generate technical plan from spec
+specify generate plan < spec.md > plan-output.md
+
+# Generate task list from plan
+specify generate tasks < PLAN.md > TASKS.md
+```
+
+**Important Files:**
+- `docs/spec-kit/WORKFLOW.md` - Complete sprint methodology
+- `docs/spec-kit/spec.md` - Current sprint specification
+- `docs/spec-kit/PLAN.md` - Technical implementation plan
+- `docs/spec-kit/TASKS.md` - Sprint task list
+- `docs/spec-kit/archive/` - Historical sprint documents
+
+#### Step 4: Sprint Workflow Integration
+The full sprint workflow combines both containers:
+
+1. **Sprint Planning** (speckit container):
+   ```bash
+   cd docs/spec-kit
+   # Update spec.md based on constitution
+   # Generate plan and tasks using specify
+   ```
+
+2. **Implementation** (crudkit container):
+   ```bash
+   cd ../..  # Back to root
+   # Work through TASKS.md using crudkit container
+   docker compose exec crudkit pnpm run dev
+   ```
+
+3. **Sprint Archive** (end of sprint):
+   ```bash
+   # Archive completed sprint documents
+   mkdir -p docs/spec-kit/archive/sprint-XXX
+   cp docs/spec-kit/{spec.md,PLAN.md,TASKS.md} \
+      docs/spec-kit/archive/sprint-XXX/
+   ```
+
+#### Step 5: Component Development Process
+1. **Planning**: Create spec using speckit, then implement in crudkit
+2. **Scaffolding**: Follow atomic structure in `/src/components/`
 3. **Implementation**: Build in Storybook first
 4. **Integration**: Connect to main app
 5. **Testing**: Unit → Integration → E2E
 6. **Documentation**: Update as you code
 
-#### Step 4: Environment Configuration
+#### Step 6: Environment Configuration
 ```bash
 # Create .env.example
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
@@ -327,11 +386,38 @@ services:
       - .env
 ```
 
-#### Step 5: Real-Time Documentation
+#### Step 7: Real-Time Documentation
 - Document decisions in ADRs (`/docs/decisions/`)
 - Update CHANGELOG.md with each feature
 - Add inline comments explaining "why" not "what"
 - Create Storybook stories for all components
+
+### Quick Reference: Spec-Kit Commands
+
+**From root directory:**
+```bash
+# Start both containers
+docker compose up -d
+cd docs/spec-kit && docker compose up -d speckit && cd ../..
+```
+
+**Inside speckit container:**
+```bash
+# Initialize project (only needed once)
+specify init crudkit --here
+
+# Generate specifications
+specify generate spec < ../constitution.md > new-spec.md
+specify generate plan < spec.md > new-plan.md
+specify generate tasks < PLAN.md > new-tasks.md
+```
+
+**Key Paths:**
+- Constitution: `/docs/constitution.md`
+- Spec-Kit Dir: `/docs/spec-kit/`
+- Current Spec: `/docs/spec-kit/spec.md`
+- Sprint Workflow: `/docs/spec-kit/WORKFLOW.md`
+- App Development: Root directory with crudkit container
 
 ## 13. GOVERNANCE
 
