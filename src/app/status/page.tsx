@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Text from '@/components/subatomic/Text/Text';
 import { Card } from '@/components/atomic/Card/Card';
 import { pwaTester, PWATestResult } from '@/utils/pwa-test';
@@ -557,9 +558,9 @@ export default function StatusPage() {
     <main className="min-h-screen bg-base-200 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-4">
-          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+          <Link href="/" className="btn btn-ghost btn-sm">
             ← Back to Home
-          </a>
+          </Link>
         </div>
         <div className="mb-8">
           <div className="flex justify-between items-start">
@@ -591,25 +592,146 @@ export default function StatusPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <Card title="Build Status" bordered>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="font-semibold">Status:</span>
-                <span className="badge badge-success">Operational</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-8">
+          <div className="lg:col-span-3 space-y-6">
+            <Card title="Build Status" bordered>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">Status:</span>
+                  <span className="badge badge-success">Operational</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Version:</span>
+                  <span>{buildInfo.version}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Environment:</span>
+                  <span className="capitalize">{buildInfo.environment}</span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Version:</span>
-                <span>{buildInfo.version}</span>
+            </Card>
+            
+            {/* Web Vitals - compact version with tooltips */}
+            <Card title="Web Vitals" bordered>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">FCP</span>
+                    <div className="dropdown dropdown-hover">
+                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      </div>
+                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                        <div className="card-body">
+                          <p className="font-semibold text-sm">First Contentful Paint</p>
+                          <p className="text-xs">Time until the first text or image appears on screen</p>
+                          <div className="text-xs mt-2">
+                            <p>🟢 Good: &lt; 1.8s</p>
+                            <p>🟡 Needs work: 1.8s - 3s</p>
+                            <p>🔴 Poor: &gt; 3s</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`text-sm font-medium ${getPerformanceScore('FCP', performanceMetrics.FCP).className}`}>
+                    {getPerformanceScore('FCP', performanceMetrics.FCP).label}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">LCP</span>
+                    <div className="dropdown dropdown-hover">
+                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      </div>
+                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                        <div className="card-body">
+                          <p className="font-semibold text-sm">Largest Contentful Paint</p>
+                          <p className="text-xs">Time until the main content is fully visible</p>
+                          <div className="text-xs mt-2">
+                            <p>🟢 Good: &lt; 2.5s</p>
+                            <p>🟡 Needs work: 2.5s - 4s</p>
+                            <p>🔴 Poor: &gt; 4s</p>
+                            <p className="mt-1 italic">Users may leave if this takes &gt; 4 seconds</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`text-sm font-medium ${getPerformanceScore('LCP', performanceMetrics.LCP).className}`}>
+                    {getPerformanceScore('LCP', performanceMetrics.LCP).label}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">CLS</span>
+                    <div className="dropdown dropdown-hover">
+                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      </div>
+                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                        <div className="card-body">
+                          <p className="font-semibold text-sm">Cumulative Layout Shift</p>
+                          <p className="text-xs">Measures visual stability - how much elements move during loading</p>
+                          <div className="text-xs mt-2">
+                            <p>🟢 Good: &lt; 0.1</p>
+                            <p>🟡 Needs work: 0.1 - 0.25</p>
+                            <p>🔴 Poor: &gt; 0.25</p>
+                            <p className="mt-1 italic">Lower scores mean less annoying jumps</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`text-sm font-medium ${getPerformanceScore('CLS', performanceMetrics.CLS).className}`}>
+                    {getPerformanceScore('CLS', performanceMetrics.CLS).label}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">TTFB</span>
+                    <div className="dropdown dropdown-hover">
+                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      </div>
+                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                        <div className="card-body">
+                          <p className="font-semibold text-sm">Time to First Byte</p>
+                          <p className="text-xs">How quickly the server starts sending data</p>
+                          <div className="text-xs mt-2">
+                            <p>🟢 Good: &lt; 0.8s</p>
+                            <p>🟡 Needs work: 0.8s - 1.8s</p>
+                            <p>🔴 Poor: &gt; 1.8s</p>
+                            <p className="mt-1 italic">Indicates server response speed</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`text-sm font-medium ${getPerformanceScore('TTFB', performanceMetrics.TTFB).className}`}>
+                    {getPerformanceScore('TTFB', performanceMetrics.TTFB).label}
+                  </span>
+                </div>
+                <button 
+                  onClick={collectPerformanceMetrics}
+                  className="btn btn-xs btn-ghost w-full mt-2"
+                >
+                  Refresh Metrics
+                </button>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Environment:</span>
-                <span className="capitalize">{buildInfo.environment}</span>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
 
-          <Card title="Project Progress" bordered>
+          <Card title="Project Progress" bordered className="md:col-span-2 lg:col-span-4">
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
@@ -641,18 +763,21 @@ export default function StatusPage() {
                 <div className="divider my-2"></div>
               )}
               {taskProgress?.phases && Object.entries(taskProgress.phases).map(([phase, info]) => (
-                <div key={phase} className="flex items-center gap-2 text-sm">
-                  <span className={info.complete ? 'text-success' : 'text-base-content/50'}>
+                <div key={phase} className="flex items-start gap-2 text-sm">
+                  <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
                     {info.complete ? '✅' : '⭕'}
                   </span>
-                  <span className="font-medium">{phase}:</span>
-                  <span className="text-xs text-base-content/70">{info.description}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-medium whitespace-nowrap">{phase}:</span>
+                    <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                  </div>
                 </div>
               ))}
             </div>
           </Card>
 
           <Card 
+            className="md:col-span-2 lg:col-span-5"
             title={
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-2">
@@ -884,173 +1009,6 @@ export default function StatusPage() {
           </Card>
         </div>
 
-        {/* Performance Metrics */}
-        <Card 
-          title={
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2">
-                <span>Web Vitals Performance</span>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-72">
-                    <div className="card-body">
-                      <h3 className="font-bold">What are Web Vitals?</h3>
-                      <p className="text-sm">Core metrics that measure real-world user experience on your website.</p>
-                      <div className="text-xs space-y-1 mt-2">
-                        <p>🟢 Good | 🟡 Needs Improvement | 🔴 Poor</p>
-                        <p className="font-semibold mt-2">Note: Some metrics need user interaction or page visibility changes to collect.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button 
-                onClick={collectPerformanceMetrics}
-                className="btn btn-sm btn-ghost"
-                title="Refresh metrics"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
-              </button>
-            </div>
-          }
-          className="mb-8" 
-          bordered
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                <Text variant="small" className="text-base-content/70 font-semibold">FCP</Text>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
-                    <div className="card-body">
-                      <p className="font-semibold text-sm">First Contentful Paint</p>
-                      <p className="text-xs">Time until the first text or image appears on screen</p>
-                      <div className="text-xs mt-2">
-                        <p>🟢 Good: &lt; 1.8s</p>
-                        <p>🟡 Needs work: 1.8s - 3s</p>
-                        <p>🔴 Poor: &gt; 3s</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Text variant="body" className={getPerformanceScore('FCP', performanceMetrics.FCP).className}>
-                {getPerformanceScore('FCP', performanceMetrics.FCP).label}
-              </Text>
-              <Text variant="caption" className="text-base-content/50">First Paint</Text>
-            </div>
-            
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                <Text variant="small" className="text-base-content/70 font-semibold">LCP</Text>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
-                    <div className="card-body">
-                      <p className="font-semibold text-sm">Largest Contentful Paint</p>
-                      <p className="text-xs">Time until the main content is fully visible</p>
-                      <div className="text-xs mt-2">
-                        <p>🟢 Good: &lt; 2.5s</p>
-                        <p>🟡 Needs work: 2.5s - 4s</p>
-                        <p>🔴 Poor: &gt; 4s</p>
-                        <p className="mt-1 italic">Users may leave if this takes &gt; 4 seconds</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Text variant="body" className={getPerformanceScore('LCP', performanceMetrics.LCP).className}>
-                {getPerformanceScore('LCP', performanceMetrics.LCP).label}
-              </Text>
-              <Text variant="caption" className="text-base-content/50">Main Content</Text>
-            </div>
-            
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                <Text variant="small" className="text-base-content/70 font-semibold">CLS</Text>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
-                    <div className="card-body">
-                      <p className="font-semibold text-sm">Cumulative Layout Shift</p>
-                      <p className="text-xs">Measures visual stability - how much elements move during loading</p>
-                      <div className="text-xs mt-2">
-                        <p>🟢 Good: &lt; 0.1</p>
-                        <p>🟡 Needs work: 0.1 - 0.25</p>
-                        <p>🔴 Poor: &gt; 0.25</p>
-                        <p className="mt-1 italic">Lower scores mean less annoying jumps</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Text variant="body" className={getPerformanceScore('CLS', performanceMetrics.CLS).className}>
-                {getPerformanceScore('CLS', performanceMetrics.CLS).label}
-              </Text>
-              <Text variant="caption" className="text-base-content/50">Visual Stability</Text>
-            </div>
-            
-            <div className="space-y-1">
-              <div className="flex items-center gap-1">
-                <Text variant="small" className="text-base-content/70 font-semibold">TTFB</Text>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
-                    <div className="card-body">
-                      <p className="font-semibold text-sm">Time to First Byte</p>
-                      <p className="text-xs">How quickly the server starts sending data</p>
-                      <div className="text-xs mt-2">
-                        <p>🟢 Good: &lt; 0.8s</p>
-                        <p>🟡 Needs work: 0.8s - 1.8s</p>
-                        <p>🔴 Poor: &gt; 1.8s</p>
-                        <p className="mt-1 italic">Indicates server response speed</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Text variant="body" className={getPerformanceScore('TTFB', performanceMetrics.TTFB).className}>
-                {getPerformanceScore('TTFB', performanceMetrics.TTFB).label}
-              </Text>
-              <Text variant="caption" className="text-base-content/50">Server Response</Text>
-            </div>
-          </div>
-          {/* Help text for N/A metrics */}
-          {(performanceMetrics.FCP === null || performanceMetrics.LCP === null || performanceMetrics.CLS === null) && (
-            <div className="alert alert-info mt-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <div>
-                <p className="text-sm font-semibold">Why are some metrics N/A?</p>
-                <p className="text-xs">LCP needs the page to load completely. CLS accumulates as you scroll. Try interacting with the page or switching tabs and coming back. Click the refresh button to check for new metrics.</p>
-              </div>
-            </div>
-          )}
-        </Card>
 
         {/* PWA Testing Section */}
         <Card 

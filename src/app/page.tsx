@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { parseTasksFile, TaskProgress } from '@/utils/tasks-parser';
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
       {/* Floating Progress Badge */}
       {taskProgress && (
         <aside aria-label="Project completion status" className="fixed top-4 right-4 z-50">
-          <a 
+          <Link 
             href="/status" 
             className="badge badge-success badge-lg gap-2 shadow-lg hover:scale-105 transition-transform cursor-pointer"
             aria-label={`Project ${taskProgress.percentage}% complete. Click to view detailed status.`}
@@ -29,7 +30,7 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{taskProgress.percentage}% Complete</span>
-          </a>
+          </Link>
         </aside>
       )}
 
@@ -58,18 +59,18 @@ export default function Home() {
 
             {/* Primary Actions */}
             <nav aria-label="Primary navigation" className="flex gap-4 justify-center flex-wrap">
-              <a href="/components" className="btn btn-primary btn-lg group">
+              <Link href="/components" className="btn btn-primary btn-lg group">
                 <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                 </svg>
                 Explore Components
-              </a>
-              <a href="/themes" className="btn btn-secondary btn-lg group">
+              </Link>
+              <Link href="/themes" className="btn btn-secondary btn-lg group">
                 <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                 </svg>
                 Browse Themes
-              </a>
+              </Link>
               <a 
                 href="https://github.com/TortoiseWolfe/CRUDkit" 
                 target="_blank" 
@@ -85,13 +86,13 @@ export default function Home() {
 
             {/* Quick Links */}
             <nav aria-label="Secondary navigation" className="mt-10 flex gap-4 justify-center text-sm">
-              <a href="/status" className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100">
+              <Link href="/status" className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100">
                 Status Dashboard
-              </a>
+              </Link>
               <span className="opacity-30" aria-hidden="true">•</span>
-              <a href="/accessibility" className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100">
+              <Link href="/accessibility" className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100">
                 Accessibility
-              </a>
+              </Link>
               <span className="opacity-30" aria-hidden="true">•</span>
               <a href="https://tortoisewolfe.github.io/CRUDkit/storybook/" target="_blank" rel="noopener noreferrer" className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100">
                 Storybook
@@ -167,7 +168,7 @@ export default function Home() {
           <div className="container mx-auto">
             <h2 className="text-3xl font-bold text-center mb-4">Project Progress</h2>
             <p className="text-center text-base-content/70 mb-8 max-w-2xl mx-auto">
-              Generated from <a href="/docs/spec-kit" className="link link-primary">spec-kit</a> → PLAN.md → TASKS.md
+              Generated from spec-kit → PLAN.md → TASKS.md
               <br />
               <span className="text-sm">Fork this project, replace the spec-kit with your own requirements, and run Docker to generate your custom project plan!</span>
             </p>

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 export default function AccessibilityPage() {
@@ -11,9 +12,9 @@ export default function AccessibilityPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="mb-4">
-            <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+            <Link href="/" className="btn btn-ghost btn-sm">
               ← Back to Home
-            </a>
+            </Link>
           </div>
           <h1 className="text-4xl font-bold mb-8">Accessibility Controls</h1>
           <p className="text-lg mb-8 text-base-content/70">

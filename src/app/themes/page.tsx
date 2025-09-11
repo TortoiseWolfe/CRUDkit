@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import ThemeSwitcher from '@/components/theme/ThemeSwitcher';
 import Text from '@/components/subatomic/Text/Text';
 
@@ -8,9 +9,9 @@ export default function ThemesPage() {
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-4">
-          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+          <Link href="/" className="btn btn-ghost btn-sm">
             ← Back to Home
-          </a>
+          </Link>
         </div>
         <div className="text-center mb-8">
           <Text variant="h1" className="mb-4">

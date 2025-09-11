@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Text from '@/components/subatomic/Text/Text';
 
 export default function ComponentsPage() {
@@ -7,9 +8,9 @@ export default function ComponentsPage() {
     <main className="min-h-screen bg-base-100">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-4">
-          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+          <Link href="/" className="btn btn-ghost btn-sm">
             ← Back to Home
-          </a>
+          </Link>
         </div>
         <Text variant="h1" className="text-center mb-8">Component Gallery</Text>
         <Text variant="lead" className="text-center mb-12 text-base-content/70">
