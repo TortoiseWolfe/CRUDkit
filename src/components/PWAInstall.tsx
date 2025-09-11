@@ -18,9 +18,21 @@ export default function PWAInstall() {
       window.addEventListener('load', () => {
         // Use basePath for GitHub Pages
         const swPath = process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
-        navigator.serviceWorker.register(swPath).then(
+        
+        // Add timestamp to force update
+        const swUrl = `${swPath}?v=${Date.now()}`;
+        
+        navigator.serviceWorker.register(swUrl).then(
           (registration) => {
             console.log('Service Worker registered:', registration);
+            
+            // Force update check
+            registration.update().catch(err => console.log('SW update failed:', err));
+            
+            // Check for updates periodically
+            setInterval(() => {
+              registration.update().catch(err => console.log('SW update check failed:', err));
+            }, 60000); // Check every minute
           },
           (error) => {
             console.log('Service Worker registration failed:', error);

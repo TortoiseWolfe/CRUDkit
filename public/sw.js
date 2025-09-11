@@ -1,5 +1,7 @@
 // Service Worker for CRUDkit PWA
-const CACHE_NAME = 'crudkit-v3';
+// Version with timestamp to force updates
+const BUILD_TIMESTAMP = new Date().toISOString();
+const CACHE_NAME = 'crudkit-v4-' + BUILD_TIMESTAMP.slice(0,10);
 // Only cache assets, not HTML pages (to ensure theme scripts always run)
 const urlsToCache = [
   '/CRUDkit/manifest.json',
@@ -32,7 +34,8 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          // Delete ALL old caches that don't match current version
+          if (cacheName.startsWith('crudkit-') && cacheName !== CACHE_NAME) {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }

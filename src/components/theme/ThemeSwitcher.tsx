@@ -23,8 +23,30 @@ export function ThemeSwitcher() {
 
   const handleThemeChange = (theme: string) => {
     setCurrentTheme(theme);
+    
+    // Apply to DOM
     document.documentElement.setAttribute('data-theme', theme);
+    document.body?.setAttribute('data-theme', theme);
+    
+    // Store in both storages
     localStorage.setItem('theme', theme);
+    sessionStorage.setItem('theme', theme);
+    
+    // Broadcast to other tabs/windows
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'theme',
+      newValue: theme,
+      url: window.location.href,
+      storageArea: localStorage
+    }));
+    
+    // Force update service worker if available
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'THEME_CHANGE',
+        theme: theme
+      });
+    }
   };
 
   return (
