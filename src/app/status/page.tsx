@@ -240,7 +240,6 @@ export default function StatusPage() {
     }, 30000); // Run every 30 seconds
     
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRefresh, isTestingPWA]);
 
   const runPWATests = async () => {
@@ -330,6 +329,11 @@ export default function StatusPage() {
   return (
     <main className="min-h-screen bg-base-200 p-8">
       <div className="max-w-7xl mx-auto">
+        <div className="mb-4">
+          <a href="https://tortoisewolfe.github.io/CRUDkit/" className="btn btn-ghost btn-sm">
+            ← Back to Home
+          </a>
+        </div>
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">CRUDkit Status Dashboard</h1>
           <p className="text-base-content/70">
@@ -399,7 +403,7 @@ export default function StatusPage() {
                   <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-80">
                     <div className="card-body">
                       <h3 className="font-bold">What is Lighthouse?</h3>
-                      <p className="text-sm">Google's tool for measuring web page quality. Scores are out of 100.</p>
+                      <p className="text-sm">Google&apos;s tool for measuring web page quality. Scores are out of 100.</p>
                       <div className="text-xs space-y-1 mt-2">
                         <p>🟢 90-100: Good</p>
                         <p>🟡 50-89: Needs Improvement</p>
@@ -435,7 +439,7 @@ export default function StatusPage() {
                               
                               {data.details?.passing && data.details.passing.length > 0 && (
                                 <div className="mt-2">
-                                  <p className="font-semibold text-xs text-success mb-1">What's Working:</p>
+                                  <p className="font-semibold text-xs text-success mb-1">What&apos;s Working:</p>
                                   <ul className="text-xs space-y-0.5">
                                     {data.details.passing.map((item: string, i: number) => (
                                       <li key={i}>{item}</li>
@@ -447,7 +451,7 @@ export default function StatusPage() {
                               {data.details?.missing && data.details.missing.length > 0 && (
                                 <div className="mt-3">
                                   <p className="font-semibold text-xs text-error mb-1">
-                                    What's Missing {data.score < 100 && `(-${100 - data.score} points)`}:
+                                    What&apos;s Missing {data.score < 100 && `(-${100 - data.score} points)`}:
                                   </p>
                                   <ul className="text-xs space-y-0.5">
                                     {data.details.missing.map((item: string, i: number) => (
@@ -891,12 +895,6 @@ export default function StatusPage() {
             </div>
           </div>
         </Card>
-
-        <div className="mt-8 text-center">
-          <a href="/CRUDkit/" className="btn btn-ghost">
-            ← Back to Home
-          </a>
-        </div>
       </div>
     </main>
   );
