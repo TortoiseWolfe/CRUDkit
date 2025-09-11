@@ -293,25 +293,30 @@ export default function StatusPage() {
     setLighthouseError(null);
     
     try {
-      // Use the current page URL or the production URL
-      const url = window.location.hostname === 'localhost' 
-        ? 'https://tortoisewolfe.github.io/CRUDkit/'
-        : window.location.origin + window.location.pathname;
+      // Always test the production URL
+      const url = 'https://tortoisewolfe.github.io/CRUDkit/';
       
-      const response = await fetch('/api/lighthouse', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url }),
-      });
+      // Call PageSpeed Insights API directly from the client
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=accessibility&category=best-practices&category=seo&category=pwa`;
+      
+      const response = await fetch(apiUrl);
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.details || 'Failed to run Lighthouse test');
+        throw new Error(`PageSpeed API error: ${response.status} ${response.statusText}`);
       }
       
-      const scores = await response.json();
+      const data = await response.json();
+      
+      // Extract Lighthouse scores
+      const scores = {
+        performance: Math.round((data.lighthouseResult?.categories?.performance?.score || 0) * 100),
+        accessibility: Math.round((data.lighthouseResult?.categories?.accessibility?.score || 0) * 100),
+        bestPractices: Math.round((data.lighthouseResult?.categories?.['best-practices']?.score || 0) * 100),
+        seo: Math.round((data.lighthouseResult?.categories?.seo?.score || 0) * 100),
+        pwa: Math.round((data.lighthouseResult?.categories?.pwa?.score || 0) * 100),
+        timestamp: new Date().toISOString(),
+        url: url
+      };
       
       // Update state and localStorage
       setLighthouseScores(scores);
