@@ -247,11 +247,18 @@ export default function StatusPage() {
   // Generate deployments from completed features
   const [deployments] = useState(() => {
     const completedFeatures = projectConfig.features.filter(f => f.completed);
-    return completedFeatures.map((feature, index) => ({
-      date: new Date(Date.parse(projectConfig.project.startDate) + (index * 24 * 60 * 60 * 1000)).toLocaleDateString(),
-      feature: feature.name,
-      status: 'success' as const
-    }));
+    return completedFeatures.map((feature, index) => {
+      const date = new Date(Date.parse(projectConfig.project.startDate) + (index * 24 * 60 * 60 * 1000));
+      // Use consistent date format to avoid hydration mismatch
+      const month = date.getUTCMonth() + 1;
+      const day = date.getUTCDate();
+      const year = date.getUTCFullYear();
+      return {
+        date: `${month}/${day}/${year}`,
+        feature: feature.name,
+        status: 'success' as const
+      };
+    });
   });
 
   const [features] = useState([
