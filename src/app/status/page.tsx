@@ -42,6 +42,8 @@ export default function StatusPage() {
   const [lastTestTime, setLastTestTime] = useState<Date | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [testError, setTestError] = useState<string | null>(null);
+  const [isTestingLighthouse, setIsTestingLighthouse] = useState(false);
+  const [lighthouseError, setLighthouseError] = useState<string | null>(null);
 
   const [buildInfo] = useState({
     buildTime: new Date().toISOString(),
@@ -63,13 +65,34 @@ export default function StatusPage() {
     completionPercentage: completionPercentage,
   });
 
-  // Use saved lighthouse scores or show placeholder
-  const savedScores = projectConfig.lighthouse.scores;
-  const hasLighthouseData = savedScores.performance !== null;
+  // Get Lighthouse scores from localStorage or initialize empty
+  const [lighthouseScores, setLighthouseScores] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('lighthouseScores');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error('Failed to parse saved scores:', e);
+        }
+      }
+    }
+    return {
+      performance: 0,
+      accessibility: 0,
+      bestPractices: 0,
+      seo: 0,
+      pwa: 0,
+      timestamp: null,
+      url: null
+    };
+  });
   
-  const [lighthouse] = useState<Record<string, LighthouseMetric>>({
+  const hasLighthouseData = lighthouseScores.performance > 0;
+  
+  const [lighthouse, setLighthouse] = useState<Record<string, LighthouseMetric>>({
     performance: { 
-      score: savedScores.performance || 0, 
+      score: lighthouseScores.performance, 
       description: 'Speed & responsiveness',
       details: {
         passing: [
@@ -95,7 +118,7 @@ export default function StatusPage() {
       }
     },
     accessibility: { 
-      score: savedScores.accessibility || 0, 
+      score: lighthouseScores.accessibility, 
       description: 'Usability for all users',
       details: {
         passing: [
@@ -121,7 +144,7 @@ export default function StatusPage() {
       }
     },
     bestPractices: { 
-      score: savedScores.bestPractices || 0, 
+      score: lighthouseScores.bestPractices, 
       description: 'Security & quality',
       details: {
         passing: [
@@ -146,7 +169,7 @@ export default function StatusPage() {
       }
     },
     seo: { 
-      score: savedScores.seo || 0, 
+      score: lighthouseScores.seo, 
       description: 'Technical SEO',
       details: {
         passing: [
@@ -172,7 +195,7 @@ export default function StatusPage() {
       }
     },
     pwa: { 
-      score: savedScores.pwa || 0, 
+      score: lighthouseScores.pwa, 
       description: 'App capabilities',
       details: {
         passing: [
@@ -262,6 +285,52 @@ export default function StatusPage() {
       setTestError('Tests failed to complete. Check console for details.');
     } finally {
       setIsTestingPWA(false);
+    }
+  };
+
+  const runLighthouseTest = async () => {
+    setIsTestingLighthouse(true);
+    setLighthouseError(null);
+    
+    try {
+      // Use the current page URL or the production URL
+      const url = window.location.hostname === 'localhost' 
+        ? 'https://tortoisewolfe.github.io/CRUDkit/'
+        : window.location.origin + window.location.pathname;
+      
+      const response = await fetch('/api/lighthouse', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.details || 'Failed to run Lighthouse test');
+      }
+      
+      const scores = await response.json();
+      
+      // Update state and localStorage
+      setLighthouseScores(scores);
+      localStorage.setItem('lighthouseScores', JSON.stringify(scores));
+      
+      // Update the lighthouse metrics display
+      setLighthouse({
+        performance: { ...lighthouse.performance, score: scores.performance },
+        accessibility: { ...lighthouse.accessibility, score: scores.accessibility },
+        bestPractices: { ...lighthouse.bestPractices, score: scores.bestPractices },
+        seo: { ...lighthouse.seo, score: scores.seo },
+        pwa: { ...lighthouse.pwa, score: scores.pwa },
+      });
+      
+    } catch (error) {
+      console.error('Lighthouse test error:', error);
+      setLighthouseError(error instanceof Error ? error.message : 'Failed to run Lighthouse test');
+    } finally {
+      setIsTestingLighthouse(false);
     }
   };
 
@@ -400,39 +469,70 @@ export default function StatusPage() {
 
           <Card 
             title={
-              <div className="flex items-center gap-2">
-                <span>Lighthouse Scores</span>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs" aria-label="View lighthouse score information">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-80">
-                    <div className="card-body">
-                      <h3 className="font-bold">What is Lighthouse?</h3>
-                      <p className="text-sm">Google&apos;s tool for measuring web page quality. Scores are out of 100.</p>
-                      <div className="text-xs space-y-1 mt-2">
-                        <p>🟢 90-100: Good</p>
-                        <p>🟡 50-89: Needs Improvement</p>
-                        <p>🔴 0-49: Poor</p>
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2">
+                  <span>Lighthouse Scores</span>
+                  <div className="dropdown dropdown-hover">
+                    <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs" aria-label="View lighthouse score information">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </div>
+                    <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-80">
+                      <div className="card-body">
+                        <h3 className="font-bold">What is Lighthouse?</h3>
+                        <p className="text-sm">Google&apos;s tool for measuring web page quality. Scores are out of 100.</p>
+                        <div className="text-xs space-y-1 mt-2">
+                          <p>🟢 90-100: Good</p>
+                          <p>🟡 50-89: Needs Improvement</p>
+                          <p>🔴 0-49: Poor</p>
+                        </div>
+                        <p className="text-xs mt-2 italic">Uses PageSpeed Insights API to run real tests.</p>
                       </div>
-                      <p className="text-xs mt-2 italic">Note: SEO score measures technical optimization, not search ranking position.</p>
                     </div>
                   </div>
+                  {lighthouseScores.timestamp && (
+                    <span className="text-xs text-base-content/50">
+                      Last tested: {new Date(lighthouseScores.timestamp).toLocaleString()}
+                    </span>
+                  )}
                 </div>
+                <button
+                  onClick={runLighthouseTest}
+                  disabled={isTestingLighthouse}
+                  className={`btn btn-sm ${
+                    isTestingLighthouse ? 'btn-warning' : 
+                    lighthouseError ? 'btn-error' :
+                    hasLighthouseData ? 'btn-ghost' : 'btn-primary'
+                  }`}
+                >
+                  {isTestingLighthouse ? (
+                    <span className="flex items-center gap-2">
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Testing...
+                    </span>
+                  ) : (
+                    hasLighthouseData ? 'Retest' : 'Run Test'
+                  )}
+                </button>
               </div>
             }
             bordered
           >
             <div className="space-y-3">
+              {lighthouseError && (
+                <div className="alert alert-error mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{lighthouseError}</span>
+                </div>
+              )}
               {!hasLighthouseData ? (
                 <div className="text-center py-4">
-                  <p className="text-base-content/70 mb-2">Run Lighthouse in Chrome DevTools to get your scores</p>
-                  <p className="text-sm text-base-content/50">{projectConfig.lighthouse.note}</p>
-                  {projectConfig.project.isTemplate && (
-                    <p className="text-xs text-warning mt-2">After forking, update /src/config/project-status.json with your scores</p>
-                  )}
+                  <p className="text-base-content/70 mb-2">No Lighthouse scores yet</p>
+                  <p className="text-sm text-base-content/50">Click &quot;Run Test&quot; to analyze this page with Google PageSpeed Insights</p>
+                  <p className="text-xs text-info mt-2">Tests run against the live production site</p>
                 </div>
               ) : Object.entries(lighthouse).map(([key, data]) => (
                 <div key={key}>

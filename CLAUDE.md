@@ -67,7 +67,6 @@ src/
 Dynamic configuration for fork customization:
 - Project metadata (name, repository, dates)
 - Feature completion tracking
-- Lighthouse scores storage
 - Fork-specific customization instructions
 
 ### GitHub Pages Deployment
@@ -94,9 +93,10 @@ The project uses GitHub Actions for automated deployment:
 The `/status` page provides real-time monitoring:
 - Web Vitals (FCP, LCP, CLS, TTFB) collection
 - PWA feature testing suite
-- Lighthouse score display (configurable)
+- **Lighthouse testing via PageSpeed Insights API** - Click "Run Test" to get real scores
 - Project progress tracking from config
 - Deployment history generated from features
+- Results stored in localStorage for persistence
 
 ### Component Development
 - Follow atomic design pattern (subatomic → atomic → molecular)
