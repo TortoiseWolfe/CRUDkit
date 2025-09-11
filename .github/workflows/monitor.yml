@@ -52,8 +52,9 @@ jobs:
       - name: Upload Lighthouse Results
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-results
+          name: lighthouse-results-${{ github.run_number }}
           path: lighthouse-results.md
+          overwrite: true
 
   pwa-tests:
     runs-on: ubuntu-latest
@@ -174,7 +175,8 @@ jobs:
       - name: Upload Status Report
         uses: actions/upload-artifact@v4
         with:
-          name: status-report
+          name: status-report-${{ github.run_number }}
           path: |
             status.md
             status-report.md
+          overwrite: true
