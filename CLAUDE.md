@@ -11,20 +11,20 @@ All commands should be run through Docker Compose for consistent builds:
 docker compose up
 
 # Run commands in container
-docker compose exec crudkit npm run dev       # Dev server on :3000
-docker compose exec crudkit npm run build     # Production build
-docker compose exec crudkit npm run storybook # Storybook on :6006
-docker compose exec crudkit npm run lint      # Run ESLint
+docker compose exec crudkit pnpm run dev       # Dev server on :3000
+docker compose exec crudkit pnpm run build     # Production build
+docker compose exec crudkit pnpm run storybook # Storybook on :6006
+docker compose exec crudkit pnpm run lint      # Run ESLint
 ```
 
 ### Direct Commands (if not using Docker)
 ```bash
-npm run dev              # Start Next.js dev server
-npm run build            # Build for production  
-npm run start            # Start production server
-npm run lint             # Run ESLint
-npm run storybook        # Start Storybook
-npm run build-storybook  # Build Storybook
+pnpm run dev              # Start Next.js dev server
+pnpm run build            # Build for production  
+pnpm run start            # Start production server
+pnpm run lint             # Run ESLint
+pnpm run storybook        # Start Storybook
+pnpm run build-storybook  # Build Storybook
 ```
 
 ## Architecture
@@ -115,6 +115,7 @@ The `/status` page provides real-time monitoring:
 1. **Dynamic Status Page**: After forking, users should update `/src/config/project-status.json` with their project details
 2. **GitHub Pages URLs**: All hardcoded URLs reference `tortoisewolfe.github.io/CRUDkit` - these need updating after forking
 3. **Docker-First Development**: Always use Docker Compose commands for consistency
-4. **Build Verification**: Run `docker compose exec crudkit npm run build` before committing
+4. **Build Verification**: Run `docker compose exec crudkit pnpm run build` before committing
 5. **CSP Headers**: Security headers are configured but may need adjustment for external resources
-6. **PWA Icons**: Use SVG format to avoid Canvas npm dependency issues in Docker
+6. **PWA Icons**: Use SVG format to avoid Canvas dependency issues in Docker
+7. **Package Manager**: Project uses pnpm exclusively - no npm or yarn

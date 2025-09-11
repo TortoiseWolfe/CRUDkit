@@ -19,51 +19,50 @@ Learn from these implementations, improve upon them:
 ## 2. CORE PRINCIPLES (Non-negotiable)
 
 ### Infrastructure
-- **Docker**: All environments with health checks (reference: Punk_Stack multi-profile setup)
-- **PWA**: Offline-first, service workers, background sync (reference: Punk_Stack src/app/manifest.ts)
-- **Accessibility**: WCAG AA, colorblind support, keyboard nav (reference: 000_Template .pa11yci)
+- **Docker**: All environments with health checks **[✅ Docker, ❌ health checks]**
+- **PWA**: Offline-first, service workers, background sync **[✅ SW/manifest, ❌ background sync]**
+- **Accessibility**: WCAG AA, colorblind support, keyboard nav **[⚠️ Basic controls, ❌ WCAG testing]**
 
 ### Development Philosophy
-- **PRP→Spec→Implementation**: Problem definition first (reference: 001_template/src/prp/)
-- **Test-First Development**: TDD mandatory (reference: Punk_Stack 265+ test files)
-- **Performance Gates**: <100ms interactions, >90 Lighthouse (reference: Punk_Stack configs)
+- **PRP→Spec→Implementation**: Problem definition first **[❌ NOT IMPLEMENTED]**
+- **Test-First Development**: TDD mandatory **[❌ ZERO TESTS - 0% coverage]**
+- **Performance Gates**: <100ms interactions, >90 Lighthouse **[⚠️ Not enforced, manual only]**
 
 ## 3. DEVELOPMENT PIPELINE (Order matters)
 
-1. **PRP Creation** - Define the problem (study: 001_template PRP structure)
-2. **Spec Generation** - Design the solution (use spec-kit)
-3. **Test Writing** - Validation first (study: Punk_Stack __tests__/)
-4. **Implementation** - Code second (reference: Punk_Stack src/)
-5. **Validation Loops** - 6 levels (reference: 000_Template validation process)
-6. **Documentation** - AI context, component docs (reference: 000_Template ai_docs/claude.md)
+1. **PRP Creation** - Define the problem **[❌ Not implemented]**
+2. **Spec Generation** - Design the solution **[⚠️ Partial - has spec.md]**
+3. **Test Writing** - Validation first **[❌ No test framework]**
+4. **Implementation** - Code second **[✅ Built without tests]**
+5. **Validation Loops** - 6 levels **[❌ Not implemented]**
+6. **Documentation** - AI context, component docs **[⚠️ Storybook only]**
 
 ## 4. TECHNICAL STANDARDS
 
 ### Architecture
-- **Atomic Design**: atoms → molecules → organisms → templates (reference: Punk_Stack components/)
-- **TypeScript-strict**: No any types, strict mode (reference: Punk_Stack tsconfig.json)
-- **Theme System**: Multiple themes, instant switching (reference: Punk_Stack 12 themes)
-- **Component Structure**: 4 files per component (reference: 001_template pattern)
+- **Atomic Design**: atoms → molecules → organisms → templates **[✅ Implemented]**
+- **TypeScript-strict**: No any types, strict mode **[✅ Configured]**
+- **Theme System**: Multiple themes, instant switching **[✅ 32 themes!]**
+- **Component Structure**: 4 files per component **[⚠️ 2-3 files per component]**
 
 ### Quality Gates
-- **Pre-commit**: Lint + Type check
-- **Pre-push**: Unit tests pass
-- **PR Checks**: Full test suite + Visual regression + Build
-- **Main Branch**: E2E tests + Deploy
-(reference: All templates' package.json scripts)
+- **Pre-commit**: Lint + Type check **[❌ No hooks configured]**
+- **Pre-push**: Unit tests pass **[❌ No hooks, no tests]**
+- **PR Checks**: Full test suite + Visual regression + Build **[⚠️ Build only]**
+- **Main Branch**: E2E tests + Deploy **[⚠️ Deploy only]**
 
 ### Testing Strategy
-- **Unit**: 60% coverage minimum (reference: Punk_Stack vitest.config.ts)
-- **Integration**: 30% critical paths (reference: Punk_Stack __tests__/integration/)
-- **E2E**: 10% user journeys (reference: 000_Template playwright configs)
-- **Accessibility**: Pa11y CI (reference: 000_Template .pa11yci)
-- **Visual**: Chromatic/Percy (reference: Punk_Stack_archived storybook)
+- **Unit**: 60% coverage minimum **[❌ 0% - no framework]**
+- **Integration**: 30% critical paths **[❌ Not implemented]**
+- **E2E**: 10% user journeys **[❌ No Playwright]**
+- **Accessibility**: Pa11y CI **[❌ Not configured]**
+- **Visual**: Chromatic/Percy **[❌ Not setup]**
 
 ### Security Framework
-- **Input Validation**: Zod schemas, sanitization (reference: 001_template forms)
-- **CSP Headers**: Strict policies (reference: 000_Template SECURITY.md)
-- **Privacy-First**: GDPR compliant, minimal tracking (reference: 001_template privacy)
-- **Scanning Schedule**: Daily deps, weekly static, monthly dynamic (reference: 000_Template)
+- **Input Validation**: Zod schemas, sanitization **[❌ No Zod installed]**
+- **CSP Headers**: Strict policies **[✅ Configured in next.config]**
+- **Privacy-First**: GDPR compliant, minimal tracking **[❌ No privacy features]**
+- **Scanning Schedule**: Daily deps, weekly static, monthly dynamic **[❌ No automation]**
 
 ## 5. IMPLEMENTATION GUIDANCE
 
@@ -100,7 +99,79 @@ When generating code:
 - Build-time optimization (reference: Punk_Stack SKIP_PWA flag)
 - Runtime configuration (reference: 001_template provider switching)
 
-## 7. REQUIRED INTEGRATIONS
+## 7. IMPLEMENTATION STATUS (Reality Check)
+
+### ✅ What CRUDkit v1.0 Actually Delivered (~40% of requirements)
+- Docker setup (basic, no health checks)
+- 32-theme system (exceeded 12 theme requirement) 
+- PWA basics (manifest + service worker, no background sync)
+- Atomic component structure with Storybook
+- TypeScript with strict mode
+- GitHub Pages deployment with Actions
+- CSP headers in next.config.ts
+- Basic accessibility controls (font size/spacing)
+- pnpm package management
+
+### ❌ What Fell Through the Cracks (~60% of requirements)
+
+#### Critical Gaps
+- **ZERO TESTING**: No test files, no test framework, 0% coverage
+- **NO PRP METHODOLOGY**: Development philosophy not implemented
+- **NO QUALITY GATES**: No pre-commit/pre-push hooks
+- **NO VALIDATION**: No Zod schemas or input sanitization
+
+#### Missing Infrastructure  
+- Docker health checks
+- PWA background sync
+- WCAG AA compliance testing
+- Colorblind support
+- Spec-kit structure
+- 6-level validation loops
+- AI context documentation
+- Forms integration (Web3Forms, EmailJS, Resend)
+- Calendar integration
+
+#### Missing Security
+- No SECURITY.md
+- No dependency scanning
+- No GDPR compliance features
+- Input validation missing
+
+### 📊 Compliance Score by Section
+1. **FOUNDATION**: 75% ✅ (missing spec-kit)
+2. **CORE PRINCIPLES**: 30% ⚠️ (missing most philosophy)
+3. **DEVELOPMENT PIPELINE**: 15% ❌ (only implementation done)
+4. **TECHNICAL STANDARDS**: 40% ⚠️ (no testing/quality)
+5. **IMPLEMENTATION GUIDANCE**: 10% ❌ (didn't study references)
+6. **DEPLOYMENT**: 60% ✅ (GitHub Pages works)
+
+## 8. SPRINT 2 PRIORITIES (Fix the Foundation First)
+
+### Before Adding New Features, Fix These Critical Gaps:
+
+#### Week 1: Testing Infrastructure
+- [ ] Install vitest and create first test
+- [ ] Add pre-commit hooks with husky
+- [ ] Create example test for each component type
+- [ ] Set up coverage reporting
+
+#### Week 2: Development Methodology
+- [ ] Implement PRP templates
+- [ ] Add validation with Zod  
+- [ ] Create SECURITY.md
+- [ ] Add Docker health checks
+- [ ] Configure Pa11y accessibility testing
+
+#### Week 3: Quality Gates
+- [ ] Configure pre-push hooks
+- [ ] Add GitHub Actions test runner
+- [ ] Implement performance budgets
+- [ ] Set up dependency scanning
+
+### Only After Foundation is Fixed:
+Then implement new features from Section 10 (Analytics, Dice, Map, Font Switcher)
+
+## 9. REQUIRED INTEGRATIONS
 
 ### Core Features
 - **Storybook**: Component development and documentation
@@ -137,14 +208,192 @@ When generating code:
 
 ---
 
-**Version**: 1.0.0  
-**Created**: 2025-09-09  
-**Philosophy**: Reference, learn, improve - don't just copy
+## 9. COMPLETED FOUNDATION (CRUDkit v1.0)
 
-**What's New in v1.0.0**:
-- Complete rewrite focused on referencing existing templates
-- Reduced from 446 to ~170 lines (62% reduction)
-- Clear learning path with specific file references
-- Evolution-focused approach encouraging improvement
-- Streamlined structure with clear dependencies
-- Removed duplication and consolidated related concepts
+### Established Infrastructure (100% Complete - 96/96 tasks)
+- **Next.js 15.5.2**: App Router with static export for GitHub Pages
+- **32-Theme System**: DaisyUI with localStorage persistence
+- **PWA Implementation**: Service Worker, offline support, app install
+- **Component Library**: Atomic design pattern (subatomic → atomic)
+- **Status Dashboard**: Web Vitals, Lighthouse testing, PWA features
+- **Docker Development**: Containerized with pnpm package manager
+- **GitHub Pages**: Dual deployment (app + Storybook)
+- **Accessibility**: Font size/spacing controls, ARIA support
+
+### Reference Patterns to Extend
+- **ThemeSwitcher** (`/src/components/theme/ThemeSwitcher.tsx`) → Foundation for FontSwitcher
+- **PWAInstall** (`/src/components/PWAInstall.tsx`) → Pattern for permission-based features
+- **Status Dashboard** (`/src/app/status/page.tsx`) → Integration point for Analytics
+- **Atomic Components** (`/src/components/atomic/`) → Structure for new components
+- **Docker Setup** (`Dockerfile` + `docker-compose.yml`) → Development harness
+
+## 10. NEXT SPRINT FEATURES (v2.0)
+
+### Development Philosophy
+- **Extend, Don't Replace**: Build upon CRUDkit v1.0 foundation
+- **Docker-First**: All development within containers using pnpm
+- **Pattern Replication**: Mirror existing successful patterns
+- **Live Documentation**: Document as we build
+
+### Sprint 2 Features
+
+#### 10.1 Google Analytics Integration
+- **Foundation**: Extend Status Dashboard monitoring capabilities
+- **Implementation**: 
+  - Environment configuration via `.env` file
+  - GA4 with measurement ID from environment
+  - Consent modal using PWA install prompt pattern
+  - Dashboard integration at `/status/analytics`
+  - Privacy-first with opt-in tracking
+- **Docker Config**: Pass env variables via docker-compose
+- **Testing**: Consent flows, data collection, blocking scenarios
+
+#### 10.2 Interactive Dice Component
+- **Foundation**: Follow atomic Card component structure
+- **Implementation**:
+  - Location: `/src/components/atomic/Dice/`
+  - Files: `Dice.tsx`, `Dice.stories.tsx`, `index.ts`
+  - 3D CSS animations or React Spring
+  - Theme-aware using DaisyUI classes
+  - Configurable sides (d4, d6, d8, d10, d12, d20)
+- **Accessibility**: Screen reader announcements for rolls
+- **Testing**: Randomization fairness, animation performance
+
+#### 10.3 Geolocated Map Component
+- **Foundation**: Permission pattern from PWA install component
+- **Implementation**:
+  - Location: `/src/components/atomic/Map/`
+  - Leaflet or Mapbox integration
+  - Progressive enhancement (works without location)
+  - Graceful permission handling
+  - Fallback to IP-based location
+- **Docker**: Proxy configuration for tile servers
+- **Testing**: Permission states, offline mode, accuracy levels
+
+#### 10.4 Font Switcher System
+- **Foundation**: Mirror ThemeSwitcher component exactly
+- **Implementation**:
+  - Location: `/src/components/theme/FontSwitcher.tsx`
+  - Parallel localStorage key: `selectedFont`
+  - Font families: System, Serif, Sans, Mono, Dyslexic
+  - Dynamic font loading (Google Fonts API)
+  - Integration with AccessibilityContext
+- **Performance**: Lazy loading, local caching
+- **Testing**: Font loading, fallbacks, persistence
+
+## 11. IMPLEMENTATION TUTORIAL
+
+### How We Extend CRUDkit (Live Documentation)
+
+#### Step 1: Pattern Recognition
+```bash
+# Study existing pattern
+docker compose exec crudkit cat src/components/theme/ThemeSwitcher.tsx
+
+# Identify structure
+- Component location and naming
+- State management approach
+- localStorage keys
+- UI patterns
+```
+
+#### Step 2: Docker Development Workflow
+```bash
+# Start development environment
+docker compose up
+
+# Install new dependencies
+docker compose exec crudkit pnpm add <package>
+
+# Development with hot reload
+docker compose exec crudkit pnpm run dev
+
+# Run tests in container
+docker compose exec crudkit pnpm test
+
+# Build for production
+docker compose exec crudkit pnpm run build
+```
+
+#### Step 3: Component Development Process
+1. **Planning**: Create spec in `/docs/specs/component-name.md`
+2. **Scaffolding**: Follow atomic structure
+3. **Implementation**: Build in Storybook first
+4. **Integration**: Connect to main app
+5. **Testing**: Unit → Integration → E2E
+6. **Documentation**: Update as you code
+
+#### Step 4: Environment Configuration
+```bash
+# Create .env.example
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_MAP_API_KEY=your-api-key
+
+# Docker compose with env
+services:
+  crudkit:
+    env_file:
+      - .env
+```
+
+#### Step 5: Real-Time Documentation
+- Document decisions in ADRs (`/docs/decisions/`)
+- Update CHANGELOG.md with each feature
+- Add inline comments explaining "why" not "what"
+- Create Storybook stories for all components
+
+## 12. PACKAGE MANAGEMENT STANDARD
+
+### Official Package Manager: pnpm
+- **Why pnpm**: Faster installs, disk-efficient, strict dependencies
+- **Corepack**: Automatically manages pnpm version in Docker
+- **Lock file**: Only `pnpm-lock.yaml` (no package-lock.json)
+- **Store**: Shared package store reduces duplication
+
+### Commands Reference
+```bash
+# Installation
+pnpm install          # Install all dependencies
+pnpm add <pkg>        # Add production dependency
+pnpm add -D <pkg>     # Add dev dependency
+
+# Scripts
+pnpm run <script>     # Run package.json script
+pnpm dev              # Shorthand for common scripts
+pnpm build
+pnpm test
+
+# Updates
+pnpm update           # Update dependencies
+pnpm outdated         # Check for updates
+```
+
+### Docker Integration
+- Dockerfile uses `corepack enable` for pnpm
+- Volume mounts preserve pnpm store
+- All CI/CD uses pnpm commands
+- No npm or yarn commands in codebase
+
+---
+
+**Version**: 2.1.0  
+**Updated**: 2025-01-11  
+**Foundation Status**: ~40% compliant with original constitution
+**Philosophy**: Fix the foundation before building higher
+
+**What's New in v2.1.0**:
+- Added honest implementation status tracking (Section 7)
+- Marked all requirements with [✅/⚠️/❌] completion status
+- Created Sprint 2 priorities to fix critical gaps (Section 8)
+- Acknowledged testing debt (0% coverage, no framework)
+- Separated "accomplished" from "aspirational"
+- Moved new features to Section 10 (after foundation fixes)
+
+**What's New in v2.0.0**:
+- Documented completed v1.0 features as foundation (Section 9)
+- Added Sprint 2 features building on existing patterns (Section 10)
+- Created implementation tutorial with live examples (Section 11)
+- Standardized on pnpm package manager (Section 12)
+- Emphasized Docker-first development workflow
+- Added environment configuration patterns
+- Introduced parallel systems concept (Font ↔ Theme switchers)
