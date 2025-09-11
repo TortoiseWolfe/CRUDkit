@@ -318,6 +318,10 @@ export default function Home() {
                               <p className="text-xs text-base-content/70 mt-2">
                                 Claude Code will write your project&apos;s constitution directly in the file!
                               </p>
+                              <div className="bg-warning/30 p-2 rounded mt-2">
+                                <p className="text-xs font-bold">👁️ REVIEW CHECKPOINT:</p>
+                                <p className="text-xs">Review and refine constitution.md before proceeding. This is YOUR project&apos;s foundation!</p>
+                              </div>
                             </div>
                           </div>
                               
@@ -334,7 +338,11 @@ export default function Home() {
                                   # Then in Docker:<br/>
                                   specify generate spec &lt; spec.md &gt; spec-output.md
                                 </code>
-                                <p className="text-xs text-success mt-1">→ Claude reviews output and refines it</p>
+                                <p className="text-xs text-success mt-1">→ Spec Kit generates spec-output.md</p>
+                                <div className="bg-warning/30 p-2 rounded mt-2">
+                                  <p className="text-xs font-bold">👁️ HUMAN REVIEW:</p>
+                                  <p className="text-xs">Read spec-output.md carefully. Edit it! Add missing features, remove unwanted ones. Then ask Claude to refine it further before moving to the plan phase.</p>
+                                </div>
                               </div>
                               
                               <div className="pl-2 border-l-2 border-primary">
@@ -347,7 +355,11 @@ export default function Home() {
                                   # Then in Docker:<br/>
                                   specify generate plan &lt; PLAN.md &gt; plan-output.md
                                 </code>
-                                <p className="text-xs text-success mt-1">→ Claude enhances with implementation details</p>
+                                <p className="text-xs text-success mt-1">→ Spec Kit generates plan-output.md</p>
+                                <div className="bg-warning/30 p-2 rounded mt-2">
+                                  <p className="text-xs font-bold">👁️ HUMAN REVIEW:</p>
+                                  <p className="text-xs">Review plan-output.md. Adjust tech stack, add/remove components, refine architecture. This is YOUR technical blueprint!</p>
+                                </div>
                               </div>
                               
                               <div className="pl-2 border-l-2 border-primary">
@@ -360,17 +372,34 @@ export default function Home() {
                                   # Then in Docker:<br/>
                                   specify generate tasks &lt; TASKS.md
                                 </code>
-                                <p className="text-xs text-success mt-1">→ Claude creates actionable task list</p>
+                                <p className="text-xs text-success mt-1">→ Spec Kit generates TASKS.md</p>
+                                <div className="bg-warning/30 p-2 rounded mt-2">
+                                  <p className="text-xs font-bold">👁️ HUMAN REVIEW:</p>
+                                  <p className="text-xs">Review TASKS.md. Reorder priorities, add missing tasks, remove unnecessary ones. These are YOUR implementation steps!</p>
+                                </div>
                               </div>
                             </div>
                           </div>
                               
+                          <div className="bg-info/20 p-3 rounded mb-3">
+                            <p className="text-sm font-bold mb-2">⚠️ Important: This is an ITERATIVE Process!</p>
+                            <p className="text-xs mb-2">
+                              <strong>Each phase requires YOUR review and refinement.</strong> Spec Kit generates drafts, but YOU control the final output:
+                            </p>
+                            <ul className="text-xs space-y-1 ml-4">
+                              <li>• Review each generated file before proceeding</li>
+                              <li>• Edit directly or ask Claude Code to refine</li>
+                              <li>• Iterate until YOU&apos;re satisfied</li>
+                              <li>• Only move to the next phase when ready</li>
+                            </ul>
+                          </div>
+                          
                           <div className="bg-success/20 p-3 rounded">
                             <p className="text-sm font-bold mb-1">💡 The Secret Sauce:</p>
                             <p className="text-xs">
                               <strong>Claude Code IS your development partner!</strong> You&apos;re not copying/pasting between tools.
                               Claude Code directly edits files in your repo, runs Docker commands, and iterates with you.
-                              This is EXACTLY how CRUDkit was built - Claude Code + Spec Kit + Docker!
+                              This is EXACTLY how CRUDkit was built - Claude Code + Spec Kit + Docker + Human Review!
                             </p>
                           </div>
                           

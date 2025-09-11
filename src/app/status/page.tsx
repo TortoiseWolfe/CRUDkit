@@ -244,22 +244,19 @@ export default function StatusPage() {
     },
   });
 
-  // Generate deployments from completed features
-  const [deployments] = useState(() => {
-    const completedFeatures = projectConfig.features.filter(f => f.completed);
-    return completedFeatures.map((feature, index) => {
-      const date = new Date(Date.parse(projectConfig.project.startDate) + (index * 24 * 60 * 60 * 1000));
-      // Use consistent date format to avoid hydration mismatch
-      const month = date.getUTCMonth() + 1;
-      const day = date.getUTCDate();
-      const year = date.getUTCFullYear();
-      return {
-        date: `${month}/${day}/${year}`,
-        feature: feature.name,
-        status: 'success' as const
-      };
-    });
-  });
+  // Static deployments to avoid hydration mismatches
+  const [deployments] = useState([
+    { date: '9/1/2025', feature: 'Core Application Setup', status: 'success' as const },
+    { date: '9/2/2025', feature: 'Theme System', status: 'success' as const },
+    { date: '9/3/2025', feature: 'Component Gallery', status: 'success' as const },
+    { date: '9/4/2025', feature: 'Accessibility Controls', status: 'success' as const },
+    { date: '9/5/2025', feature: 'PWA Features', status: 'success' as const },
+    { date: '9/6/2025', feature: 'Monitoring Dashboard', status: 'success' as const },
+    { date: '9/7/2025', feature: 'Testing Suite', status: 'success' as const },
+    { date: '9/8/2025', feature: 'CI/CD Pipeline', status: 'success' as const },
+    { date: '9/9/2025', feature: 'Documentation', status: 'success' as const },
+    { date: '9/10/2025', feature: 'Deployment', status: 'success' as const }
+  ]);
 
   const [features] = useState([
     { name: 'Next.js App', status: 'operational', url: 'https://tortoisewolfe.github.io/CRUDkit/' },
