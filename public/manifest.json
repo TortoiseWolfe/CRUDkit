@@ -11,7 +11,7 @@
   "categories": ["developer", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/next.svg",
+      "src": "/CRUDkit/next.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -19,13 +19,13 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshot-wide.png",
+      "src": "/CRUDkit/screenshot-wide.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "/screenshot-narrow.png",
+      "src": "/CRUDkit/screenshot-narrow.png",
       "sizes": "720x1280",
       "type": "image/png",
       "form_factor": "narrow"

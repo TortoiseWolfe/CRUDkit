@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CRUDkit",
   description: "Deploy Early, Deploy Often - A comprehensive starter kit",
-  manifest: "/manifest.json",
+  manifest: "/CRUDkit/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
