@@ -245,18 +245,18 @@ export default function StatusPage() {
     },
   });
 
-  // Static deployments to avoid hydration mismatches
+  // Actual historical deployment data from git history
   const [deployments] = useState([
-    { date: '9/1/2025', feature: 'Core Application Setup', status: 'success' as const },
-    { date: '9/2/2025', feature: 'Theme System', status: 'success' as const },
-    { date: '9/3/2025', feature: 'Component Gallery', status: 'success' as const },
-    { date: '9/4/2025', feature: 'Accessibility Controls', status: 'success' as const },
-    { date: '9/5/2025', feature: 'PWA Features', status: 'success' as const },
-    { date: '9/6/2025', feature: 'Monitoring Dashboard', status: 'success' as const },
-    { date: '9/7/2025', feature: 'Testing Suite', status: 'success' as const },
-    { date: '9/8/2025', feature: 'CI/CD Pipeline', status: 'success' as const },
-    { date: '9/9/2025', feature: 'Documentation', status: 'success' as const },
-    { date: '9/10/2025', feature: 'Deployment', status: 'success' as const }
+    { date: '9/11/2025', feature: 'Accessibility Improvements', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Navigation Links Fix', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Spec Kit Documentation', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Spec Kit Tutorial', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Dynamic Progress Tracking', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Lighthouse Integration', status: 'success' as const },
+    { date: '9/11/2025', feature: 'Status Dashboard', status: 'success' as const },
+    { date: '9/10/2025', feature: 'Storybook + Components', status: 'success' as const },
+    { date: '9/10/2025', feature: 'Next.js 15.5 + Docker', status: 'success' as const },
+    { date: '9/9/2025', feature: 'Initial Setup', status: 'success' as const }
   ]);
 
   const [features] = useState([
