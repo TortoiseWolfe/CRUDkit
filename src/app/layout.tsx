@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "CRUDkit",
   description: "Deploy Early, Deploy Often - A comprehensive starter kit",
   manifest: "/CRUDkit/manifest.json",
+  icons: {
+    icon: "/CRUDkit/favicon.svg",
+    apple: "/CRUDkit/apple-touch-icon.svg",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
