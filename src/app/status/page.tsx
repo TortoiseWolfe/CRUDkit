@@ -5,6 +5,8 @@ import Text from '@/components/subatomic/Text/Text';
 import { Card } from '@/components/atomic/Card/Card';
 import { pwaTester, PWATestResult } from '@/utils/pwa-test';
 import { onFCP, onLCP, onCLS, onTTFB } from '@/utils/web-vitals';
+import projectConfig from '@/config/project-status.json';
+import packageJson from '../../../package.json';
 
 interface PerformanceMetrics {
   FCP: number | null;
@@ -43,35 +45,31 @@ export default function StatusPage() {
 
   const [buildInfo] = useState({
     buildTime: new Date().toISOString(),
-    deployTime: '2025-09-10',
-    version: '0.1.0',
+    projectName: projectConfig.project.name,
+    startDate: projectConfig.project.startDate,
+    version: packageJson.version,
     environment: process.env.NODE_ENV || 'development',
+    isTemplate: projectConfig.project.isTemplate,
   });
+
+  // Calculate metrics from features
+  const completedFeatures = projectConfig.features.filter(f => f.completed).length;
+  const totalFeatures = projectConfig.features.length;
+  const completionPercentage = Math.round((completedFeatures / totalFeatures) * 100);
 
   const [metrics] = useState({
-    tasksComplete: 85,
-    tasksTotal: 96,
-    completionPercentage: 88,
-    phasesComplete: 4,
-    phasesTotal: 5,
+    featuresComplete: completedFeatures,
+    featuresTotal: totalFeatures,
+    completionPercentage: completionPercentage,
   });
 
-  const [deployments] = useState([
-    { date: '2025-09-10', status: 'success', feature: 'Initial deployment' },
-    { date: '2025-09-10', status: 'success', feature: 'Storybook integration' },
-    { date: '2025-09-10', status: 'success', feature: 'Theme system (32 themes)' },
-    { date: '2025-09-10', status: 'success', feature: 'Component gallery' },
-    { date: '2025-09-11', status: 'success', feature: 'PWA with Service Worker' },
-    { date: '2025-09-11', status: 'success', feature: 'Background Sync & Offline Mode' },
-    { date: '2025-09-11', status: 'success', feature: 'PWA Testing Utilities' },
-    { date: '2025-09-11', status: 'success', feature: 'Status Dashboard' },
-    { date: '2025-09-11', status: 'success', feature: 'Web Vitals Monitoring' },
-    { date: '2025-09-11', status: 'success', feature: 'GitHub Actions Monitoring' },
-  ]);
-
+  // Use saved lighthouse scores or show placeholder
+  const savedScores = projectConfig.lighthouse.scores;
+  const hasLighthouseData = savedScores.performance !== null;
+  
   const [lighthouse] = useState<Record<string, LighthouseMetric>>({
     performance: { 
-      score: 92, 
+      score: savedScores.performance || 0, 
       description: 'Speed & responsiveness',
       details: {
         passing: [
@@ -97,7 +95,7 @@ export default function StatusPage() {
       }
     },
     accessibility: { 
-      score: 98, 
+      score: savedScores.accessibility || 0, 
       description: 'Usability for all users',
       details: {
         passing: [
@@ -123,7 +121,7 @@ export default function StatusPage() {
       }
     },
     bestPractices: { 
-      score: 95, 
+      score: savedScores.bestPractices || 0, 
       description: 'Security & quality',
       details: {
         passing: [
@@ -148,7 +146,7 @@ export default function StatusPage() {
       }
     },
     seo: { 
-      score: 100, 
+      score: savedScores.seo || 0, 
       description: 'Technical SEO',
       details: {
         passing: [
@@ -174,7 +172,7 @@ export default function StatusPage() {
       }
     },
     pwa: { 
-      score: 92, 
+      score: savedScores.pwa || 0, 
       description: 'App capabilities',
       details: {
         passing: [
@@ -203,6 +201,16 @@ export default function StatusPage() {
         ]
       }
     },
+  });
+
+  // Generate deployments from completed features
+  const [deployments] = useState(() => {
+    const completedFeatures = projectConfig.features.filter(f => f.completed);
+    return completedFeatures.map((feature, index) => ({
+      date: new Date(Date.parse(projectConfig.project.startDate) + (index * 24 * 60 * 60 * 1000)).toLocaleDateString(),
+      feature: feature.name,
+      status: 'success' as const
+    }));
   });
 
   const [features] = useState([
@@ -335,7 +343,7 @@ export default function StatusPage() {
           </a>
         </div>
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">CRUDkit Status Dashboard</h1>
+          <h1 className="text-4xl font-bold mb-2">{projectConfig.project.name} Status Dashboard</h1>
           <p className="text-base-content/70">
             Real-time deployment and performance metrics • Connection: {isOnline ? '🟢 Online' : '🔴 Offline'}
           </p>
@@ -363,24 +371,24 @@ export default function StatusPage() {
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
-                  <span>Tasks</span>
-                  <span>{metrics.tasksComplete}/{metrics.tasksTotal}</span>
+                  <span>Features</span>
+                  <span>{metrics.featuresComplete}/{metrics.featuresTotal}</span>
                 </div>
                 <progress 
                   className="progress progress-primary w-full" 
-                  value={metrics.tasksComplete} 
-                  max={metrics.tasksTotal}
+                  value={metrics.featuresComplete} 
+                  max={metrics.featuresTotal}
                 ></progress>
               </div>
               <div>
                 <div className="flex justify-between mb-1">
-                  <span>Phases</span>
-                  <span>{metrics.phasesComplete}/{metrics.phasesTotal}</span>
+                  <span>Overall Progress</span>
+                  <span>Completed</span>
                 </div>
                 <progress 
                   className="progress progress-success w-full" 
-                  value={metrics.phasesComplete} 
-                  max={metrics.phasesTotal}
+                  value={metrics.completionPercentage} 
+                  max={100}
                 ></progress>
               </div>
               <div className="text-center">
@@ -418,7 +426,15 @@ export default function StatusPage() {
             bordered
           >
             <div className="space-y-3">
-              {Object.entries(lighthouse).map(([key, data]) => (
+              {!hasLighthouseData ? (
+                <div className="text-center py-4">
+                  <p className="text-base-content/70 mb-2">Run Lighthouse in Chrome DevTools to get your scores</p>
+                  <p className="text-sm text-base-content/50">{projectConfig.lighthouse.note}</p>
+                  {projectConfig.project.isTemplate && (
+                    <p className="text-xs text-warning mt-2">After forking, update /src/config/project-status.json with your scores</p>
+                  )}
+                </div>
+              ) : Object.entries(lighthouse).map(([key, data]) => (
                 <div key={key}>
                   <div className="flex justify-between mb-1">
                     <div className="flex items-center gap-1">
@@ -724,14 +740,16 @@ export default function StatusPage() {
                 )}
               </div>
               <div className="flex gap-2">
-                <label className="swap swap-flip">
+                <label className="swap swap-flip" aria-label="Toggle auto-refresh for PWA tests">
                   <input 
                     type="checkbox" 
                     checked={autoRefresh}
                     onChange={(e) => setAutoRefresh(e.target.checked)}
+                    aria-checked={autoRefresh}
+                    role="switch"
                   />
-                  <div className="swap-on">🟢</div>
-                  <div className="swap-off">⭕</div>
+                  <div className="swap-on" aria-hidden="true">🟢</div>
+                  <div className="swap-off" aria-hidden="true">⭕</div>
                 </label>
                 <button 
                   className={`btn btn-sm ${
@@ -894,6 +912,22 @@ export default function StatusPage() {
               </ul>
             </div>
           </div>
+          {projectConfig.project.isTemplate && (
+            <div className="alert alert-info mt-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <p className="text-sm font-semibold">Fork Configuration</p>
+                <p className="text-xs">After forking, update /src/config/project-status.json with your project details:</p>
+                <ul className="text-xs mt-1 space-y-0.5">
+                  {projectConfig.customization.recommendedActions.map((action, i) => (
+                    <li key={i}>• {action}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
         </Card>
       </div>
     </main>

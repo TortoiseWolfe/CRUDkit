@@ -1,0 +1,72 @@
+{
+  "project": {
+    "name": "CRUDkit",
+    "description": "Modern Next.js Starter with PWA",
+    "repository": "https://github.com/TortoiseWolfe/CRUDkit",
+    "startDate": "2025-09-10",
+    "isTemplate": true
+  },
+  "features": [
+    {
+      "name": "Next.js 15.5 Setup",
+      "completed": true,
+      "description": "Modern React framework with App Router"
+    },
+    {
+      "name": "32 Theme System",
+      "completed": true,
+      "description": "DaisyUI themes with persistent selection"
+    },
+    {
+      "name": "PWA Support",
+      "completed": true,
+      "description": "Installable app with offline support"
+    },
+    {
+      "name": "Component Library",
+      "completed": true,
+      "description": "Atomic design pattern components"
+    },
+    {
+      "name": "Storybook Integration",
+      "completed": true,
+      "description": "Component documentation and testing"
+    },
+    {
+      "name": "Status Dashboard",
+      "completed": true,
+      "description": "Real-time monitoring and metrics"
+    },
+    {
+      "name": "Accessibility Controls",
+      "completed": true,
+      "description": "Font size and spacing adjustments"
+    },
+    {
+      "name": "Web Vitals Monitoring",
+      "completed": true,
+      "description": "Core Web Vitals tracking"
+    }
+  ],
+  "lighthouse": {
+    "lastTested": null,
+    "scores": {
+      "performance": null,
+      "accessibility": null,
+      "bestPractices": null,
+      "seo": null,
+      "pwa": null
+    },
+    "note": "Run Lighthouse in Chrome DevTools to get your actual scores"
+  },
+  "customization": {
+    "instructions": "Update this file after forking to reflect your project's status",
+    "recommendedActions": [
+      "Change project.name to your project name",
+      "Update project.repository to your GitHub URL",
+      "Set project.startDate to your fork date",
+      "Update features list as you add/remove features",
+      "Set isTemplate to false for your fork"
+    ]
+  }
+}

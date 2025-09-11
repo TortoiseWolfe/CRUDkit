@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PWAInstall from "@/components/PWAInstall";
 import ThemeScript from "@/components/ThemeScript";
+import ResourceHints from "@/components/ResourceHints";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 
 const geistSans = Geist({
@@ -42,6 +43,15 @@ export const metadata: Metadata = {
     title: "CRUDkit - Modern Web Starter",
     description: "A comprehensive starter kit with themes, components, and PWA features",
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#1f2937' },
+  ],
   other: {
     'Cache-Control': 'no-cache, no-store, must-revalidate',
     'Pragma': 'no-cache',
@@ -58,6 +68,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <ResourceHints />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
