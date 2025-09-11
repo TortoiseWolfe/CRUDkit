@@ -1,43 +1,51 @@
 #!/bin/bash
 
-# Script to feed spec.md to spec-kit and generate implementation plan
+# Script to help with spec-kit workflow
 
 echo "======================================"
-echo "CRUDkit Plan Generation with Spec-Kit"
+echo "CRUDkit Spec-Kit Workflow Guide"
 echo "======================================"
 echo ""
-echo "This script will:"
-echo "1. Initialize a spec-kit project"
-echo "2. Use the spec.md as input"
-echo "3. Generate an implementation plan"
+echo "IMPORTANT: Spec-Kit uses TWO different command systems:"
+echo ""
+echo "1. CLI Tool (specify) - ONLY for project initialization:"
+echo "   specify init crudkit --here --ai claude"
+echo ""
+echo "2. AI Assistant Commands - Used in Claude/Copilot chat:"
+echo "   /specify - Generate specification from requirements"
+echo "   /plan    - Create technical implementation plan"
+echo "   /tasks   - Break down plan into actionable tasks"
 echo ""
 
-# Initialize spec-kit project if not already done
+# Check if spec-kit project is initialized
 if [ ! -f ".specify/config.json" ]; then
-    echo "Initializing spec-kit project..."
-    specify init crudkit --here <<EOF
-y
-2
-EOF
+    echo "---------------------------------------"
+    echo "Spec-kit project not initialized."
+    echo ""
+    echo "To initialize (optional, one-time setup):"
+    echo "   docker compose exec speckit specify init crudkit --here --ai claude"
+    echo ""
 fi
 
+echo "---------------------------------------"
+echo "WORKFLOW:"
 echo ""
-echo "Spec-kit is ready. Now you can:"
+echo "1. In your AI assistant (Claude, Copilot, etc.), use:"
+echo "   /specify Create specification based on constitution.md"
 echo ""
-echo "1. Enter the container:"
-echo "   docker-compose exec speckit bash"
+echo "2. Save the generated spec to: spec.md"
 echo ""
-echo "2. Use spec-kit commands with the spec.md file:"
-echo "   - Review the spec: cat spec.md"
-echo "   - Generate tasks based on the spec"
-echo "   - Create implementation plan"
+echo "3. Then use:"
+echo "   /plan Generate technical plan from spec.md"
+echo ""
+echo "4. Finally use:"
+echo "   /tasks Break down plan into actionable tasks"
 echo ""
 echo "The spec.md contains:"
 echo "- Complete system architecture"
-echo "- 12 theme specifications"
-echo "- PWA implementation details"
+echo "- Sprint requirements and priorities"
+echo "- Technical implementation details"
 echo "- Testing strategies"
 echo "- Security requirements"
-echo "- CI/CD pipeline configuration"
 echo ""
-echo "Ready to generate the implementation plan!"
+echo "Remember: /specify, /plan, /tasks are AI CHAT commands, NOT bash commands!"

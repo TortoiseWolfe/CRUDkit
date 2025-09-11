@@ -312,25 +312,26 @@ docker compose exec crudkit pnpm run build
 ```
 
 #### Step 3: Spec-Kit Workflow (Sprint Planning)
+
+**IMPORTANT: Understanding Spec-Kit Commands**
+- **CLI Tool (`specify`)**: ONLY for project initialization
+- **AI Commands**: `/specify`, `/plan`, `/tasks` are used IN AI CHAT (Claude, Copilot, Gemini)
+
+**Using AI Assistant Commands (in Claude/Copilot chat, NOT terminal):**
+```
+# In your AI assistant conversation, use these commands:
+/specify Create Sprint-2 specification based on constitution.md
+/plan Generate technical implementation plan from spec.md
+/tasks Break down plan into actionable tasks
+
+# The AI will generate the files for you to save
+```
+
+**Optional: Initialize Spec-Kit Project (one-time setup):**
 ```bash
-# Navigate to spec-kit directory
+# Only if you need to initialize project structure
 cd docs/spec-kit
-
-# Start the speckit container
-docker compose up -d speckit
-
-# Enter the speckit container
-docker compose exec speckit bash
-
-# Inside container, use specify commands:
-# Generate spec from constitution
-specify generate spec < ../constitution.md > spec-output.md
-
-# Generate technical plan from spec
-specify generate plan < spec.md > plan-output.md
-
-# Generate task list from plan
-specify generate tasks < PLAN.md > TASKS.md
+docker compose exec speckit specify init crudkit --here --ai claude
 ```
 
 **Important Files:**
@@ -394,22 +395,25 @@ services:
 
 ### Quick Reference: Spec-Kit Commands
 
-**From root directory:**
-```bash
-# Start both containers
-docker compose up -d
-cd docs/spec-kit && docker compose up -d speckit && cd ../..
+**Understanding the Two Systems:**
+1. **Docker Containers**: crudkit (main dev) and speckit (optional, for init only)
+2. **AI Commands**: Used in Claude/Copilot chat, NOT in terminal
+
+**AI Assistant Commands (use in chat interface):**
+```
+/specify [description]  # Generate specification
+/plan [requirements]    # Create technical plan
+/tasks                  # Break down into tasks
 ```
 
-**Inside speckit container:**
+**CLI Commands (optional, in terminal):**
 ```bash
-# Initialize project (only needed once)
-specify init crudkit --here
+# Start development container
+docker compose up -d
 
-# Generate specifications
-specify generate spec < ../constitution.md > new-spec.md
-specify generate plan < spec.md > new-plan.md
-specify generate tasks < PLAN.md > new-tasks.md
+# Optional: Initialize spec-kit project structure
+cd docs/spec-kit
+docker compose exec speckit specify init crudkit --here --ai claude
 ```
 
 **Key Paths:**

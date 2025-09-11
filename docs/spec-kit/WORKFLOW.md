@@ -51,15 +51,17 @@ cat docs/spec-kit/archive/sprint-XXX/SPRINT_SUMMARY.md
 ### 2. Specification Phase (Day 1-2)
 **Generate New Spec**
 ```bash
-# In Docker container
+# Navigate to spec-kit directory
 cd docs/spec-kit
-docker compose exec speckit bash
+```
 
-# Create new specification
-"Claude, create a new spec.md for sprint-002 focusing on [features]"
+**Use AI Assistant Commands (in Claude, Copilot, etc.)**
+```
+# Ask your AI assistant to generate a specification
+/specify Create Sprint-002 specification based on constitution.md focusing on [features]
 
-# Generate with Spec Kit
-specify generate spec < spec.md > spec-output.md
+# The AI will generate a structured spec.md file
+# Save the output to docs/spec-kit/spec.md
 ```
 
 **Human Review Point** 🔍
@@ -69,12 +71,12 @@ specify generate spec < spec.md > spec-output.md
 
 ### 3. Planning Phase (Day 2)
 **Generate Technical Plan**
-```bash
-# Ask Claude to create plan
-"Claude, read spec-output.md and create PLAN.md"
+```
+# Use AI assistant command
+/plan Create technical implementation plan based on spec.md
 
-# Generate with Spec Kit
-specify generate plan < PLAN.md > plan-output.md
+# The AI will generate a detailed PLAN.md
+# Review and save to docs/spec-kit/PLAN.md
 ```
 
 **Human Review Point** 🔍
@@ -84,12 +86,12 @@ specify generate plan < PLAN.md > plan-output.md
 
 ### 4. Task Generation (Day 2-3)
 **Generate Task List**
-```bash
-# Ask Claude to create tasks
-"Claude, break down plan-output.md into TASKS.md"
+```
+# Use AI assistant command
+/tasks Break down PLAN.md into actionable tasks
 
-# Generate with Spec Kit
-specify generate tasks < TASKS.md
+# The AI will generate TASKS.md with numbered items
+# Review and save to docs/spec-kit/TASKS.md
 ```
 
 **Human Review Point** 🔍
@@ -154,16 +156,24 @@ docker compose up -d
 docker compose exec speckit bash
 ```
 
-### Spec Kit Commands
-```bash
-# Initialize new project
-specify init PROJECT_NAME --here
+### Spec Kit CLI vs AI Assistant Commands
 
-# Generate phases
-specify generate spec < spec.md > output.md
-specify generate plan < PLAN.md > output.md
-specify generate tasks < TASKS.md
+#### CLI Tool (specify)
+```bash
+# Initialize new project only
+specify init PROJECT_NAME --here
+specify init PROJECT_NAME --ai claude  # Specify AI assistant
 ```
+
+#### AI Assistant Commands (Claude, Copilot, Gemini)
+```
+# These are used in your AI chat interface, NOT in terminal:
+/specify [description]  # Generate specification
+/plan [requirements]    # Create technical plan  
+/tasks                  # Break down into tasks
+```
+
+**IMPORTANT**: The `specify` CLI tool only initializes projects. All spec/plan/task generation is done through AI assistant commands in your chat interface.
 
 ### Claude Code Integration
 ```bash
