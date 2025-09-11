@@ -302,6 +302,13 @@ export default function StatusPage() {
       const response = await fetch(apiUrl);
       
       if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error('Rate limit exceeded. Please wait a moment and try again.');
+        } else if (response.status === 403) {
+          throw new Error('API key required for frequent testing. Please wait and retry.');
+        } else if (response.status === 400) {
+          throw new Error('Invalid URL or request. Please check the site is accessible.');
+        }
         throw new Error(`PageSpeed API error: ${response.status} ${response.statusText}`);
       }
       
@@ -538,6 +545,10 @@ export default function StatusPage() {
                   <p className="text-base-content/70 mb-2">No Lighthouse scores yet</p>
                   <p className="text-sm text-base-content/50">Click &quot;Run Test&quot; to analyze this page with Google PageSpeed Insights</p>
                   <p className="text-xs text-info mt-2">Tests run against the live production site</p>
+                  <div className="text-xs text-warning mt-4 space-y-1">
+                    <p>⚠️ Note: PageSpeed API has rate limits (few tests per minute)</p>
+                    <p>Alternative: Visit <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="link">PageSpeed Insights</a> directly</p>
+                  </div>
                 </div>
               ) : Object.entries(lighthouse).map(([key, data]) => (
                 <div key={key}>
