@@ -13,18 +13,25 @@ export default function PWAInstall() {
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Register service worker
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+    // Register service worker (enabled in development for testing)
+    if ('serviceWorker' in navigator) {
+      // Skip in test environments
+      if (process.env.NODE_ENV === 'test') return;
+      
       window.addEventListener('load', () => {
-        // Use basePath for GitHub Pages
+        // Use basePath for GitHub Pages in production, root path in dev
         const swPath = process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
+        
+        console.log(`[PWA] Registering Service Worker from: ${swPath}`);
         
         // Add timestamp to force update
         const swUrl = `${swPath}?v=${Date.now()}`;
         
         navigator.serviceWorker.register(swUrl).then(
           (registration) => {
-            console.log('Service Worker registered:', registration);
+            console.log('[PWA] Service Worker registered:', registration);
+            console.log('[PWA] SW Scope:', registration.scope);
+            console.log('[PWA] SW State:', registration.active?.state || 'installing');
             
             // Force update check
             registration.update().catch(err => console.log('SW update failed:', err));
@@ -35,10 +42,12 @@ export default function PWAInstall() {
             }, 60000); // Check every minute
           },
           (error) => {
-            console.log('Service Worker registration failed:', error);
+            console.error('[PWA] Service Worker registration failed:', error);
           }
         );
       });
+    } else {
+      console.log('[PWA] Service Worker not supported in this browser');
     }
 
     // Check if app is already installed
@@ -49,6 +58,7 @@ export default function PWAInstall() {
 
     // Listen for install prompt
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('[PWA] Install prompt captured');
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShowInstallButton(true);
