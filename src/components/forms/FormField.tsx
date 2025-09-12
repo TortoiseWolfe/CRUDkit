@@ -71,18 +71,22 @@ export const FormField: React.FC<FormFieldProps> = ({
 
       {/* Clone children and add ARIA attributes */}
       {React.isValidElement(children)
-        ? React.cloneElement(children as React.ReactElement, {
-            id: name,
-            'aria-invalid': !!error,
-            'aria-describedby':
-              [error && errorId, helpText && helpId]
-                .filter(Boolean)
-                .join(' ') || undefined,
-            'aria-required': required,
-            className: `${(children as React.ReactElement).props?.className || ''} ${
-              error ? 'input-error' : ''
-            }`,
-          })
+        ? React.cloneElement(
+            children as React.ReactElement<{ className?: string }>,
+            {
+              id: name,
+              'aria-invalid': !!error,
+              'aria-describedby':
+                [error && errorId, helpText && helpId]
+                  .filter(Boolean)
+                  .join(' ') || undefined,
+              'aria-required': required,
+              className: `${
+                (children as React.ReactElement<{ className?: string }>).props
+                  ?.className || ''
+              } ${error ? 'input-error' : ''}`,
+            }
+          )
         : children}
 
       {/* Help text */}
