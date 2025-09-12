@@ -44,7 +44,7 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - Real-time Web Vitals tracking
 - Dynamic Lighthouse testing via PageSpeed API
 - PWA feature testing with comprehensive suite
-- Health check endpoint at `/api/health` for Docker monitoring
+- Docker health monitoring via main page check
 - TASKS.md progress tracking (auto-updated)
 - GitHub Actions CI/CD with automated testing
 - Interactive status dashboard at `/status`
@@ -178,7 +178,7 @@ See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where cont
 
 ## 📈 Project Status
 
-**Overall Progress**: 70% Complete (113/161 tasks)
+**Overall Progress**: 74% Complete (119/161 tasks)
 
 **Sprint 1**: ✅ Complete (95/96 tasks - 99%)
 
@@ -188,11 +188,11 @@ See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where cont
 - ✅ **Phase 3**: Component gallery with atomic design
 - ✅ **Phase 4**: PWA features with comprehensive testing
 
-**Sprint 2**: 🚧 In Progress (18/65 tasks - 28%)
+**Sprint 2**: 🚧 In Progress (24/65 tasks - 37%)
 
 - ✅ **Phase 1**: Testing Foundation (Vitest, Husky, CI/CD)
 - ✅ **Phase 2 Week 3**: Developer Experience (Prettier, Docker tools)
-- ⏳ **Phase 2 Week 4**: Dependabot and error handling
+- ✅ **Phase 2 Week 4**: Dependabot and error handling
 - ⏳ **Phase 3**: First Simple Feature (Dice component)
 - ⏳ **Phase 4**: Quality Baseline (Zod validation, security)
 - ⏳ **Phase 5**: Foundation Completion (health checks, Pa11y)
