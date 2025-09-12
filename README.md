@@ -191,8 +191,7 @@ See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where cont
 **Sprint 2**: 🚧 In Progress (24/65 tasks - 37%)
 
 - ✅ **Phase 1**: Testing Foundation (Vitest, Husky, CI/CD)
-- ✅ **Phase 2 Week 3**: Developer Experience (Prettier, Docker tools)
-- ✅ **Phase 2 Week 4**: Dependabot and error handling
+- ✅ **Phase 2**: Developer Experience (Prettier, Dependabot, Error handling)
 - ⏳ **Phase 3**: First Simple Feature (Dice component)
 - ⏳ **Phase 4**: Quality Baseline (Zod validation, security)
 - ⏳ **Phase 5**: Foundation Completion (health checks, Pa11y)
