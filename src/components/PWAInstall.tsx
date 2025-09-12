@@ -11,6 +11,7 @@ export default function PWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   
   // Check debug mode immediately
   const [isDebugMode] = useState(() => {
@@ -103,13 +104,24 @@ export default function PWAInstall() {
     setShowInstallButton(false);
   };
 
-  const handleDismiss = () => {
+  const handleMinimize = () => {
+    setIsMinimized(true);
+    // Store minimized state in localStorage
+    localStorage.setItem('pwa-install-minimized', 'true');
+  };
+  
+  const handleExpand = () => {
+    setIsMinimized(false);
+    localStorage.removeItem('pwa-install-minimized');
+  };
+  
+  const handleHideForever = () => {
     setShowInstallButton(false);
-    // Store dismissal in localStorage
+    // Store permanent dismissal
     localStorage.setItem('pwa-install-dismissed', 'true');
   };
 
-  // Don't show if already dismissed (unless in debug mode)
+  // Check localStorage for previous state
   useEffect(() => {
     // Check for debug mode
     const urlParams = new URLSearchParams(window.location.search);
@@ -118,10 +130,14 @@ export default function PWAInstall() {
     if (debugMode) {
       console.log('[PWA] Debug mode enabled - forcing install prompt to show');
       setShowInstallButton(true);
+      setIsMinimized(false);
       // Clear dismissal in debug mode
       localStorage.removeItem('pwa-install-dismissed');
+      localStorage.removeItem('pwa-install-minimized');
     } else if (localStorage.getItem('pwa-install-dismissed') === 'true') {
       setShowInstallButton(false);
+    } else if (localStorage.getItem('pwa-install-minimized') === 'true') {
+      setIsMinimized(true);
     }
   }, []);
 
@@ -148,6 +164,25 @@ export default function PWAInstall() {
     console.log('[PWA Debug] deferredPrompt:', deferredPrompt);
   }
 
+  // Minimized CTA button
+  if (isMinimized && !isInstalled) {
+    return (
+      <div className="fixed bottom-4 right-4 z-50">
+        <button
+          onClick={handleExpand}
+          className="btn btn-circle btn-primary btn-lg shadow-lg hover:shadow-xl transform hover:scale-110 transition-all"
+          aria-label="Install CRUDkit App"
+          title="Install CRUDkit App"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
+  // Full alert UI
   return (
     <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto md:max-w-lg z-50">
       <div className="alert alert-info shadow-lg text-base">
@@ -163,11 +198,22 @@ export default function PWAInstall() {
           </p>
         </div>
         <div className="flex gap-2">
+          <div className="dropdown dropdown-top dropdown-end">
+            <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              </svg>
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mb-2">
+              <li><a onClick={handleMinimize}>Minimize</a></li>
+              <li><a onClick={handleHideForever}>Don&apos;t show again</a></li>
+            </ul>
+          </div>
           <button 
-            onClick={handleDismiss}
+            onClick={handleMinimize}
             className="btn btn-sm btn-ghost text-sm"
           >
-            Not now
+            Later
           </button>
           <button 
             onClick={handleInstallClick}
