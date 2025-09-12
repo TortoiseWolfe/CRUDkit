@@ -42,6 +42,8 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
   - NPC opponents with difficulty levels (Easy/Medium/Hard)
   - Drag-and-drop dice locking mechanics
   - Player name persistence with localStorage
+- Form validation system with Zod schemas
+- Reusable form components with built-in validation
 - Fully documented in Storybook
 
 ### 📊 Monitoring & Analytics
@@ -58,11 +60,22 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 
 - Vitest unit testing framework
 - React Testing Library for component tests
-- 73 passing tests across 6 test suites
+- 111 passing tests across 8 test suites
 - Coverage reporting with thresholds
 - Prettier code formatting with Tailwind CSS plugin
-- Husky pre-commit hooks with lint-staged
+- Husky pre-commit and pre-push hooks
 - Automated CI/CD pipeline on GitHub Actions
+- Comprehensive validation testing for form schemas
+
+### 🔒 Security
+
+- Zod runtime validation for all user inputs
+- Content Security Policy (CSP) headers configured
+- Security documentation in SECURITY.md
+- Regular dependency audits with `pnpm audit`
+- Pre-push hooks ensure tests pass before deployment
+- TypeScript strict mode for type safety
+- Secure form handling with validation and sanitization
 
 ### 🏆 Lighthouse Scores
 
@@ -78,9 +91,10 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - **UI**: React 19.1.0
 - **Styling**: Tailwind CSS + DaisyUI
 - **TypeScript**: 5.x with strict mode
+- **Validation**: Zod 3.24.1 for runtime validation
 - **Testing**: Vitest, React Testing Library, @vitest/coverage-v8
 - **Code Quality**: Prettier 3.6.2 with Tailwind plugin
-- **CI/CD**: GitHub Actions, Husky pre-commit hooks
+- **CI/CD**: GitHub Actions, Husky git hooks
 - **Deployment**: GitHub Pages
 - **Documentation**: Storybook 9.1.5
 
