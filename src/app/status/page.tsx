@@ -31,6 +31,79 @@ interface LighthouseMetric {
   };
 }
 
+// Helper component for consistent tooltips
+const InfoTooltip = ({ 
+  title, 
+  description, 
+  whyItMatters, 
+  howToImprove,
+  learnMore,
+  position = 'auto',
+  size = 'normal' 
+}: { 
+  title: string;
+  description: string;
+  whyItMatters?: string;
+  howToImprove?: string | string[];
+  learnMore?: string;
+  position?: 'auto' | 'left' | 'right' | 'top' | 'bottom' | 'end';
+  size?: 'normal' | 'compact';
+}) => {
+  // Determine dropdown direction class
+  const positionClass = position === 'auto' ? '' : 
+    position === 'left' ? 'dropdown-left' :
+    position === 'right' ? 'dropdown-right' :
+    position === 'top' ? 'dropdown-top' :
+    position === 'bottom' ? 'dropdown-bottom' :
+    position === 'end' ? 'dropdown-end' : '';
+  
+  // Determine size class
+  const sizeClass = size === 'compact' ? 'w-64' : 'w-80';
+  
+  return (
+    <div className={`dropdown dropdown-hover ${positionClass}`}>
+      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs" aria-label={`Learn more about ${title}`}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <div tabIndex={0} className={`card compact dropdown-content z-[100] bg-base-200 shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl backdrop-brightness-90 border border-base-300 rounded-box ${sizeClass}`}>
+      <div className="card-body">
+        <h3 className="font-semibold text-sm">{title}</h3>
+        <p className="text-xs">{description}</p>
+        {whyItMatters && (
+          <div className="mt-2">
+            <p className="font-semibold text-xs text-info">Why it matters:</p>
+            <p className="text-xs">{whyItMatters}</p>
+          </div>
+        )}
+        {howToImprove && (
+          <div className="mt-2">
+            <p className="font-semibold text-xs text-success">How to improve:</p>
+            {Array.isArray(howToImprove) ? (
+              <ul className="text-xs space-y-0.5">
+                {howToImprove.map((tip, i) => (
+                  <li key={i}>• {tip}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs">{howToImprove}</p>
+            )}
+          </div>
+        )}
+        {learnMore && (
+          <div className="mt-2">
+            <a href={learnMore} target="_blank" rel="noopener noreferrer" className="link link-primary text-xs">
+              Learn more →
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+  );
+};
+
 export default function StatusPage() {
   const [pwaResults, setPwaResults] = useState<PWATestResult[]>([]);
   const [isOnline, setIsOnline] = useState(true);
@@ -352,14 +425,18 @@ export default function StatusPage() {
         if (response.status === 429) {
           // Set a longer cooldown for rate limits
           setRateLimitCooldown(300000); // 5 minutes
-          const errorMsg = `Rate limit exceeded. Using default scores (Performance: ${lighthouseScores.performance}, Accessibility: ${lighthouseScores.accessibility}, Best Practices: ${lighthouseScores.bestPractices}, SEO: ${lighthouseScores.seo}, PWA: ${lighthouseScores.pwa}). You can also test manually at https://pagespeed.web.dev/`;
-          throw new Error(errorMsg);
+          const errorMsg = `Rate limit exceeded. Using default scores. Try again in 5 minutes or test manually at https://pagespeed.web.dev/`;
+          setLighthouseError(errorMsg);
+          return; // Exit gracefully instead of throwing
         } else if (response.status === 403) {
-          throw new Error('API key required for frequent testing. Using cached scores. Visit https://pagespeed.web.dev/ for manual testing.');
+          setLighthouseError('API key required for frequent testing. Using cached scores. Visit https://pagespeed.web.dev/ for manual testing.');
+          return;
         } else if (response.status === 400) {
-          throw new Error('Invalid URL or request. Please check the site is accessible.');
+          setLighthouseError('Invalid URL or request. Please check the site is accessible.');
+          return;
         }
-        throw new Error(`PageSpeed API error: ${response.status} ${response.statusText}`);
+        setLighthouseError(`PageSpeed API error: ${response.status} ${response.statusText}`);
+        return;
       }
       
       const data = await response.json();
@@ -594,18 +671,56 @@ export default function StatusPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 items-stretch">
           <div className="space-y-6">
-            <Card title="Build Status" bordered>
+            <Card title={
+              <div className="flex items-center gap-2">
+                <span>Build Status</span>
+                <InfoTooltip
+                  title="Build Status"
+                  description="Shows the current health and configuration of your deployed application."
+                  whyItMatters="Knowing your build status helps identify deployment issues and ensures your app is running correctly."
+                  howToImprove={[
+                    "Keep dependencies up to date",
+                    "Monitor error logs regularly",
+                    "Set up automated health checks"
+                  ]}
+                />
+              </div>
+            } bordered>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">Status:</span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-semibold">Status:</span>
+                    <InfoTooltip
+                      title="Deployment Status"
+                      description="Indicates whether your application is currently running without errors."
+                      whyItMatters="Green means users can access your site. Red means immediate attention needed."
+                      howToImprove="Check GitHub Actions logs if status shows errors"
+                    />
+                  </div>
                   <span className="badge badge-success">Operational</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-semibold">Version:</span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-semibold">Version:</span>
+                    <InfoTooltip
+                      title="Application Version"
+                      description="The current version number from package.json. Follows semantic versioning (major.minor.patch)."
+                      whyItMatters="Helps track releases and identify which features are deployed."
+                      howToImprove="Update version before each release using 'npm version'"
+                    />
+                  </div>
                   <span>{buildInfo.version}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-semibold">Environment:</span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-semibold">Environment:</span>
+                    <InfoTooltip
+                      title="Environment Mode"
+                      description="Whether the app is running in development (local) or production (deployed) mode."
+                      whyItMatters="Production mode has optimizations enabled and stricter security."
+                      howToImprove="Always test in production mode before deploying"
+                    />
+                  </div>
                   <span className="capitalize">{buildInfo.environment}</span>
                 </div>
               </div>
@@ -631,6 +746,12 @@ export default function StatusPage() {
                             <p>🟢 Good: &lt; 1.8s</p>
                             <p>🟡 Needs work: 1.8s - 3s</p>
                             <p>🔴 Poor: &gt; 3s</p>
+                          </div>
+                          <div className="text-xs mt-2">
+                            <p className="font-semibold">How to improve:</p>
+                            <p>• Reduce server response time</p>
+                            <p>• Eliminate render-blocking resources</p>
+                            <p>• Minimize critical CSS</p>
                           </div>
                         </div>
                       </div>
@@ -659,6 +780,12 @@ export default function StatusPage() {
                             <p>🔴 Poor: &gt; 4s</p>
                             <p className="mt-1 italic">Users may leave if this takes &gt; 4 seconds</p>
                           </div>
+                          <div className="text-xs mt-2">
+                            <p className="font-semibold">How to improve:</p>
+                            <p>• Optimize images (use WebP, lazy loading)</p>
+                            <p>• Use CDN for assets</p>
+                            <p>• Reduce JavaScript execution time</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -685,6 +812,12 @@ export default function StatusPage() {
                             <p>🟡 Needs work: 0.1 - 0.25</p>
                             <p>🔴 Poor: &gt; 0.25</p>
                             <p className="mt-1 italic">Lower scores mean less annoying jumps</p>
+                          </div>
+                          <div className="text-xs mt-2">
+                            <p className="font-semibold">How to improve:</p>
+                            <p>• Set size attributes on images/videos</p>
+                            <p>• Avoid inserting content above existing content</p>
+                            <p>• Use CSS transform instead of position changes</p>
                           </div>
                         </div>
                       </div>
@@ -713,6 +846,12 @@ export default function StatusPage() {
                             <p>🔴 Poor: &gt; 1.8s</p>
                             <p className="mt-1 italic">Indicates server response speed</p>
                           </div>
+                          <div className="text-xs mt-2">
+                            <p className="font-semibold">How to improve:</p>
+                            <p>• Use a CDN to serve content closer to users</p>
+                            <p>• Optimize database queries</p>
+                            <p>• Enable server-side caching</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -737,6 +876,18 @@ export default function StatusPage() {
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <span>PWA Feature Tests</span>
+                    <InfoTooltip
+                      title="Progressive Web App Features"
+                      description="Tests whether your app can be installed like a native app and work offline."
+                      whyItMatters="PWAs provide app-like experience, work offline, and can be installed on phones/desktops without app stores."
+                      howToImprove={[
+                        "Ensure manifest.json is properly configured",
+                        "Register a service worker for offline support",
+                        "Add proper app icons (192x192 and 512x512)",
+                        "Use HTTPS in production"
+                      ]}
+                      learnMore="https://web.dev/progressive-web-apps/"
+                    />
                     {autoRefresh && (
                       <span className="badge badge-success badge-sm animate-pulse">
                         Live Monitoring
@@ -801,23 +952,30 @@ export default function StatusPage() {
                       <div className="stat-value text-error text-2xl">{pwaTestSummary.failed}</div>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    {lastTestTime && (
-                      <div className="text-sm text-base-content/50 mb-2">
-                        Last tested: {lastTestTime.toLocaleTimeString()}
-                        {autoRefresh && ' • Auto-refreshing every 30s'}
+                  <details className="collapse collapse-arrow bg-base-200">
+                    <summary className="collapse-title text-sm font-medium">
+                      <div className="flex items-center justify-between">
+                        <span>View Test Details</span>
+                        {lastTestTime && (
+                          <span className="text-xs text-base-content/60">
+                            Last tested: {lastTestTime.toLocaleTimeString()}
+                            {autoRefresh && ' • Auto-refreshing every 30s'}
+                          </span>
+                        )}
                       </div>
-                    )}
-                    {pwaResults.map((result, index) => (
-                      <div key={index} className="flex items-start gap-2">
-                        <span>{getStatusIcon(result.status)}</span>
-                        <div className="flex-1">
-                          <Text variant="small" className="font-semibold">{result.feature}</Text>
-                          <Text variant="small" className="text-base-content/70">{result.message}</Text>
+                    </summary>
+                    <div className="collapse-content space-y-2 overflow-visible">
+                      {pwaResults.map((result, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <span>{getStatusIcon(result.status)}</span>
+                          <div className="flex-1">
+                            <Text variant="small" className="font-semibold">{result.feature}</Text>
+                            <Text variant="small" className="text-base-content/70">{result.message}</Text>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  </details>
                 </>
               ) : (
                 <p className="text-center text-base-content/50 py-8">
@@ -827,9 +985,25 @@ export default function StatusPage() {
             </Card>
           </div>
 
-          <div className="space-y-6">
-            <Card title="Project Progress" bordered>
-              <div className="space-y-4">
+          <div className="space-y-6 overflow-visible">
+            <Card title={
+              <div className="flex items-center gap-2">
+                <span>Project Progress</span>
+                <InfoTooltip
+                  title="Task Completion Tracking"
+                  description="Shows progress through development sprints and tasks defined in TASKS.md."
+                  whyItMatters="Helps track project velocity and identify bottlenecks in development."
+                  howToImprove={[
+                    "Update TASKS.md as you complete items",
+                    "Break large tasks into smaller chunks",
+                    "Review and adjust sprint goals regularly"
+                  ]}
+                  position="end"
+                  size="compact"
+                />
+              </div>
+            } bordered>
+              <div className="space-y-4 overflow-visible">
               {/* Single combined progress display */}
               <div>
                 <div className="flex justify-between items-center mb-2">
@@ -867,44 +1041,179 @@ export default function StatusPage() {
               
               {/* Sprint 1 Phases - Collapsed by default */}
               {taskProgress?.phases && Object.keys(taskProgress.phases).length > 0 && (
-                <details className="collapse collapse-arrow bg-base-200">
+                <details className="collapse collapse-arrow bg-base-200 overflow-visible">
                   <summary className="collapse-title text-sm font-medium">
-                    Sprint 1 Phases ✅ (All Complete)
+                    <div className="flex items-center gap-2">
+                      <span>Sprint 1 Phases ✅ (All Complete)</span>
+                      <InfoTooltip
+                        title="Sprint 1: Core Implementation"
+                        description="The foundational sprint that established the project infrastructure, component system, and deployment pipeline."
+                        whyItMatters="These phases created the base architecture that all future features build upon."
+                        howToImprove={[
+                          "Review completed tasks for lessons learned",
+                          "Document any technical debt identified",
+                          "Use as reference for future sprints"
+                        ]}
+                        position="end"
+                        size="compact"
+                      />
+                    </div>
                   </summary>
-                  <div className="collapse-content space-y-2">
-                    {Object.entries(taskProgress.phases).map(([phase, info]) => (
-                      <div key={`s1-${phase}`} className="flex items-start gap-2 text-sm">
-                        <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
-                          {info.complete ? '✅' : '⭕'}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <span className="font-medium whitespace-nowrap">{phase}:</span>
-                          <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                  <div className="collapse-content space-y-2 overflow-visible">
+                    {Object.entries(taskProgress.phases).map(([phase, info]) => {
+                      // Define phase-specific tooltips
+                      const phaseTooltips: Record<string, { title: string; description: string; whyItMatters: string; tasks?: string }> = {
+                        'Phase 0': {
+                          title: 'Initial Setup & Deployment',
+                          description: 'Docker environment, Next.js 15.5 setup, and GitHub Pages deployment pipeline.',
+                          whyItMatters: 'Establishes the development environment and ensures the app is accessible online from day one.',
+                          tasks: '20 tasks focused on infrastructure'
+                        },
+                        'Phase 1': {
+                          title: 'Component Documentation System',
+                          description: 'Storybook integration for visual component testing and documentation.',
+                          whyItMatters: 'Enables isolated component development and serves as living documentation for the UI library.',
+                          tasks: '19 tasks for Storybook setup'
+                        },
+                        'Phase 2': {
+                          title: 'Theme & Accessibility System',
+                          description: '32 DaisyUI themes with persistent selection and accessibility controls.',
+                          whyItMatters: 'Provides users with visual customization options and ensures the app is usable by everyone.',
+                          tasks: '19 tasks for theming infrastructure'
+                        },
+                        'Phase 3': {
+                          title: 'Component Gallery',
+                          description: 'Atomic design pattern implementation with reusable UI components.',
+                          whyItMatters: 'Creates a scalable component library that speeds up future development.',
+                          tasks: '19 tasks for component system'
+                        },
+                        'Phase 4': {
+                          title: 'Progressive Web App Features',
+                          description: 'Service worker, offline support, and app installation capabilities.',
+                          whyItMatters: 'Transforms the website into an app-like experience that works offline and can be installed.',
+                          tasks: '19 tasks for PWA implementation'
+                        }
+                      };
+                      
+                      const tooltipInfo = phaseTooltips[phase] || {
+                        title: phase,
+                        description: info.description,
+                        whyItMatters: 'Part of the core implementation sprint.',
+                        tasks: 'Multiple tasks'
+                      };
+                      
+                      return (
+                        <div key={`s1-${phase}`} className="flex items-start gap-2 text-sm">
+                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
+                            {info.complete ? '✅' : '⭕'}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1">
+                              <span className="font-medium whitespace-nowrap">{phase}:</span>
+                              <InfoTooltip
+                                title={tooltipInfo.title}
+                                description={tooltipInfo.description}
+                                whyItMatters={tooltipInfo.whyItMatters}
+                                howToImprove={tooltipInfo.tasks}
+                                position="top"
+                                size="compact"
+                              />
+                              <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </details>
               )}
               
               {/* Sprint 2 Phases - Expanded by default */}
               {taskProgress?.sprint2Phases && Object.keys(taskProgress.sprint2Phases).length > 0 && (
-                <details className="collapse collapse-arrow bg-base-200" open>
+                <details className="collapse collapse-arrow bg-base-200 overflow-visible" open>
                   <summary className="collapse-title text-sm font-medium">
-                    Sprint 2 Phases 🚧 (Not Started)
+                    <div className="flex items-center gap-2">
+                      <span>Sprint 2 Phases 🚧 (Not Started)</span>
+                      <InfoTooltip
+                        title="Sprint 2: Fix the Foundation"
+                        description="A 10-week sprint focused on testing, developer experience, and quality improvements."
+                        whyItMatters="Addresses technical debt and establishes quality standards before adding more features."
+                        howToImprove={[
+                          "Start with Phase 1 testing setup",
+                          "Complete P0 (critical) tasks first",
+                          "Track progress weekly",
+                          "65 total tasks, ~93 hours estimated"
+                        ]}
+                        position="end"
+                        size="compact"
+                      />
+                    </div>
                   </summary>
-                  <div className="collapse-content space-y-2">
-                    {Object.entries(taskProgress.sprint2Phases).map(([phase, info]) => (
-                      <div key={`s2-${phase}`} className="flex items-start gap-2 text-sm">
-                        <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
-                          {info.complete ? '✅' : '⭕'}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <span className="font-medium whitespace-nowrap">{phase}:</span>
-                          <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                  <div className="collapse-content space-y-2 overflow-visible">
+                    {Object.entries(taskProgress.sprint2Phases).map(([phase, info]) => {
+                      // Define Sprint 2 phase-specific tooltips
+                      const phase2Tooltips: Record<string, { title: string; description: string; whyItMatters: string; tasks?: string }> = {
+                        'Phase 1': {
+                          title: 'Testing Foundation',
+                          description: 'Set up Vitest for unit testing, Husky for git hooks, and CI/CD pipeline.',
+                          whyItMatters: 'Catches bugs early and ensures code quality before commits reach production.',
+                          tasks: '12 tasks, ~14.5 hours (Weeks 1-2)'
+                        },
+                        'Phase 2': {
+                          title: 'Developer Experience',
+                          description: 'Add Prettier formatting, fix Docker HMR, set up Dependabot for dependency updates.',
+                          whyItMatters: 'Improves development speed and maintains consistent code style across the team.',
+                          tasks: '12 tasks, ~14 hours (Weeks 3-4)'
+                        },
+                        'Phase 3': {
+                          title: 'First Simple Feature',
+                          description: 'Build a Dice component as a reference implementation with full testing and documentation.',
+                          whyItMatters: 'Establishes patterns for future component development with a simple, testable example.',
+                          tasks: '12 tasks, ~19 hours (Weeks 5-6)'
+                        },
+                        'Phase 4': {
+                          title: 'Quality Baseline',
+                          description: 'Add Zod validation, security headers, and increase test coverage to 25%.',
+                          whyItMatters: 'Protects against security vulnerabilities and ensures data integrity.',
+                          tasks: '12 tasks, ~18.5 hours (Weeks 7-8)'
+                        },
+                        'Phase 5': {
+                          title: 'Foundation Completion',
+                          description: 'Health endpoints, Pa11y accessibility testing, Web Vitals monitoring, and ADRs.',
+                          whyItMatters: 'Ensures the app is accessible, performant, and maintainable long-term.',
+                          tasks: '12 tasks, ~20 hours (Weeks 9-10)'
+                        }
+                      };
+                      
+                      const tooltipInfo = phase2Tooltips[phase] || {
+                        title: phase,
+                        description: info.description,
+                        whyItMatters: 'Part of the foundation improvement sprint.',
+                        tasks: 'Multiple tasks scheduled'
+                      };
+                      
+                      return (
+                        <div key={`s2-${phase}`} className="flex items-start gap-2 text-sm">
+                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
+                            {info.complete ? '✅' : '⭕'}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1">
+                              <span className="font-medium whitespace-nowrap">{phase}:</span>
+                              <InfoTooltip
+                                title={tooltipInfo.title}
+                                description={tooltipInfo.description}
+                                whyItMatters={tooltipInfo.whyItMatters}
+                                howToImprove={tooltipInfo.tasks}
+                                position="top"
+                                size="compact"
+                              />
+                              <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </details>
               )}
@@ -912,7 +1221,19 @@ export default function StatusPage() {
             </Card>
             
             {/* Feature Status moved here */}
-            <Card title="Feature Status" bordered>
+            <Card title={
+              <div className="flex items-center gap-2">
+                <span>Feature Status</span>
+                <InfoTooltip
+                  title="Core Feature Health"
+                  description="Real-time status of key application features and services."
+                  whyItMatters="Quickly identify which parts of your app are working and which need attention."
+                  howToImprove="Set up monitoring for each feature to detect issues early"
+                  position="end"
+                  size="compact"
+                />
+              </div>
+            } bordered>
               <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center justify-between">
@@ -1048,180 +1369,190 @@ export default function StatusPage() {
                 </div>
               ) : (
                 <>
-                  {/* Visual Score Display */}
+                  {/* Visual Score Display with Tooltips */}
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    {Object.entries(lighthouse).slice(0, 4).map(([key, data]) => (
+                    {Object.entries(lighthouse).map(([key, data]) => (
                       <div key={key} className="text-center">
-                        <div className="radial-progress" 
-                             style={{"--value": data.score, "--size": "4rem", "--thickness": "4px"} as React.CSSProperties}
-                             role="progressbar">
-                          <span className="text-sm font-bold">{data.score}</span>
+                        <div className="dropdown dropdown-hover">
+                          <div tabIndex={0} role="button" className="cursor-pointer">
+                            <div className="radial-progress" 
+                                 style={{"--value": data.score, "--size": "4rem", "--thickness": "4px"} as React.CSSProperties}
+                                 role="progressbar">
+                              <span className="text-sm font-bold">{data.score}</span>
+                            </div>
+                            <div className="text-xs mt-1 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                            <div className="text-xs text-base-content/60">{data.description}</div>
+                          </div>
+                          {data.details && (
+                            <div tabIndex={0} className="card compact dropdown-content z-[100] shadow-lg bg-base-200 backdrop-blur-xl border border-base-300 rounded-box w-96">
+                              <div className="card-body max-h-96 overflow-y-auto">
+                                <h3 className="font-bold text-sm">
+                                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')} Score Breakdown ({data.score}/100)
+                                </h3>
+                                
+                                {data.details?.passing && data.details.passing.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="font-semibold text-xs text-success mb-1">What&apos;s Working:</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.passing.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details?.missing && data.details.missing.length > 0 && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-error mb-1">
+                                      What&apos;s Missing {data.score < 100 && `(-${100 - data.score} points)`}:
+                                    </p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.missing.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details?.metrics && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-info mb-1">Key Metrics:</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.metrics.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details.recommendations && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-warning mb-1">Recommendations:</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.recommendations.map((item, i) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details?.security && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-info mb-1">Security Status:</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.security.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details?.notes && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-base-content/70 mb-1">Notes:</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.notes.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                {data.details?.optional && (
+                                  <div className="mt-3">
+                                    <p className="font-semibold text-xs text-warning mb-1">Nice to Have (Optional):</p>
+                                    <ul className="text-xs space-y-0.5">
+                                      {data.details.optional.map((item: string, i: number) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                
+                                <div className="mt-3 pt-2 border-t border-base-300">
+                                  <p className="text-xs italic">
+                                    {data.score === 100 
+                                      ? 'Perfect score! Keep up the great work!' 
+                                      : `Fix the missing items to achieve 100/100`}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div className="text-xs mt-1 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
                       </div>
                     ))}
                   </div>
-                  
-                  {/* Detailed Scores */}
-                  {Object.entries(lighthouse).map(([key, data]) => (
-                <div key={key}>
-                  <div className="flex justify-between mb-1">
-                    <div className="flex items-center gap-1">
-                      <span className="capitalize font-medium text-sm">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                      <span className="text-xs text-base-content/60">{data.description}</span>
-                      {data.details && (
-                        <div className="dropdown dropdown-hover">
-                          <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                          </div>
-                          <div tabIndex={0} className="card compact dropdown-content z-[1] shadow-lg bg-base-100 rounded-box w-96">
-                            <div className="card-body max-h-96 overflow-y-auto">
-                              <h3 className="font-bold text-sm">
-                                {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')} Score Breakdown ({data.score}/100)
-                              </h3>
-                              
-                              {data.details?.passing && data.details.passing.length > 0 && (
-                                <div className="mt-2">
-                                  <p className="font-semibold text-xs text-success mb-1">What&apos;s Working:</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.passing.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details?.missing && data.details.missing.length > 0 && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-error mb-1">
-                                    What&apos;s Missing {data.score < 100 && `(-${100 - data.score} points)`}:
-                                  </p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.missing.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details?.metrics && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-info mb-1">Key Metrics:</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.metrics.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details.recommendations && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-warning mb-1">Recommendations:</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.recommendations.map((item, i) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details?.security && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-info mb-1">Security Status:</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.security.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details?.notes && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-base-content/70 mb-1">Notes:</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.notes.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              {data.details?.optional && (
-                                <div className="mt-3">
-                                  <p className="font-semibold text-xs text-warning mb-1">Nice to Have (Optional):</p>
-                                  <ul className="text-xs space-y-0.5">
-                                    {data.details.optional.map((item: string, i: number) => (
-                                      <li key={i}>{item}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              
-                              <div className="mt-3 pt-2 border-t border-base-300">
-                                <p className="text-xs italic">
-                                  {data.score === 100 
-                                    ? 'Perfect score! Keep up the great work!' 
-                                    : `Fix the missing items to achieve 100/100`}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <span className={data.score >= 90 ? 'text-success font-semibold' : data.score >= 50 ? 'text-warning font-semibold' : 'text-error font-semibold'}>
-                      {data.score}
-                    </span>
-                  </div>
-                  <progress 
-                    className={`progress w-full ${data.score >= 90 ? 'progress-success' : data.score >= 50 ? 'progress-warning' : 'progress-error'}`}
-                    value={data.score} 
-                    max="100"
-                  ></progress>
-                </div>
-              ))}
                 </>
               )}
             </div>
           </Card>
           
           {/* Recent Deployments moved here */}
-          <Card title="Recent Deployments" bordered>
-            <div className="overflow-x-auto">
-              <table className="table table-sm">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Feature</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {deployments.map((deployment, index) => (
-                    <tr key={index}>
-                      <td>{deployment.date}</td>
-                      <td>{deployment.feature}</td>
-                      <td>
-                        <span className={`badge badge-sm ${
-                          deployment.status === 'success' ? 'badge-success' : 'badge-error'
-                        }`}>
-                          {deployment.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <Card title={
+            <div className="flex items-center gap-2">
+              <span>Recent Deployments</span>
+              <InfoTooltip
+                title="Deployment History"
+                description="Shows recent code changes that have been deployed to production."
+                whyItMatters="Track what features were released and when, useful for debugging issues."
+                howToImprove={[
+                  "Use semantic commit messages",
+                  "Tag releases with version numbers",
+                  "Document breaking changes"
+                ]}
+              />
             </div>
+          } bordered>
+            <details className="collapse collapse-arrow bg-base-200">
+              <summary className="collapse-title text-sm font-medium">
+                Show Deployment History ({deployments.length} items)
+              </summary>
+              <div className="collapse-content overflow-visible">
+                <div className="overflow-x-auto">
+                  <table className="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Feature</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {deployments.map((deployment, index) => (
+                        <tr key={index}>
+                          <td>{deployment.date}</td>
+                          <td>{deployment.feature}</td>
+                          <td>
+                            <span className={`badge badge-sm ${
+                              deployment.status === 'success' ? 'badge-success' : 'badge-error'
+                            }`}>
+                              {deployment.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
           </Card>
         </div>
         </div>
 
-        <Card title="System Information" bordered>
+        <Card title={
+          <div className="flex items-center gap-2">
+            <span>System Information</span>
+            <InfoTooltip
+              title="Technical Stack Overview"
+              description="The core technologies and features that power this application."
+              whyItMatters="Understanding your tech stack helps with troubleshooting and planning upgrades."
+              howToImprove="Keep dependencies updated and document any custom configurations"
+              learnMore="https://github.com/TortoiseWolfe/CRUDkit/blob/main/README.md"
+            />
+          </div>
+        } bordered>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <h3 className="font-semibold mb-2">Stack</h3>

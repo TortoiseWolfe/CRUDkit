@@ -11,6 +11,15 @@ export default function PWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  
+  // Check debug mode immediately
+  const [isDebugMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('pwa-debug') === 'true';
+    }
+    return false;
+  });
 
   useEffect(() => {
     // Register service worker (enabled in development for testing)
@@ -100,14 +109,44 @@ export default function PWAInstall() {
     localStorage.setItem('pwa-install-dismissed', 'true');
   };
 
-  // Don't show if already dismissed
+  // Don't show if already dismissed (unless in debug mode)
   useEffect(() => {
-    if (localStorage.getItem('pwa-install-dismissed') === 'true') {
+    // Check for debug mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const debugMode = urlParams.get('pwa-debug') === 'true';
+    
+    if (debugMode) {
+      console.log('[PWA] Debug mode enabled - forcing install prompt to show');
+      setShowInstallButton(true);
+      // Clear dismissal in debug mode
+      localStorage.removeItem('pwa-install-dismissed');
+    } else if (localStorage.getItem('pwa-install-dismissed') === 'true') {
       setShowInstallButton(false);
     }
   }, []);
 
-  if (!showInstallButton || isInstalled) return null;
+  // Check for reset request
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('pwa-reset') === 'true') {
+      console.log('[PWA] Resetting install prompt dismissal');
+      localStorage.removeItem('pwa-install-dismissed');
+      // Remove the query parameter to avoid constant resets
+      const newUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, []);
+
+  // Show if: debug mode is on, OR install button should show and not installed
+  if (!isDebugMode && (!showInstallButton || isInstalled)) return null;
+  
+  // Log debug info
+  if (isDebugMode) {
+    console.log('[PWA Debug] Component rendering in debug mode');
+    console.log('[PWA Debug] showInstallButton:', showInstallButton);
+    console.log('[PWA Debug] isInstalled:', isInstalled);
+    console.log('[PWA Debug] deferredPrompt:', deferredPrompt);
+  }
 
   return (
     <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto md:max-w-lg z-50">
@@ -116,8 +155,12 @@ export default function PWAInstall() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
         <div className="flex-1">
-          <div className="font-bold text-base">Install CRUDkit App</div>
-          <p className="text-sm">Install for offline access and app-like experience!</p>
+          <div className="font-bold text-base">Install CRUDkit App {isDebugMode && '(Debug Mode)'}</div>
+          <p className="text-sm">
+            {isDebugMode 
+              ? 'Debug mode active - Install prompt forced to show' 
+              : 'Install for offline access and app-like experience!'}
+          </p>
         </div>
         <div className="flex gap-2">
           <button 
