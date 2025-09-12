@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export interface CardProps {
   title?: React.ReactNode;
@@ -7,6 +8,8 @@ export interface CardProps {
   image?: {
     src: string;
     alt: string;
+    width?: number;
+    height?: number;
   };
   actions?: React.ReactNode;
   compact?: boolean;
@@ -45,7 +48,13 @@ export const Card: React.FC<CardProps> = ({
     <div className={classes}>
       {image && (
         <figure>
-          <img src={image.src} alt={image.alt} />
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={image.width || 400}
+            height={image.height || 300}
+            className="object-cover"
+          />
         </figure>
       )}
       <div className="card-body">

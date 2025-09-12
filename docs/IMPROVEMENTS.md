@@ -65,17 +65,16 @@ This document tracks optimization opportunities identified through Lighthouse au
 
 ### High Priority
 
-- [ ] **Add maskable app icons** (-2 points)
-  - Create 192x192 PNG icon
-  - Create 512x512 PNG icon
-  - Update manifest.json with proper icon entries
-  - _Estimated effort: Low_
+- [x] **Add maskable app icons** (-2 points) ✅
+  - Created SVG icons (192x192, 512x512)
+  - Updated manifest.json with proper icon entries
+  - _Completed: 2025-09-12_
 
-- [ ] **Add Apple touch icon** (-2 points)
-  - Create apple-touch-icon.png (180x180)
-  - Add to public folder
-  - Add meta tag to layout
-  - _Estimated effort: Low_
+- [x] **Add Apple touch icon** (-2 points) ✅
+  - Created apple-touch-icon.svg (180x180)
+  - Added to public folder
+  - Added meta tag to layout
+  - _Completed: 2025-09-12_
 
 - [ ] **Add app screenshots** (-2 points)
   - Create desktop screenshot (1280x720)
@@ -132,7 +131,7 @@ This document tracks optimization opportunities identified through Lighthouse au
 
 These can be completed in under 30 minutes each:
 
-1. Create and add app icons (PWA +4 points)
+1. ✅ Create and add app icons (PWA +4 points) - **COMPLETE**
 2. Add accessible names to buttons (A11y +1 point)
 3. Improve form labels (A11y +1 point)
 4. Add SRI to external resources (Security +2 points)
@@ -363,7 +362,15 @@ lhci autorun
 
 View real-time metrics at: [/status](/status)
 
-Last audit: 2025-09-11
+Last audit: 2025-09-12
 Next target: All metrics at 95+ by future phases
+
+## Recent Completions (2025-09-12)
+
+- ✅ **Dice Component Suite**: Implemented Dice, DraggableDice, and DiceTray components
+- ✅ **PWA Icons**: Added all required icons in SVG format
+- ✅ **ESLint Fixes**: Resolved all linting warnings
+- ✅ **Test Coverage**: Increased to 58 passing tests across 5 suites
+- ✅ **Sprint 2 Phase 3**: Completed First Simple Feature milestone
 
 **Note**: These features were outlined in constitution.md but not implemented in the initial phases. They represent the full vision for CRUDkit as a production-ready meta-template.

@@ -1,6 +1,20 @@
 {
   "name": "000",
   "version": "0.1.0",
+  "description": "CRUDkit - Modern Next.js starter with PWA, theming, and interactive components",
+  "keywords": [
+    "nextjs",
+    "react",
+    "pwa",
+    "tailwindcss",
+    "daisyui",
+    "starter",
+    "dice",
+    "gaming",
+    "drag-drop",
+    "interactive",
+    "component-library"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",

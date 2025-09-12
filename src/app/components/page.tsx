@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import Text from '@/components/subatomic/Text/Text';
+import Dice from '@/components/atomic/Dice/Dice';
+import DiceTray from '@/components/atomic/DiceTray/DiceTray';
 
 export default function ComponentsPage() {
   return (
@@ -16,7 +18,7 @@ export default function ComponentsPage() {
           Component Gallery
         </Text>
         <Text variant="lead" className="text-base-content/70 mb-12 text-center">
-          Text is the only atomic component we have built so far
+          Interactive atomic components showcase
         </Text>
 
         {/* Text Component Showcase */}
@@ -60,13 +62,51 @@ export default function ComponentsPage() {
           </div>
         </section>
 
+        {/* Dice Component Showcase */}
+        <section className="mb-16">
+          <Text variant="h2" className="mb-6">
+            Dice Component
+          </Text>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <Text variant="h4" className="mb-4">
+                D6 Dice
+              </Text>
+              <Dice sides={6} />
+            </div>
+            <div>
+              <Text variant="h4" className="mb-4">
+                D20 Dice
+              </Text>
+              <Dice sides={20} />
+            </div>
+          </div>
+        </section>
+
+        {/* Dice Tray Component Showcase */}
+        <section className="mb-16">
+          <Text variant="h2" className="mb-6">
+            Dice Tray Component
+          </Text>
+
+          <div className="space-y-6">
+            <DiceTray numberOfDice={5} sides={6} />
+
+            <Text variant="h4" className="mt-8 mb-4">
+              D20 Dice Tray
+            </Text>
+            <DiceTray numberOfDice={3} sides={20} />
+          </div>
+        </section>
+
         <section>
           <Text variant="h2" className="mb-4">
             Next Steps
           </Text>
           <Text variant="body">
-            Build more atomic components following the same pattern as the Text
-            component.
+            Build more atomic components following the same pattern as the Text,
+            Dice, and DiceTray components.
           </Text>
         </section>
       </div>
