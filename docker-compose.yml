@@ -16,7 +16,7 @@ services:
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/']
       interval: 30s
       timeout: 10s
       retries: 3

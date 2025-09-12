@@ -2,8 +2,8 @@ import type { NextConfig } from 'next';
 
 // Detect if we're building for GitHub Pages
 const isGithubPages =
-  process.env.GITHUB_ACTIONS === 'true' ||
-  process.env.NODE_ENV === 'production';
+  process.env['GITHUB_ACTIONS'] === 'true' ||
+  process.env['NODE_ENV'] === 'production';
 const basePath = isGithubPages ? '/CRUDkit' : '';
 
 // Content Security Policy

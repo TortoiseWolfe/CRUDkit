@@ -134,7 +134,13 @@ class ErrorHandler {
     // Already an AppError
     if (error instanceof AppError) {
       if (context) {
-        error.context = { ...error.context, ...context };
+        // Create a new AppError with merged context
+        return new AppError(error.message, {
+          severity: error.severity,
+          category: error.category,
+          context: { ...error.context, ...context },
+          originalError: error.originalError,
+        });
       }
       return error;
     }
