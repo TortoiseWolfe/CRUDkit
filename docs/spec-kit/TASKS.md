@@ -41,14 +41,14 @@ _Completed 2025-09-11 (95/96 tasks)_
 **Sprint 2 Tasks**: 65  
 **Duration**: 10 weeks  
 **Priority**: P0 (Critical Foundation)  
-**Status**: In Progress (36/65 - 55%)
+**Status**: In Progress (45/65 - 69%)
 
 ### Sprint 2 Phases Status
 
 - **Phase 1**: ✅ Complete (Testing Foundation - Vitest, React Testing Library, CI/CD)
 - **Phase 2**: ✅ Complete (Developer Experience - Prettier, Error Handling, Dependabot)
 - **Phase 3**: ✅ Complete (First Simple Feature - Dice components and Captain Ship & Crew game! 🎲)
-- **Phase 4**: ⏳ Not Started (Quality Baseline - Zod validation, security, increased coverage)
+- **Phase 4**: ✅ Complete (Quality Baseline - Zod validation, security, increased coverage)
 - **Phase 5**: ⏳ Not Started (Foundation Completion - Health check, Pa11y, performance)
 
 ## Phase 1: Testing Foundation (Weeks 1-2)
@@ -219,53 +219,53 @@ Document pattern for future components
 
 **T037** 📦 Install Zod  
 `pnpm add zod`  
-**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T038** 📝 Create form schemas  
 Implement `/src/schemas/forms.ts`  
-**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T039** 🔒 Add input validation  
 Apply Zod schemas to forms  
-**Priority**: P0 | **Estimate**: 3hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 3hr | **Status**: [x] Complete
 
 **T040** 🧪 Test validation logic  
 Write tests for schemas  
-**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T041** 📚 Create SECURITY.md  
 Document security policies  
-**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T042** 🔍 Security audit  
 Run `pnpm audit` and fix issues  
-**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [x] Complete
 
 ### Week 8 Tasks
 
 **T043** 🪝 Create pre-push hook  
 Add `.husky/pre-push` for tests  
-**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T044** 📊 Increase coverage target  
 Update threshold to 25%  
-**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T045** 🧪 Add integration tests  
 Test component interactions  
-**Priority**: P1 | **Estimate**: 4hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 4hr | **Status**: [x] Complete
 
 **T046** 📝 Type-check in CI  
 Add TypeScript checking to pipeline  
-**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T047** 🔒 Add CSP headers  
 Verify Content Security Policy  
-**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T048** 📚 Update documentation  
 Reflect new quality standards  
-**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [x] Complete
 
 ## Phase 5: Foundation Completion (Weeks 9-10)
 
@@ -273,75 +273,75 @@ Reflect new quality standards
 
 **T049** 🏥 Create health endpoint  
 Implement `/api/health` route  
-**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T050** 🐳 Update Docker health check  
 Configure proper health monitoring  
-**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T051** ♿ Install Pa11y  
 `pnpm add -D pa11y pa11y-ci`  
-**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T052** 📝 Configure Pa11y  
 Create `.pa11yci.json`  
-**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T053** 🧪 Run accessibility tests  
 Test all main routes  
-**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T054** 🔧 Fix a11y issues  
 Address any failures  
-**Priority**: P1 | **Estimate**: 3hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 3hr | **Status**: [x] Complete
 
 ### Week 10 Tasks
 
 **T055** 📊 Add Web Vitals  
 `pnpm add web-vitals`  
-**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T056** 📝 Implement performance monitoring  
 Create `/src/utils/performance.ts`  
-**Priority**: P1 | **Estimate**: 3hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 3hr | **Status**: [x] Complete
 
 **T057** 🔄 Update CI/CD pipeline  
 Add new checks to GitHub Actions  
-**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T058** 📚 Create ADR template  
 Set up Architecture Decision Records  
-**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T059** 📝 Document Sprint 2 decisions  
 Create ADRs for key choices  
-**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T060** 🧹 Code cleanup  
 Remove dead code and TODOs  
-**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [x] Complete
 
 ## Wrap-up Tasks
 
 **T061** 🧪 Final test coverage check  
 Ensure 25% coverage achieved  
-**Priority**: P0 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T062** 📊 Performance baseline  
 Record current metrics  
-**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T063** 📚 Update all documentation  
 README, CONTRIBUTING, etc.  
-**Priority**: P1 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T064** 🎉 Create Sprint 2 summary  
 Document achievements  
-**Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T065** 📋 Plan Sprint 3  
 Identify next priorities  
-**Priority**: P2 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P2 | **Estimate**: 2hr | **Status**: [x] Complete
 
 ## Task Statistics
 
