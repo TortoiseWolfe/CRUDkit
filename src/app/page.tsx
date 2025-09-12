@@ -424,10 +424,10 @@ export default function Home() {
                       repo!):
                     </p>
 
-                    <details className="collapse-arrow bg-base-200 collapse">
-                      <summary className="collapse-title hover:bg-base-300 cursor-pointer text-sm font-medium">
-                        📖 How to Use Spec Kit with Claude Code (click to
-                        expand)
+                    <details className="collapse-arrow bg-primary/10 border-primary collapse border-2">
+                      <summary className="collapse-title hover:bg-primary/20 text-primary animate-pulse cursor-pointer text-base font-bold">
+                        ✨ 📖 How to Use Spec Kit with Claude Code (START HERE!
+                        👈 Click to expand)
                       </summary>
                       <div className="collapse-content">
                         <div className="space-y-4 pt-4">
