@@ -32,15 +32,15 @@ interface LighthouseMetric {
 }
 
 // Helper component for consistent tooltips
-const InfoTooltip = ({ 
-  title, 
-  description, 
-  whyItMatters, 
+const InfoTooltip = ({
+  title,
+  description,
+  whyItMatters,
   howToImprove,
   learnMore,
   position = 'auto',
-  size = 'normal' 
-}: { 
+  size = 'normal',
+}: {
   title: string;
   description: string;
   whyItMatters?: string;
@@ -50,69 +50,102 @@ const InfoTooltip = ({
   size?: 'normal' | 'compact';
 }) => {
   // Determine dropdown direction class
-  const positionClass = position === 'auto' ? '' : 
-    position === 'left' ? 'dropdown-left' :
-    position === 'right' ? 'dropdown-right' :
-    position === 'top' ? 'dropdown-top' :
-    position === 'bottom' ? 'dropdown-bottom' :
-    position === 'end' ? 'dropdown-end' : '';
-  
+  const positionClass =
+    position === 'auto'
+      ? ''
+      : position === 'left'
+        ? 'dropdown-left'
+        : position === 'right'
+          ? 'dropdown-right'
+          : position === 'top'
+            ? 'dropdown-top'
+            : position === 'bottom'
+              ? 'dropdown-bottom'
+              : position === 'end'
+                ? 'dropdown-end'
+                : '';
+
   // Determine size class
   const sizeClass = size === 'compact' ? 'w-64' : 'w-80';
-  
+
   return (
     <div className={`dropdown dropdown-hover ${positionClass}`}>
-      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs" aria-label={`Learn more about ${title}`}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      <div
+        tabIndex={0}
+        className="btn btn-circle btn-ghost btn-xs"
+        aria-label={`Learn more about ${title}`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          className="h-3 w-3 stroke-current opacity-60"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
         </svg>
       </div>
-      <div tabIndex={0} className={`card compact dropdown-content z-[100] bg-base-200 shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl backdrop-brightness-90 border border-base-300 rounded-box ${sizeClass}`}>
-      <div className="card-body">
-        <h3 className="font-semibold text-sm">{title}</h3>
-        <p className="text-xs">{description}</p>
-        {whyItMatters && (
-          <div className="mt-2">
-            <p className="font-semibold text-xs text-info">Why it matters:</p>
-            <p className="text-xs">{whyItMatters}</p>
-          </div>
-        )}
-        {howToImprove && (
-          <div className="mt-2">
-            <p className="font-semibold text-xs text-success">How to improve:</p>
-            {Array.isArray(howToImprove) ? (
-              <ul className="text-xs space-y-0.5">
-                {howToImprove.map((tip, i) => (
-                  <li key={i}>• {tip}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs">{howToImprove}</p>
-            )}
-          </div>
-        )}
-        {learnMore && (
-          <div className="mt-2">
-            <a href={learnMore} target="_blank" rel="noopener noreferrer" className="link link-primary text-xs">
-              Learn more →
-            </a>
-          </div>
-        )}
+      <div
+        tabIndex={0}
+        className={`card compact dropdown-content bg-base-200 border-base-300 rounded-box z-[100] border shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl backdrop-brightness-90 ${sizeClass}`}
+      >
+        <div className="card-body">
+          <h3 className="text-sm font-semibold">{title}</h3>
+          <p className="text-xs">{description}</p>
+          {whyItMatters && (
+            <div className="mt-2">
+              <p className="text-info text-xs font-semibold">Why it matters:</p>
+              <p className="text-xs">{whyItMatters}</p>
+            </div>
+          )}
+          {howToImprove && (
+            <div className="mt-2">
+              <p className="text-success text-xs font-semibold">
+                How to improve:
+              </p>
+              {Array.isArray(howToImprove) ? (
+                <ul className="space-y-0.5 text-xs">
+                  {howToImprove.map((tip, i) => (
+                    <li key={i}>• {tip}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-xs">{howToImprove}</p>
+              )}
+            </div>
+          )}
+          {learnMore && (
+            <div className="mt-2">
+              <a
+                href={learnMore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link-primary text-xs"
+              >
+                Learn more →
+              </a>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
 export default function StatusPage() {
   const [pwaResults, setPwaResults] = useState<PWATestResult[]>([]);
   const [isOnline, setIsOnline] = useState(true);
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>({
-    FCP: null,
-    LCP: null,
-    CLS: null,
-    TTFB: null
-  });
+  const [performanceMetrics, setPerformanceMetrics] =
+    useState<PerformanceMetrics>({
+      FCP: null,
+      LCP: null,
+      CLS: null,
+      TTFB: null,
+    });
   const [isTestingPWA, setIsTestingPWA] = useState(false);
   const [lastTestTime, setLastTestTime] = useState<Date | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
@@ -134,9 +167,13 @@ export default function StatusPage() {
   });
 
   // Calculate metrics from features
-  const completedFeatures = projectConfig.features.filter(f => f.completed).length;
+  const completedFeatures = projectConfig.features.filter(
+    (f) => f.completed
+  ).length;
   const totalFeatures = projectConfig.features.length;
-  const completionPercentage = Math.round((completedFeatures / totalFeatures) * 100);
+  const completionPercentage = Math.round(
+    (completedFeatures / totalFeatures) * 100
+  );
 
   const [metrics] = useState({
     featuresComplete: completedFeatures,
@@ -154,9 +191,9 @@ export default function StatusPage() {
     pwa: 92,
     timestamp: null as string | null,
     url: 'https://tortoisewolfe.github.io/CRUDkit/',
-    isDefault: true
+    isDefault: true,
   };
-  
+
   const [lighthouseScores, setLighthouseScores] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('lighthouseScores');
@@ -179,12 +216,14 @@ export default function StatusPage() {
     // Return default scores if no valid cache
     return DEFAULT_LIGHTHOUSE_SCORES;
   });
-  
+
   const hasLighthouseData = lighthouseScores.performance > 0;
-  
-  const [lighthouse, setLighthouse] = useState<Record<string, LighthouseMetric>>({
-    performance: { 
-      score: lighthouseScores.performance, 
+
+  const [lighthouse, setLighthouse] = useState<
+    Record<string, LighthouseMetric>
+  >({
+    performance: {
+      score: lighthouseScores.performance,
       description: 'Speed & responsiveness',
       details: {
         passing: [
@@ -194,23 +233,23 @@ export default function StatusPage() {
           '✅ Efficient cache policy',
           '✅ Text remains visible during font load',
           '✅ Minimal main thread work',
-          '✅ Low JavaScript execution time'
+          '✅ Low JavaScript execution time',
         ],
         missing: [
           '❌ Some large JavaScript bundles',
           '❌ Reduce unused JavaScript',
-          '❌ Could improve Time to Interactive'
+          '❌ Could improve Time to Interactive',
         ],
         metrics: [
           '📊 First Contentful Paint: 1.2s',
-          '📊 Speed Index: 2.1s', 
+          '📊 Speed Index: 2.1s',
           '📊 Time to Interactive: 3.5s',
-          '📊 Total Blocking Time: 150ms'
-        ]
-      }
+          '📊 Total Blocking Time: 150ms',
+        ],
+      },
     },
-    accessibility: { 
-      score: lighthouseScores.accessibility, 
+    accessibility: {
+      score: lighthouseScores.accessibility,
       description: 'Usability for all users',
       details: {
         passing: [
@@ -222,21 +261,21 @@ export default function StatusPage() {
           '✅ Focus indicators visible',
           '✅ Semantic HTML used',
           '✅ Language attribute set',
-          '✅ Viewport meta tag configured'
+          '✅ Viewport meta tag configured',
         ],
         missing: [
           '❌ Some buttons missing accessible names',
-          '❌ Form inputs could use better labels'
+          '❌ Form inputs could use better labels',
         ],
         recommendations: [
           '💡 Consider adding skip links',
           '💡 Test with screen readers',
-          '💡 Add focus trap for modals'
-        ]
-      }
+          '💡 Add focus trap for modals',
+        ],
+      },
     },
-    bestPractices: { 
-      score: lighthouseScores.bestPractices, 
+    bestPractices: {
+      score: lighthouseScores.bestPractices,
       description: 'Security & quality',
       details: {
         passing: [
@@ -247,21 +286,21 @@ export default function StatusPage() {
           '✅ No vulnerable libraries detected',
           '✅ Valid source maps',
           '✅ No document.write() usage',
-          '✅ Notification permissions not requested on load'
+          '✅ Notification permissions not requested on load',
         ],
         missing: [
           '❌ Missing Content Security Policy',
-          '❌ No SRI for external scripts'
+          '❌ No SRI for external scripts',
         ],
         security: [
           '🔒 HTTPS enabled',
           '🔒 Secure cookies',
-          '🔒 No mixed content'
-        ]
-      }
+          '🔒 No mixed content',
+        ],
+      },
     },
-    seo: { 
-      score: lighthouseScores.seo, 
+    seo: {
+      score: lighthouseScores.seo,
       description: 'Technical SEO',
       details: {
         passing: [
@@ -275,24 +314,24 @@ export default function StatusPage() {
           '✅ Image alt attributes present',
           '✅ Canonical URL defined',
           '✅ Structured data is valid',
-          '✅ Document has valid hreflang'
+          '✅ Document has valid hreflang',
         ],
         missing: [],
         notes: [
           '📝 Perfect technical SEO score!',
           '📝 This measures technical readiness',
           '📝 NOT search ranking or position',
-          '📝 Content quality still matters'
-        ]
-      }
+          '📝 Content quality still matters',
+        ],
+      },
     },
-    pwa: { 
-      score: lighthouseScores.pwa, 
+    pwa: {
+      score: lighthouseScores.pwa,
       description: 'App capabilities',
       details: {
         passing: [
           '✅ Service Worker registered',
-          '✅ Web App Manifest present', 
+          '✅ Web App Manifest present',
           '✅ HTTPS enabled (production)',
           '✅ Installable as app',
           '✅ Offline caching active',
@@ -300,43 +339,95 @@ export default function StatusPage() {
           '✅ Theme color configured',
           '✅ Background sync enabled',
           '✅ App shortcuts defined',
-          '✅ Responsive viewport'
+          '✅ Responsive viewport',
         ],
         missing: [
           '❌ Maskable app icon (192x192 & 512x512 PNG)',
           '❌ Apple touch icon for iOS',
           '❌ Screenshots not found (referenced in manifest)',
-          '❌ Splash screen not configured'
+          '❌ Splash screen not configured',
         ],
         optional: [
           '💡 Web Share API not implemented',
           '💡 Push notifications not configured',
           '💡 App badging not enabled',
-          '💡 File handling not configured'
-        ]
-      }
+          '💡 File handling not configured',
+        ],
+      },
     },
   });
 
   // Actual historical deployment data from git history
   const [deployments] = useState([
-    { date: '9/11/2025', feature: 'Accessibility Improvements', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Navigation Links Fix', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Spec Kit Documentation', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Spec Kit Tutorial', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Dynamic Progress Tracking', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Lighthouse Integration', status: 'success' as const },
-    { date: '9/11/2025', feature: 'Status Dashboard', status: 'success' as const },
-    { date: '9/10/2025', feature: 'Storybook + Components', status: 'success' as const },
-    { date: '9/10/2025', feature: 'Next.js 15.5 + Docker', status: 'success' as const },
-    { date: '9/9/2025', feature: 'Initial Setup', status: 'success' as const }
+    {
+      date: '9/11/2025',
+      feature: 'Accessibility Improvements',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Navigation Links Fix',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Spec Kit Documentation',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Spec Kit Tutorial',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Dynamic Progress Tracking',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Lighthouse Integration',
+      status: 'success' as const,
+    },
+    {
+      date: '9/11/2025',
+      feature: 'Status Dashboard',
+      status: 'success' as const,
+    },
+    {
+      date: '9/10/2025',
+      feature: 'Storybook + Components',
+      status: 'success' as const,
+    },
+    {
+      date: '9/10/2025',
+      feature: 'Next.js 15.5 + Docker',
+      status: 'success' as const,
+    },
+    { date: '9/9/2025', feature: 'Initial Setup', status: 'success' as const },
   ]);
 
   const [features] = useState([
-    { name: 'Next.js App', status: 'operational', url: 'https://tortoisewolfe.github.io/CRUDkit/' },
-    { name: 'Storybook', status: 'operational', url: 'https://tortoisewolfe.github.io/CRUDkit/storybook/' },
-    { name: 'Theme System', status: 'operational', url: 'https://tortoisewolfe.github.io/CRUDkit/themes/' },
-    { name: 'Component Gallery', status: 'operational', url: 'https://tortoisewolfe.github.io/CRUDkit/components/' },
+    {
+      name: 'Next.js App',
+      status: 'operational',
+      url: 'https://tortoisewolfe.github.io/CRUDkit/',
+    },
+    {
+      name: 'Storybook',
+      status: 'operational',
+      url: 'https://tortoisewolfe.github.io/CRUDkit/storybook/',
+    },
+    {
+      name: 'Theme System',
+      status: 'operational',
+      url: 'https://tortoisewolfe.github.io/CRUDkit/themes/',
+    },
+    {
+      name: 'Component Gallery',
+      status: 'operational',
+      url: 'https://tortoisewolfe.github.io/CRUDkit/components/',
+    },
     { name: 'PWA Install', status: 'operational', url: '#' },
     { name: 'Service Worker', status: 'operational', url: '#' },
   ]);
@@ -345,13 +436,13 @@ export default function StatusPage() {
     // Check online status
     const updateOnlineStatus = () => setIsOnline(navigator.onLine);
     updateOnlineStatus();
-    
+
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
 
     // Collect performance metrics
     collectPerformanceMetrics();
-    
+
     // Load task progress
     loadTaskProgress();
 
@@ -360,7 +451,7 @@ export default function StatusPage() {
       window.removeEventListener('offline', updateOnlineStatus);
     };
   }, []);
-  
+
   const loadTaskProgress = async () => {
     try {
       const progress = await parseTasksFile();
@@ -373,11 +464,11 @@ export default function StatusPage() {
   // Auto-refresh effect
   useEffect(() => {
     if (!autoRefresh || isTestingPWA) return;
-    
+
     const interval = setInterval(() => {
       runPWATests();
     }, 30000); // Run every 30 seconds
-    
+
     return () => clearInterval(interval);
   }, [autoRefresh, isTestingPWA]);
 
@@ -401,26 +492,28 @@ export default function StatusPage() {
     const now = Date.now();
     const timeSinceLastAttempt = now - lastLighthouseAttempt;
     const minimumWait = 60000; // 1 minute minimum between attempts
-    
+
     if (timeSinceLastAttempt < minimumWait) {
       const waitTime = Math.ceil((minimumWait - timeSinceLastAttempt) / 1000);
-      setLighthouseError(`Please wait ${waitTime} seconds before trying again (rate limit protection)`);
+      setLighthouseError(
+        `Please wait ${waitTime} seconds before trying again (rate limit protection)`
+      );
       return;
     }
-    
+
     setIsTestingLighthouse(true);
     setLighthouseError(null);
     setLastLighthouseAttempt(now);
-    
+
     try {
       // Always test the production URL
       const url = 'https://tortoisewolfe.github.io/CRUDkit/';
-      
+
       // Call PageSpeed Insights API directly from the client
       const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=accessibility&category=best-practices&category=seo&category=pwa`;
-      
+
       const response = await fetch(apiUrl);
-      
+
       if (!response.ok) {
         if (response.status === 429) {
           // Set a longer cooldown for rate limits
@@ -429,49 +522,73 @@ export default function StatusPage() {
           setLighthouseError(errorMsg);
           return; // Exit gracefully instead of throwing
         } else if (response.status === 403) {
-          setLighthouseError('API key required for frequent testing. Using cached scores. Visit https://pagespeed.web.dev/ for manual testing.');
+          setLighthouseError(
+            'API key required for frequent testing. Using cached scores. Visit https://pagespeed.web.dev/ for manual testing.'
+          );
           return;
         } else if (response.status === 400) {
-          setLighthouseError('Invalid URL or request. Please check the site is accessible.');
+          setLighthouseError(
+            'Invalid URL or request. Please check the site is accessible.'
+          );
           return;
         }
-        setLighthouseError(`PageSpeed API error: ${response.status} ${response.statusText}`);
+        setLighthouseError(
+          `PageSpeed API error: ${response.status} ${response.statusText}`
+        );
         return;
       }
-      
+
       const data = await response.json();
-      
+
       // Extract Lighthouse scores
       const scores = {
-        performance: Math.round((data.lighthouseResult?.categories?.performance?.score || 0) * 100),
-        accessibility: Math.round((data.lighthouseResult?.categories?.accessibility?.score || 0) * 100),
-        bestPractices: Math.round((data.lighthouseResult?.categories?.['best-practices']?.score || 0) * 100),
-        seo: Math.round((data.lighthouseResult?.categories?.seo?.score || 0) * 100),
-        pwa: Math.round((data.lighthouseResult?.categories?.pwa?.score || 0) * 100),
+        performance: Math.round(
+          (data.lighthouseResult?.categories?.performance?.score || 0) * 100
+        ),
+        accessibility: Math.round(
+          (data.lighthouseResult?.categories?.accessibility?.score || 0) * 100
+        ),
+        bestPractices: Math.round(
+          (data.lighthouseResult?.categories?.['best-practices']?.score || 0) *
+            100
+        ),
+        seo: Math.round(
+          (data.lighthouseResult?.categories?.seo?.score || 0) * 100
+        ),
+        pwa: Math.round(
+          (data.lighthouseResult?.categories?.pwa?.score || 0) * 100
+        ),
         timestamp: new Date().toISOString(),
         url: url,
-        isDefault: false
+        isDefault: false,
       };
-      
+
       // Update state and localStorage
       setLighthouseScores(scores);
       localStorage.setItem('lighthouseScores', JSON.stringify(scores));
-      
+
       // Update the lighthouse metrics display
       setLighthouse({
         performance: { ...lighthouse.performance, score: scores.performance },
-        accessibility: { ...lighthouse.accessibility, score: scores.accessibility },
-        bestPractices: { ...lighthouse.bestPractices, score: scores.bestPractices },
+        accessibility: {
+          ...lighthouse.accessibility,
+          score: scores.accessibility,
+        },
+        bestPractices: {
+          ...lighthouse.bestPractices,
+          score: scores.bestPractices,
+        },
         seo: { ...lighthouse.seo, score: scores.seo },
         pwa: { ...lighthouse.pwa, score: scores.pwa },
       });
-      
+
       // Clear any cooldown on success
       setRateLimitCooldown(0);
-      
     } catch (error) {
       console.error('Lighthouse test error:', error);
-      setLighthouseError(error instanceof Error ? error.message : 'Failed to run Lighthouse test');
+      setLighthouseError(
+        error instanceof Error ? error.message : 'Failed to run Lighthouse test'
+      );
     } finally {
       setIsTestingLighthouse(false);
     }
@@ -479,45 +596,58 @@ export default function StatusPage() {
 
   const collectPerformanceMetrics = () => {
     // Force collection of metrics that may not have triggered yet
-    
+
     // Get navigation timing for TTFB and FCP
     if (typeof window !== 'undefined' && window.performance) {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
       if (navigation) {
         // TTFB
         const ttfb = navigation.responseStart - navigation.requestStart;
         if (ttfb > 0) {
-          setPerformanceMetrics(prev => ({ ...prev, TTFB: Math.round(ttfb) }));
+          setPerformanceMetrics((prev) => ({
+            ...prev,
+            TTFB: Math.round(ttfb),
+          }));
         }
       }
-      
+
       // Try to get paint timings
       const paintEntries = performance.getEntriesByType('paint');
-      const fcpEntry = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+      const fcpEntry = paintEntries.find(
+        (entry) => entry.name === 'first-contentful-paint'
+      );
       if (fcpEntry) {
-        setPerformanceMetrics(prev => ({ ...prev, FCP: Math.round(fcpEntry.startTime) }));
+        setPerformanceMetrics((prev) => ({
+          ...prev,
+          FCP: Math.round(fcpEntry.startTime),
+        }));
       }
-      
+
       // Try to get LCP from observer
       try {
         const observer = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1] as PerformanceEntry & { renderTime?: number; loadTime?: number };
+          const lastEntry = entries[entries.length - 1] as PerformanceEntry & {
+            renderTime?: number;
+            loadTime?: number;
+          };
           if (lastEntry && lastEntry.renderTime) {
-            setPerformanceMetrics(prev => ({ 
-              ...prev, 
-              LCP: Math.round(lastEntry.renderTime || lastEntry.loadTime || 0) 
+            setPerformanceMetrics((prev) => ({
+              ...prev,
+              LCP: Math.round(lastEntry.renderTime || lastEntry.loadTime || 0),
             }));
           }
         });
         observer.observe({ type: 'largest-contentful-paint', buffered: true });
-        
+
         // Stop observing after a short delay
         setTimeout(() => observer.disconnect(), 1000);
       } catch {
         console.log('LCP observer not supported');
       }
-      
+
       // Force a layout shift calculation by toggling visibility
       const testElement = document.createElement('div');
       testElement.style.position = 'absolute';
@@ -529,7 +659,7 @@ export default function StatusPage() {
         setTimeout(() => {
           document.body.removeChild(testElement);
           // CLS needs actual page interaction, set a small value if none detected
-          setPerformanceMetrics(prev => {
+          setPerformanceMetrics((prev) => {
             if (prev.CLS === null) {
               return { ...prev, CLS: 0.001 }; // Good CLS score as default
             }
@@ -538,58 +668,57 @@ export default function StatusPage() {
         }, 100);
       }, 100);
     }
-    
+
     // Also set up the web-vitals callbacks for future updates
     onFCP((metric) => {
-      setPerformanceMetrics(prev => ({
+      setPerformanceMetrics((prev) => ({
         ...prev,
-        FCP: Math.round(metric.value)
+        FCP: Math.round(metric.value),
       }));
     });
 
     onLCP((metric) => {
-      setPerformanceMetrics(prev => ({
+      setPerformanceMetrics((prev) => ({
         ...prev,
-        LCP: Math.round(metric.value)
+        LCP: Math.round(metric.value),
       }));
     });
 
     onCLS((metric) => {
-      setPerformanceMetrics(prev => ({
+      setPerformanceMetrics((prev) => ({
         ...prev,
-        CLS: metric.value
+        CLS: metric.value,
       }));
     });
 
     onTTFB((metric) => {
-      setPerformanceMetrics(prev => ({
+      setPerformanceMetrics((prev) => ({
         ...prev,
-        TTFB: Math.round(metric.value)
+        TTFB: Math.round(metric.value),
       }));
     });
   };
 
   const runAllTests = async () => {
     setIsRunningAllTests(true);
-    
+
     // Clear previous errors
     setTestError(null);
     setLighthouseError(null);
-    
+
     try {
       // 1. Collect Web Vitals
       collectPerformanceMetrics();
-      
+
       // 2. Run PWA Tests
       await runPWATests();
-      
+
       // 3. Run Lighthouse Tests (with delay to avoid rate limit)
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await runLighthouseTest();
-      
+
       // 4. Reload task progress
       await loadTaskProgress();
-      
     } catch (error) {
       console.error('Error during test run:', error);
     } finally {
@@ -599,21 +728,32 @@ export default function StatusPage() {
 
   const getStatusIcon = (status: 'pass' | 'fail' | 'warning') => {
     switch (status) {
-      case 'pass': return '✅';
-      case 'fail': return '❌';
-      case 'warning': return '⚠️';
-      default: return '❓';
+      case 'pass':
+        return '✅';
+      case 'fail':
+        return '❌';
+      case 'warning':
+        return '⚠️';
+      default:
+        return '❓';
     }
   };
 
-  const getPerformanceScore = (metric: string, value: number | null): { label: string; className: string } => {
-    if (value === null) return { label: 'N/A', className: 'text-base-content/50' };
-    
-    const thresholds: Record<string, { good: number; needsImprovement: number }> = {
+  const getPerformanceScore = (
+    metric: string,
+    value: number | null
+  ): { label: string; className: string } => {
+    if (value === null)
+      return { label: 'N/A', className: 'text-base-content/50' };
+
+    const thresholds: Record<
+      string,
+      { good: number; needsImprovement: number }
+    > = {
       FCP: { good: 1800, needsImprovement: 3000 },
       LCP: { good: 2500, needsImprovement: 4000 },
       CLS: { good: 0.1, needsImprovement: 0.25 },
-      TTFB: { good: 800, needsImprovement: 1800 }
+      TTFB: { good: 800, needsImprovement: 1800 },
     };
 
     const threshold = thresholds[metric];
@@ -632,19 +772,22 @@ export default function StatusPage() {
   const pwaTestSummary = pwaTester.getTestSummary();
 
   return (
-    <main className="min-h-screen bg-base-200 p-8">
-      <div className="max-w-7xl mx-auto">
+    <main className="bg-base-200 min-h-screen p-8">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-4">
           <Link href="/" className="btn btn-ghost btn-sm">
             ← Back to Home
           </Link>
         </div>
         <div className="mb-8">
-          <div className="flex justify-between items-start">
+          <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-4xl font-bold mb-2">{projectConfig.project.name} Status Dashboard</h1>
+              <h1 className="mb-2 text-4xl font-bold">
+                {projectConfig.project.name} Status Dashboard
+              </h1>
               <p className="text-base-content/70">
-                Real-time deployment and performance metrics • Connection: {isOnline ? '🟢 Online' : '🔴 Offline'}
+                Real-time deployment and performance metrics • Connection:{' '}
+                {isOnline ? '🟢 Online' : '🔴 Offline'}
               </p>
             </div>
             <button
@@ -659,8 +802,19 @@ export default function StatusPage() {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+                    />
                   </svg>
                   Run All Tests
                 </span>
@@ -669,23 +823,26 @@ export default function StatusPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 items-stretch">
+        <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
           <div className="space-y-6">
-            <Card title={
-              <div className="flex items-center gap-2">
-                <span>Build Status</span>
-                <InfoTooltip
-                  title="Build Status"
-                  description="Shows the current health and configuration of your deployed application."
-                  whyItMatters="Knowing your build status helps identify deployment issues and ensures your app is running correctly."
-                  howToImprove={[
-                    "Keep dependencies up to date",
-                    "Monitor error logs regularly",
-                    "Set up automated health checks"
-                  ]}
-                />
-              </div>
-            } bordered>
+            <Card
+              title={
+                <div className="flex items-center gap-2">
+                  <span>Build Status</span>
+                  <InfoTooltip
+                    title="Build Status"
+                    description="Shows the current health and configuration of your deployed application."
+                    whyItMatters="Knowing your build status helps identify deployment issues and ensures your app is running correctly."
+                    howToImprove={[
+                      'Keep dependencies up to date',
+                      'Monitor error logs regularly',
+                      'Set up automated health checks',
+                    ]}
+                  />
+                </div>
+              }
+              bordered
+            >
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
@@ -725,29 +882,49 @@ export default function StatusPage() {
                 </div>
               </div>
             </Card>
-            
+
             {/* Web Vitals - compact version with tooltips */}
             <Card title="Web Vitals" bordered>
               <div className="space-y-2">
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-sm">FCP</span>
                     <div className="dropdown dropdown-hover">
-                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      <div
+                        tabIndex={0}
+                        className="btn btn-circle btn-ghost btn-xs"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3 stroke-current opacity-60"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
                         </svg>
                       </div>
-                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                      <div
+                        tabIndex={0}
+                        className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
+                      >
                         <div className="card-body">
-                          <p className="font-semibold text-sm">First Contentful Paint</p>
-                          <p className="text-xs">Time until the first text or image appears on screen</p>
-                          <div className="text-xs mt-2">
+                          <p className="text-sm font-semibold">
+                            First Contentful Paint
+                          </p>
+                          <p className="text-xs">
+                            Time until the first text or image appears on screen
+                          </p>
+                          <div className="mt-2 text-xs">
                             <p>🟢 Good: &lt; 1.8s</p>
                             <p>🟡 Needs work: 1.8s - 3s</p>
                             <p>🔴 Poor: &gt; 3s</p>
                           </div>
-                          <div className="text-xs mt-2">
+                          <div className="mt-2 text-xs">
                             <p className="font-semibold">How to improve:</p>
                             <p>• Reduce server response time</p>
                             <p>• Eliminate render-blocking resources</p>
@@ -757,30 +934,54 @@ export default function StatusPage() {
                       </div>
                     </div>
                   </div>
-                  <span className={`text-sm font-medium ${getPerformanceScore('FCP', performanceMetrics.FCP).className}`}>
+                  <span
+                    className={`text-sm font-medium ${getPerformanceScore('FCP', performanceMetrics.FCP).className}`}
+                  >
                     {getPerformanceScore('FCP', performanceMetrics.FCP).label}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-sm">LCP</span>
                     <div className="dropdown dropdown-hover">
-                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      <div
+                        tabIndex={0}
+                        className="btn btn-circle btn-ghost btn-xs"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3 stroke-current opacity-60"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
                         </svg>
                       </div>
-                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                      <div
+                        tabIndex={0}
+                        className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
+                      >
                         <div className="card-body">
-                          <p className="font-semibold text-sm">Largest Contentful Paint</p>
-                          <p className="text-xs">Time until the main content is fully visible</p>
-                          <div className="text-xs mt-2">
+                          <p className="text-sm font-semibold">
+                            Largest Contentful Paint
+                          </p>
+                          <p className="text-xs">
+                            Time until the main content is fully visible
+                          </p>
+                          <div className="mt-2 text-xs">
                             <p>🟢 Good: &lt; 2.5s</p>
                             <p>🟡 Needs work: 2.5s - 4s</p>
                             <p>🔴 Poor: &gt; 4s</p>
-                            <p className="mt-1 italic">Users may leave if this takes &gt; 4 seconds</p>
+                            <p className="mt-1 italic">
+                              Users may leave if this takes &gt; 4 seconds
+                            </p>
                           </div>
-                          <div className="text-xs mt-2">
+                          <div className="mt-2 text-xs">
                             <p className="font-semibold">How to improve:</p>
                             <p>• Optimize images (use WebP, lazy loading)</p>
                             <p>• Use CDN for assets</p>
@@ -790,63 +991,116 @@ export default function StatusPage() {
                       </div>
                     </div>
                   </div>
-                  <span className={`text-sm font-medium ${getPerformanceScore('LCP', performanceMetrics.LCP).className}`}>
+                  <span
+                    className={`text-sm font-medium ${getPerformanceScore('LCP', performanceMetrics.LCP).className}`}
+                  >
                     {getPerformanceScore('LCP', performanceMetrics.LCP).label}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-sm">CLS</span>
                     <div className="dropdown dropdown-hover">
-                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      <div
+                        tabIndex={0}
+                        className="btn btn-circle btn-ghost btn-xs"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3 stroke-current opacity-60"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
                         </svg>
                       </div>
-                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                      <div
+                        tabIndex={0}
+                        className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
+                      >
                         <div className="card-body">
-                          <p className="font-semibold text-sm">Cumulative Layout Shift</p>
-                          <p className="text-xs">Measures visual stability - how much elements move during loading</p>
-                          <div className="text-xs mt-2">
+                          <p className="text-sm font-semibold">
+                            Cumulative Layout Shift
+                          </p>
+                          <p className="text-xs">
+                            Measures visual stability - how much elements move
+                            during loading
+                          </p>
+                          <div className="mt-2 text-xs">
                             <p>🟢 Good: &lt; 0.1</p>
                             <p>🟡 Needs work: 0.1 - 0.25</p>
                             <p>🔴 Poor: &gt; 0.25</p>
-                            <p className="mt-1 italic">Lower scores mean less annoying jumps</p>
+                            <p className="mt-1 italic">
+                              Lower scores mean less annoying jumps
+                            </p>
                           </div>
-                          <div className="text-xs mt-2">
+                          <div className="mt-2 text-xs">
                             <p className="font-semibold">How to improve:</p>
                             <p>• Set size attributes on images/videos</p>
-                            <p>• Avoid inserting content above existing content</p>
-                            <p>• Use CSS transform instead of position changes</p>
+                            <p>
+                              • Avoid inserting content above existing content
+                            </p>
+                            <p>
+                              • Use CSS transform instead of position changes
+                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <span className={`text-sm font-medium ${getPerformanceScore('CLS', performanceMetrics.CLS).className}`}>
+                  <span
+                    className={`text-sm font-medium ${getPerformanceScore('CLS', performanceMetrics.CLS).className}`}
+                  >
                     {getPerformanceScore('CLS', performanceMetrics.CLS).label}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-sm">TTFB</span>
                     <div className="dropdown dropdown-hover">
-                      <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3 h-3 stroke-current opacity-60">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      <div
+                        tabIndex={0}
+                        className="btn btn-circle btn-ghost btn-xs"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3 stroke-current opacity-60"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
                         </svg>
                       </div>
-                      <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-64">
+                      <div
+                        tabIndex={0}
+                        className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-64 shadow"
+                      >
                         <div className="card-body">
-                          <p className="font-semibold text-sm">Time to First Byte</p>
-                          <p className="text-xs">How quickly the server starts sending data</p>
-                          <div className="text-xs mt-2">
+                          <p className="text-sm font-semibold">
+                            Time to First Byte
+                          </p>
+                          <p className="text-xs">
+                            How quickly the server starts sending data
+                          </p>
+                          <div className="mt-2 text-xs">
                             <p>🟢 Good: &lt; 0.8s</p>
                             <p>🟡 Needs work: 0.8s - 1.8s</p>
                             <p>🔴 Poor: &gt; 1.8s</p>
-                            <p className="mt-1 italic">Indicates server response speed</p>
+                            <p className="mt-1 italic">
+                              Indicates server response speed
+                            </p>
                           </div>
-                          <div className="text-xs mt-2">
+                          <div className="mt-2 text-xs">
                             <p className="font-semibold">How to improve:</p>
                             <p>• Use a CDN to serve content closer to users</p>
                             <p>• Optimize database queries</p>
@@ -856,24 +1110,25 @@ export default function StatusPage() {
                       </div>
                     </div>
                   </div>
-                  <span className={`text-sm font-medium ${getPerformanceScore('TTFB', performanceMetrics.TTFB).className}`}>
+                  <span
+                    className={`text-sm font-medium ${getPerformanceScore('TTFB', performanceMetrics.TTFB).className}`}
+                  >
                     {getPerformanceScore('TTFB', performanceMetrics.TTFB).label}
                   </span>
                 </div>
-                <button 
+                <button
                   onClick={collectPerformanceMetrics}
-                  className="btn btn-xs btn-ghost w-full mt-2"
+                  className="btn btn-xs btn-ghost mt-2 w-full"
                 >
                   Refresh Metrics
                 </button>
               </div>
             </Card>
-            
-            
+
             {/* PWA Feature Tests */}
-            <Card 
+            <Card
               title={
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span>PWA Feature Tests</span>
                     <InfoTooltip
@@ -881,10 +1136,10 @@ export default function StatusPage() {
                       description="Tests whether your app can be installed like a native app and work offline."
                       whyItMatters="PWAs provide app-like experience, work offline, and can be installed on phones/desktops without app stores."
                       howToImprove={[
-                        "Ensure manifest.json is properly configured",
-                        "Register a service worker for offline support",
-                        "Add proper app icons (192x192 and 512x512)",
-                        "Use HTTPS in production"
+                        'Ensure manifest.json is properly configured',
+                        'Register a service worker for offline support',
+                        'Add proper app icons (192x192 and 512x512)',
+                        'Use HTTPS in production',
                       ]}
                       learnMore="https://web.dev/progressive-web-apps/"
                     />
@@ -895,22 +1150,33 @@ export default function StatusPage() {
                     )}
                   </div>
                   <div className="flex gap-2">
-                    <label className="swap swap-flip" aria-label="Toggle auto-refresh for PWA tests">
-                      <input 
-                        type="checkbox" 
+                    <label
+                      className="swap swap-flip"
+                      aria-label="Toggle auto-refresh for PWA tests"
+                    >
+                      <input
+                        type="checkbox"
                         checked={autoRefresh}
                         onChange={(e) => setAutoRefresh(e.target.checked)}
                         aria-checked={autoRefresh}
                         role="switch"
                       />
-                      <div className="swap-on" aria-hidden="true">🟢</div>
-                      <div className="swap-off" aria-hidden="true">⭕</div>
+                      <div className="swap-on" aria-hidden="true">
+                        🟢
+                      </div>
+                      <div className="swap-off" aria-hidden="true">
+                        ⭕
+                      </div>
                     </label>
-                    <button 
+                    <button
                       className={`btn btn-sm ${
-                        isTestingPWA ? 'btn-warning' : 
-                        testError ? 'btn-error' : 
-                        pwaResults.length > 0 ? 'btn-success' : 'btn-primary'
+                        isTestingPWA
+                          ? 'btn-warning'
+                          : testError
+                            ? 'btn-error'
+                            : pwaResults.length > 0
+                              ? 'btn-success'
+                              : 'btn-primary'
                       }`}
                       onClick={runPWATests}
                       disabled={isTestingPWA}
@@ -931,33 +1197,49 @@ export default function StatusPage() {
             >
               {testError ? (
                 <div className="alert alert-error">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                   <span>{testError}</span>
                 </div>
               ) : pwaResults.length > 0 ? (
                 <>
-                  <div className="stats shadow mb-4 w-full">
+                  <div className="stats mb-4 w-full shadow">
                     <div className="stat">
                       <div className="stat-title">Passed</div>
-                      <div className="stat-value text-success text-2xl">{pwaTestSummary.passed}</div>
+                      <div className="stat-value text-success text-2xl">
+                        {pwaTestSummary.passed}
+                      </div>
                     </div>
                     <div className="stat">
                       <div className="stat-title">Warnings</div>
-                      <div className="stat-value text-warning text-2xl">{pwaTestSummary.warnings}</div>
+                      <div className="stat-value text-warning text-2xl">
+                        {pwaTestSummary.warnings}
+                      </div>
                     </div>
                     <div className="stat">
                       <div className="stat-title">Failed</div>
-                      <div className="stat-value text-error text-2xl">{pwaTestSummary.failed}</div>
+                      <div className="stat-value text-error text-2xl">
+                        {pwaTestSummary.failed}
+                      </div>
                     </div>
                   </div>
-                  <details className="collapse collapse-arrow bg-base-200">
+                  <details className="collapse-arrow bg-base-200 collapse">
                     <summary className="collapse-title text-sm font-medium">
                       <div className="flex items-center justify-between">
                         <span>View Test Details</span>
                         {lastTestTime && (
-                          <span className="text-xs text-base-content/60">
+                          <span className="text-base-content/60 text-xs">
                             Last tested: {lastTestTime.toLocaleTimeString()}
                             {autoRefresh && ' • Auto-refreshing every 30s'}
                           </span>
@@ -969,8 +1251,15 @@ export default function StatusPage() {
                         <div key={index} className="flex items-start gap-2">
                           <span>{getStatusIcon(result.status)}</span>
                           <div className="flex-1">
-                            <Text variant="small" className="font-semibold">{result.feature}</Text>
-                            <Text variant="small" className="text-base-content/70">{result.message}</Text>
+                            <Text variant="small" className="font-semibold">
+                              {result.feature}
+                            </Text>
+                            <Text
+                              variant="small"
+                              className="text-base-content/70"
+                            >
+                              {result.message}
+                            </Text>
                           </div>
                         </div>
                       ))}
@@ -978,7 +1267,7 @@ export default function StatusPage() {
                   </details>
                 </>
               ) : (
-                <p className="text-center text-base-content/50 py-8">
+                <p className="text-base-content/50 py-8 text-center">
                   Click &quot;Run Tests&quot; to check PWA features
                 </p>
               )}
@@ -986,302 +1275,412 @@ export default function StatusPage() {
           </div>
 
           <div className="space-y-6 overflow-visible">
-            <Card title={
-              <div className="flex items-center gap-2">
-                <span>Project Progress</span>
-                <InfoTooltip
-                  title="Task Completion Tracking"
-                  description="Shows progress through development sprints and tasks defined in TASKS.md."
-                  whyItMatters="Helps track project velocity and identify bottlenecks in development."
-                  howToImprove={[
-                    "Update TASKS.md as you complete items",
-                    "Break large tasks into smaller chunks",
-                    "Review and adjust sprint goals regularly"
-                  ]}
-                  position="end"
-                  size="compact"
-                />
-              </div>
-            } bordered>
-              <div className="space-y-4 overflow-visible">
-              {/* Single combined progress display */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <div>
-                    <span className="font-medium">Overall Progress</span>
-                    {taskProgress?.sprints && taskProgress.sprints.length > 0 && (
-                      <div className="text-xs text-base-content/70 mt-1">
-                        {taskProgress.sprints.map((sprint, idx) => (
-                          <span key={idx}>
-                            {idx > 0 && ' • '}
-                            {sprint.name.split(':')[0]}: {sprint.percentage}%
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold">{taskProgress?.percentage || metrics.completionPercentage}%</div>
-                    <div className="text-xs text-base-content/70">
-                      {taskProgress?.completedTasks || metrics.featuresComplete}/{taskProgress?.totalTasks || metrics.featuresTotal} tasks
-                    </div>
-                  </div>
+            <Card
+              title={
+                <div className="flex items-center gap-2">
+                  <span>Project Progress</span>
+                  <InfoTooltip
+                    title="Task Completion Tracking"
+                    description="Shows progress through development sprints and tasks defined in TASKS.md."
+                    whyItMatters="Helps track project velocity and identify bottlenecks in development."
+                    howToImprove={[
+                      'Update TASKS.md as you complete items',
+                      'Break large tasks into smaller chunks',
+                      'Review and adjust sprint goals regularly',
+                    ]}
+                    position="end"
+                    size="compact"
+                  />
                 </div>
-                <progress 
-                  className="progress progress-primary w-full" 
-                  value={taskProgress?.completedTasks || metrics.featuresComplete} 
-                  max={taskProgress?.totalTasks || metrics.featuresTotal}
-                ></progress>
-                {taskProgress?.lastUpdated && (
-                  <div className="text-xs text-base-content/60 text-right mt-1">
-                    Updated: {taskProgress.lastUpdated}
-                  </div>
-                )}
-              </div>
-              
-              {/* Sprint 1 Phases - Collapsed by default */}
-              {taskProgress?.phases && Object.keys(taskProgress.phases).length > 0 && (
-                <details className="collapse collapse-arrow bg-base-200 overflow-visible">
-                  <summary className="collapse-title text-sm font-medium">
-                    <div className="flex items-center gap-2">
-                      <span>Sprint 1 Phases ✅ (All Complete)</span>
-                      <InfoTooltip
-                        title="Sprint 1: Core Implementation"
-                        description="The foundational sprint that established the project infrastructure, component system, and deployment pipeline."
-                        whyItMatters="These phases created the base architecture that all future features build upon."
-                        howToImprove={[
-                          "Review completed tasks for lessons learned",
-                          "Document any technical debt identified",
-                          "Use as reference for future sprints"
-                        ]}
-                        position="end"
-                        size="compact"
-                      />
-                    </div>
-                  </summary>
-                  <div className="collapse-content space-y-2 overflow-visible">
-                    {Object.entries(taskProgress.phases).map(([phase, info]) => {
-                      // Define phase-specific tooltips
-                      const phaseTooltips: Record<string, { title: string; description: string; whyItMatters: string; tasks?: string }> = {
-                        'Phase 0': {
-                          title: 'Initial Setup & Deployment',
-                          description: 'Docker environment, Next.js 15.5 setup, and GitHub Pages deployment pipeline.',
-                          whyItMatters: 'Establishes the development environment and ensures the app is accessible online from day one.',
-                          tasks: '20 tasks focused on infrastructure'
-                        },
-                        'Phase 1': {
-                          title: 'Component Documentation System',
-                          description: 'Storybook integration for visual component testing and documentation.',
-                          whyItMatters: 'Enables isolated component development and serves as living documentation for the UI library.',
-                          tasks: '19 tasks for Storybook setup'
-                        },
-                        'Phase 2': {
-                          title: 'Theme & Accessibility System',
-                          description: '32 DaisyUI themes with persistent selection and accessibility controls.',
-                          whyItMatters: 'Provides users with visual customization options and ensures the app is usable by everyone.',
-                          tasks: '19 tasks for theming infrastructure'
-                        },
-                        'Phase 3': {
-                          title: 'Component Gallery',
-                          description: 'Atomic design pattern implementation with reusable UI components.',
-                          whyItMatters: 'Creates a scalable component library that speeds up future development.',
-                          tasks: '19 tasks for component system'
-                        },
-                        'Phase 4': {
-                          title: 'Progressive Web App Features',
-                          description: 'Service worker, offline support, and app installation capabilities.',
-                          whyItMatters: 'Transforms the website into an app-like experience that works offline and can be installed.',
-                          tasks: '19 tasks for PWA implementation'
-                        }
-                      };
-                      
-                      const tooltipInfo = phaseTooltips[phase] || {
-                        title: phase,
-                        description: info.description,
-                        whyItMatters: 'Part of the core implementation sprint.',
-                        tasks: 'Multiple tasks'
-                      };
-                      
-                      return (
-                        <div key={`s1-${phase}`} className="flex items-start gap-2 text-sm">
-                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
-                            {info.complete ? '✅' : '⭕'}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1">
-                              <span className="font-medium whitespace-nowrap">{phase}:</span>
-                              <InfoTooltip
-                                title={tooltipInfo.title}
-                                description={tooltipInfo.description}
-                                whyItMatters={tooltipInfo.whyItMatters}
-                                howToImprove={tooltipInfo.tasks}
-                                position="top"
-                                size="compact"
-                              />
-                              <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
-                            </div>
+              }
+              bordered
+            >
+              <div className="space-y-4 overflow-visible">
+                {/* Single combined progress display */}
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <div>
+                      <span className="font-medium">Overall Progress</span>
+                      {taskProgress?.sprints &&
+                        taskProgress.sprints.length > 0 && (
+                          <div className="text-base-content/70 mt-1 text-xs">
+                            {taskProgress.sprints.map((sprint, idx) => (
+                              <span key={idx}>
+                                {idx > 0 && ' • '}
+                                {sprint.name.split(':')[0]}: {sprint.percentage}
+                                %
+                              </span>
+                            ))}
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </details>
-              )}
-              
-              {/* Sprint 2 Phases - Expanded by default */}
-              {taskProgress?.sprint2Phases && Object.keys(taskProgress.sprint2Phases).length > 0 && (
-                <details className="collapse collapse-arrow bg-base-200 overflow-visible" open>
-                  <summary className="collapse-title text-sm font-medium">
-                    <div className="flex items-center gap-2">
-                      <span>Sprint 2 Phases 🚧 ({taskProgress.sprints?.[1]?.status === 'in-progress' ? 'In Progress' : 'Not Started'})</span>
-                      <InfoTooltip
-                        title="Sprint 2: Fix the Foundation"
-                        description="A 10-week sprint focused on testing, developer experience, and quality improvements."
-                        whyItMatters="Addresses technical debt and establishes quality standards before adding more features."
-                        howToImprove={[
-                          "Start with Phase 1 testing setup",
-                          "Complete P0 (critical) tasks first",
-                          "Track progress weekly",
-                          "65 total tasks, ~93 hours estimated"
-                        ]}
-                        position="end"
-                        size="compact"
-                      />
+                        )}
                     </div>
-                  </summary>
-                  <div className="collapse-content space-y-2 overflow-visible">
-                    {Object.entries(taskProgress.sprint2Phases).map(([phase, info]) => {
-                      // Define Sprint 2 phase-specific tooltips
-                      const phase2Tooltips: Record<string, { title: string; description: string; whyItMatters: string; tasks?: string }> = {
-                        'Phase 1': {
-                          title: 'Testing Foundation',
-                          description: 'Set up Vitest for unit testing, Husky for git hooks, and CI/CD pipeline.',
-                          whyItMatters: 'Catches bugs early and ensures code quality before commits reach production.',
-                          tasks: '12 tasks, ~14.5 hours (Weeks 1-2)'
-                        },
-                        'Phase 2': {
-                          title: 'Developer Experience',
-                          description: 'Add Prettier formatting, fix Docker HMR, set up Dependabot for dependency updates.',
-                          whyItMatters: 'Improves development speed and maintains consistent code style across the team.',
-                          tasks: '12 tasks, ~14 hours (Weeks 3-4)'
-                        },
-                        'Phase 3': {
-                          title: 'First Simple Feature',
-                          description: 'Build a Dice component as a reference implementation with full testing and documentation.',
-                          whyItMatters: 'Establishes patterns for future component development with a simple, testable example.',
-                          tasks: '12 tasks, ~19 hours (Weeks 5-6)'
-                        },
-                        'Phase 4': {
-                          title: 'Quality Baseline',
-                          description: 'Add Zod validation, security headers, and increase test coverage to 25%.',
-                          whyItMatters: 'Protects against security vulnerabilities and ensures data integrity.',
-                          tasks: '12 tasks, ~18.5 hours (Weeks 7-8)'
-                        },
-                        'Phase 5': {
-                          title: 'Foundation Completion',
-                          description: 'Health endpoints, Pa11y accessibility testing, Web Vitals monitoring, and ADRs.',
-                          whyItMatters: 'Ensures the app is accessible, performant, and maintainable long-term.',
-                          tasks: '12 tasks, ~20 hours (Weeks 9-10)'
-                        }
-                      };
-                      
-                      const tooltipInfo = phase2Tooltips[phase] || {
-                        title: phase,
-                        description: info.description,
-                        whyItMatters: 'Part of the foundation improvement sprint.',
-                        tasks: 'Multiple tasks scheduled'
-                      };
-                      
-                      return (
-                        <div key={`s2-${phase}`} className="flex items-start gap-2 text-sm">
-                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : info.description.includes(' - ') && !info.description.includes(' - 0/') ? 'text-warning' : 'text-base-content/50'}`}>
-                            {info.complete ? '✅' : info.description.includes(' - ') && !info.description.includes(' - 0/') ? '🚧' : '⭕'}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1">
-                              <span className="font-medium whitespace-nowrap">{phase}:</span>
-                              <InfoTooltip
-                                title={tooltipInfo.title}
-                                description={tooltipInfo.description}
-                                whyItMatters={tooltipInfo.whyItMatters}
-                                howToImprove={tooltipInfo.tasks}
-                                position="top"
-                                size="compact"
-                              />
-                              <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    <div className="text-right">
+                      <div className="text-2xl font-bold">
+                        {taskProgress?.percentage ||
+                          metrics.completionPercentage}
+                        %
+                      </div>
+                      <div className="text-base-content/70 text-xs">
+                        {taskProgress?.completedTasks ||
+                          metrics.featuresComplete}
+                        /{taskProgress?.totalTasks || metrics.featuresTotal}{' '}
+                        tasks
+                      </div>
+                    </div>
                   </div>
-                </details>
-              )}
+                  <progress
+                    className="progress progress-primary w-full"
+                    value={
+                      taskProgress?.completedTasks || metrics.featuresComplete
+                    }
+                    max={taskProgress?.totalTasks || metrics.featuresTotal}
+                  ></progress>
+                  {taskProgress?.lastUpdated && (
+                    <div className="text-base-content/60 mt-1 text-right text-xs">
+                      Updated: {taskProgress.lastUpdated}
+                    </div>
+                  )}
+                </div>
+
+                {/* Sprint 1 Phases - Collapsed by default */}
+                {taskProgress?.phases &&
+                  Object.keys(taskProgress.phases).length > 0 && (
+                    <details className="collapse-arrow bg-base-200 collapse overflow-visible">
+                      <summary className="collapse-title text-sm font-medium">
+                        <div className="flex items-center gap-2">
+                          <span>Sprint 1 Phases ✅ (All Complete)</span>
+                          <InfoTooltip
+                            title="Sprint 1: Core Implementation"
+                            description="The foundational sprint that established the project infrastructure, component system, and deployment pipeline."
+                            whyItMatters="These phases created the base architecture that all future features build upon."
+                            howToImprove={[
+                              'Review completed tasks for lessons learned',
+                              'Document any technical debt identified',
+                              'Use as reference for future sprints',
+                            ]}
+                            position="end"
+                            size="compact"
+                          />
+                        </div>
+                      </summary>
+                      <div className="collapse-content space-y-2 overflow-visible">
+                        {Object.entries(taskProgress.phases).map(
+                          ([phase, info]) => {
+                            // Define phase-specific tooltips
+                            const phaseTooltips: Record<
+                              string,
+                              {
+                                title: string;
+                                description: string;
+                                whyItMatters: string;
+                                tasks?: string;
+                              }
+                            > = {
+                              'Phase 0': {
+                                title: 'Initial Setup & Deployment',
+                                description:
+                                  'Docker environment, Next.js 15.5 setup, and GitHub Pages deployment pipeline.',
+                                whyItMatters:
+                                  'Establishes the development environment and ensures the app is accessible online from day one.',
+                                tasks: '20 tasks focused on infrastructure',
+                              },
+                              'Phase 1': {
+                                title: 'Component Documentation System',
+                                description:
+                                  'Storybook integration for visual component testing and documentation.',
+                                whyItMatters:
+                                  'Enables isolated component development and serves as living documentation for the UI library.',
+                                tasks: '19 tasks for Storybook setup',
+                              },
+                              'Phase 2': {
+                                title: 'Theme & Accessibility System',
+                                description:
+                                  '32 DaisyUI themes with persistent selection and accessibility controls.',
+                                whyItMatters:
+                                  'Provides users with visual customization options and ensures the app is usable by everyone.',
+                                tasks: '19 tasks for theming infrastructure',
+                              },
+                              'Phase 3': {
+                                title: 'Component Gallery',
+                                description:
+                                  'Atomic design pattern implementation with reusable UI components.',
+                                whyItMatters:
+                                  'Creates a scalable component library that speeds up future development.',
+                                tasks: '19 tasks for component system',
+                              },
+                              'Phase 4': {
+                                title: 'Progressive Web App Features',
+                                description:
+                                  'Service worker, offline support, and app installation capabilities.',
+                                whyItMatters:
+                                  'Transforms the website into an app-like experience that works offline and can be installed.',
+                                tasks: '19 tasks for PWA implementation',
+                              },
+                            };
+
+                            const tooltipInfo = phaseTooltips[phase] || {
+                              title: phase,
+                              description: info.description,
+                              whyItMatters:
+                                'Part of the core implementation sprint.',
+                              tasks: 'Multiple tasks',
+                            };
+
+                            return (
+                              <div
+                                key={`s1-${phase}`}
+                                className="flex items-start gap-2 text-sm"
+                              >
+                                <span
+                                  className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}
+                                >
+                                  {info.complete ? '✅' : '⭕'}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-1">
+                                    <span className="font-medium whitespace-nowrap">
+                                      {phase}:
+                                    </span>
+                                    <InfoTooltip
+                                      title={tooltipInfo.title}
+                                      description={tooltipInfo.description}
+                                      whyItMatters={tooltipInfo.whyItMatters}
+                                      howToImprove={tooltipInfo.tasks}
+                                      position="top"
+                                      size="compact"
+                                    />
+                                    <span className="text-base-content/70 ml-1 text-xs">
+                                      {info.description}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </details>
+                  )}
+
+                {/* Sprint 2 Phases - Expanded by default */}
+                {taskProgress?.sprint2Phases &&
+                  Object.keys(taskProgress.sprint2Phases).length > 0 && (
+                    <details
+                      className="collapse-arrow bg-base-200 collapse overflow-visible"
+                      open
+                    >
+                      <summary className="collapse-title text-sm font-medium">
+                        <div className="flex items-center gap-2">
+                          <span>
+                            Sprint 2 Phases 🚧 (
+                            {taskProgress.sprints?.[1]?.status === 'in-progress'
+                              ? 'In Progress'
+                              : 'Not Started'}
+                            )
+                          </span>
+                          <InfoTooltip
+                            title="Sprint 2: Fix the Foundation"
+                            description="A 10-week sprint focused on testing, developer experience, and quality improvements."
+                            whyItMatters="Addresses technical debt and establishes quality standards before adding more features."
+                            howToImprove={[
+                              'Start with Phase 1 testing setup',
+                              'Complete P0 (critical) tasks first',
+                              'Track progress weekly',
+                              '65 total tasks, ~93 hours estimated',
+                            ]}
+                            position="end"
+                            size="compact"
+                          />
+                        </div>
+                      </summary>
+                      <div className="collapse-content space-y-2 overflow-visible">
+                        {Object.entries(taskProgress.sprint2Phases).map(
+                          ([phase, info]) => {
+                            // Define Sprint 2 phase-specific tooltips
+                            const phase2Tooltips: Record<
+                              string,
+                              {
+                                title: string;
+                                description: string;
+                                whyItMatters: string;
+                                tasks?: string;
+                              }
+                            > = {
+                              'Phase 1': {
+                                title: 'Testing Foundation',
+                                description:
+                                  'Set up Vitest for unit testing, Husky for git hooks, and CI/CD pipeline.',
+                                whyItMatters:
+                                  'Catches bugs early and ensures code quality before commits reach production.',
+                                tasks: '12 tasks, ~14.5 hours (Weeks 1-2)',
+                              },
+                              'Phase 2': {
+                                title: 'Developer Experience',
+                                description:
+                                  'Add Prettier formatting, fix Docker HMR, set up Dependabot for dependency updates.',
+                                whyItMatters:
+                                  'Improves development speed and maintains consistent code style across the team.',
+                                tasks: '12 tasks, ~14 hours (Weeks 3-4)',
+                              },
+                              'Phase 3': {
+                                title: 'First Simple Feature',
+                                description:
+                                  'Build a Dice component as a reference implementation with full testing and documentation.',
+                                whyItMatters:
+                                  'Establishes patterns for future component development with a simple, testable example.',
+                                tasks: '12 tasks, ~19 hours (Weeks 5-6)',
+                              },
+                              'Phase 4': {
+                                title: 'Quality Baseline',
+                                description:
+                                  'Add Zod validation, security headers, and increase test coverage to 25%.',
+                                whyItMatters:
+                                  'Protects against security vulnerabilities and ensures data integrity.',
+                                tasks: '12 tasks, ~18.5 hours (Weeks 7-8)',
+                              },
+                              'Phase 5': {
+                                title: 'Foundation Completion',
+                                description:
+                                  'Health endpoints, Pa11y accessibility testing, Web Vitals monitoring, and ADRs.',
+                                whyItMatters:
+                                  'Ensures the app is accessible, performant, and maintainable long-term.',
+                                tasks: '12 tasks, ~20 hours (Weeks 9-10)',
+                              },
+                            };
+
+                            const tooltipInfo = phase2Tooltips[phase] || {
+                              title: phase,
+                              description: info.description,
+                              whyItMatters:
+                                'Part of the foundation improvement sprint.',
+                              tasks: 'Multiple tasks scheduled',
+                            };
+
+                            return (
+                              <div
+                                key={`s2-${phase}`}
+                                className="flex items-start gap-2 text-sm"
+                              >
+                                <span
+                                  className={`flex-shrink-0 ${info.complete ? 'text-success' : info.description.includes('-') && !info.description.includes('- 0/') ? 'text-warning' : 'text-base-content/50'}`}
+                                >
+                                  {info.complete
+                                    ? '✅'
+                                    : info.description.includes(' - ') &&
+                                        !info.description.includes(' - 0/')
+                                      ? '🚧'
+                                      : '⭕'}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-1">
+                                    <span className="font-medium whitespace-nowrap">
+                                      {phase}:
+                                    </span>
+                                    <InfoTooltip
+                                      title={tooltipInfo.title}
+                                      description={tooltipInfo.description}
+                                      whyItMatters={tooltipInfo.whyItMatters}
+                                      howToImprove={tooltipInfo.tasks}
+                                      position="top"
+                                      size="compact"
+                                    />
+                                    <span className="text-base-content/70 ml-1 text-xs">
+                                      {info.description}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </details>
+                  )}
               </div>
             </Card>
-            
+
             {/* Features Completed */}
-            <Card title={
-              <div className="flex items-center gap-2">
-                <span>Features Completed</span>
-                <InfoTooltip
-                  title="Implemented Features"
-                  description="Major features that have been completed in this project."
-                  whyItMatters="Tracks what functionality has been built and is available to users."
-                  howToImprove="Update project-status.json as you complete new features"
-                  position="end"
-                  size="compact"
-                />
-              </div>
-            } bordered>
-              <details className="collapse collapse-arrow bg-base-200" open>
+            <Card
+              title={
+                <div className="flex items-center gap-2">
+                  <span>Features Completed</span>
+                  <InfoTooltip
+                    title="Implemented Features"
+                    description="Major features that have been completed in this project."
+                    whyItMatters="Tracks what functionality has been built and is available to users."
+                    howToImprove="Update project-status.json as you complete new features"
+                    position="end"
+                    size="compact"
+                  />
+                </div>
+              }
+              bordered
+            >
+              <details className="collapse-arrow bg-base-200 collapse" open>
                 <summary className="collapse-title text-sm font-medium">
                   <div className="flex items-center justify-between">
                     <span>View Completed Features</span>
-                    <span className="text-xs text-base-content/60">
-                      {projectConfig.features.filter(f => f.completed).length} features implemented
+                    <span className="text-base-content/60 text-xs">
+                      {projectConfig.features.filter((f) => f.completed).length}{' '}
+                      features implemented
                     </span>
                   </div>
                 </summary>
                 <div className="collapse-content space-y-2">
-                  {projectConfig.features.filter(f => f.completed).map((feature, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <span className="text-success mt-0.5">✅</span>
-                      <div className="flex-1">
-                        <div className="font-medium text-sm">{feature.name}</div>
-                        <div className="text-xs text-base-content/70">{feature.description}</div>
+                  {projectConfig.features
+                    .filter((f) => f.completed)
+                    .map((feature, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <span className="text-success mt-0.5">✅</span>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">
+                            {feature.name}
+                          </div>
+                          <div className="text-base-content/70 text-xs">
+                            {feature.description}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </details>
             </Card>
-            
+
             {/* Feature Status moved here */}
-            <Card title={
-              <div className="flex items-center gap-2">
-                <span>Service Status</span>
-                <InfoTooltip
-                  title="Deployed Services"
-                  description="Real-time status of deployed services and endpoints."
-                  whyItMatters="Quickly identify which services are operational and accessible."
-                  howToImprove="Set up monitoring for each service to detect issues early"
-                  position="end"
-                  size="compact"
-                />
-              </div>
-            } bordered>
+            <Card
+              title={
+                <div className="flex items-center gap-2">
+                  <span>Service Status</span>
+                  <InfoTooltip
+                    title="Deployed Services"
+                    description="Real-time status of deployed services and endpoints."
+                    whyItMatters="Quickly identify which services are operational and accessible."
+                    howToImprove="Set up monitoring for each service to detect issues early"
+                    position="end"
+                    size="compact"
+                  />
+                </div>
+              }
+              bordered
+            >
               <div className="space-y-2">
                 {features.map((feature, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${
-                        feature.status === 'operational' ? 'bg-success' : 'bg-error'
-                      }`}></div>
+                      <div
+                        className={`h-2 w-2 rounded-full ${
+                          feature.status === 'operational'
+                            ? 'bg-success'
+                            : 'bg-error'
+                        }`}
+                      ></div>
                       <span>{feature.name}</span>
                     </div>
                     {feature.url !== '#' && (
-                      <a 
+                      <a
                         href={feature.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1297,303 +1696,459 @@ export default function StatusPage() {
           </div>
 
           <div className="space-y-6">
-            <Card 
+            <Card
               title={
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-2">
-                  <span>Lighthouse Scores</span>
-                  <div className="dropdown dropdown-hover">
-                    <div tabIndex={0} className="btn btn-circle btn-ghost btn-xs" aria-label="View lighthouse score information">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                      </svg>
-                    </div>
-                    <div tabIndex={0} className="card compact dropdown-content z-[1] shadow bg-base-100 rounded-box w-80">
-                      <div className="card-body">
-                        <h3 className="font-bold">What is Lighthouse?</h3>
-                        <p className="text-sm">Google&apos;s tool for measuring web page quality. Scores are out of 100.</p>
-                        <div className="text-xs space-y-1 mt-2">
-                          <p>🟢 90-100: Good</p>
-                          <p>🟡 50-89: Needs Improvement</p>
-                          <p>🔴 0-49: Poor</p>
+                <div className="flex w-full items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span>Lighthouse Scores</span>
+                    <div className="dropdown dropdown-hover">
+                      <div
+                        tabIndex={0}
+                        className="btn btn-circle btn-ghost btn-xs"
+                        aria-label="View lighthouse score information"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="h-4 w-4 stroke-current"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div
+                        tabIndex={0}
+                        className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-80 shadow"
+                      >
+                        <div className="card-body">
+                          <h3 className="font-bold">What is Lighthouse?</h3>
+                          <p className="text-sm">
+                            Google&apos;s tool for measuring web page quality.
+                            Scores are out of 100.
+                          </p>
+                          <div className="mt-2 space-y-1 text-xs">
+                            <p>🟢 90-100: Good</p>
+                            <p>🟡 50-89: Needs Improvement</p>
+                            <p>🔴 0-49: Poor</p>
+                          </div>
+                          <p className="mt-2 text-xs italic">
+                            Uses PageSpeed Insights API to run real tests.
+                          </p>
                         </div>
-                        <p className="text-xs mt-2 italic">Uses PageSpeed Insights API to run real tests.</p>
                       </div>
                     </div>
-                  </div>
-                  {lighthouseScores.timestamp && (
-                    <span className="text-xs text-base-content/50">
-                      {lighthouseScores.isDefault ? 
-                        '(Default scores)' : 
-                        `Last tested: ${new Date(lighthouseScores.timestamp).toLocaleString()}`
-                      }
-                    </span>
-                  )}
-                  {!lighthouseScores.isDefault && lighthouseScores.timestamp && (
-                    <span className="text-xs text-base-content/50">
-                      (Cache: {Math.round((Date.now() - new Date(lighthouseScores.timestamp).getTime()) / 3600000)}h old)
-                    </span>
-                  )}
-                </div>
-                <div className="flex gap-2">
-                  {!lighthouseScores.isDefault && (
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem('lighthouseScores');
-                        setLighthouseScores(DEFAULT_LIGHTHOUSE_SCORES);
-                        setLighthouseError('Cache cleared. Using default scores.');
-                      }}
-                      className="btn btn-xs btn-ghost"
-                      title="Clear cached scores"
-                    >
-                      Clear Cache
-                    </button>
-                  )}
-                  <button
-                    onClick={runLighthouseTest}
-                    disabled={isTestingLighthouse || rateLimitCooldown > 0}
-                    className={`btn btn-sm ${
-                      isTestingLighthouse ? 'btn-warning' : 
-                      lighthouseError ? 'btn-error' :
-                      hasLighthouseData ? 'btn-ghost' : 'btn-primary'
-                    }`}
-                  >
-                    {isTestingLighthouse ? (
-                      <span className="flex items-center gap-2">
-                        <span className="loading loading-spinner loading-xs"></span>
-                        Testing...
+                    {lighthouseScores.timestamp && (
+                      <span className="text-base-content/50 text-xs">
+                        {lighthouseScores.isDefault
+                          ? '(Default scores)'
+                          : `Last tested: ${new Date(lighthouseScores.timestamp).toLocaleString()}`}
                       </span>
-                    ) : rateLimitCooldown > 0 ? (
-                      'Rate Limited'
-                    ) : (
-                      hasLighthouseData ? 'Retest' : 'Run Test'
                     )}
-                  </button>
-                </div>
-              </div>
-            }
-            bordered
-          >
-            <div className="space-y-3">
-              {lighthouseError && (
-                <div className="alert alert-error mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{lighthouseError}</span>
-                </div>
-              )}
-              {lighthouseScores.isDefault && (
-                <div className="alert alert-info mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <div>
-                    <p className="text-sm">Using default scores based on typical performance</p>
-                    <p className="text-xs">Click &quot;Run Test&quot; for real-time analysis or visit <a href="https://pagespeed.web.dev/?url=https://tortoisewolfe.github.io/CRUDkit/" target="_blank" rel="noopener noreferrer" className="link">PageSpeed Insights</a></p>
+                    {!lighthouseScores.isDefault &&
+                      lighthouseScores.timestamp && (
+                        <span className="text-base-content/50 text-xs">
+                          (Cache:{' '}
+                          {Math.round(
+                            (Date.now() -
+                              new Date(lighthouseScores.timestamp).getTime()) /
+                              3600000
+                          )}
+                          h old)
+                        </span>
+                      )}
+                  </div>
+                  <div className="flex gap-2">
+                    {!lighthouseScores.isDefault && (
+                      <button
+                        onClick={() => {
+                          localStorage.removeItem('lighthouseScores');
+                          setLighthouseScores(DEFAULT_LIGHTHOUSE_SCORES);
+                          setLighthouseError(
+                            'Cache cleared. Using default scores.'
+                          );
+                        }}
+                        className="btn btn-xs btn-ghost"
+                        title="Clear cached scores"
+                      >
+                        Clear Cache
+                      </button>
+                    )}
+                    <button
+                      onClick={runLighthouseTest}
+                      disabled={isTestingLighthouse || rateLimitCooldown > 0}
+                      className={`btn btn-sm ${
+                        isTestingLighthouse
+                          ? 'btn-warning'
+                          : lighthouseError
+                            ? 'btn-error'
+                            : hasLighthouseData
+                              ? 'btn-ghost'
+                              : 'btn-primary'
+                      }`}
+                    >
+                      {isTestingLighthouse ? (
+                        <span className="flex items-center gap-2">
+                          <span className="loading loading-spinner loading-xs"></span>
+                          Testing...
+                        </span>
+                      ) : rateLimitCooldown > 0 ? (
+                        'Rate Limited'
+                      ) : hasLighthouseData ? (
+                        'Retest'
+                      ) : (
+                        'Run Test'
+                      )}
+                    </button>
                   </div>
                 </div>
-              )}
-              {!hasLighthouseData ? (
-                <div className="text-center py-4">
-                  <p className="text-base-content/70 mb-2">No Lighthouse scores yet</p>
-                  <p className="text-sm text-base-content/50">Click &quot;Run Test&quot; to analyze this page with Google PageSpeed Insights</p>
-                  <p className="text-xs text-info mt-2">Tests run against the live production site</p>
-                  <div className="text-xs text-warning mt-4 space-y-1">
-                    <p>⚠️ Note: PageSpeed API has rate limits (few tests per minute)</p>
-                    <p>Alternative: Visit <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="link">PageSpeed Insights</a> directly</p>
+              }
+              bordered
+            >
+              <div className="space-y-3">
+                {lighthouseError && (
+                  <div className="alert alert-error mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 shrink-0 stroke-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{lighthouseError}</span>
                   </div>
-                </div>
-              ) : (
-                <>
-                  {/* Visual Score Display with Tooltips */}
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    {Object.entries(lighthouse).map(([key, data]) => (
-                      <div key={key} className="text-center">
-                        <div className="dropdown dropdown-hover">
-                          <div tabIndex={0} role="button" className="cursor-pointer">
-                            <div className="radial-progress" 
-                                 style={{"--value": data.score, "--size": "4rem", "--thickness": "4px"} as React.CSSProperties}
-                                 role="progressbar">
-                              <span className="text-sm font-bold">{data.score}</span>
-                            </div>
-                            <div className="text-xs mt-1 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
-                            <div className="text-xs text-base-content/60">{data.description}</div>
-                          </div>
-                          {data.details && (
-                            <div tabIndex={0} className="card compact dropdown-content z-[100] shadow-lg bg-base-200 backdrop-blur-xl border border-base-300 rounded-box w-96">
-                              <div className="card-body max-h-96 overflow-y-auto">
-                                <h3 className="font-bold text-sm">
-                                  {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')} Score Breakdown ({data.score}/100)
-                                </h3>
-                                
-                                {data.details?.passing && data.details.passing.length > 0 && (
-                                  <div className="mt-2">
-                                    <p className="font-semibold text-xs text-success mb-1">What&apos;s Working:</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.passing.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details?.missing && data.details.missing.length > 0 && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-error mb-1">
-                                      What&apos;s Missing {data.score < 100 && `(-${100 - data.score} points)`}:
-                                    </p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.missing.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details?.metrics && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-info mb-1">Key Metrics:</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.metrics.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details.recommendations && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-warning mb-1">Recommendations:</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.recommendations.map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details?.security && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-info mb-1">Security Status:</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.security.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details?.notes && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-base-content/70 mb-1">Notes:</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.notes.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                {data.details?.optional && (
-                                  <div className="mt-3">
-                                    <p className="font-semibold text-xs text-warning mb-1">Nice to Have (Optional):</p>
-                                    <ul className="text-xs space-y-0.5">
-                                      {data.details.optional.map((item: string, i: number) => (
-                                        <li key={i}>{item}</li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                                
-                                <div className="mt-3 pt-2 border-t border-base-300">
-                                  <p className="text-xs italic">
-                                    {data.score === 100 
-                                      ? 'Perfect score! Keep up the great work!' 
-                                      : `Fix the missing items to achieve 100/100`}
-                                  </p>
-                                </div>
+                )}
+                {lighthouseScores.isDefault && (
+                  <div className="alert alert-info mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="h-6 w-6 shrink-0 stroke-current"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    <div>
+                      <p className="text-sm">
+                        Using default scores based on typical performance
+                      </p>
+                      <p className="text-xs">
+                        Click &quot;Run Test&quot; for real-time analysis or
+                        visit{' '}
+                        <a
+                          href="https://pagespeed.web.dev/?url=https://tortoisewolfe.github.io/CRUDkit/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="link"
+                        >
+                          PageSpeed Insights
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {!hasLighthouseData ? (
+                  <div className="py-4 text-center">
+                    <p className="text-base-content/70 mb-2">
+                      No Lighthouse scores yet
+                    </p>
+                    <p className="text-base-content/50 text-sm">
+                      Click &quot;Run Test&quot; to analyze this page with
+                      Google PageSpeed Insights
+                    </p>
+                    <p className="text-info mt-2 text-xs">
+                      Tests run against the live production site
+                    </p>
+                    <div className="text-warning mt-4 space-y-1 text-xs">
+                      <p>
+                        ⚠️ Note: PageSpeed API has rate limits (few tests per
+                        minute)
+                      </p>
+                      <p>
+                        Alternative: Visit{' '}
+                        <a
+                          href="https://pagespeed.web.dev"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="link"
+                        >
+                          PageSpeed Insights
+                        </a>{' '}
+                        directly
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Visual Score Display with Tooltips */}
+                    <div className="mb-4 grid grid-cols-2 gap-4">
+                      {Object.entries(lighthouse).map(([key, data]) => (
+                        <div key={key} className="text-center">
+                          <div className="dropdown dropdown-hover">
+                            <div
+                              tabIndex={0}
+                              role="button"
+                              className="cursor-pointer"
+                            >
+                              <div
+                                className="radial-progress"
+                                style={
+                                  {
+                                    '--value': data.score,
+                                    '--size': '4rem',
+                                    '--thickness': '4px',
+                                  } as React.CSSProperties
+                                }
+                                role="progressbar"
+                              >
+                                <span className="text-sm font-bold">
+                                  {data.score}
+                                </span>
+                              </div>
+                              <div className="mt-1 text-xs capitalize">
+                                {key.replace(/([A-Z])/g, ' $1').trim()}
+                              </div>
+                              <div className="text-base-content/60 text-xs">
+                                {data.description}
                               </div>
                             </div>
-                          )}
+                            {data.details && (
+                              <div
+                                tabIndex={0}
+                                className="card compact dropdown-content bg-base-200 border-base-300 rounded-box z-[100] w-96 border shadow-lg backdrop-blur-xl"
+                              >
+                                <div className="card-body max-h-96 overflow-y-auto">
+                                  <h3 className="text-sm font-bold">
+                                    {key.charAt(0).toUpperCase() +
+                                      key
+                                        .slice(1)
+                                        .replace(/([A-Z])/g, ' $1')}{' '}
+                                    Score Breakdown ({data.score}/100)
+                                  </h3>
+
+                                  {data.details?.passing &&
+                                    data.details.passing.length > 0 && (
+                                      <div className="mt-2">
+                                        <p className="text-success mb-1 text-xs font-semibold">
+                                          What&apos;s Working:
+                                        </p>
+                                        <ul className="space-y-0.5 text-xs">
+                                          {data.details.passing.map(
+                                            (item: string, i: number) => (
+                                              <li key={i}>{item}</li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
+
+                                  {data.details?.missing &&
+                                    data.details.missing.length > 0 && (
+                                      <div className="mt-3">
+                                        <p className="text-error mb-1 text-xs font-semibold">
+                                          What&apos;s Missing{' '}
+                                          {data.score < 100 &&
+                                            `(-${100 - data.score} points)`}
+                                          :
+                                        </p>
+                                        <ul className="space-y-0.5 text-xs">
+                                          {data.details.missing.map(
+                                            (item: string, i: number) => (
+                                              <li key={i}>{item}</li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
+
+                                  {data.details?.metrics && (
+                                    <div className="mt-3">
+                                      <p className="text-info mb-1 text-xs font-semibold">
+                                        Key Metrics:
+                                      </p>
+                                      <ul className="space-y-0.5 text-xs">
+                                        {data.details.metrics.map(
+                                          (item: string, i: number) => (
+                                            <li key={i}>{item}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {data.details.recommendations && (
+                                    <div className="mt-3">
+                                      <p className="text-warning mb-1 text-xs font-semibold">
+                                        Recommendations:
+                                      </p>
+                                      <ul className="space-y-0.5 text-xs">
+                                        {data.details.recommendations.map(
+                                          (item, i) => (
+                                            <li key={i}>{item}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {data.details?.security && (
+                                    <div className="mt-3">
+                                      <p className="text-info mb-1 text-xs font-semibold">
+                                        Security Status:
+                                      </p>
+                                      <ul className="space-y-0.5 text-xs">
+                                        {data.details.security.map(
+                                          (item: string, i: number) => (
+                                            <li key={i}>{item}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {data.details?.notes && (
+                                    <div className="mt-3">
+                                      <p className="text-base-content/70 mb-1 text-xs font-semibold">
+                                        Notes:
+                                      </p>
+                                      <ul className="space-y-0.5 text-xs">
+                                        {data.details.notes.map(
+                                          (item: string, i: number) => (
+                                            <li key={i}>{item}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  {data.details?.optional && (
+                                    <div className="mt-3">
+                                      <p className="text-warning mb-1 text-xs font-semibold">
+                                        Nice to Have (Optional):
+                                      </p>
+                                      <ul className="space-y-0.5 text-xs">
+                                        {data.details.optional.map(
+                                          (item: string, i: number) => (
+                                            <li key={i}>{item}</li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
+
+                                  <div className="border-base-300 mt-3 border-t pt-2">
+                                    <p className="text-xs italic">
+                                      {data.score === 100
+                                        ? 'Perfect score! Keep up the great work!'
+                                        : `Fix the missing items to achieve 100/100`}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </Card>
-          
-          {/* Recent Deployments moved here */}
-          <Card title={
-            <div className="flex items-center gap-2">
-              <span>Recent Deployments</span>
-              <InfoTooltip
-                title="Deployment History"
-                description="Shows recent code changes that have been deployed to production."
-                whyItMatters="Track what features were released and when, useful for debugging issues."
-                howToImprove={[
-                  "Use semantic commit messages",
-                  "Tag releases with version numbers",
-                  "Document breaking changes"
-                ]}
-              />
-            </div>
-          } bordered>
-            <details className="collapse collapse-arrow bg-base-200">
-              <summary className="collapse-title text-sm font-medium">
-                Show Deployment History ({deployments.length} items)
-              </summary>
-              <div className="collapse-content overflow-visible">
-                <div className="overflow-x-auto">
-                  <table className="table table-sm">
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Feature</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {deployments.map((deployment, index) => (
-                        <tr key={index}>
-                          <td>{deployment.date}</td>
-                          <td>{deployment.feature}</td>
-                          <td>
-                            <span className={`badge badge-sm ${
-                              deployment.status === 'success' ? 'badge-success' : 'badge-error'
-                            }`}>
-                              {deployment.status}
-                            </span>
-                          </td>
-                        </tr>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
+                    </div>
+                  </>
+                )}
               </div>
-            </details>
-          </Card>
-        </div>
+            </Card>
+
+            {/* Recent Deployments moved here */}
+            <Card
+              title={
+                <div className="flex items-center gap-2">
+                  <span>Recent Deployments</span>
+                  <InfoTooltip
+                    title="Deployment History"
+                    description="Shows recent code changes that have been deployed to production."
+                    whyItMatters="Track what features were released and when, useful for debugging issues."
+                    howToImprove={[
+                      'Use semantic commit messages',
+                      'Tag releases with version numbers',
+                      'Document breaking changes',
+                    ]}
+                  />
+                </div>
+              }
+              bordered
+            >
+              <details className="collapse-arrow bg-base-200 collapse">
+                <summary className="collapse-title text-sm font-medium">
+                  Show Deployment History ({deployments.length} items)
+                </summary>
+                <div className="collapse-content overflow-visible">
+                  <div className="overflow-x-auto">
+                    <table className="table-sm table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Feature</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {deployments.map((deployment, index) => (
+                          <tr key={index}>
+                            <td>{deployment.date}</td>
+                            <td>{deployment.feature}</td>
+                            <td>
+                              <span
+                                className={`badge badge-sm ${
+                                  deployment.status === 'success'
+                                    ? 'badge-success'
+                                    : 'badge-error'
+                                }`}
+                              >
+                                {deployment.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </details>
+            </Card>
+          </div>
         </div>
 
-        <Card title={
-          <div className="flex items-center gap-2">
-            <span>System Information</span>
-            <InfoTooltip
-              title="Technical Stack Overview"
-              description="The core technologies and features that power this application."
-              whyItMatters="Understanding your tech stack helps with troubleshooting and planning upgrades."
-              howToImprove="Keep dependencies updated and document any custom configurations"
-              learnMore="https://github.com/TortoiseWolfe/CRUDkit/blob/main/README.md"
-            />
-          </div>
-        } bordered>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card
+          title={
+            <div className="flex items-center gap-2">
+              <span>System Information</span>
+              <InfoTooltip
+                title="Technical Stack Overview"
+                description="The core technologies and features that power this application."
+                whyItMatters="Understanding your tech stack helps with troubleshooting and planning upgrades."
+                howToImprove="Keep dependencies updated and document any custom configurations"
+                learnMore="https://github.com/TortoiseWolfe/CRUDkit/blob/main/README.md"
+              />
+            </div>
+          }
+          bordered
+        >
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
-              <h3 className="font-semibold mb-2">Stack</h3>
-              <ul className="text-sm space-y-1">
+              <h3 className="mb-2 font-semibold">Stack</h3>
+              <ul className="space-y-1 text-sm">
                 <li>• Next.js 15.5</li>
                 <li>• React 19</li>
                 <li>• TypeScript 5</li>
@@ -1602,8 +2157,8 @@ export default function StatusPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Features</h3>
-              <ul className="text-sm space-y-1">
+              <h3 className="mb-2 font-semibold">Features</h3>
+              <ul className="space-y-1 text-sm">
                 <li>• 32 Theme Options</li>
                 <li>• PWA Installable</li>
                 <li>• Offline Support</li>
@@ -1612,8 +2167,8 @@ export default function StatusPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">Testing</h3>
-              <ul className="text-sm space-y-1">
+              <h3 className="mb-2 font-semibold">Testing</h3>
+              <ul className="space-y-1 text-sm">
                 <li>• PWA Test Suite</li>
                 <li>• Web Vitals Monitoring</li>
                 <li>• Offline Testing</li>
@@ -1624,16 +2179,31 @@ export default function StatusPage() {
           </div>
           {projectConfig.project.isTemplate && (
             <div className="alert alert-info mt-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-6 w-6 shrink-0 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
               </svg>
               <div>
                 <p className="text-sm font-semibold">Fork Configuration</p>
-                <p className="text-xs">After forking, update /src/config/project-status.json with your project details:</p>
-                <ul className="text-xs mt-1 space-y-0.5">
-                  {projectConfig.customization.recommendedActions.map((action, i) => (
-                    <li key={i}>• {action}</li>
-                  ))}
+                <p className="text-xs">
+                  After forking, update /src/config/project-status.json with
+                  your project details:
+                </p>
+                <ul className="mt-1 space-y-0.5 text-xs">
+                  {projectConfig.customization.recommendedActions.map(
+                    (action, i) => (
+                      <li key={i}>• {action}</li>
+                    )
+                  )}
                 </ul>
               </div>
             </div>

@@ -33,105 +33,107 @@ export interface TaskProgress {
 export async function parseTasksFile(): Promise<TaskProgress> {
   try {
     // Fetch from public folder (copied during build)
-    const baseUrl = window.location.hostname === 'localhost' 
-      ? '' 
-      : '/CRUDkit';
-    
+    const baseUrl = window.location.hostname === 'localhost' ? '' : '/CRUDkit';
+
     // Add cache-busting timestamp to ensure fresh data
     const url = `${baseUrl}/TASKS.md?t=${Date.now()}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch TASKS.md');
     }
-    
+
     const content = await response.text();
-    
+
     // Extract overall completion info from header
     const progressMatch = content.match(/\((\d+)% Complete[^)]*\)/);
     const percentage = progressMatch ? parseInt(progressMatch[1]) : 0;
-    
+
     // Extract overall task counts
     const taskCountMatch = content.match(/(\d+)\/(\d+) Tasks/);
     const completedTasks = taskCountMatch ? parseInt(taskCountMatch[1]) : 0;
     const totalTasks = taskCountMatch ? parseInt(taskCountMatch[2]) : 0;
-    
+
     // Extract last updated
     const lastUpdatedMatch = content.match(/Last Updated: ([^(]+)/);
     const lastUpdated = lastUpdatedMatch ? lastUpdatedMatch[1].trim() : null;
-    
+
     // Parse sprint information
     const sprints: SprintProgress[] = [];
-    
+
     // Sprint 1
-    const sprint1Match = content.match(/Sprint 1[^:]*:.*?(\d+)\/(\d+) tasks.*?(\d+)%/);
+    const sprint1Match = content.match(
+      /Sprint 1[^:]*:.*?(\d+)\/(\d+) tasks.*?(\d+)%/
+    );
     if (sprint1Match) {
       sprints.push({
         name: 'Sprint 1: Core Implementation',
         completedTasks: parseInt(sprint1Match[1]),
         totalTasks: parseInt(sprint1Match[2]),
         percentage: parseInt(sprint1Match[3]),
-        status: 'completed'
+        status: 'completed',
       });
     }
-    
+
     // Sprint 2
-    const sprint2Match = content.match(/Sprint 2[^:]*:.*?(\d+)\/(\d+) tasks.*?(\d+)%/);
+    const sprint2Match = content.match(
+      /Sprint 2[^:]*:.*?(\d+)\/(\d+) tasks.*?(\d+)%/
+    );
     if (sprint2Match) {
       sprints.push({
         name: 'Sprint 2: Fix the Foundation',
         completedTasks: parseInt(sprint2Match[1]),
         totalTasks: parseInt(sprint2Match[2]),
         percentage: parseInt(sprint2Match[3]),
-        status: parseInt(sprint2Match[1]) > 0 ? 'in-progress' : 'not-started'
+        status: parseInt(sprint2Match[1]) > 0 ? 'in-progress' : 'not-started',
       });
     }
-    
+
     // Extract Sprint 1 phase statuses
     const phases: TaskProgress['phases'] = {};
-    
+
     // Sprint 1 Phase 0
     if (content.includes('✅ **Phase 0 Complete**')) {
       phases['Phase 0'] = {
         complete: true,
-        description: 'Next.js app deployed to GitHub Pages'
+        description: 'Next.js app deployed to GitHub Pages',
       };
     }
-    
+
     // Sprint 1 Phase 1
     if (content.includes('✅ **Phase 1 Complete**')) {
       phases['Phase 1'] = {
         complete: true,
-        description: 'Storybook deployed with Text component'
+        description: 'Storybook deployed with Text component',
       };
     }
-    
+
     // Sprint 1 Phase 2
     if (content.includes('✅ **Phase 2 Complete**')) {
       phases['Phase 2'] = {
         complete: true,
-        description: 'Theme system with 32 themes'
+        description: 'Theme system with 32 themes',
       };
     }
-    
+
     // Sprint 1 Phase 3
     if (content.includes('✅ **Phase 3 Complete**')) {
       phases['Phase 3'] = {
         complete: true,
-        description: 'Component gallery deployed'
+        description: 'Component gallery deployed',
       };
     }
-    
+
     // Sprint 1 Phase 4
     if (content.includes('✅ **Phase 4 Complete**')) {
       phases['Phase 4'] = {
         complete: true,
-        description: 'PWA features with testing and monitoring'
+        description: 'PWA features with testing and monitoring',
       };
     }
-    
+
     // Extract Sprint 2 phase statuses
     const sprint2Phases: TaskProgress['sprint2Phases'] = {};
-    
+
     // Parse Sprint 2 Phase 1 (Testing Foundation)
     // Count completed tasks T001-T012
     let phase1Completed = 0;
@@ -145,9 +147,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     }
     sprint2Phases['Phase 1'] = {
       complete: phase1Completed === phase1Total,
-      description: `Testing Foundation (Weeks 1-2) - ${phase1Completed}/${phase1Total} tasks`
+      description: `Testing Foundation (Weeks 1-2) - ${phase1Completed}/${phase1Total} tasks`,
     };
-    
+
     // Parse Sprint 2 Phase 2 (Developer Experience)
     // Count completed tasks T013-T024
     let phase2Completed = 0;
@@ -161,9 +163,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     }
     sprint2Phases['Phase 2'] = {
       complete: phase2Completed === phase2Total,
-      description: `Developer Experience (Weeks 3-4) - ${phase2Completed}/${phase2Total} tasks`
+      description: `Developer Experience (Weeks 3-4) - ${phase2Completed}/${phase2Total} tasks`,
     };
-    
+
     // Parse Sprint 2 Phase 3 (First Simple Feature)
     // Count completed tasks T025-T036
     let phase3Completed = 0;
@@ -177,9 +179,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     }
     sprint2Phases['Phase 3'] = {
       complete: phase3Completed === phase3Total,
-      description: `First Simple Feature (Weeks 5-6) - ${phase3Completed}/${phase3Total} tasks`
+      description: `First Simple Feature (Weeks 5-6) - ${phase3Completed}/${phase3Total} tasks`,
     };
-    
+
     // Parse Sprint 2 Phase 4 (Quality Baseline)
     // Count completed tasks T037-T048
     let phase4Completed = 0;
@@ -193,9 +195,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     }
     sprint2Phases['Phase 4'] = {
       complete: phase4Completed === phase4Total,
-      description: `Quality Baseline (Weeks 7-8) - ${phase4Completed}/${phase4Total} tasks`
+      description: `Quality Baseline (Weeks 7-8) - ${phase4Completed}/${phase4Total} tasks`,
     };
-    
+
     // Parse Sprint 2 Phase 5 (Foundation Completion)
     // Count completed tasks T049-T060
     let phase5Completed = 0;
@@ -209,9 +211,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     }
     sprint2Phases['Phase 5'] = {
       complete: phase5Completed === phase5Total,
-      description: `Foundation Completion (Weeks 9-10) - ${phase5Completed}/${phase5Total} tasks`
+      description: `Foundation Completion (Weeks 9-10) - ${phase5Completed}/${phase5Total} tasks`,
     };
-    
+
     return {
       totalTasks,
       completedTasks,
@@ -219,7 +221,7 @@ export async function parseTasksFile(): Promise<TaskProgress> {
       phases,
       sprint2Phases,
       lastUpdated,
-      sprints
+      sprints,
     };
   } catch (error) {
     console.error('Failed to parse TASKS.md:', error);
@@ -236,16 +238,16 @@ export async function parseTasksFile(): Promise<TaskProgress> {
           totalTasks: 96,
           completedTasks: 95,
           percentage: 99,
-          status: 'completed'
+          status: 'completed',
         },
         {
           name: 'Sprint 2: Fix the Foundation',
           totalTasks: 65,
           completedTasks: 0,
           percentage: 0,
-          status: 'not-started'
-        }
-      ]
+          status: 'not-started',
+        },
+      ],
     };
   }
 }

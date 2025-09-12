@@ -1,13 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui" {
-  themes: light, dark, cupcake, bumblebee, emerald, corporate, synthwave, retro, cyberpunk, valentine, halloween, garden, forest, aqua, lofi, pastel, fantasy, wireframe, black, luxury, dracula, cmyk, autumn, business, acid, lemonade, night, coffee, winter, dim, nord, sunset;
+  themes:
+    light, dark, cupcake, bumblebee, emerald, corporate, synthwave, retro,
+    cyberpunk, valentine, halloween, garden, forest, aqua, lofi, pastel,
+    fantasy, wireframe, black, luxury, dracula, cmyk, autumn, business, acid,
+    lemonade, night, coffee, winter, dim, nord, sunset;
 }
 
 /* Accessibility Font Scaling System */
 :root {
   /* Base scale factor - controlled by accessibility settings */
   --font-scale-factor: 1;
-  
+
   /* Scaled text sizes */
   --text-xs: calc(0.75rem * var(--font-scale-factor));
   --text-sm: calc(0.875rem * var(--font-scale-factor));
@@ -25,25 +29,65 @@
 }
 
 /* Override Tailwind text size classes to use CSS variables */
-.text-xs { font-size: var(--text-xs) !important; }
-.text-sm { font-size: var(--text-sm) !important; }
-.text-base { font-size: var(--text-base) !important; }
-.text-lg { font-size: var(--text-lg) !important; }
-.text-xl { font-size: var(--text-xl) !important; }
-.text-2xl { font-size: var(--text-2xl) !important; }
-.text-3xl { font-size: var(--text-3xl) !important; }
-.text-4xl { font-size: var(--text-4xl) !important; }
-.text-5xl { font-size: var(--text-5xl) !important; }
-.text-6xl { font-size: var(--text-6xl) !important; }
-.text-7xl { font-size: var(--text-7xl) !important; }
-.text-8xl { font-size: var(--text-8xl) !important; }
-.text-9xl { font-size: var(--text-9xl) !important; }
+.text-xs {
+  font-size: var(--text-xs) !important;
+}
+.text-sm {
+  font-size: var(--text-sm) !important;
+}
+.text-base {
+  font-size: var(--text-base) !important;
+}
+.text-lg {
+  font-size: var(--text-lg) !important;
+}
+.text-xl {
+  font-size: var(--text-xl) !important;
+}
+.text-2xl {
+  font-size: var(--text-2xl) !important;
+}
+.text-3xl {
+  font-size: var(--text-3xl) !important;
+}
+.text-4xl {
+  font-size: var(--text-4xl) !important;
+}
+.text-5xl {
+  font-size: var(--text-5xl) !important;
+}
+.text-6xl {
+  font-size: var(--text-6xl) !important;
+}
+.text-7xl {
+  font-size: var(--text-7xl) !important;
+}
+.text-8xl {
+  font-size: var(--text-8xl) !important;
+}
+.text-9xl {
+  font-size: var(--text-9xl) !important;
+}
 
 /* Also scale heading elements that don't have explicit classes */
-h1:not([class*="text-"]) { font-size: var(--text-4xl); }
-h2:not([class*="text-"]) { font-size: var(--text-3xl); }
-h3:not([class*="text-"]) { font-size: var(--text-2xl); }
-h4:not([class*="text-"]) { font-size: var(--text-xl); }
-h5:not([class*="text-"]) { font-size: var(--text-lg); }
-h6:not([class*="text-"]) { font-size: var(--text-base); }
-p:not([class*="text-"]) { font-size: var(--text-base); }
+h1:not([class*='text-']) {
+  font-size: var(--text-4xl);
+}
+h2:not([class*='text-']) {
+  font-size: var(--text-3xl);
+}
+h3:not([class*='text-']) {
+  font-size: var(--text-2xl);
+}
+h4:not([class*='text-']) {
+  font-size: var(--text-xl);
+}
+h5:not([class*='text-']) {
+  font-size: var(--text-lg);
+}
+h6:not([class*='text-']) {
+  font-size: var(--text-base);
+}
+p:not([class*='text-']) {
+  font-size: var(--text-base);
+}

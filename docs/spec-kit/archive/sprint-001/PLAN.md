@@ -7,6 +7,7 @@ Generated from spec.md - Deploy Early, Deploy Often strategy
 CRUDkit follows a **Deploy Early, Deploy Often** philosophy with GitHub Pages deployment from Day 1. Every phase includes deployment milestones with smoke tests to ensure the build pipeline works throughout development, not just at the end.
 
 ### Key Principles
+
 - **Day 1 Deployment**: Basic app live on GitHub Pages immediately
 - **Dual Deployment**: Both app (/) and Storybook (/storybook) paths
 - **Smoke Tests**: Build validation after each component phase
@@ -16,6 +17,7 @@ CRUDkit follows a **Deploy Early, Deploy Often** philosophy with GitHub Pages de
 ## Phase 0: Project Initialization & First Deploy (Day 1)
 
 ### Morning: Environment Setup
+
 ```bash
 # Create Next.js 15.5 project
 npx create-next-app@latest crudkit \
@@ -34,6 +36,7 @@ gh repo edit --enable-pages --pages-branch main
 ```
 
 ### Afternoon: First Deployment
+
 ```bash
 # Create minimal "Hello CRUDkit" page
 cat > src/app/page.tsx << 'EOF'
@@ -107,6 +110,7 @@ git push -u origin main
 ```
 
 ### Evening: Verify Deployment
+
 ```bash
 # Check deployment status
 gh run list --workflow=deploy.yml
@@ -123,6 +127,7 @@ pnpm run test:smoke
 ## Phase 1: Sub-Atomic Typography & Storybook Deploy (Days 2-4)
 
 ### Day 2: Setup Storybook with Deployment
+
 ```bash
 # Initialize Storybook
 pnpm dlx storybook@latest init
@@ -210,11 +215,13 @@ git commit -m "Add Storybook with Text component"
 git push
 ```
 
-**🎯 Day 2-4 Milestone**: 
+**🎯 Day 2-4 Milestone**:
+
 - Storybook live at https://[username].github.io/crudkit/storybook
 - All sub-atomic text components visible and interactive
 
 ### Day 3-4: Complete Sub-Atomic Components
+
 - Implement Heading, Paragraph, Caption, Code, List, Emphasis
 - Add stories for each component
 - Deploy updates daily
@@ -223,6 +230,7 @@ git push
 ## Phase 2: Dual Theme System with Live Demo (Days 5-7)
 
 ### Day 5: Deploy Theme Switchers
+
 ```typescript
 // Create theme demo page
 // src/app/themes/page.tsx
@@ -243,6 +251,7 @@ export default function ThemesDemo() {
 **🎯 Day 5 Milestone**: Live theme switching at https://[username].github.io/crudkit/themes
 
 ### Day 6: Typography Accessibility Controls
+
 ```typescript
 // Add accessibility demo
 // src/app/accessibility/page.tsx
@@ -261,36 +270,37 @@ export default function AccessibilityDemo() {
 **🎯 Day 6 Milestone**: Accessibility controls live at https://[username].github.io/crudkit/accessibility
 
 ### Day 7: Integration & Smoke Tests
+
 ```typescript
 // tests/smoke/deployment.test.ts
 describe('Deployment Smoke Tests', () => {
   const baseUrl = 'https://[username].github.io/crudkit';
-  
+
   test('Main app is accessible', async () => {
     const response = await fetch(baseUrl);
     expect(response.status).toBe(200);
   });
-  
+
   test('Storybook is accessible', async () => {
     const response = await fetch(`${baseUrl}/storybook`);
     expect(response.status).toBe(200);
   });
-  
+
   test('Theme demo works', async () => {
     const page = await browser.newPage();
     await page.goto(`${baseUrl}/themes`);
-    
+
     // Test color theme switching
     await page.click('[data-theme="forest-floor"]');
-    const theme = await page.evaluate(() => 
-      document.documentElement.dataset.theme
+    const theme = await page.evaluate(
+      () => document.documentElement.dataset.theme
     );
     expect(theme).toBe('forest-floor');
-    
+
     // Test font theme switching
     await page.click('[data-font-theme="playful"]');
-    const fontTheme = await page.evaluate(() => 
-      document.documentElement.dataset.fontTheme
+    const fontTheme = await page.evaluate(
+      () => document.documentElement.dataset.fontTheme
     );
     expect(fontTheme).toBe('playful');
   });
@@ -302,6 +312,7 @@ describe('Deployment Smoke Tests', () => {
 ## Phase 3: Atomic Components Showcase (Days 8-10)
 
 ### Day 8: Deploy Component Gallery
+
 ```typescript
 // src/app/components/page.tsx
 export default function ComponentGallery() {
@@ -322,6 +333,7 @@ export default function ComponentGallery() {
 **🎯 Day 8 Milestone**: Component gallery live at https://[username].github.io/crudkit/components
 
 ### Day 9-10: Progressive Component Deployment
+
 - Deploy new components as they're built
 - Update Storybook documentation
 - Run visual regression tests
@@ -330,6 +342,7 @@ export default function ComponentGallery() {
 ## Phase 4: PWA Features with Live Testing (Days 11-13)
 
 ### Day 11: Deploy PWA Shell
+
 ```bash
 # Add PWA deployment test
 cat > public/manifest.json << 'EOF'
@@ -355,6 +368,7 @@ echo "Visit https://[username].github.io/crudkit on mobile to test PWA installat
 **🎯 Day 11 Milestone**: PWA installable from GitHub Pages
 
 ### Day 12-13: Offline Functionality
+
 - Deploy service worker
 - Test offline mode on live site
 - Validate background sync
@@ -363,16 +377,18 @@ echo "Visit https://[username].github.io/crudkit on mobile to test PWA installat
 ## Continuous Deployment Schedule
 
 ### Daily Deployments
+
 ```yaml
 # Automated daily deployment at 6 PM
 on:
   schedule:
-    - cron: '0 18 * * *'  # 6 PM UTC daily
+    - cron: '0 18 * * *' # 6 PM UTC daily
   push:
     branches: [main, develop]
 ```
 
 ### Deployment Checklist
+
 - [ ] Build passes locally
 - [ ] Smoke tests pass
 - [ ] Storybook builds
@@ -383,6 +399,7 @@ on:
 - [ ] Share URLs for feedback
 
 ### Monitoring Dashboard
+
 ```typescript
 // src/app/status/page.tsx
 export default function StatusDashboard() {
@@ -404,6 +421,7 @@ export default function StatusDashboard() {
 ## Success Metrics
 
 ### Deployment Milestones
+
 - ✅ Day 1: Basic app deployed
 - ✅ Day 2: Storybook deployed
 - ✅ Day 5: Themes demo live
@@ -417,6 +435,7 @@ export default function StatusDashboard() {
 - ✅ Day 30: Production ready
 
 ### Continuous Validation
+
 - Deployment success rate: >95%
 - Build time: <3 minutes
 - Smoke test pass rate: 100%

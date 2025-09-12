@@ -7,13 +7,14 @@ This plan details the technical implementation for the 10-week Sprint 2, focusin
 ## Technical Stack Additions
 
 ### Testing Stack
+
 ```yaml
 Core Testing:
   Framework: Vitest 1.2.0
   UI Testing: @testing-library/react 14.0.0
   DOM Utilities: @testing-library/jest-dom 6.0.0
   Coverage: @vitest/coverage-v8
-  
+
 Quality Tools:
   Formatting: Prettier 3.2.0
   Git Hooks: Husky 9.0.0
@@ -27,6 +28,7 @@ Quality Tools:
 ### 1.1 Vitest Configuration
 
 **File: `/vitest.config.ts`**
+
 ```typescript
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
@@ -64,6 +66,7 @@ export default defineConfig({
 ```
 
 **File: `/src/test/setup.ts`**
+
 ```typescript
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
@@ -95,6 +98,7 @@ vi.mock('next/navigation', () => ({
 ### 1.2 First Component Test
 
 **File: `/src/components/subatomic/Text/Text.test.tsx`**
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -139,6 +143,7 @@ describe('Text Component', () => {
 ### 1.3 Git Hooks Setup
 
 **File: `/.husky/install.mjs`**
+
 ```javascript
 #!/usr/bin/env node
 import husky from 'husky';
@@ -147,6 +152,7 @@ husky.install();
 ```
 
 **File: `/.husky/pre-commit`**
+
 ```bash
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -166,6 +172,7 @@ echo "✅ Pre-commit checks passed!"
 ### 1.4 GitHub Actions CI
 
 **File: `/.github/workflows/ci.yml`**
+
 ```yaml
 name: CI Pipeline
 
@@ -179,41 +186,41 @@ jobs:
   test:
     name: Test and Build
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [20.x]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      
+
       - name: Run linter
         run: pnpm run lint
-      
+
       - name: Type check
         run: pnpm run type-check
-      
+
       - name: Run tests with coverage
         run: pnpm run test:coverage
-      
+
       - name: Build application
         run: pnpm run build
-      
+
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
@@ -227,6 +234,7 @@ jobs:
 ### 2.1 Docker HMR Fix
 
 **File: `/docker-compose.yml`** (Updated)
+
 ```yaml
 services:
   crudkit:
@@ -235,9 +243,9 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - "3000:3000"
-      - "3001:3001"  # HMR websocket port
-      - "6006:6006"  # Storybook
+      - '3000:3000'
+      - '3001:3001' # HMR websocket port
+      - '6006:6006' # Storybook
     volumes:
       - .:/app
       - /app/node_modules
@@ -252,7 +260,7 @@ services:
     networks:
       - crudkit-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -261,6 +269,7 @@ services:
 ### 2.2 Prettier Configuration
 
 **File: `/.prettierrc.json`**
+
 ```json
 {
   "semi": true,
@@ -286,6 +295,7 @@ services:
 ```
 
 **File: `/.prettierignore`**
+
 ```
 node_modules
 .next
@@ -300,48 +310,50 @@ public
 ### 2.3 Dependabot Configuration
 
 **File: `/.github/dependabot.yml`**
+
 ```yaml
 version: 2
 updates:
   # npm dependencies
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     open-pull-requests-limit: 10
     groups:
       production-dependencies:
-        dependency-type: "production"
+        dependency-type: 'production'
       development-dependencies:
-        dependency-type: "development"
+        dependency-type: 'development'
         patterns:
-          - "*"
+          - '*'
         exclude-patterns:
-          - "eslint*"
-          - "prettier*"
+          - 'eslint*'
+          - 'prettier*'
       linting:
         patterns:
-          - "eslint*"
-          - "prettier*"
-    
+          - 'eslint*'
+          - 'prettier*'
+
   # Docker dependencies
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "weekly"
-    
+      interval: 'weekly'
+
   # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 ```
 
 ### 2.4 Error Handler Utility
 
 **File: `/src/utils/error-handler.ts`**
+
 ```typescript
 export class AppError extends Error {
   public readonly timestamp: Date;
@@ -357,7 +369,7 @@ export class AppError extends Error {
     this.name = 'AppError';
     this.timestamp = new Date();
     this.context = context;
-    
+
     // Maintains proper stack trace
     Error.captureStackTrace(this, this.constructor);
   }
@@ -396,16 +408,13 @@ export const errorHandler = {
     if (error instanceof AppError) {
       return error;
     }
-    
+
     if (error instanceof Error) {
-      return new AppError(
-        error.message,
-        'UNKNOWN_ERROR',
-        500,
-        { originalError: error.name }
-      );
+      return new AppError(error.message, 'UNKNOWN_ERROR', 500, {
+        originalError: error.name,
+      });
     }
-    
+
     return new AppError(
       'An unexpected error occurred',
       'UNEXPECTED_ERROR',
@@ -421,6 +430,7 @@ export const errorHandler = {
 ### 3.1 Dice Component Implementation
 
 **File: `/src/components/atomic/Dice/types.ts`**
+
 ```typescript
 export type DiceSides = 4 | 6 | 8 | 10 | 12 | 20;
 
@@ -442,6 +452,7 @@ export interface DiceState {
 ```
 
 **File: `/src/components/atomic/Dice/Dice.tsx`**
+
 ```typescript
 'use client';
 
@@ -477,20 +488,20 @@ export const Dice: React.FC<DiceProps> = ({
     if (disabled || isRolling) return;
 
     setIsRolling(true);
-    
+
     // Simulate rolling animation
     const rollDuration = 500;
     const rollInterval = 50;
     const iterations = rollDuration / rollInterval;
-    
+
     let currentIteration = 0;
     const interval = setInterval(() => {
       currentIteration++;
-      
+
       // Show random numbers during roll
       const randomValue = Math.floor(Math.random() * sides) + 1;
       setDisplayValue(randomValue);
-      
+
       if (currentIteration >= iterations) {
         clearInterval(interval);
         const finalValue = Math.floor(Math.random() * sides) + 1;
@@ -532,6 +543,7 @@ Dice.displayName = 'Dice';
 ```
 
 [Content continues - truncated for length. The full plan includes:
+
 - Complete Dice component tests
 - Storybook stories
 - Zod validation schemas
@@ -558,4 +570,4 @@ The plan emphasizes incremental progress, starting with basic functionality and 
 
 ---
 
-*Ready for task breakdown via `/tasks` command*
+_Ready for task breakdown via `/tasks` command_

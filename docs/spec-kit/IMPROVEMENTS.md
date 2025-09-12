@@ -7,6 +7,7 @@ This document outlines optimization opportunities identified during the CRUDkit 
 These improvements can be implemented quickly and provide immediate value:
 
 ### 1. Add Maskable PWA Icons
+
 - **Priority**: High
 - **Effort**: 15 minutes
 - **Impact**: Better PWA installation experience on Android
@@ -16,6 +17,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Ensure 20% safe zone padding for adaptive icons
 
 ### 2. Add Apple Touch Icon
+
 - **Priority**: High
 - **Effort**: 10 minutes
 - **Impact**: Better iOS home screen experience
@@ -24,6 +26,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Add `<link rel="apple-touch-icon">` to layout
 
 ### 3. Improve Button Accessibility Labels
+
 - **Priority**: Medium
 - **Effort**: 20 minutes
 - **Impact**: Better screen reader support
@@ -32,6 +35,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Ensure all interactive elements have descriptive text
 
 ### 4. Add Form Input Labels
+
 - **Priority**: Medium
 - **Effort**: 15 minutes
 - **Impact**: WCAG compliance and better UX
@@ -40,6 +44,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Use aria-labelledby for complex forms
 
 ### 5. Add SRI to External Resources
+
 - **Priority**: Low
 - **Effort**: 10 minutes
 - **Impact**: Enhanced security
@@ -50,6 +55,7 @@ These improvements can be implemented quickly and provide immediate value:
 ## Performance Optimizations
 
 ### 6. Reduce JavaScript Bundle Size
+
 - **Priority**: High
 - **Effort**: 2-4 hours
 - **Impact**: Faster load times, better Core Web Vitals
@@ -60,6 +66,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Consider dynamic imports for heavy components
 
 ### 7. Implement Code Splitting
+
 - **Priority**: High
 - **Effort**: 2-3 hours
 - **Impact**: Faster initial page load
@@ -69,6 +76,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Split vendor chunks strategically
 
 ### 8. Optimize Time to Interactive
+
 - **Priority**: Medium
 - **Effort**: 3-4 hours
 - **Impact**: Better user experience
@@ -78,6 +86,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Use React.lazy for component-level splitting
 
 ### 9. Remove Unused Dependencies
+
 - **Priority**: Low
 - **Effort**: 1 hour
 - **Impact**: Smaller bundle, faster installs
@@ -89,6 +98,7 @@ These improvements can be implemented quickly and provide immediate value:
 ## Security Enhancements
 
 ### 10. Implement Content Security Policy
+
 - **Priority**: High
 - **Effort**: 2-3 hours
 - **Impact**: XSS protection, security compliance
@@ -98,6 +108,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Test with report-only mode first
 
 ### 11. Add Security Headers
+
 - **Priority**: High
 - **Effort**: 1 hour
 - **Impact**: Enhanced security posture
@@ -107,6 +118,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Set Permissions-Policy for API access
 
 ### 12. Set Up Rate Limiting
+
 - **Priority**: Medium
 - **Effort**: 2-3 hours
 - **Impact**: DDoS protection, API abuse prevention
@@ -118,6 +130,7 @@ These improvements can be implemented quickly and provide immediate value:
 ## Advanced PWA Features
 
 ### 13. Web Share API
+
 - **Priority**: Medium
 - **Effort**: 2 hours
 - **Impact**: Native sharing experience
@@ -127,6 +140,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Fallback to copy-to-clipboard
 
 ### 14. Push Notifications
+
 - **Priority**: Low
 - **Effort**: 4-6 hours
 - **Impact**: User engagement, real-time updates
@@ -136,6 +150,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Add backend push service integration
 
 ### 15. App Badging
+
 - **Priority**: Low
 - **Effort**: 1 hour
 - **Impact**: Visual notification indicator
@@ -145,6 +160,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Provide fallback for unsupported browsers
 
 ### 16. File Handling
+
 - **Priority**: Low
 - **Effort**: 3-4 hours
 - **Impact**: OS-level file association
@@ -154,6 +170,7 @@ These improvements can be implemented quickly and provide immediate value:
   - Implement file type validation
 
 ### 17. Clipboard Access
+
 - **Priority**: Low
 - **Effort**: 2 hours
 - **Impact**: Enhanced copy/paste functionality
@@ -165,6 +182,7 @@ These improvements can be implemented quickly and provide immediate value:
 ## Visual Regression Testing
 
 ### 18. Implement Visual Testing Suite
+
 - **Priority**: Medium
 - **Effort**: 4-6 hours
 - **Impact**: Prevent UI regressions
@@ -176,11 +194,11 @@ These improvements can be implemented quickly and provide immediate value:
 
 ## Implementation Priority Matrix
 
-| Priority | Quick Wins | Performance | Security | Advanced PWA |
-|----------|------------|-------------|----------|--------------|
-| **High** | Maskable Icons, Apple Icon | Bundle Size, Code Splitting | CSP, Security Headers | - |
-| **Medium** | Accessibility Labels | Time to Interactive | Rate Limiting | Web Share API |
-| **Low** | SRI | Remove Dependencies | - | Push, Badging, File, Clipboard |
+| Priority   | Quick Wins                 | Performance                 | Security              | Advanced PWA                   |
+| ---------- | -------------------------- | --------------------------- | --------------------- | ------------------------------ |
+| **High**   | Maskable Icons, Apple Icon | Bundle Size, Code Splitting | CSP, Security Headers | -                              |
+| **Medium** | Accessibility Labels       | Time to Interactive         | Rate Limiting         | Web Share API                  |
+| **Low**    | SRI                        | Remove Dependencies         | -                     | Push, Badging, File, Clipboard |
 
 ## Getting Started
 
@@ -196,6 +214,7 @@ Each improvement should be implemented in a separate branch and tested thoroughl
 ## Monitoring Success
 
 Track the impact of improvements using:
+
 - Lighthouse scores (target: all >95)
 - Bundle size analyzer
 - Real User Monitoring (RUM) data

@@ -8,16 +8,16 @@ export default function AccessibilityPage() {
   const { fontSize, lineHeight, fontFamily } = settings;
 
   return (
-    <main className="min-h-screen bg-base-100">
+    <main className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           <div className="mb-4">
             <Link href="/" className="btn btn-ghost btn-sm">
               ← Back to Home
             </Link>
           </div>
-          <h1 className="text-4xl font-bold mb-8">Accessibility Controls</h1>
-          <p className="text-lg mb-8 text-base-content/70">
+          <h1 className="mb-8 text-4xl font-bold">Accessibility Controls</h1>
+          <p className="text-base-content/70 mb-8 text-lg">
             Customize the reading experience to suit your preferences
           </p>
 
@@ -26,16 +26,19 @@ export default function AccessibilityPage() {
             <div className="card bg-base-200 shadow-xl">
               <div className="card-body">
                 <h2 className="card-title mb-4">Font Size</h2>
-                <div className="flex gap-2 flex-wrap">
-                  {(['small', 'medium', 'large', 'x-large'] as const).map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => updateSettings({ fontSize: size })}
-                      className={`btn ${fontSize === size ? 'btn-primary' : 'btn-outline'}`}
-                    >
-                      {size.charAt(0).toUpperCase() + size.slice(1).replace('-', ' ')}
-                    </button>
-                  ))}
+                <div className="flex flex-wrap gap-2">
+                  {(['small', 'medium', 'large', 'x-large'] as const).map(
+                    (size) => (
+                      <button
+                        key={size}
+                        onClick={() => updateSettings({ fontSize: size })}
+                        className={`btn ${fontSize === size ? 'btn-primary' : 'btn-outline'}`}
+                      >
+                        {size.charAt(0).toUpperCase() +
+                          size.slice(1).replace('-', ' ')}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -44,7 +47,7 @@ export default function AccessibilityPage() {
             <div className="card bg-base-200 shadow-xl">
               <div className="card-body">
                 <h2 className="card-title mb-4">Line Spacing</h2>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   {(['compact', 'normal', 'relaxed'] as const).map((height) => (
                     <button
                       key={height}
@@ -62,14 +65,18 @@ export default function AccessibilityPage() {
             <div className="card bg-base-200 shadow-xl">
               <div className="card-body">
                 <h2 className="card-title mb-4">Reading Mode</h2>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   {(['sans-serif', 'serif', 'mono'] as const).map((family) => (
                     <button
                       key={family}
                       onClick={() => updateSettings({ fontFamily: family })}
                       className={`btn ${fontFamily === family ? 'btn-primary' : 'btn-outline'}`}
                     >
-                      {family === 'sans-serif' ? 'Sans' : family === 'serif' ? 'Serif' : 'Mono'}
+                      {family === 'sans-serif'
+                        ? 'Sans'
+                        : family === 'serif'
+                          ? 'Serif'
+                          : 'Mono'}
                     </button>
                   ))}
                 </div>
@@ -89,21 +96,43 @@ export default function AccessibilityPage() {
 
           {/* Preview Section */}
           <div className="divider my-12">Preview</div>
-          
+
           <div className="card bg-base-100 shadow-xl">
-            <div className="card-body accessibility-preview" style={{ fontSize: `var(--base-font-size)` }}>
-              <h2 className="text-2xl font-bold" style={{ fontSize: `calc(2rem * var(--font-scale, 1))` }}>Sample Heading</h2>
-              <p className="text-lg" style={{ fontSize: `calc(1.125rem * var(--font-scale, 1))` }}>
-                This is a lead paragraph showing how your accessibility settings affect the text display.
+            <div
+              className="card-body accessibility-preview"
+              style={{ fontSize: `var(--base-font-size)` }}
+            >
+              <h2
+                className="text-2xl font-bold"
+                style={{ fontSize: `calc(2rem * var(--font-scale, 1))` }}
+              >
+                Sample Heading
+              </h2>
+              <p
+                className="text-lg"
+                style={{ fontSize: `calc(1.125rem * var(--font-scale, 1))` }}
+              >
+                This is a lead paragraph showing how your accessibility settings
+                affect the text display.
               </p>
               <p style={{ fontSize: `calc(1rem * var(--font-scale, 1))` }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
               </p>
-              <p className="text-sm" style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}>
-                Small text: These accessibility controls are saved to your browser and will persist across sessions.
+              <p
+                className="text-sm"
+                style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}
+              >
+                Small text: These accessibility controls are saved to your
+                browser and will persist across sessions.
               </p>
               <div className="mt-4">
-                <pre className="bg-base-200 p-4 rounded" style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}>
+                <pre
+                  className="bg-base-200 rounded p-4"
+                  style={{ fontSize: `calc(0.875rem * var(--font-scale, 1))` }}
+                >
                   <code>{`// Code example
 const settings = {
   fontSize: "${fontSize}",
@@ -116,7 +145,7 @@ const settings = {
           </div>
 
           {/* Current Settings Display */}
-          <div className="stats shadow mt-8">
+          <div className="stats mt-8 shadow">
             <div className="stat">
               <div className="stat-title">Current Font Size</div>
               <div className="stat-value text-primary">{fontSize}</div>
@@ -127,7 +156,13 @@ const settings = {
             </div>
             <div className="stat">
               <div className="stat-title">Current Font</div>
-              <div className="stat-value text-accent">{fontFamily === 'sans-serif' ? 'Sans' : fontFamily === 'serif' ? 'Serif' : 'Mono'}</div>
+              <div className="stat-value text-accent">
+                {fontFamily === 'sans-serif'
+                  ? 'Sans'
+                  : fontFamily === 'serif'
+                    ? 'Serif'
+                    : 'Mono'}
+              </div>
             </div>
           </div>
         </div>

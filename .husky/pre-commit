@@ -1,1 +1,7 @@
-pnpm lint:staged
+#!/bin/sh
+# Run lint-staged in Docker if available, otherwise locally
+if docker compose ps | grep -q crudkit; then
+  docker compose exec -T crudkit pnpm lint:staged
+else
+  pnpm lint:staged
+fi

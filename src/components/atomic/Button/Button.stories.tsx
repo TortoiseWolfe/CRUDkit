@@ -11,7 +11,17 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'accent', 'ghost', 'link', 'info', 'success', 'warning', 'error'],
+      options: [
+        'primary',
+        'secondary',
+        'accent',
+        'ghost',
+        'link',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
     },
     size: {
       control: 'select',
@@ -142,26 +152,26 @@ export const AllVariants: Story = {
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button variant="primary">Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="accent">Accent</Button>
         <Button variant="ghost">Ghost</Button>
         <Button variant="link">Link</Button>
       </div>
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button variant="info">Info</Button>
         <Button variant="success">Success</Button>
         <Button variant="warning">Warning</Button>
         <Button variant="error">Error</Button>
       </div>
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button size="xs">Extra Small</Button>
         <Button size="sm">Small</Button>
         <Button size="md">Medium</Button>
         <Button size="lg">Large</Button>
       </div>
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button outline>Outline</Button>
         <Button loading>Loading</Button>
         <Button wide>Wide Button</Button>

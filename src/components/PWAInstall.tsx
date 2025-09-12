@@ -8,11 +8,12 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function PWAInstall() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  
+
   // Check debug mode immediately
   const [isDebugMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -27,28 +28,36 @@ export default function PWAInstall() {
     if ('serviceWorker' in navigator) {
       // Skip in test environments
       if (process.env.NODE_ENV === 'test') return;
-      
+
       window.addEventListener('load', () => {
         // Use basePath for GitHub Pages in production, root path in dev
-        const swPath = process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
-        
+        const swPath =
+          process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
+
         console.log(`[PWA] Registering Service Worker from: ${swPath}`);
-        
+
         // Add timestamp to force update
         const swUrl = `${swPath}?v=${Date.now()}`;
-        
+
         navigator.serviceWorker.register(swUrl).then(
           (registration) => {
             console.log('[PWA] Service Worker registered:', registration);
             console.log('[PWA] SW Scope:', registration.scope);
-            console.log('[PWA] SW State:', registration.active?.state || 'installing');
-            
+            console.log(
+              '[PWA] SW State:',
+              registration.active?.state || 'installing'
+            );
+
             // Force update check
-            registration.update().catch(err => console.log('SW update failed:', err));
-            
+            registration
+              .update()
+              .catch((err) => console.log('SW update failed:', err));
+
             // Check for updates periodically
             setInterval(() => {
-              registration.update().catch(err => console.log('SW update check failed:', err));
+              registration
+                .update()
+                .catch((err) => console.log('SW update check failed:', err));
             }, 60000); // Check every minute
           },
           (error) => {
@@ -85,7 +94,10 @@ export default function PWAInstall() {
     });
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 
@@ -109,12 +121,12 @@ export default function PWAInstall() {
     // Store minimized state in localStorage
     localStorage.setItem('pwa-install-minimized', 'true');
   };
-  
+
   const handleExpand = () => {
     setIsMinimized(false);
     localStorage.removeItem('pwa-install-minimized');
   };
-  
+
   const handleHideForever = () => {
     setShowInstallButton(false);
     // Store permanent dismissal
@@ -126,7 +138,7 @@ export default function PWAInstall() {
     // Check for debug mode
     const urlParams = new URLSearchParams(window.location.search);
     const debugMode = urlParams.get('pwa-debug') === 'true';
-    
+
     if (debugMode) {
       console.log('[PWA] Debug mode enabled - forcing install prompt to show');
       setShowInstallButton(true);
@@ -155,7 +167,7 @@ export default function PWAInstall() {
 
   // Show if: debug mode is on, OR install button should show and not installed
   if (!isDebugMode && (!showInstallButton || isInstalled)) return null;
-  
+
   // Log debug info
   if (isDebugMode) {
     console.log('[PWA Debug] Component rendering in debug mode');
@@ -167,15 +179,25 @@ export default function PWAInstall() {
   // Minimized CTA button
   if (isMinimized && !isInstalled) {
     return (
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed right-4 bottom-4 z-50">
         <button
           onClick={handleExpand}
-          className="btn btn-circle btn-primary btn-lg shadow-lg hover:shadow-xl transform hover:scale-110 transition-all"
+          className="btn btn-circle btn-primary btn-lg transform shadow-lg transition-all hover:scale-110 hover:shadow-xl"
           aria-label="Install CRUDkit App"
           title="Install CRUDkit App"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-6 w-6 stroke-current"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
           </svg>
         </button>
       </div>
@@ -184,38 +206,68 @@ export default function PWAInstall() {
 
   // Full alert UI
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto md:max-w-lg z-50">
-      <div className="alert alert-info shadow-lg text-base">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0" style={{ width: '1.5em', height: '1.5em' }}>
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    <div className="fixed right-4 bottom-4 left-4 z-50 md:right-4 md:left-auto md:w-auto md:max-w-lg">
+      <div className="alert alert-info text-base shadow-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          className="shrink-0 stroke-current"
+          style={{ width: '1.5em', height: '1.5em' }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
         </svg>
         <div className="flex-1">
-          <div className="font-bold text-base">Install CRUDkit App {isDebugMode && '(Debug Mode)'}</div>
+          <div className="text-base font-bold">
+            Install CRUDkit App {isDebugMode && '(Debug Mode)'}
+          </div>
           <p className="text-sm">
-            {isDebugMode 
-              ? 'Debug mode active - Install prompt forced to show' 
+            {isDebugMode
+              ? 'Debug mode active - Install prompt forced to show'
               : 'Install for offline access and app-like experience!'}
           </p>
         </div>
         <div className="flex gap-2">
           <div className="dropdown dropdown-top dropdown-end">
             <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="h-4 w-4 stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                />
               </svg>
             </label>
-            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mb-2">
-              <li><a onClick={handleMinimize}>Minimize</a></li>
-              <li><a onClick={handleHideForever}>Don&apos;t show again</a></li>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box mb-2 w-52 p-2 shadow"
+            >
+              <li>
+                <a onClick={handleMinimize}>Minimize</a>
+              </li>
+              <li>
+                <a onClick={handleHideForever}>Don&apos;t show again</a>
+              </li>
             </ul>
           </div>
-          <button 
+          <button
             onClick={handleMinimize}
             className="btn btn-sm btn-ghost text-sm"
           >
             Later
           </button>
-          <button 
+          <button
             onClick={handleInstallClick}
             className="btn btn-sm btn-primary text-sm"
           >

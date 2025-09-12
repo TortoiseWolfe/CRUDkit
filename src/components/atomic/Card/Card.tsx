@@ -29,16 +29,18 @@ export const Card: React.FC<CardProps> = ({
   className = '',
 }) => {
   const baseClasses = 'card bg-base-100 shadow-xl';
-  
+
   const classes = [
     baseClasses,
     compact && 'card-compact',
     side && 'card-side',
     glass && 'glass',
     bordered && 'card-bordered',
-    className
-  ].filter(Boolean).join(' ');
-  
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div className={classes}>
       {image && (
@@ -50,11 +52,7 @@ export const Card: React.FC<CardProps> = ({
         {title && <h2 className="card-title">{title}</h2>}
         {subtitle && <p className="text-sm opacity-70">{subtitle}</p>}
         {children}
-        {actions && (
-          <div className="card-actions justify-end">
-            {actions}
-          </div>
-        )}
+        {actions && <div className="card-actions justify-end">{actions}</div>}
       </div>
     </div>
   );

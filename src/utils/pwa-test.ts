@@ -13,12 +13,15 @@ export class PWATester {
   private readonly TEST_TIMEOUT = 5000; // 5 second timeout for each test
 
   // Wrapper to add timeout to any async test
-  private async withTimeout<T>(promise: Promise<T>, timeoutMs: number = this.TEST_TIMEOUT): Promise<T> {
+  private async withTimeout<T>(
+    promise: Promise<T>,
+    timeoutMs: number = this.TEST_TIMEOUT
+  ): Promise<T> {
     return Promise.race([
       promise,
-      new Promise<T>((_, reject) => 
+      new Promise<T>((_, reject) =>
         setTimeout(() => reject(new Error('Test timeout')), timeoutMs)
-      )
+      ),
     ]);
   }
 
@@ -31,13 +34,13 @@ export class PWATester {
         return {
           feature: 'Service Worker Registration',
           status: 'fail',
-          message: 'Test timed out - Service Worker may be unresponsive'
+          message: 'Test timed out - Service Worker may be unresponsive',
         };
       }
       return {
         feature: 'Service Worker Registration',
         status: 'fail',
-        message: `Error: ${error}`
+        message: `Error: ${error}`,
       };
     }
   }
@@ -48,7 +51,7 @@ export class PWATester {
         return {
           feature: 'Service Worker Support',
           status: 'fail',
-          message: 'Service Worker API not supported in this browser'
+          message: 'Service Worker API not supported in this browser',
         };
       }
 
@@ -62,21 +65,21 @@ export class PWATester {
             scope: registration.scope,
             active: registration.active?.state,
             waiting: registration.waiting?.state,
-            installing: registration.installing?.state
-          }
+            installing: registration.installing?.state,
+          },
         };
       } else {
         return {
           feature: 'Service Worker Registration',
           status: 'fail',
-          message: 'Service Worker is not registered'
+          message: 'Service Worker is not registered',
         };
       }
     } catch (error) {
       return {
         feature: 'Service Worker Registration',
         status: 'fail',
-        message: `Error checking Service Worker: ${error}`
+        message: `Error checking Service Worker: ${error}`,
       };
     }
   }
@@ -85,12 +88,14 @@ export class PWATester {
   async testInstallability(): Promise<PWATestResult> {
     try {
       // Check if app is already installed
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      const isStandalone = window.matchMedia(
+        '(display-mode: standalone)'
+      ).matches;
       if (isStandalone) {
         return {
           feature: 'PWA Installation',
           status: 'pass',
-          message: 'App is installed and running in standalone mode'
+          message: 'App is installed and running in standalone mode',
         };
       }
 
@@ -100,7 +105,7 @@ export class PWATester {
         return {
           feature: 'PWA Installation',
           status: 'fail',
-          message: 'No manifest link found in document'
+          message: 'No manifest link found in document',
         };
       }
 
@@ -109,14 +114,14 @@ export class PWATester {
         status: 'pass',
         message: 'App is installable (manifest present)',
         details: {
-          manifestUrl: manifestLink.getAttribute('href')
-        }
+          manifestUrl: manifestLink.getAttribute('href'),
+        },
       };
     } catch (error) {
       return {
         feature: 'PWA Installation',
         status: 'fail',
-        message: `Error checking installability: ${error}`
+        message: `Error checking installability: ${error}`,
       };
     }
   }
@@ -128,25 +133,27 @@ export class PWATester {
         return {
           feature: 'Offline Capability',
           status: 'fail',
-          message: 'Cache API not supported'
+          message: 'Cache API not supported',
         };
       }
 
       const cacheNames = await caches.keys();
-      const crudkitCaches = cacheNames.filter(name => name.startsWith('crudkit-'));
-      
+      const crudkitCaches = cacheNames.filter((name) =>
+        name.startsWith('crudkit-')
+      );
+
       if (crudkitCaches.length === 0) {
         return {
           feature: 'Offline Capability',
           status: 'warning',
-          message: 'No caches found - offline mode may not work'
+          message: 'No caches found - offline mode may not work',
         };
       }
 
       // Check cache contents
       const cache = await caches.open(crudkitCaches[0]);
       const keys = await cache.keys();
-      
+
       return {
         feature: 'Offline Capability',
         status: 'pass',
@@ -154,14 +161,14 @@ export class PWATester {
         details: {
           cacheNames: crudkitCaches,
           resourceCount: keys.length,
-          sampleResources: keys.slice(0, 5).map(k => k.url)
-        }
+          sampleResources: keys.slice(0, 5).map((k) => k.url),
+        },
       };
     } catch (error) {
       return {
         feature: 'Offline Capability',
         status: 'fail',
-        message: `Error checking offline capability: ${error}`
+        message: `Error checking offline capability: ${error}`,
       };
     }
   }
@@ -175,13 +182,13 @@ export class PWATester {
         return {
           feature: 'Background Sync',
           status: 'warning',
-          message: 'Test timed out - Background Sync may not be available'
+          message: 'Test timed out - Background Sync may not be available',
         };
       }
       return {
         feature: 'Background Sync',
         status: 'fail',
-        message: `Error: ${error}`
+        message: `Error: ${error}`,
       };
     }
   }
@@ -192,7 +199,7 @@ export class PWATester {
         return {
           feature: 'Background Sync',
           status: 'warning',
-          message: 'Background Sync API not supported'
+          message: 'Background Sync API not supported',
         };
       }
 
@@ -202,33 +209,36 @@ export class PWATester {
         return {
           feature: 'Background Sync',
           status: 'fail',
-          message: 'No service worker registration found'
+          message: 'No service worker registration found',
         };
       }
-      
+
       // Try to register a sync event
       try {
-        const syncReg = registration as ServiceWorkerRegistration & { sync?: { register: (tag: string) => Promise<void> } };
+        const syncReg = registration as ServiceWorkerRegistration & {
+          sync?: { register: (tag: string) => Promise<void> };
+        };
         if (syncReg.sync) {
           await syncReg.sync.register('test-sync');
         }
         return {
           feature: 'Background Sync',
           status: 'pass',
-          message: 'Background Sync is available and working'
+          message: 'Background Sync is available and working',
         };
       } catch {
         return {
           feature: 'Background Sync',
           status: 'warning',
-          message: 'Background Sync API present but registration failed (may need HTTPS)'
+          message:
+            'Background Sync API present but registration failed (may need HTTPS)',
         };
       }
     } catch (error) {
       return {
         feature: 'Background Sync',
         status: 'fail',
-        message: `Error testing background sync: ${error}`
+        message: `Error testing background sync: ${error}`,
       };
     }
   }
@@ -240,37 +250,37 @@ export class PWATester {
         return {
           feature: 'Push Notifications',
           status: 'fail',
-          message: 'Notification API not supported'
+          message: 'Notification API not supported',
         };
       }
 
       const permission = Notification.permission;
-      
+
       if (permission === 'granted') {
         return {
           feature: 'Push Notifications',
           status: 'pass',
-          message: 'Push notifications are enabled'
+          message: 'Push notifications are enabled',
         };
       } else if (permission === 'denied') {
         return {
           feature: 'Push Notifications',
           status: 'warning',
-          message: 'Push notifications are blocked by user'
+          message: 'Push notifications are blocked by user',
         };
       } else {
         return {
           feature: 'Push Notifications',
           status: 'warning',
           message: 'Push notifications permission not yet requested',
-          details: { currentPermission: permission }
+          details: { currentPermission: permission },
         };
       }
     } catch (error) {
       return {
         feature: 'Push Notifications',
         status: 'fail',
-        message: `Error testing push notifications: ${error}`
+        message: `Error testing push notifications: ${error}`,
       };
     }
   }
@@ -278,13 +288,13 @@ export class PWATester {
   // Run all tests
   async runAllTests(): Promise<PWATestResult[]> {
     this.results = [];
-    
+
     this.results.push(await this.testServiceWorker());
     this.results.push(await this.testInstallability());
     this.results.push(await this.testOfflineCapability());
     this.results.push(await this.testBackgroundSync());
     this.results.push(await this.testPushNotifications());
-    
+
     return this.results;
   }
 
@@ -311,23 +321,28 @@ export class PWATester {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
       await Promise.all(
-        cacheNames.map(cacheName => caches.delete(cacheName))
+        cacheNames.map((cacheName) => caches.delete(cacheName))
       );
       console.log(`Cleared ${cacheNames.length} caches`);
     }
   }
 
   // Get test summary
-  getTestSummary(): { passed: number; failed: number; warnings: number; total: number } {
-    const passed = this.results.filter(r => r.status === 'pass').length;
-    const failed = this.results.filter(r => r.status === 'fail').length;
-    const warnings = this.results.filter(r => r.status === 'warning').length;
-    
+  getTestSummary(): {
+    passed: number;
+    failed: number;
+    warnings: number;
+    total: number;
+  } {
+    const passed = this.results.filter((r) => r.status === 'pass').length;
+    const failed = this.results.filter((r) => r.status === 'fail').length;
+    const warnings = this.results.filter((r) => r.status === 'warning').length;
+
     return {
       passed,
       failed,
       warnings,
-      total: this.results.length
+      total: this.results.length,
     };
   }
 }

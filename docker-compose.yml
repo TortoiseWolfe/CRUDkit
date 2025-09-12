@@ -5,14 +5,22 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - "3000:3000"
-      - "6006:6006"
+      - '3000:3000'
+      - '6006:6006'
+      - '24678:24678' # Next.js HMR websocket
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
     environment:
       - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     restart: unless-stopped
     networks:
       - crudkit-network

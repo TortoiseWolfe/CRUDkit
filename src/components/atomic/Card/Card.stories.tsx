@@ -32,7 +32,8 @@ export const Basic: Story = {
   args: {
     title: 'Card Title',
     subtitle: 'Card subtitle goes here',
-    children: 'This is the card content. You can put any content here including text, images, or other components.',
+    children:
+      'This is the card content. You can put any content here including text, images, or other components.',
   },
 };
 
@@ -43,7 +44,8 @@ export const WithImage: Story = {
       src: 'https://picsum.photos/400/300',
       alt: 'Random landscape',
     },
-    children: 'Cards can display images at the top. This is useful for showcasing visual content.',
+    children:
+      'Cards can display images at the top. This is useful for showcasing visual content.',
   },
 };
 
@@ -108,7 +110,7 @@ export const CompleteExample: Story = {
     children: (
       <div className="space-y-2">
         <p>Get access to exclusive features:</p>
-        <ul className="list-disc list-inside text-sm">
+        <ul className="list-inside list-disc text-sm">
           <li>Advanced analytics</li>
           <li>Priority support</li>
           <li>Custom integrations</li>
@@ -117,8 +119,12 @@ export const CompleteExample: Story = {
     ),
     actions: (
       <>
-        <Button variant="ghost" size="sm">Learn More</Button>
-        <Button variant="primary" size="sm">Upgrade Now</Button>
+        <Button variant="ghost" size="sm">
+          Learn More
+        </Button>
+        <Button variant="primary" size="sm">
+          Upgrade Now
+        </Button>
       </>
     ),
   },
@@ -129,7 +135,7 @@ export const CardGrid: Story = {
     children: 'Card content',
   },
   render: () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-3">
       <Card title="Card 1" bordered>
         First card in the grid
       </Card>

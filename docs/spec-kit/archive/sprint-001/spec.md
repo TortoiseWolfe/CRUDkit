@@ -5,6 +5,7 @@
 CRUDkit is a Universal PWA Meta-Template that serves as an evolutionary foundation for building production-ready web applications. It combines lessons learned from four reference implementations (Punk_Stack, 001_template, 000_Template, Punk_Stack_archived) to create a superior meta-template with 12 themes, offline-first PWA capabilities, enterprise-grade testing, and AI-optimized development patterns.
 
 ### Core Philosophy
+
 - **Reference, Learn, Improve** - Don't just copy, evolve beyond the references
 - **PRP→Spec→Implementation** - Problem definition before solution
 - **Test-First Development** - Validation before implementation
@@ -15,6 +16,7 @@ CRUDkit is a Universal PWA Meta-Template that serves as an evolutionary foundati
 ## 2. System Architecture
 
 ### 2.1 High-Level Architecture
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                         CRUDkit                              │
@@ -46,6 +48,7 @@ CRUDkit is a Universal PWA Meta-Template that serves as an evolutionary foundati
 ```
 
 ### 2.2 Component Architecture (Atomic Design + Sub-Atomic)
+
 ```
 src/
 ├── components/
@@ -97,14 +100,41 @@ src/
 ### 3.0 Sub-Atomic Typography System
 
 #### 3.0.1 Text Component Interface
+
 ```typescript
 interface TextProps {
-  as?: 'span' | 'p' | 'div' | 'strong' | 'em' | 'mark' | 'del' | 'ins' | 'sub' | 'sup';
+  as?:
+    | 'span'
+    | 'p'
+    | 'div'
+    | 'strong'
+    | 'em'
+    | 'mark'
+    | 'del'
+    | 'ins'
+    | 'sub'
+    | 'sup';
   variant?: 'body' | 'label' | 'caption' | 'overline' | 'code' | 'quote';
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
-  weight?: 'thin' | 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
+  weight?:
+    | 'thin'
+    | 'light'
+    | 'normal'
+    | 'medium'
+    | 'semibold'
+    | 'bold'
+    | 'extrabold'
+    | 'black';
   align?: 'left' | 'center' | 'right' | 'justify';
-  color?: 'primary' | 'secondary' | 'muted' | 'accent' | 'error' | 'warning' | 'success' | 'info';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'muted'
+    | 'accent'
+    | 'error'
+    | 'warning'
+    | 'success'
+    | 'info';
   font?: 'sans' | 'serif' | 'mono' | 'display';
   truncate?: boolean | number; // true for single line, number for multi-line
   wrap?: 'normal' | 'nowrap' | 'balance' | 'pretty';
@@ -141,7 +171,14 @@ interface CodeProps {
 
 interface ListProps {
   as?: 'ul' | 'ol';
-  variant?: 'disc' | 'circle' | 'square' | 'decimal' | 'alpha' | 'roman' | 'none';
+  variant?:
+    | 'disc'
+    | 'circle'
+    | 'square'
+    | 'decimal'
+    | 'alpha'
+    | 'roman'
+    | 'none';
   spacing?: 'tight' | 'normal' | 'loose';
   indent?: boolean;
   items: Array<string | React.ReactNode>;
@@ -149,6 +186,7 @@ interface ListProps {
 ```
 
 #### 3.0.2 Font Theme System
+
 ```typescript
 interface FontTheme {
   id: string;
@@ -197,11 +235,15 @@ const fontThemes: FontTheme[] = [
     fonts: {
       sans: { family: ['Inter', 'system-ui', 'sans-serif'] },
       serif: { family: ['Merriweather', 'Georgia', 'serif'] },
-      mono: { family: ['JetBrains Mono', 'monospace'] }
+      mono: { family: ['JetBrains Mono', 'monospace'] },
     },
     scale: { ratio: 1.25, base: 16 },
     readingMode: 'default',
-    textRendering: { optimizeLegibility: true, kerning: 'normal', fontSmoothing: 'antialiased' }
+    textRendering: {
+      optimizeLegibility: true,
+      kerning: 'normal',
+      fontSmoothing: 'antialiased',
+    },
   },
   {
     id: 'playful',
@@ -211,24 +253,35 @@ const fontThemes: FontTheme[] = [
       sans: { family: ['Quicksand', 'Comic Neue', 'sans-serif'] },
       serif: { family: ['Fredoka', 'serif'] },
       mono: { family: ['Fira Code', 'monospace'] },
-      display: { family: ['Pacifico', 'cursive'] }
+      display: { family: ['Pacifico', 'cursive'] },
     },
     scale: { ratio: 1.333, base: 18 },
     readingMode: 'comfortable',
-    textRendering: { optimizeLegibility: true, kerning: 'auto', fontSmoothing: 'antialiased' }
+    textRendering: {
+      optimizeLegibility: true,
+      kerning: 'auto',
+      fontSmoothing: 'antialiased',
+    },
   },
   {
     id: 'modern',
     name: 'Modern',
     description: 'Contemporary, minimalist typography',
     fonts: {
-      sans: { family: ['Geist', 'system-ui', 'sans-serif'], variable: 'font-weight: 100 900' },
+      sans: {
+        family: ['Geist', 'system-ui', 'sans-serif'],
+        variable: 'font-weight: 100 900',
+      },
       serif: { family: ['Lora', 'serif'] },
-      mono: { family: ['GeistMono', 'monospace'] }
+      mono: { family: ['GeistMono', 'monospace'] },
     },
     scale: { ratio: 1.2, base: 16 },
     readingMode: 'default',
-    textRendering: { optimizeLegibility: true, kerning: 'normal', fontSmoothing: 'subpixel-antialiased' }
+    textRendering: {
+      optimizeLegibility: true,
+      kerning: 'normal',
+      fontSmoothing: 'subpixel-antialiased',
+    },
   },
   {
     id: 'classic',
@@ -237,11 +290,15 @@ const fontThemes: FontTheme[] = [
     fonts: {
       sans: { family: ['Helvetica Neue', 'Helvetica', 'sans-serif'] },
       serif: { family: ['Times New Roman', 'Times', 'serif'] },
-      mono: { family: ['Courier New', 'monospace'] }
+      mono: { family: ['Courier New', 'monospace'] },
     },
     scale: { ratio: 1.25, base: 16 },
     readingMode: 'default',
-    textRendering: { optimizeLegibility: false, kerning: 'auto', fontSmoothing: 'auto' }
+    textRendering: {
+      optimizeLegibility: false,
+      kerning: 'auto',
+      fontSmoothing: 'auto',
+    },
   },
   {
     id: 'accessible',
@@ -250,11 +307,15 @@ const fontThemes: FontTheme[] = [
     fonts: {
       sans: { family: ['OpenDyslexic', 'Atkinson Hyperlegible', 'sans-serif'] },
       serif: { family: ['OpenDyslexic', 'serif'] },
-      mono: { family: ['OpenDyslexicMono', 'monospace'] }
+      mono: { family: ['OpenDyslexicMono', 'monospace'] },
     },
     scale: { ratio: 1.15, base: 18 },
     readingMode: 'dyslexic',
-    textRendering: { optimizeLegibility: true, kerning: 'none', fontSmoothing: 'antialiased' }
+    textRendering: {
+      optimizeLegibility: true,
+      kerning: 'none',
+      fontSmoothing: 'antialiased',
+    },
   },
   {
     id: 'monospace',
@@ -263,16 +324,24 @@ const fontThemes: FontTheme[] = [
     fonts: {
       sans: { family: ['SF Mono', 'Monaco', 'monospace'] },
       serif: { family: ['IBM Plex Mono', 'monospace'] },
-      mono: { family: ['Cascadia Code', 'Fira Code', 'monospace'], features: ['liga', 'calt'] }
+      mono: {
+        family: ['Cascadia Code', 'Fira Code', 'monospace'],
+        features: ['liga', 'calt'],
+      },
     },
     scale: { ratio: 1.125, base: 14 },
     readingMode: 'compact',
-    textRendering: { optimizeLegibility: false, kerning: 'none', fontSmoothing: 'antialiased' }
-  }
+    textRendering: {
+      optimizeLegibility: false,
+      kerning: 'none',
+      fontSmoothing: 'antialiased',
+    },
+  },
 ];
 ```
 
 #### 3.0.3 Typography Accessibility Features
+
 ```typescript
 interface TypographyAccessibility {
   // User preferences
@@ -288,7 +357,7 @@ interface TypographyAccessibility {
     paragraphSpacing: 'default' | 'double' | 'custom';
     customParagraphSpacing?: number; // 0.5 to 3.0
   };
-  
+
   // Reading aids
   readingAids: {
     highlightCurrentLine: boolean;
@@ -298,7 +367,7 @@ interface TypographyAccessibility {
     focus: boolean; // Highlight focus area, dim rest
     contrast: 'default' | 'high' | 'highest' | 'inverted';
   };
-  
+
   // Font features
   fontFeatures: {
     ligatures: boolean;
@@ -307,7 +376,7 @@ interface TypographyAccessibility {
     caseSensitiveForms: boolean;
     stylisticAlternates: boolean;
   };
-  
+
   // Responsive typography
   responsive: {
     enableFluidTypography: boolean;
@@ -321,28 +390,33 @@ interface TypographyAccessibility {
 // Typography utilities
 class TypographyUtils {
   // Calculate fluid typography
-  static fluidType(min: number, max: number, minVw: number, maxVw: number): string {
+  static fluidType(
+    min: number,
+    max: number,
+    minVw: number,
+    maxVw: number
+  ): string {
     const slope = (max - min) / (maxVw - minVw);
     const yAxisIntersection = -minVw * slope + min;
     return `clamp(${min}px, ${yAxisIntersection}px + ${slope * 100}vw, ${max}px)`;
   }
-  
+
   // Calculate modular scale
   static modularScale(base: number, ratio: number, step: number): number {
     return base * Math.pow(ratio, step);
   }
-  
+
   // Calculate optimal line length
   static optimalLineLength(fontSize: number, characters = 65): number {
     return fontSize * characters * 0.5; // Approximate pixel width
   }
-  
+
   // Check contrast ratio
   static contrastRatio(fg: string, bg: string): number {
     // Implementation of WCAG contrast calculation
     return 0; // Placeholder
   }
-  
+
   // Apply text balancing
   static balanceText(element: HTMLElement): void {
     // CSS text-wrap: balance polyfill for older browsers
@@ -353,11 +427,12 @@ class TypographyUtils {
 ### 3.1 Theme System Requirements
 
 #### 3.1.1 OKLCH Color System
+
 ```typescript
 interface OKLCHColor {
-  l: number;  // Lightness: 0-100
-  c: number;  // Chroma: 0-0.4
-  h: number;  // Hue: 0-360
+  l: number; // Lightness: 0-100
+  c: number; // Chroma: 0-0.4
+  h: number; // Hue: 0-360
   a?: number; // Alpha: 0-1
 }
 
@@ -369,41 +444,41 @@ interface ThemeColors {
     200: OKLCHColor;
     300: OKLCHColor;
     400: OKLCHColor;
-    500: OKLCHColor;  // Main
+    500: OKLCHColor; // Main
     600: OKLCHColor;
     700: OKLCHColor;
     800: OKLCHColor;
     900: OKLCHColor;
     950: OKLCHColor;
   };
-  
+
   // Secondary palette
   secondary: {
     50: OKLCHColor;
     // ... same scale
     950: OKLCHColor;
   };
-  
+
   // Accent colors
   accent: {
     50: OKLCHColor;
     // ... same scale
     950: OKLCHColor;
   };
-  
+
   // Semantic colors
   success: OKLCHColor;
   warning: OKLCHColor;
   error: OKLCHColor;
   info: OKLCHColor;
-  
+
   // Surface colors
   background: {
     primary: OKLCHColor;
     secondary: OKLCHColor;
     tertiary: OKLCHColor;
   };
-  
+
   // Text colors
   text: {
     primary: OKLCHColor;
@@ -415,6 +490,7 @@ interface ThemeColors {
 ```
 
 #### 3.1.2 12 Required Themes
+
 1. **Velvet Cake** - Deep purples and pinks
 2. **Forest Floor** - Earth tones and greens
 3. **Neon Nights** - Cyberpunk neon colors
@@ -429,6 +505,7 @@ interface ThemeColors {
 12. **Light Mode Pro** - Professional light theme
 
 #### 3.1.3 Theme Implementation
+
 ```typescript
 interface Theme {
   id: string;
@@ -536,6 +613,7 @@ interface Theme {
 ### 3.2 Progressive Web App Requirements
 
 #### 3.2.1 Service Worker Implementation
+
 ```javascript
 // Service Worker Caching Strategies
 const CACHE_STRATEGIES = {
@@ -543,33 +621,33 @@ const CACHE_STRATEGIES = {
   networkFirst: {
     cacheName: 'api-cache-v1',
     maxAge: 5 * 60 * 1000, // 5 minutes
-    maxEntries: 50
+    maxEntries: 50,
   },
-  
+
   // Cache First (for static assets)
   cacheFirst: {
     cacheName: 'static-cache-v1',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    maxEntries: 100
+    maxEntries: 100,
   },
-  
+
   // Stale While Revalidate (for dynamic content)
   staleWhileRevalidate: {
     cacheName: 'dynamic-cache-v1',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
-    maxEntries: 50
-  }
+    maxEntries: 50,
+  },
 };
 
 // Background Sync for Forms
-self.addEventListener('sync', event => {
+self.addEventListener('sync', (event) => {
   if (event.tag === 'form-submission') {
     event.waitUntil(submitPendingForms());
   }
 });
 
 // Push Notifications
-self.addEventListener('push', event => {
+self.addEventListener('push', (event) => {
   const options = {
     body: event.data.text(),
     icon: '/icons/icon-192x192.png',
@@ -577,17 +655,16 @@ self.addEventListener('push', event => {
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
-    }
+      primaryKey: 1,
+    },
   };
-  
-  event.waitUntil(
-    self.registration.showNotification('CRUDkit', options)
-  );
+
+  event.waitUntil(self.registration.showNotification('CRUDkit', options));
 });
 ```
 
 #### 3.2.2 App Manifest
+
 ```json
 {
   "name": "CRUDkit - Universal PWA Meta-Template",
@@ -704,6 +781,7 @@ self.addEventListener('push', event => {
 ### 3.3 Form System Requirements
 
 #### 3.3.1 Multi-Provider Email Integration
+
 ```typescript
 // Email Provider Interface
 interface EmailProvider {
@@ -732,25 +810,25 @@ interface EmailData {
 class Web3FormsProvider implements EmailProvider {
   private apiKey: string;
   private endpoint = 'https://api.web3forms.com/submit';
-  
+
   async sendEmail(data: EmailData): Promise<EmailResponse> {
     const formData = new FormData();
     formData.append('access_key', this.apiKey);
     formData.append('to', Array.isArray(data.to) ? data.to.join(',') : data.to);
     formData.append('subject', data.subject);
     formData.append('from_name', data.from);
-    
+
     if (data.html) {
       formData.append('message', data.html);
     } else if (data.text) {
       formData.append('message', data.text);
     }
-    
+
     const response = await fetch(this.endpoint, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
-    
+
     return response.json();
   }
 }
@@ -759,16 +837,16 @@ class EmailJSProvider implements EmailProvider {
   private serviceId: string;
   private templateId: string;
   private publicKey: string;
-  
+
   async sendEmail(data: EmailData): Promise<EmailResponse> {
     const templateParams = {
       to_email: Array.isArray(data.to) ? data.to.join(',') : data.to,
       from_email: data.from,
       subject: data.subject,
       message: data.html || data.text,
-      reply_to: data.replyTo
+      reply_to: data.replyTo,
     };
-    
+
     return emailjs.send(
       this.serviceId,
       this.templateId,
@@ -781,13 +859,13 @@ class EmailJSProvider implements EmailProvider {
 class ResendProvider implements EmailProvider {
   private apiKey: string;
   private endpoint = 'https://api.resend.com/emails';
-  
+
   async sendEmail(data: EmailData): Promise<EmailResponse> {
     const response = await fetch(this.endpoint, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: data.from,
@@ -799,91 +877,118 @@ class ResendProvider implements EmailProvider {
         bcc: data.bcc,
         reply_to: data.replyTo,
         headers: data.headers,
-        attachments: data.attachments
-      })
+        attachments: data.attachments,
+      }),
     });
-    
+
     return response.json();
   }
 }
 ```
 
 #### 3.3.2 Form Validation with Zod
+
 ```typescript
 import { z } from 'zod';
 
 // Base validation schemas
 const emailSchema = z.string().email('Invalid email address');
-const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number');
+const phoneSchema = z
+  .string()
+  .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number');
 const urlSchema = z.string().url('Invalid URL');
 
 // Contact form schema
 const contactFormSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters'),
-  
+
   email: emailSchema,
-  
+
   phone: phoneSchema.optional(),
-  
-  subject: z.string()
+
+  subject: z
+    .string()
     .min(5, 'Subject must be at least 5 characters')
     .max(200, 'Subject must be less than 200 characters'),
-  
-  message: z.string()
+
+  message: z
+    .string()
     .min(10, 'Message must be at least 10 characters')
     .max(5000, 'Message must be less than 5000 characters'),
-  
-  consent: z.boolean()
-    .refine(val => val === true, 'You must agree to the privacy policy'),
-  
+
+  consent: z
+    .boolean()
+    .refine((val) => val === true, 'You must agree to the privacy policy'),
+
   honeypot: z.string().max(0, 'Bot detected'),
-  
-  attachments: z.array(
-    z.object({
-      name: z.string(),
-      size: z.number().max(10 * 1024 * 1024, 'File must be less than 10MB'),
-      type: z.string().regex(/^(image|application|text)\//, 'Invalid file type')
-    })
-  ).optional()
+
+  attachments: z
+    .array(
+      z.object({
+        name: z.string(),
+        size: z.number().max(10 * 1024 * 1024, 'File must be less than 10MB'),
+        type: z
+          .string()
+          .regex(/^(image|application|text)\//, 'Invalid file type'),
+      })
+    )
+    .optional(),
 });
 
 // Registration form schema
-const registrationSchema = z.object({
-  username: z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(30, 'Username must be less than 30 characters')
-    .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and hyphens'),
-  
-  email: emailSchema,
-  
-  password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number')
-    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
-  
-  confirmPassword: z.string(),
-  
-  dateOfBirth: z.date()
-    .min(new Date('1900-01-01'), 'Invalid date of birth')
-    .max(new Date(), 'Date of birth cannot be in the future'),
-  
-  termsAccepted: z.boolean()
-    .refine(val => val === true, 'You must accept the terms and conditions'),
-  
-  marketingConsent: z.boolean().optional()
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword']
-});
+const registrationSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, 'Username must be at least 3 characters')
+      .max(30, 'Username must be less than 30 characters')
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        'Username can only contain letters, numbers, underscores, and hyphens'
+      ),
+
+    email: emailSchema,
+
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number')
+      .regex(
+        /[^A-Za-z0-9]/,
+        'Password must contain at least one special character'
+      ),
+
+    confirmPassword: z.string(),
+
+    dateOfBirth: z
+      .date()
+      .min(new Date('1900-01-01'), 'Invalid date of birth')
+      .max(new Date(), 'Date of birth cannot be in the future'),
+
+    termsAccepted: z
+      .boolean()
+      .refine(
+        (val) => val === true,
+        'You must accept the terms and conditions'
+      ),
+
+    marketingConsent: z.boolean().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 ```
 
 ### 3.4 Testing Requirements
 
 #### 3.4.1 Unit Testing Configuration
+
 ```typescript
 // vitest.config.ts
 import { defineConfig } from 'vitest/config';
@@ -907,17 +1012,17 @@ export default defineConfig({
         '.next/',
         'coverage/',
         'dist/',
-        'public/'
+        'public/',
       ],
       thresholds: {
         lines: 60,
         functions: 60,
         branches: 60,
-        statements: 60
-      }
+        statements: 60,
+      },
     },
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.next']
+    exclude: ['node_modules', 'dist', '.next'],
   },
   resolve: {
     alias: {
@@ -927,13 +1032,14 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@types': path.resolve(__dirname, './src/types'),
-      '@utils': path.resolve(__dirname, './src/utils')
-    }
-  }
+      '@utils': path.resolve(__dirname, './src/utils'),
+    },
+  },
 });
 ```
 
 #### 3.4.2 E2E Testing Configuration
+
 ```typescript
 // playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
@@ -947,46 +1053,47 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['json', { outputFile: 'test-results.json' }],
-    ['junit', { outputFile: 'junit.xml' }]
+    ['junit', { outputFile: 'junit.xml' }],
   ],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
+      use: { ...devices['Desktop Safari'] },
     },
     {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] }
+      use: { ...devices['Pixel 5'] },
     },
     {
       name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] }
-    }
+      use: { ...devices['iPhone 12'] },
+    },
   ],
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000
-  }
+    timeout: 120 * 1000,
+  },
 });
 ```
 
 #### 3.4.3 Accessibility Testing
+
 ```json
 // .pa11yci
 {
@@ -1001,10 +1108,7 @@ export default defineConfig({
     },
     "runners": ["axe", "htmlcs"],
     "standard": "WCAG2AA",
-    "ignore": [
-      "warning",
-      "notice"
-    ]
+    "ignore": ["warning", "notice"]
   },
   "urls": [
     {
@@ -1031,6 +1135,7 @@ export default defineConfig({
 ### 3.5 Security Requirements
 
 #### 3.5.1 Content Security Policy
+
 ```typescript
 // next.config.js CSP Configuration
 const cspHeader = `
@@ -1052,36 +1157,37 @@ const cspHeader = `
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
-    value: cspHeader.replace(/\n/g, '')
+    value: cspHeader.replace(/\n/g, ''),
   },
   {
     key: 'X-Frame-Options',
-    value: 'DENY'
+    value: 'DENY',
   },
   {
     key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    value: 'nosniff',
   },
   {
     key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    value: '1; mode=block',
   },
   {
     key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin'
+    value: 'strict-origin-when-cross-origin',
   },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(self)'
+    value: 'camera=(), microphone=(), geolocation=(self)',
   },
   {
     key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
-  }
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
 ];
 ```
 
 #### 3.5.2 Input Sanitization
+
 ```typescript
 import DOMPurify from 'isomorphic-dompurify';
 import { z } from 'zod';
@@ -1090,38 +1196,40 @@ import { z } from 'zod';
 export function sanitizeHtml(dirty: string): string {
   return DOMPurify.sanitize(dirty, {
     ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
-    ALLOWED_ATTR: ['href', 'target', 'rel']
+    ALLOWED_ATTR: ['href', 'target', 'rel'],
   });
 }
 
 // SQL Injection Prevention (for any future database integration)
 export function sanitizeSqlInput(input: string): string {
-  return input
-    .replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, (char) => {
-      switch (char) {
-        case "\0": return "\\0";
-        case "\x08": return "\\b";
-        case "\x09": return "\\t";
-        case "\x1a": return "\\z";
-        case "\n": return "\\n";
-        case "\r": return "\\r";
-        case "\"":
-        case "'":
-        case "\\":
-        case "%":
-          return "\\" + char;
-        default:
-          return char;
-      }
-    });
+  return input.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, (char) => {
+    switch (char) {
+      case '\0':
+        return '\\0';
+      case '\x08':
+        return '\\b';
+      case '\x09':
+        return '\\t';
+      case '\x1a':
+        return '\\z';
+      case '\n':
+        return '\\n';
+      case '\r':
+        return '\\r';
+      case '"':
+      case "'":
+      case '\\':
+      case '%':
+        return '\\' + char;
+      default:
+        return char;
+    }
+  });
 }
 
 // Path Traversal Prevention
 export function sanitizePath(path: string): string {
-  return path
-    .replace(/\.\./g, '')
-    .replace(/\/+/g, '/')
-    .replace(/^\//, '');
+  return path.replace(/\.\./g, '').replace(/\/+/g, '/').replace(/^\//, '');
 }
 
 // Rate Limiting Implementation
@@ -1132,23 +1240,23 @@ interface RateLimitConfig {
 
 class RateLimiter {
   private requests: Map<string, number[]> = new Map();
-  
+
   constructor(private config: RateLimitConfig) {}
-  
+
   isAllowed(identifier: string): boolean {
     const now = Date.now();
     const windowStart = now - this.config.windowMs;
-    
+
     const userRequests = this.requests.get(identifier) || [];
-    const recentRequests = userRequests.filter(time => time > windowStart);
-    
+    const recentRequests = userRequests.filter((time) => time > windowStart);
+
     if (recentRequests.length >= this.config.maxRequests) {
       return false;
     }
-    
+
     recentRequests.push(now);
     this.requests.set(identifier, recentRequests);
-    
+
     return true;
   }
 }
@@ -1157,38 +1265,40 @@ class RateLimiter {
 ### 3.6 Performance Requirements
 
 #### 3.6.1 Performance Metrics
+
 ```typescript
 interface PerformanceMetrics {
   // Core Web Vitals
-  lcp: number;  // Largest Contentful Paint < 2.5s
-  fid: number;  // First Input Delay < 100ms
-  cls: number;  // Cumulative Layout Shift < 0.1
-  
+  lcp: number; // Largest Contentful Paint < 2.5s
+  fid: number; // First Input Delay < 100ms
+  cls: number; // Cumulative Layout Shift < 0.1
+
   // Additional Metrics
-  fcp: number;  // First Contentful Paint < 1.8s
+  fcp: number; // First Contentful Paint < 1.8s
   ttfb: number; // Time to First Byte < 800ms
-  tti: number;  // Time to Interactive < 3.8s
-  tbt: number;  // Total Blocking Time < 200ms
-  
+  tti: number; // Time to Interactive < 3.8s
+  tbt: number; // Total Blocking Time < 200ms
+
   // Custom Metrics
   bundleSize: {
-    js: number;   // < 200KB gzipped
-    css: number;  // < 50KB gzipped
+    js: number; // < 200KB gzipped
+    css: number; // < 50KB gzipped
     total: number; // < 300KB gzipped
   };
-  
+
   // Lighthouse Scores
   lighthouse: {
-    performance: number;  // > 95
+    performance: number; // > 95
     accessibility: number; // > 95
     bestPractices: number; // > 95
-    seo: number;          // > 95
-    pwa: number;          // > 95
+    seo: number; // > 95
+    pwa: number; // > 95
   };
 }
 ```
 
 #### 3.6.2 Optimization Strategies
+
 ```javascript
 // next.config.js optimizations
 module.exports = {
@@ -1198,11 +1308,11 @@ module.exports = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
   },
-  
+
   compress: true,
-  
+
   poweredByHeader: false,
-  
+
   webpack: (config, { dev, isServer }) => {
     // Production optimizations
     if (!dev && !isServer) {
@@ -1220,8 +1330,10 @@ module.exports = {
           },
           lib: {
             test(module) {
-              return module.size() > 160000 &&
-                /node_modules[/\\]/.test(module.identifier());
+              return (
+                module.size() > 160000 &&
+                /node_modules[/\\]/.test(module.identifier())
+              );
             },
             name(module) {
               const hash = crypto.createHash('sha1');
@@ -1250,15 +1362,15 @@ module.exports = {
           },
         },
       };
-      
+
       // Tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
-      
+
       // Minification
       config.optimization.minimize = true;
     }
-    
+
     return config;
   },
 };
@@ -1269,6 +1381,7 @@ module.exports = {
 ### 4.1 Docker Configuration
 
 #### 4.1.1 Multi-Stage Production Dockerfile
+
 ```dockerfile
 # Stage 1: Dependencies
 FROM node:20-alpine AS deps
@@ -1339,6 +1452,7 @@ CMD ["node", "server.js"]
 ```
 
 #### 4.1.2 Docker Compose Configuration
+
 ```yaml
 version: '3.9'
 
@@ -1352,9 +1466,9 @@ services:
         - NODE_VERSION=20
     container_name: crudkit-dev
     ports:
-      - "3000:3000"
-      - "6006:6006"  # Storybook
-      - "9229:9229"  # Node debug
+      - '3000:3000'
+      - '6006:6006' # Storybook
+      - '9229:9229' # Node debug
     volumes:
       - .:/app
       - /app/node_modules
@@ -1365,7 +1479,7 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
     command: npm run dev
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -1396,7 +1510,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: crudkit-storybook
     ports:
-      - "6006:6006"
+      - '6006:6006'
     volumes:
       - .:/app
       - /app/node_modules
@@ -1412,11 +1526,11 @@ services:
       target: runner
     container_name: crudkit-prod
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
     healthcheck:
-      test: ["CMD", "node", "healthcheck.js"]
+      test: ['CMD', 'node', 'healthcheck.js']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -1444,6 +1558,7 @@ volumes:
 ### 4.2 CI/CD Pipeline
 
 #### 4.2.1 GitHub Actions Workflow
+
 ```yaml
 name: CI/CD Pipeline
 
@@ -1453,7 +1568,7 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    - cron: '0 0 * * 0'  # Weekly security scan
+    - cron: '0 0 * * 0' # Weekly security scan
 
 env:
   NODE_VERSION: '20'
@@ -1466,23 +1581,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-          
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -1490,16 +1605,16 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-            
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Run ESLint
         run: pnpm run lint
-        
+
       - name: Run Prettier
         run: pnpm run format:check
-        
+
       - name: Type check
         run: pnpm run type-check
 
@@ -1512,23 +1627,23 @@ jobs:
         node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Run unit tests
         run: pnpm run test:unit
-        
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -1552,20 +1667,20 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Run integration tests
         run: pnpm run test:integration
         env:
@@ -1580,29 +1695,29 @@ jobs:
         browser: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-        
+
       - name: Build application
         run: pnpm run build
-        
+
       - name: Run E2E tests
         run: pnpm run test:e2e:${{ matrix.browser }}
-        
+
       - name: Upload test results
         if: failure()
         uses: actions/upload-artifact@v3
@@ -1616,31 +1731,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build application
         run: pnpm run build
-        
+
       - name: Start server
         run: |
           pnpm run start &
           sleep 10
-          
+
       - name: Run Pa11y tests
         run: pnpm run test:a11y
-        
+
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v3
@@ -1654,28 +1769,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build application
         run: pnpm run build
-        
+
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli
           lhci autorun
-        
+
       - name: Upload results
         uses: actions/upload-artifact@v3
         with:
@@ -1688,7 +1803,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -1696,12 +1811,12 @@ jobs:
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          
+
       - name: Upload Trivy results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
-          
+
       - name: Run npm audit
         run: npm audit --audit-level=moderate
 
@@ -1713,17 +1828,17 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -1748,33 +1863,33 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build application
         run: pnpm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          
+
       - name: Export static files
         run: pnpm run export
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: ./out
-          
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
 
@@ -1786,23 +1901,23 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build Storybook
         run: pnpm run build-storybook
-        
+
       - name: Deploy to Chromatic
         uses: chromaui/action@v1
         with:
@@ -1813,71 +1928,89 @@ jobs:
 ## 5. Development Workflow
 
 ### 5.1 PRP Methodology Implementation
+
 ```markdown
 # Problem Requirements Plan (PRP) Template
 
 ## 1. Problem Statement
+
 - **What problem are we solving?**
 - **Who experiences this problem?**
 - **What is the impact of not solving it?**
 - **What are the success criteria?**
 
 ## 2. Requirements
+
 ### Functional Requirements
+
 - List all functional requirements
 - Define user stories
 - Specify acceptance criteria
 
 ### Non-Functional Requirements
+
 - Performance requirements
 - Security requirements
 - Accessibility requirements
 - Compatibility requirements
 
 ### Constraints
+
 - Technical constraints
 - Business constraints
 - Time constraints
 - Resource constraints
 
 ## 3. Plan
+
 ### Technical Approach
+
 - Architecture decisions
 - Technology choices
 - Implementation strategy
 
 ### Development Plan
+
 - Sprint breakdown
 - Task allocation
 - Timeline estimates
 - Risk mitigation
 
 ### Testing Plan
+
 - Test scenarios
 - Coverage targets
 - Performance benchmarks
 
 ### Deployment Plan
+
 - Deployment strategy
 - Rollback plan
 - Monitoring setup
 ```
 
 ### 5.2 Validation Loops
+
 ```typescript
 enum ValidationLevel {
-  SYNTAX = 1,      // Linting, formatting
-  TYPE = 2,        // TypeScript compilation
-  UNIT = 3,        // Unit tests
+  SYNTAX = 1, // Linting, formatting
+  TYPE = 2, // TypeScript compilation
+  UNIT = 3, // Unit tests
   INTEGRATION = 4, // Integration tests
-  E2E = 5,         // End-to-end tests
-  PRODUCTION = 6   // Production monitoring
+  E2E = 5, // End-to-end tests
+  PRODUCTION = 6, // Production monitoring
 }
 
 interface ValidationLoop {
   level: ValidationLevel;
   tools: string[];
-  frequency: 'onChange' | 'onSave' | 'onCommit' | 'onPush' | 'onMerge' | 'continuous';
+  frequency:
+    | 'onChange'
+    | 'onSave'
+    | 'onCommit'
+    | 'onPush'
+    | 'onMerge'
+    | 'continuous';
   blocking: boolean;
 }
 
@@ -1886,44 +2019,45 @@ const validationLoops: ValidationLoop[] = [
     level: ValidationLevel.SYNTAX,
     tools: ['eslint', 'prettier'],
     frequency: 'onSave',
-    blocking: false
+    blocking: false,
   },
   {
     level: ValidationLevel.TYPE,
     tools: ['tsc'],
     frequency: 'onChange',
-    blocking: false
+    blocking: false,
   },
   {
     level: ValidationLevel.UNIT,
     tools: ['vitest'],
     frequency: 'onCommit',
-    blocking: true
+    blocking: true,
   },
   {
     level: ValidationLevel.INTEGRATION,
     tools: ['vitest', 'msw'],
     frequency: 'onPush',
-    blocking: true
+    blocking: true,
   },
   {
     level: ValidationLevel.E2E,
     tools: ['playwright'],
     frequency: 'onMerge',
-    blocking: true
+    blocking: true,
   },
   {
     level: ValidationLevel.PRODUCTION,
     tools: ['sentry', 'datadog', 'lighthouse'],
     frequency: 'continuous',
-    blocking: false
-  }
+    blocking: false,
+  },
 ];
 ```
 
 ## 6. File Structure
 
 ### 6.1 Complete Project Structure
+
 ```
 crudkit/
 ├── .github/
@@ -2070,6 +2204,7 @@ crudkit/
 ## 7. API Specifications
 
 ### 7.1 RESTful API Endpoints
+
 ```typescript
 // API Route Structure
 interface APIRoute {
@@ -2090,111 +2225,112 @@ const apiRoutes: APIRoute[] = [
     path: '/api/health',
     auth: false,
     rateLimit: 100,
-    cache: { type: 'no-cache', maxAge: 0 }
+    cache: { type: 'no-cache', maxAge: 0 },
   },
   {
     method: 'GET',
     path: '/api/status',
     auth: false,
     rateLimit: 100,
-    cache: { type: 'public', maxAge: 60 }
+    cache: { type: 'public', maxAge: 60 },
   },
-  
+
   // Theme Management
   {
     method: 'GET',
     path: '/api/themes',
     auth: false,
     rateLimit: 60,
-    cache: { type: 'public', maxAge: 3600 }
+    cache: { type: 'public', maxAge: 3600 },
   },
   {
     method: 'POST',
     path: '/api/themes/switch',
     auth: false,
-    rateLimit: 30
+    rateLimit: 30,
   },
   {
     method: 'GET',
     path: '/api/themes/:id',
     auth: false,
     rateLimit: 60,
-    cache: { type: 'public', maxAge: 3600 }
+    cache: { type: 'public', maxAge: 3600 },
   },
-  
+
   // Email Service
   {
     method: 'POST',
     path: '/api/email/send',
     auth: false,
-    rateLimit: 5
+    rateLimit: 5,
   },
   {
     method: 'GET',
     path: '/api/email/providers',
     auth: false,
     rateLimit: 60,
-    cache: { type: 'public', maxAge: 3600 }
+    cache: { type: 'public', maxAge: 3600 },
   },
   {
     method: 'POST',
     path: '/api/email/validate',
     auth: false,
-    rateLimit: 30
+    rateLimit: 30,
   },
-  
+
   // Form Submissions
   {
     method: 'POST',
     path: '/api/forms/submit',
     auth: false,
-    rateLimit: 10
+    rateLimit: 10,
   },
   {
     method: 'GET',
     path: '/api/forms/:id/status',
     auth: false,
-    rateLimit: 60
+    rateLimit: 60,
   },
-  
+
   // Analytics
   {
     method: 'POST',
     path: '/api/analytics/event',
     auth: false,
-    rateLimit: 100
+    rateLimit: 100,
   },
   {
     method: 'POST',
     path: '/api/analytics/pageview',
     auth: false,
-    rateLimit: 100
+    rateLimit: 100,
   },
-  
+
   // PWA
   {
     method: 'GET',
     path: '/api/pwa/manifest',
     auth: false,
     rateLimit: 60,
-    cache: { type: 'public', maxAge: 86400 }
+    cache: { type: 'public', maxAge: 86400 },
   },
   {
     method: 'POST',
     path: '/api/pwa/subscribe',
     auth: false,
-    rateLimit: 10
+    rateLimit: 10,
   },
   {
     method: 'POST',
     path: '/api/pwa/sync',
     auth: false,
-    rateLimit: 30
-  }
+    rateLimit: 30,
+  },
 ];
 ```
 
 ### 7.2 WebSocket Events
+
 ```typescript
 // WebSocket Event Definitions
 interface WSEvent {
@@ -2208,7 +2344,7 @@ interface ClientEvents {
   'theme:change': { themeId: string };
   'form:submit': { formId: string; data: any };
   'sync:request': { lastSync: number };
-  'heartbeat': { timestamp: number };
+  heartbeat: { timestamp: number };
 }
 
 // Server to Client Events
@@ -2216,7 +2352,7 @@ interface ServerEvents {
   'theme:changed': { themeId: string; userId?: string };
   'form:status': { formId: string; status: string };
   'sync:data': { updates: any[]; timestamp: number };
-  'notification': { type: string; message: string };
+  notification: { type: string; message: string };
   'heartbeat:ack': { timestamp: number };
 }
 ```
@@ -2224,6 +2360,7 @@ interface ServerEvents {
 ## 8. Database Schema
 
 ### 8.1 Data Models (Future Database Integration)
+
 ```sql
 -- Theme preferences
 CREATE TABLE theme_preferences (
@@ -2305,6 +2442,7 @@ CREATE TABLE offline_sync_queue (
 ## 9. Monitoring & Observability
 
 ### 9.1 Logging Strategy
+
 ```typescript
 // Structured Logging
 interface LogEntry {
@@ -2332,28 +2470,28 @@ class Logger {
   private formatEntry(entry: LogEntry): string {
     return JSON.stringify(entry);
   }
-  
+
   debug(message: string, metadata?: Record<string, any>) {
     this.log('debug', message, metadata);
   }
-  
+
   info(message: string, metadata?: Record<string, any>) {
     this.log('info', message, metadata);
   }
-  
+
   warn(message: string, metadata?: Record<string, any>) {
     this.log('warn', message, metadata);
   }
-  
+
   error(message: string, error?: Error, metadata?: Record<string, any>) {
     this.log('error', message, metadata, error);
   }
-  
+
   fatal(message: string, error?: Error, metadata?: Record<string, any>) {
     this.log('fatal', message, metadata, error);
     process.exit(1);
   }
-  
+
   private log(
     level: LogEntry['level'],
     message: string,
@@ -2370,25 +2508,26 @@ class Logger {
         version: process.env.APP_VERSION || '0.0.0',
         requestId: this.getRequestId(),
         userId: this.getUserId(),
-        sessionId: this.getSessionId()
+        sessionId: this.getSessionId(),
       },
-      metadata
+      metadata,
     };
-    
+
     if (error) {
       entry.error = {
         name: error.name,
         message: error.message,
-        stack: error.stack
+        stack: error.stack,
       };
     }
-    
+
     console.log(this.formatEntry(entry));
   }
 }
 ```
 
 ### 9.2 Metrics Collection
+
 ```typescript
 // Application Metrics
 interface Metrics {
@@ -2401,7 +2540,7 @@ interface Metrics {
     cumulativeLayoutShift: number;
     timeToInteractive: number;
   };
-  
+
   // Business Metrics
   business: {
     formSubmissions: number;
@@ -2410,7 +2549,7 @@ interface Metrics {
     pwaInstalls: number;
     activeUsers: number;
   };
-  
+
   // Technical Metrics
   technical: {
     errorRate: number;
@@ -2420,7 +2559,7 @@ interface Metrics {
     memoryUsage: number;
     cpuUsage: number;
   };
-  
+
   // User Engagement
   engagement: {
     sessionDuration: number;
@@ -2435,32 +2574,32 @@ interface Metrics {
 class MetricsCollector {
   private metrics: Partial<Metrics> = {};
   private interval: NodeJS.Timer;
-  
+
   start() {
     this.collectPerformanceMetrics();
     this.collectBusinessMetrics();
     this.collectTechnicalMetrics();
     this.collectEngagementMetrics();
-    
+
     // Send metrics every 60 seconds
     this.interval = setInterval(() => {
       this.flush();
     }, 60000);
   }
-  
+
   stop() {
     clearInterval(this.interval);
     this.flush();
   }
-  
+
   private flush() {
     // Send metrics to monitoring service
     fetch('/api/metrics', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.metrics)
+      body: JSON.stringify(this.metrics),
     });
-    
+
     // Reset metrics
     this.metrics = {};
   }
@@ -2472,6 +2611,7 @@ class MetricsCollector {
 ### 10.0 Iterative Deployment Strategy
 
 #### 10.0.1 Deploy Early, Deploy Often
+
 ```yaml
 # Deployment Timeline
 Day 1: Initial Setup
@@ -2502,6 +2642,7 @@ Every 3 Days: Incremental Updates
 ```
 
 #### 10.0.2 Dual Deployment Architecture
+
 ```
 GitHub Pages Structure:
 ├── / (main app)
@@ -2515,6 +2656,7 @@ GitHub Pages Structure:
 ```
 
 #### 10.0.3 Automated Deployment Pipeline
+
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
@@ -2538,7 +2680,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run test:smoke
-      
+
   deploy-app:
     needs: smoke-test
     if: github.ref == 'refs/heads/main'
@@ -2553,7 +2695,7 @@ jobs:
       - uses: actions/deploy-pages@v4
         with:
           path: ./out
-          
+
   deploy-storybook:
     needs: smoke-test
     if: github.ref == 'refs/heads/main'
@@ -2571,6 +2713,7 @@ jobs:
 ```
 
 #### 10.0.4 Smoke Test Suite
+
 ```typescript
 // tests/smoke.test.ts
 describe('Smoke Tests', () => {
@@ -2578,29 +2721,29 @@ describe('Smoke Tests', () => {
     const result = await exec('pnpm run build');
     expect(result.exitCode).toBe(0);
   });
-  
+
   test('App starts without errors', async () => {
     const server = await startServer();
     const response = await fetch('http://localhost:3000');
     expect(response.status).toBe(200);
     await server.close();
   });
-  
+
   test('Storybook builds without errors', async () => {
     const result = await exec('pnpm run build-storybook');
     expect(result.exitCode).toBe(0);
   });
-  
+
   test('All themes load', async () => {
-    const themes = ['velvet-cake', 'forest-floor', /* ... */];
+    const themes = ['velvet-cake', 'forest-floor' /* ... */];
     for (const theme of themes) {
       const css = await loadTheme(theme);
       expect(css).toBeDefined();
     }
   });
-  
+
   test('All font themes load', async () => {
-    const fontThemes = ['professional', 'playful', /* ... */];
+    const fontThemes = ['professional', 'playful' /* ... */];
     for (const theme of fontThemes) {
       const fonts = await loadFontTheme(theme);
       expect(fonts).toBeDefined();
@@ -2610,6 +2753,7 @@ describe('Smoke Tests', () => {
 ```
 
 #### 10.0.5 Progressive Feature Flags
+
 ```typescript
 // config/features.ts
 export const features = {
@@ -2617,25 +2761,26 @@ export const features = {
   subatomicComponents: true,
   textComponent: true,
   headingComponent: true,
-  
+
   // Phase 2 (Day 5-7)
   colorThemes: process.env.NEXT_PUBLIC_FEATURE_COLOR_THEMES === 'true',
   fontThemes: process.env.NEXT_PUBLIC_FEATURE_FONT_THEMES === 'true',
-  
+
   // Phase 3 (Day 8-10)
   atomicComponents: process.env.NEXT_PUBLIC_FEATURE_ATOMIC === 'true',
-  
+
   // Phase 4 (Day 11-13)
   pwa: process.env.NEXT_PUBLIC_FEATURE_PWA === 'true',
-  
+
   // Later phases
   emailIntegration: false,
   advancedForms: false,
-  analytics: false
+  analytics: false,
 };
 ```
 
 ### 10.1 Environment Variables
+
 ```bash
 # .env.example
 
@@ -2686,10 +2831,12 @@ ANALYZE=false
 ```
 
 ### 10.2 Production Checklist
+
 ```markdown
 ## Pre-Deployment Checklist
 
 ### Code Quality
+
 - [ ] All tests passing (unit, integration, E2E)
 - [ ] No TypeScript errors
 - [ ] ESLint warnings resolved
@@ -2697,6 +2844,7 @@ ANALYZE=false
 - [ ] Bundle size < 300KB
 
 ### Security
+
 - [ ] Environment variables secured
 - [ ] CSP headers configured
 - [ ] Rate limiting enabled
@@ -2705,6 +2853,7 @@ ANALYZE=false
 - [ ] Security scan passed
 
 ### Performance
+
 - [ ] Lighthouse score > 95
 - [ ] Images optimized
 - [ ] Code splitting implemented
@@ -2712,6 +2861,7 @@ ANALYZE=false
 - [ ] CDN setup
 
 ### Accessibility
+
 - [ ] WCAG AA compliant
 - [ ] Keyboard navigation tested
 - [ ] Screen reader tested
@@ -2719,6 +2869,7 @@ ANALYZE=false
 - [ ] Focus indicators visible
 
 ### Documentation
+
 - [ ] README updated
 - [ ] API documented
 - [ ] Deployment guide complete
@@ -2726,6 +2877,7 @@ ANALYZE=false
 - [ ] License verified
 
 ### Monitoring
+
 - [ ] Error tracking configured
 - [ ] Analytics enabled
 - [ ] Uptime monitoring active
@@ -2733,6 +2885,7 @@ ANALYZE=false
 - [ ] Alerts configured
 
 ### Backup & Recovery
+
 - [ ] Backup strategy defined
 - [ ] Rollback plan documented
 - [ ] Disaster recovery tested

@@ -1,8 +1,11 @@
 // Service Worker for CRUDkit PWA
 // Version with timestamp to force updates
 const BUILD_TIMESTAMP = new Date().toISOString();
-const isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const CACHE_NAME = isDev ? 'crudkit-dev-' + BUILD_TIMESTAMP.slice(0,10) : 'crudkit-v4-' + BUILD_TIMESTAMP.slice(0,10);
+const isDev =
+  location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const CACHE_NAME = isDev
+  ? 'crudkit-dev-' + BUILD_TIMESTAMP.slice(0, 10)
+  : 'crudkit-v4-' + BUILD_TIMESTAMP.slice(0, 10);
 
 console.log('[SW] Initializing Service Worker');
 console.log('[SW] Cache name:', CACHE_NAME);
@@ -14,14 +17,15 @@ const urlsToCache = [
   '/CRUDkit/vercel.svg',
   '/CRUDkit/file.svg',
   '/CRUDkit/globe.svg',
-  '/CRUDkit/window.svg'
+  '/CRUDkit/window.svg',
 ];
 
 // Install event - cache resources
 self.addEventListener('install', (event) => {
   console.log('[SW] Install event triggered');
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches
+      .open(CACHE_NAME)
       .then((cache) => {
         console.log('[SW] Cache opened:', CACHE_NAME);
         // In dev, only cache essential files
@@ -64,7 +68,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
-  
+
   // In dev, log fetch requests for debugging
   if (isDev && !event.request.url.includes('_next')) {
     console.log('[SW] Fetch:', event.request.url);
@@ -74,9 +78,10 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   // Don't cache HTML documents to ensure theme scripts always run
-  const isHTMLRequest = event.request.destination === 'document' || 
-                        event.request.headers.get('accept')?.includes('text/html');
-  
+  const isHTMLRequest =
+    event.request.destination === 'document' ||
+    event.request.headers.get('accept')?.includes('text/html');
+
   if (isHTMLRequest) {
     // Always fetch HTML fresh from network
     event.respondWith(
@@ -84,7 +89,7 @@ self.addEventListener('fetch', (event) => {
         // Offline fallback - return a basic offline page
         return new Response('Offline - Please check your connection', {
           status: 503,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html' },
         });
       })
     );
@@ -93,34 +98,32 @@ self.addEventListener('fetch', (event) => {
 
   // For non-HTML resources, use cache-first strategy
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
+    caches.match(event.request).then((response) => {
+      // Cache hit - return response
+      if (response) {
+        return response;
+      }
+
+      // Clone the request
+      const fetchRequest = event.request.clone();
+
+      return fetch(fetchRequest).then((response) => {
+        // Check if valid response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
 
-        // Clone the request
-        const fetchRequest = event.request.clone();
+        // Clone the response
+        const responseToCache = response.clone();
 
-        return fetch(fetchRequest).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          // Add to cache for next time (only non-HTML)
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
+        // Add to cache for next time (only non-HTML)
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
         });
-      })
+
+        return response;
+      });
+    })
   );
 });
 
@@ -144,12 +147,12 @@ async function syncOfflineForms() {
     // Get all offline form data from IndexedDB or cache
     const cache = await caches.open('offline-forms');
     const requests = await cache.keys();
-    
+
     const syncPromises = requests.map(async (request) => {
       try {
         // Attempt to send the cached request
         const response = await fetch(request.clone());
-        
+
         if (response.ok) {
           // If successful, remove from cache
           await cache.delete(request);
@@ -160,15 +163,15 @@ async function syncOfflineForms() {
         // Keep in cache for next sync attempt
       }
     });
-    
+
     await Promise.all(syncPromises);
-    
+
     // Notify clients about sync completion
     const clients = await self.clients.matchAll();
-    clients.forEach(client => {
+    clients.forEach((client) => {
       client.postMessage({
         type: 'BACKGROUND_SYNC_COMPLETE',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     });
   } catch (error) {
@@ -185,21 +188,22 @@ self.addEventListener('fetch', (event) => {
         // If offline, cache the request for later
         const cache = await caches.open('offline-forms');
         await cache.put(event.request.url, event.request.clone());
-        
+
         // Register sync event for when connection returns
         if ('sync' in self.registration) {
           await self.registration.sync.register('sync-forms');
         }
-        
+
         // Return a custom response indicating offline storage
         return new Response(
-          JSON.stringify({ 
-            status: 'offline', 
-            message: 'Your submission has been saved and will be sent when connection is restored' 
+          JSON.stringify({
+            status: 'offline',
+            message:
+              'Your submission has been saved and will be sent when connection is restored',
           }),
           {
             status: 200,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           }
         );
       })

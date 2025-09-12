@@ -1,6 +1,7 @@
 # Storybook Setup Notes
 
 ## Current Status
+
 Using Storybook 9.1.5 with Next.js 15.5
 
 ## Temporarily Removed Packages (Incompatible with Storybook 9.1.5)
@@ -8,6 +9,7 @@ Using Storybook 9.1.5 with Next.js 15.5
 The following packages are still on version 8.6.14 and cause build errors with Storybook 9.1.5:
 
 ### Removed Packages:
+
 1. **@storybook/addon-essentials** (8.6.14)
    - **Missing features:**
      - Controls addon (for live prop editing)
@@ -38,6 +40,7 @@ The following packages are still on version 8.6.14 and cause build errors with S
      - Testing-library utilities
 
 ## What's Still Working:
+
 - ✅ Basic Storybook UI
 - ✅ Story rendering
 - ✅ Next.js integration
@@ -47,13 +50,16 @@ The following packages are still on version 8.6.14 and cause build errors with S
 - ✅ Chromatic integration for visual testing
 
 ## Workarounds:
+
 - **Controls**: Edit props directly in story files for now
 - **Viewport**: Use browser dev tools for responsive testing
 - **Actions**: Use console.log for callback debugging
 - **Testing**: Run tests separately with Jest/Vitest
 
 ## When to Re-add:
+
 Check periodically if these packages have been updated to 9.x:
+
 ```bash
 npm view @storybook/addon-essentials dist-tags.latest
 npm view @storybook/addon-interactions dist-tags.latest

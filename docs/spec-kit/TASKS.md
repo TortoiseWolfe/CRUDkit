@@ -1,19 +1,22 @@
 # CRUDkit Implementation Tasks
 
 Generated from PLAN.md - 2025-09-10 13:02
-*Last Updated: 2025-09-12 12:30 (66% Complete - 107/161 Tasks)*
+_Last Updated: 2025-09-12 14:00 (70% Complete - 113/161 Tasks)_
 
 ## Overall Progress Summary
+
 - **Sprint 1**: ✅ Complete (95/96 tasks - 99%)
-- **Sprint 2**: 🚧 In Progress (12/65 tasks - 18%)
-- **Total Progress**: 107/161 tasks (66%)
+- **Sprint 2**: 🚧 In Progress (18/65 tasks - 28%)
+- **Total Progress**: 113/161 tasks (70%)
 
 ---
 
 ## Sprint 1: Core Implementation ✅
-*Completed 2025-09-11 (95/96 tasks)*
+
+_Completed 2025-09-11 (95/96 tasks)_
 
 ### Sprint 1 Summary
+
 - ✅ **Phase 0 Complete**: Next.js app deployed to GitHub Pages
 - ✅ **Phase 1 Complete**: Storybook deployed with Text component
 - ✅ **Phase 2 Complete**: Theme system with 32 themes
@@ -21,6 +24,7 @@ Generated from PLAN.md - 2025-09-10 13:02
 - ✅ **Phase 4 Complete**: PWA features with testing and monitoring
 
 ### Key Accomplishments:
+
 - Docker-first development environment with pnpm
 - Next.js 15.5 app live at https://tortoisewolfe.github.io/CRUDkit/
 - Storybook 9.1.5 live at https://tortoisewolfe.github.io/CRUDkit/storybook/
@@ -33,12 +37,14 @@ Generated from PLAN.md - 2025-09-10 13:02
 ## Sprint 2: Fix the Foundation 🚧
 
 ### Sprint 2 Overview
+
 **Sprint 2 Tasks**: 65  
 **Duration**: 10 weeks  
 **Priority**: P0 (Critical Foundation)  
-**Status**: In Progress (12/65 - 18%)  
+**Status**: In Progress (18/65 - 28%)
 
 ## Phase 1: Testing Foundation (Weeks 1-2)
+
 ### Week 1 Tasks
 
 **T001** 📦 Install Vitest and testing dependencies  
@@ -92,31 +98,32 @@ Create TESTING.md with guidelines
 **Priority**: P2 | **Estimate**: 1hr | **Status**: [x] Complete
 
 ## Phase 2: Developer Experience (Weeks 3-4)
+
 ### Week 3 Tasks
 
 **T013** 🐳 Fix Docker HMR issues  
 Update docker-compose.yml with polling and HMR port  
-**Priority**: P0 | **Estimate**: 2hr | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 2hr | **Status**: [x] Complete
 
 **T014** 🔧 Add Docker health check  
 Implement basic health check endpoint  
-**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T015** 💅 Install Prettier  
 `pnpm add -D prettier prettier-plugin-tailwindcss`  
-**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T016** 📝 Configure Prettier  
 Create `.prettierrc.json` and `.prettierignore`  
-**Priority**: P0 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P0 | **Estimate**: 30min | **Status**: [x] Complete
 
 **T017** 🎨 Format existing code  
 Run `pnpm format` on entire codebase  
-**Priority**: P1 | **Estimate**: 1hr | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 1hr | **Status**: [x] Complete
 
 **T018** 🪝 Add format check to pre-commit  
 Update husky hook to include formatting  
-**Priority**: P1 | **Estimate**: 30min | **Status**: [ ] Not Started
+**Priority**: P1 | **Estimate**: 30min | **Status**: [x] Complete
 
 ### Week 4 Tasks
 
@@ -145,6 +152,7 @@ Document development workflow
 **Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
 ## Phase 3: First Simple Feature (Weeks 5-6)
+
 ### Week 5 Tasks
 
 **T025** 📁 Create Dice component structure  
@@ -198,6 +206,7 @@ Document pattern for future components
 **Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
 ## Phase 4: Quality Baseline (Weeks 7-8)
+
 ### Week 7 Tasks
 
 **T037** 📦 Install Zod  
@@ -251,6 +260,7 @@ Reflect new quality standards
 **Priority**: P2 | **Estimate**: 1hr | **Status**: [ ] Not Started
 
 ## Phase 5: Foundation Completion (Weeks 9-10)
+
 ### Week 9 Tasks
 
 **T049** 🏥 Create health endpoint  
@@ -327,15 +337,15 @@ Identify next priorities
 
 ## Task Statistics
 
-| Phase | Tasks | Estimated Hours |
-|-------|-------|-----------------|
-| Phase 1: Testing Foundation | 12 | 14.5 hrs |
-| Phase 2: Developer Experience | 12 | 14 hrs |
-| Phase 3: First Simple Feature | 12 | 19 hrs |
-| Phase 4: Quality Baseline | 12 | 18.5 hrs |
-| Phase 5: Foundation Completion | 12 | 20 hrs |
-| Wrap-up | 5 | 7 hrs |
-| **Total** | **65** | **93 hrs** |
+| Phase                          | Tasks  | Estimated Hours |
+| ------------------------------ | ------ | --------------- |
+| Phase 1: Testing Foundation    | 12     | 14.5 hrs        |
+| Phase 2: Developer Experience  | 12     | 14 hrs          |
+| Phase 3: First Simple Feature  | 12     | 19 hrs          |
+| Phase 4: Quality Baseline      | 12     | 18.5 hrs        |
+| Phase 5: Foundation Completion | 12     | 20 hrs          |
+| Wrap-up                        | 5      | 7 hrs           |
+| **Total**                      | **65** | **93 hrs**      |
 
 ## Priority Breakdown
 
@@ -365,6 +375,7 @@ pnpm add -D pa11y pa11y-ci
 ## Definition of Done
 
 Each task is complete when:
+
 - [ ] Code is written and tested
 - [ ] Tests pass locally
 - [ ] Code is formatted (Prettier)
@@ -374,4 +385,4 @@ Each task is complete when:
 
 ---
 
-*Sprint 2 begins with T001. Track progress by checking off completed tasks.*
+_Sprint 2 begins with T001. Track progress by checking off completed tasks._

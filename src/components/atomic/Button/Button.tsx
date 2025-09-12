@@ -1,7 +1,17 @@
 import React from 'react';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'link' | 'info' | 'success' | 'warning' | 'error';
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'ghost'
+    | 'link'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   outline?: boolean;
   loading?: boolean;
@@ -23,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses = 'btn';
-  
+
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',
@@ -35,14 +45,14 @@ export const Button: React.FC<ButtonProps> = ({
     warning: 'btn-warning',
     error: 'btn-error',
   };
-  
+
   const sizeClasses = {
     xs: 'btn-xs',
     sm: 'btn-sm',
     md: '',
     lg: 'btn-lg',
   };
-  
+
   const classes = [
     baseClasses,
     variantClasses[variant],
@@ -51,15 +61,13 @@ export const Button: React.FC<ButtonProps> = ({
     loading && 'loading',
     wide && 'btn-wide',
     glass && 'glass',
-    className
-  ].filter(Boolean).join(' ');
-  
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <button
-      className={classes}
-      disabled={disabled || loading}
-      {...props}
-    >
+    <button className={classes} disabled={disabled || loading} {...props}>
       {loading && <span className="loading loading-spinner"></span>}
       {children}
     </button>

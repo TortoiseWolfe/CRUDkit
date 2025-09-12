@@ -1,7 +1,7 @@
 services:
   # Spec-kit environment for specification generation
   speckit:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.speckit
     container_name: speckit-dev
@@ -9,7 +9,7 @@ services:
       - .:/workspace
       - ~/.gitconfig:/home/appuser/.gitconfig:ro
     working_dir: /workspace
-    user: "${UID:-1000}:${GID:-1000}"
+    user: '${UID:-1000}:${GID:-1000}'
     stdin_open: true
     tty: true
     environment:

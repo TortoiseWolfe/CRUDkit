@@ -11,7 +11,20 @@ const meta = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body', 'lead', 'small', 'code', 'emphasis', 'caption'],
+      options: [
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'body',
+        'lead',
+        'small',
+        'code',
+        'emphasis',
+        'caption',
+      ],
     },
     children: {
       control: 'text',
@@ -77,7 +90,8 @@ export const Heading6: Story = {
 export const Lead: Story = {
   args: {
     variant: 'lead',
-    children: 'This is lead text, typically used for introductions or key points.',
+    children:
+      'This is lead text, typically used for introductions or key points.',
   },
 };
 

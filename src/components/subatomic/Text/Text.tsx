@@ -1,9 +1,18 @@
 import React from 'react';
 
-export type TextVariant = 
-  | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  | 'body' | 'lead' | 'small'
-  | 'code' | 'emphasis' | 'caption';
+export type TextVariant =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'body'
+  | 'lead'
+  | 'small'
+  | 'code'
+  | 'emphasis'
+  | 'caption';
 
 export interface TextProps {
   variant?: TextVariant;
@@ -47,11 +56,7 @@ export const Text: React.FC<TextProps> = ({
   const Component = as || variantElements[variant] || 'p';
   const combinedClassName = `${variantStyles[variant]} ${className}`.trim();
 
-  return (
-    <Component className={combinedClassName}>
-      {children}
-    </Component>
-  );
+  return <Component className={combinedClassName}>{children}</Component>;
 };
 
 export default Text;

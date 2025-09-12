@@ -12,6 +12,7 @@ CRUDkit uses a comprehensive testing strategy to ensure code quality and reliabi
 ## Testing Stack
 
 ### Core Dependencies
+
 - `vitest`: Test runner and assertion library
 - `@testing-library/react`: React component testing
 - `@testing-library/jest-dom`: Custom DOM matchers
@@ -52,6 +53,7 @@ docker compose exec crudkit pnpm test:coverage
 ### Component Testing
 
 Components should be tested for:
+
 1. **Rendering**: Component renders without errors
 2. **Props**: Props are handled correctly
 3. **User Interactions**: Click, type, focus events work
@@ -74,7 +76,7 @@ describe('Button Component', () => {
   it('handles click events', () => {
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -93,15 +95,17 @@ describe('Button Component', () => {
    - Avoid: `getByTestId` (unless necessary)
 
 2. **Test User Behavior**: Focus on what users see and do
+
    ```typescript
    // Good: Test user-visible behavior
    expect(screen.getByRole('button')).toHaveTextContent('Submit');
-   
+
    // Avoid: Test implementation details
    expect(component.state.isSubmitting).toBe(true);
    ```
 
 3. **Keep Tests Isolated**: Each test should be independent
+
    ```typescript
    describe('Component', () => {
      // Reset mocks after each test
@@ -112,12 +116,13 @@ describe('Button Component', () => {
    ```
 
 4. **Use Descriptive Names**: Test names should explain what's being tested
+
    ```typescript
    // Good
-   it('displays error message when email is invalid')
-   
+   it('displays error message when email is invalid');
+
    // Avoid
-   it('test email validation')
+   it('test email validation');
    ```
 
 ## Test Structure
@@ -173,12 +178,14 @@ export default defineConfig({
 ## Coverage Requirements
 
 ### Current Thresholds
+
 - **Statements**: 10%
 - **Branches**: 10%
 - **Functions**: 10%
 - **Lines**: 10%
 
 These thresholds will increase as the project matures:
+
 - Sprint 2: 10% (current)
 - Sprint 3: 25%
 - Sprint 4: 50%
@@ -197,10 +204,12 @@ open coverage/index.html
 ## CI/CD Integration
 
 Tests run automatically on:
+
 - Every push to `main` or `develop`
 - Every pull request
 
 The CI pipeline (`/.github/workflows/ci.yml`) runs:
+
 1. Linting
 2. Type checking
 3. Unit tests
@@ -217,6 +226,7 @@ pnpm lint-staged
 ```
 
 Lint-staged configuration:
+
 - **JS/TS files**: ESLint + related tests
 - **CSS/MD/JSON**: Prettier formatting
 
@@ -232,6 +242,7 @@ pnpm test:ui
 ### VSCode Integration
 
 Install the Vitest extension for:
+
 - Run tests from editor
 - Debug with breakpoints
 - See inline coverage
@@ -246,6 +257,7 @@ Install the Vitest extension for:
 ## Testing Checklist
 
 Before committing:
+
 - [ ] All tests pass locally
 - [ ] New features have tests
 - [ ] Coverage hasn't decreased
@@ -262,4 +274,4 @@ Before committing:
 
 ---
 
-*Last Updated: Sprint 2, Phase 1 - Testing Foundation Complete*
+_Last Updated: Sprint 2, Phase 1 - Testing Foundation Complete_

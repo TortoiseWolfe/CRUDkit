@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 // Detect if we're building for GitHub Pages
-const isGithubPages = process.env.GITHUB_ACTIONS === 'true' || process.env.NODE_ENV === 'production';
+const isGithubPages =
+  process.env.GITHUB_ACTIONS === 'true' ||
+  process.env.NODE_ENV === 'production';
 const basePath = isGithubPages ? '/CRUDkit' : '';
 
 // Content Security Policy
@@ -19,41 +21,43 @@ const ContentSecurityPolicy = `
   form-action 'self';
   frame-ancestors 'none';
   upgrade-insecure-requests;
-`.replace(/\s{2,}/g, ' ').trim();
+`
+  .replace(/\s{2,}/g, ' ')
+  .trim();
 
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
-    value: ContentSecurityPolicy
+    value: ContentSecurityPolicy,
   },
   {
     key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    value: 'on',
   },
   {
     key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
+    value: 'max-age=63072000; includeSubDomains; preload',
   },
   {
     key: 'X-Frame-Options',
-    value: 'DENY'
+    value: 'DENY',
   },
   {
     key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    value: 'nosniff',
   },
   {
     key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    value: '1; mode=block',
   },
   {
     key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin'
+    value: 'strict-origin-when-cross-origin',
   },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
-  }
+    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+  },
 ];
 
 const nextConfig: NextConfig = {

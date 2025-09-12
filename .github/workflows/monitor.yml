@@ -13,20 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-      
+
       - run: pnpm install
-      
+
       - run: pnpm run build
-      
+
       # Run Lighthouse CI
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
@@ -37,7 +37,7 @@ jobs:
             https://tortoisewolfe.github.io/CRUDkit/components/
           uploadArtifacts: true
           temporaryPublicStorage: true
-      
+
       # Store Lighthouse results
       - name: Store Lighthouse Results
         if: success()
@@ -48,7 +48,7 @@ jobs:
           echo "Best Practices: ${{ steps.lighthouse.outputs.best-practices }}" >> lighthouse-results.md
           echo "SEO: ${{ steps.lighthouse.outputs.seo }}" >> lighthouse-results.md
           echo "PWA: ${{ steps.lighthouse.outputs.pwa }}" >> lighthouse-results.md
-      
+
       - name: Upload Lighthouse Results
         uses: actions/upload-artifact@v4
         with:
@@ -60,20 +60,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-      
+
       - run: pnpm install
-      
+
       - run: pnpm run build
-      
+
       # Test PWA features
       - name: Test Service Worker
         run: |
@@ -84,7 +84,7 @@ jobs:
             echo "❌ Service Worker file missing"
             exit 1
           fi
-      
+
       - name: Test Manifest
         run: |
           # Check if manifest file exists and is valid JSON
@@ -97,7 +97,7 @@ jobs:
             echo "❌ Manifest file missing"
             exit 1
           fi
-      
+
       - name: Check Build Output
         run: |
           # Verify build output exists
@@ -119,7 +119,7 @@ jobs:
           else
             echo "⚠️ Main site returned HTTP $response"
           fi
-      
+
       - name: Check Storybook
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" https://tortoisewolfe.github.io/CRUDkit/storybook/)
@@ -128,7 +128,7 @@ jobs:
           else
             echo "⚠️ Storybook returned HTTP $response"
           fi
-      
+
       - name: Check Status Page
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" https://tortoisewolfe.github.io/CRUDkit/status/)
@@ -144,7 +144,7 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Update Status Badge
         run: |
           # Create or update status badge
@@ -156,7 +156,7 @@ jobs:
             echo "[![Status](https://img.shields.io/badge/Status-Issues_Detected-warning)](https://tortoisewolfe.github.io/CRUDkit/status/)" > status.md
           fi
           echo "Last checked: $(date)" >> status.md
-      
+
       - name: Create Status Summary
         run: |
           echo "## CRUDkit Status Report" > status-report.md
@@ -171,7 +171,7 @@ jobs:
           echo "- Build Time: $(date +%s)" >> status-report.md
           echo "- Deploy Success Rate: >95%" >> status-report.md
           echo "- Smoke Test Pass Rate: 100%" >> status-report.md
-      
+
       - name: Upload Status Report
         uses: actions/upload-artifact@v4
         with:

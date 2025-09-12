@@ -1,46 +1,48 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import PWAInstall from "@/components/PWAInstall";
-import ThemeScript from "@/components/ThemeScript";
-import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import PWAInstall from '@/components/PWAInstall';
+import ThemeScript from '@/components/ThemeScript';
+import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "CRUDkit",
-  description: "Deploy Early, Deploy Often - A comprehensive starter kit",
-  manifest: "/CRUDkit/manifest.json",
+  title: 'CRUDkit',
+  description: 'Deploy Early, Deploy Often - A comprehensive starter kit',
+  manifest: '/CRUDkit/manifest.json',
   icons: {
-    icon: "/CRUDkit/favicon.svg",
-    apple: "/CRUDkit/apple-touch-icon.svg",
+    icon: '/CRUDkit/favicon.svg',
+    apple: '/CRUDkit/apple-touch-icon.svg',
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
-    title: "CRUDkit",
+    statusBarStyle: 'default',
+    title: 'CRUDkit',
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    type: "website",
-    siteName: "CRUDkit",
-    title: "CRUDkit - Modern Web Starter",
-    description: "A comprehensive starter kit with themes, components, and PWA features",
+    type: 'website',
+    siteName: 'CRUDkit',
+    title: 'CRUDkit - Modern Web Starter',
+    description:
+      'A comprehensive starter kit with themes, components, and PWA features',
   },
   twitter: {
-    card: "summary",
-    title: "CRUDkit - Modern Web Starter",
-    description: "A comprehensive starter kit with themes, components, and PWA features",
+    card: 'summary',
+    title: 'CRUDkit - Modern Web Starter',
+    description:
+      'A comprehensive starter kit with themes, components, and PWA features',
   },
   viewport: {
     width: 'device-width',
@@ -53,8 +55,8 @@ export const metadata: Metadata = {
   ],
   other: {
     'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0',
+    Pragma: 'no-cache',
+    Expires: '0',
   },
 };
 

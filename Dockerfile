@@ -23,6 +23,10 @@ RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
 FROM base AS dev
 WORKDIR /app
 
+# Install git and curl for development
+RUN apk add --no-cache git curl && \
+    git config --global --add safe.directory /app
+
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

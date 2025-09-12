@@ -49,10 +49,6 @@ export default function ThemeScript() {
       }
     })();
   `;
-  
-  return (
-    <script
-      dangerouslySetInnerHTML={{ __html: themeScript }}
-    />
-  );
+
+  return <script dangerouslySetInnerHTML={{ __html: themeScript }} />;
 }

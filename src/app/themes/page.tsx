@@ -6,23 +6,21 @@ import Text from '@/components/subatomic/Text/Text';
 
 export default function ThemesPage() {
   return (
-    <main className="min-h-screen bg-base-100">
+    <main className="bg-base-100 min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-4">
           <Link href="/" className="btn btn-ghost btn-sm">
             ← Back to Home
           </Link>
         </div>
-        <div className="text-center mb-8">
+        <div className="mb-8 text-center">
           <Text variant="h1" className="mb-4">
             CRUDkit Theme Playground
           </Text>
-          <Text variant="lead">
-            Explore 32+ beautiful DaisyUI themes
-          </Text>
+          <Text variant="lead">Explore 32+ beautiful DaisyUI themes</Text>
         </div>
 
-        <div className="max-w-6xl mx-auto">
+        <div className="mx-auto max-w-6xl">
           <ThemeSwitcher />
         </div>
 
@@ -33,12 +31,18 @@ export default function ThemesPage() {
           {/* Text Component Showcase */}
           <div className="card bg-base-200 shadow-xl">
             <div className="card-body">
-              <Text variant="h3" className="mb-4">Typography</Text>
+              <Text variant="h3" className="mb-4">
+                Typography
+              </Text>
               <div className="space-y-2">
                 <Text variant="h4">Heading Example</Text>
                 <Text variant="lead">Lead paragraph text</Text>
-                <Text variant="body">Body text for regular content in the current theme.</Text>
-                <Text variant="small">Small text for secondary information</Text>
+                <Text variant="body">
+                  Body text for regular content in the current theme.
+                </Text>
+                <Text variant="small">
+                  Small text for secondary information
+                </Text>
                 <Text variant="code">const theme = &quot;current&quot;;</Text>
               </div>
             </div>
@@ -47,7 +51,9 @@ export default function ThemesPage() {
           {/* Color Showcase */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
-              <Text variant="h3" className="mb-4">Theme Colors</Text>
+              <Text variant="h3" className="mb-4">
+                Theme Colors
+              </Text>
               <div className="space-y-2">
                 <button className="btn btn-primary w-full">Primary</button>
                 <button className="btn btn-secondary w-full">Secondary</button>
@@ -65,7 +71,9 @@ export default function ThemesPage() {
           {/* Alerts */}
           <div className="space-y-2">
             <div className="alert alert-info">
-              <Text variant="body">Info: Theme changes are saved automatically</Text>
+              <Text variant="body">
+                Info: Theme changes are saved automatically
+              </Text>
             </div>
             <div className="alert alert-success">
               <Text variant="body">Success: Theme applied</Text>
@@ -74,13 +82,13 @@ export default function ThemesPage() {
 
           {/* Background Colors */}
           <div className="space-y-2">
-            <div className="p-4 bg-base-100 rounded-lg">
+            <div className="bg-base-100 rounded-lg p-4">
               <Text variant="body">Base 100 Background</Text>
             </div>
-            <div className="p-4 bg-base-200 rounded-lg">
+            <div className="bg-base-200 rounded-lg p-4">
               <Text variant="body">Base 200 Background</Text>
             </div>
-            <div className="p-4 bg-base-300 rounded-lg">
+            <div className="bg-base-300 rounded-lg p-4">
               <Text variant="body">Base 300 Background</Text>
             </div>
           </div>

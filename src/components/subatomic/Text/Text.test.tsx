@@ -23,7 +23,7 @@ describe('Text Component', () => {
         <Text variant="h3">Heading 3</Text>
       </>
     );
-    
+
     expect(container.querySelector('h1')).toHaveTextContent('Heading 1');
     expect(container.querySelector('h2')).toHaveTextContent('Heading 2');
     expect(container.querySelector('h3')).toHaveTextContent('Heading 3');
@@ -34,7 +34,10 @@ describe('Text Component', () => {
     expect(screen.getByText('Test')).toHaveClass('text-5xl', 'font-bold');
 
     rerender(<Text variant="small">Test</Text>);
-    expect(screen.getByText('Test')).toHaveClass('text-sm', 'text-base-content/70');
+    expect(screen.getByText('Test')).toHaveClass(
+      'text-sm',
+      'text-base-content/70'
+    );
 
     rerender(<Text variant="code">Test</Text>);
     expect(screen.getByText('Test')).toHaveClass('font-mono', 'bg-base-200');
