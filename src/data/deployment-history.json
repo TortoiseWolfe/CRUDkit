@@ -1,102 +1,32 @@
 [
   {
     "date": "9/12/2025",
-    "feature": "Add Captain Ship & Crew dice game with NPC support",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Add interactive Dice components with drag-and-d...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Make tutorial expand button more prominent",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Correctly count completed phases on homepage",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Replace hourglass with dice emoji for Phase 3",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Consolidate Phase 2 completion status in README",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Add dice emoji to Sprint 2 Phase 3 status display",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Add comprehensive Dice component implementation...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Update progress tracking for Sprint 2 Phase 2 W...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Adjust test coverage thresholds for CI",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Resolve GitHub Pages build failures",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Complete Sprint 2 Phase 2 Week 4 - Error Handli...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Update progress and fix Next.js metadata warnings",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Complete Sprint 2 Phase 2 Week 3 - Developer Ex...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Update documentation for Sprint 2 Phase 1 compl...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Complete Sprint 2 Phase 1 - Testing Foundation",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Complete Sprint 2 Phase 1 Week 1 - testing foun...",
+    "feature": "Captain Ship & Crew Game",
     "status": "success"
   },
   {
     "date": "9/11/2025",
-    "feature": "Add minimizable CTA button for PWA install prompt",
+    "feature": "Testing Infrastructure",
     "status": "success"
   },
   {
     "date": "9/11/2025",
-    "feature": "Enhance status dashboard with comprehensive too...",
+    "feature": "Code Formatting Setup",
     "status": "success"
   },
   {
-    "date": "9/11/2025",
-    "feature": "Integrate Sprint 2 tasks and optimize UI layout",
+    "date": "9/10/2025",
+    "feature": "Storybook Integration",
+    "status": "success"
+  },
+  {
+    "date": "9/10/2025",
+    "feature": "Next.js 15.5 Setup",
+    "status": "success"
+  },
+  {
+    "date": "9/9/2025",
+    "feature": "Initial Setup",
     "status": "success"
   }
 ]

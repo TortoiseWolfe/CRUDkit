@@ -563,7 +563,9 @@ export default function CaptainShipCrewWithNPC({
     return (
       <div className={`card bg-base-100 shadow-xl ${className}`}>
         <div className="card-body">
-          <h2 className="card-title">Captain, Ship & Crew - Setup</h2>
+          <h2 className="card-title text-lg sm:text-xl">
+            Captain, Ship & Crew - Setup
+          </h2>
           <p className="text-sm opacity-75">
             Configure players - add NPCs to play against computer opponents!
           </p>
@@ -571,14 +573,17 @@ export default function CaptainShipCrewWithNPC({
           <div className="divider">Players</div>
           <div className="space-y-3">
             {playerSetups.map((setup, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div
+                key={index}
+                className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2"
+              >
                 <input
                   type="text"
                   value={setup.name}
                   onChange={(e) =>
                     updatePlayerSetup(index, { name: e.target.value })
                   }
-                  className="input input-bordered input-sm flex-1"
+                  className="input input-bordered input-sm w-full sm:flex-1"
                   placeholder="Player name"
                 />
                 <select
@@ -590,7 +595,7 @@ export default function CaptainShipCrewWithNPC({
                         e.target.value === 'npc' ? 'medium' : undefined,
                     })
                   }
-                  className="select select-bordered select-sm"
+                  className="select select-bordered select-sm w-full sm:w-auto"
                 >
                   <option value="human">👤 Human</option>
                   <option value="npc">🤖 NPC</option>
@@ -603,7 +608,7 @@ export default function CaptainShipCrewWithNPC({
                         difficulty: e.target.value as NPCDifficulty,
                       })
                     }
-                    className="select select-bordered select-sm"
+                    className="select select-bordered select-sm w-full sm:w-auto"
                   >
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
@@ -635,7 +640,7 @@ export default function CaptainShipCrewWithNPC({
     return (
       <div className={`card bg-base-100 shadow-xl ${className}`}>
         <div className="card-body">
-          <h2 className="card-title">Game Over!</h2>
+          <h2 className="card-title text-lg sm:text-xl">Game Over!</h2>
           <div className="py-8 text-center">
             <div className="mb-4 text-4xl">🏆</div>
             <h3 className="text-primary text-2xl font-bold">
@@ -684,7 +689,9 @@ export default function CaptainShipCrewWithNPC({
     <div className={`card bg-base-100 shadow-xl ${className}`}>
       <div className="card-body">
         <div className="flex items-center justify-between">
-          <h2 className="card-title">Captain, Ship & Crew</h2>
+          <h2 className="card-title text-lg sm:text-xl">
+            Captain, Ship & Crew
+          </h2>
           <div className="badge badge-primary">Round {gameState.round}</div>
         </div>
 
@@ -710,19 +717,19 @@ export default function CaptainShipCrewWithNPC({
         )}
 
         {/* Required Sequence Status */}
-        <div className="my-4 flex justify-center gap-4">
+        <div className="my-4 flex justify-center gap-2 sm:gap-4">
           <div
-            className={`badge ${turnState.hasShip ? 'badge-success' : 'badge-outline'} badge-lg`}
+            className={`badge ${turnState.hasShip ? 'badge-success' : 'badge-outline'} sm:badge-lg px-3 py-2`}
           >
             ⚓ Ship (6)
           </div>
           <div
-            className={`badge ${turnState.hasCaptain ? 'badge-success' : 'badge-outline'} badge-lg`}
+            className={`badge ${turnState.hasCaptain ? 'badge-success' : 'badge-outline'} sm:badge-lg px-3 py-2`}
           >
             👨‍✈️ Captain (5)
           </div>
           <div
-            className={`badge ${turnState.hasCrew ? 'badge-success' : 'badge-outline'} badge-lg`}
+            className={`badge ${turnState.hasCrew ? 'badge-success' : 'badge-outline'} sm:badge-lg px-3 py-2`}
           >
             ⚒️ Crew (4)
           </div>
@@ -743,7 +750,7 @@ export default function CaptainShipCrewWithNPC({
         )}
 
         {/* Dice Display */}
-        <div className="my-6 flex flex-wrap justify-center gap-3">
+        <div className="my-4 flex flex-wrap justify-center gap-2 sm:my-6 sm:gap-3">
           {turnState.dice.map((_, index) => {
             const { value, isLocked, label } = getDiceDisplay(index);
             return (
@@ -815,7 +822,7 @@ export default function CaptainShipCrewWithNPC({
 
         {/* Scoreboard */}
         <div className="divider">Scores</div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2 sm:text-sm">
           {players.map((player) => (
             <div
               key={player.id}

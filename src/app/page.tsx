@@ -56,21 +56,21 @@ export default function Home() {
       <section
         id="game-demo"
         aria-label="Interactive game demo"
-        className="from-primary/10 to-base-200/50 relative bg-gradient-to-b px-4 py-8"
+        className="from-primary/10 to-base-200/50 relative bg-gradient-to-b px-2 py-4 sm:px-4 sm:py-8"
       >
         <div className="container mx-auto max-w-6xl">
           <div className="mb-4 text-center">
-            <h1 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent">
+            <h1 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent sm:text-3xl md:text-4xl">
               🎲 Captain, Ship & Crew Tournament
             </h1>
-            <p className="mt-2 text-sm opacity-75">
+            <p className="mt-2 text-xs opacity-75 sm:text-sm">
               🎯 Tournament Mode • 🤖 3 AI Opponents • 🏆 First to 50 Points
               Wins
             </p>
           </div>
 
           <div className="flex justify-center">
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-full sm:max-w-xl md:max-w-2xl">
               <CaptainShipCrewWithNPC
                 playerCount={4}
                 gameMode="target"
@@ -81,7 +81,7 @@ export default function Home() {
           </div>
 
           <div className="mt-6 text-center">
-            <p className="mx-auto max-w-2xl text-base opacity-87">
+            <p className="mx-auto max-w-full px-2 text-sm opacity-87 sm:max-w-2xl sm:px-0 sm:text-base">
               Experience our interactive components! Play this classic dice game
               against AI opponents. Roll for Ship (6), Captain (5), and Crew (4)
               in sequence, then score with cargo dice!
@@ -94,39 +94,54 @@ export default function Home() {
       <section
         id="main-content"
         aria-label="Welcome hero"
-        className="hero relative min-h-[70vh] overflow-hidden"
+        className="hero relative min-h-0 sm:min-h-[60vh] md:min-h-[70vh]"
       >
-        <div className="hero-content py-20 text-center">
+        <div className="hero-content py-6 text-center sm:py-12 md:py-16 lg:py-20">
           <div className="max-w-4xl">
             {/* Main Title */}
-            <h1 className="from-primary to-secondary mb-6 bg-gradient-to-r bg-clip-text text-6xl font-bold text-transparent md:text-7xl">
+            <h1 className="from-primary to-secondary mb-3 bg-gradient-to-r bg-clip-text text-3xl font-bold text-transparent sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
               CRUDkit
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base-content/87 mb-6 text-xl md:text-2xl">
+            <p className="text-base-content/87 mb-4 text-base sm:mb-6 sm:text-xl md:text-2xl">
               Modern Next.js Starter with Everything Built-In
             </p>
 
             {/* Tech Stack */}
             <div
-              className="mb-12 flex flex-wrap justify-center gap-2"
+              className="mb-6 flex flex-wrap justify-center gap-1.5 sm:mb-8 sm:gap-2 md:mb-12"
               role="list"
               aria-label="Technology stack"
             >
-              <span role="listitem" className="badge badge-outline">
+              <span
+                role="listitem"
+                className="badge badge-outline badge-sm sm:badge-md"
+              >
                 Next.js 15.5
               </span>
-              <span role="listitem" className="badge badge-outline">
+              <span
+                role="listitem"
+                className="badge badge-outline badge-sm sm:badge-md"
+              >
                 React 19
               </span>
-              <span role="listitem" className="badge badge-outline">
+              <span
+                role="listitem"
+                className="badge badge-outline badge-sm sm:badge-md"
+              >
                 TypeScript
               </span>
-              <span role="listitem" className="badge badge-outline">
+              <span
+                role="listitem"
+                className="badge badge-outline badge-sm sm:badge-md"
+              >
                 Tailwind CSS
               </span>
-              <span role="listitem" className="badge badge-outline">
+              <span
+                role="listitem"
+                className="badge badge-outline badge-sm sm:badge-md"
+              >
                 PWA Ready
               </span>
             </div>
@@ -134,11 +149,14 @@ export default function Home() {
             {/* Primary Actions */}
             <nav
               aria-label="Primary navigation"
-              className="flex flex-wrap justify-center gap-4"
+              className="flex flex-wrap justify-center gap-2 sm:gap-4"
             >
-              <Link href="/components" className="btn btn-primary btn-lg group">
+              <Link
+                href="/components"
+                className="btn btn-primary btn-sm sm:btn-md md:btn-lg group"
+              >
                 <svg
-                  className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
+                  className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -153,9 +171,12 @@ export default function Home() {
                 </svg>
                 Explore Components
               </Link>
-              <Link href="/themes" className="btn btn-secondary btn-lg group">
+              <Link
+                href="/themes"
+                className="btn btn-secondary btn-sm sm:btn-md md:btn-lg group"
+              >
                 <svg
-                  className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
+                  className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -174,10 +195,10 @@ export default function Home() {
                 href="https://github.com/TortoiseWolfe/CRUDkit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-outline btn-lg group"
+                className="btn btn-outline btn-sm sm:btn-md md:btn-lg group"
               >
                 <svg
-                  className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
+                  className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -191,7 +212,7 @@ export default function Home() {
             {/* Quick Links */}
             <nav
               aria-label="Secondary navigation"
-              className="mt-10 flex justify-center gap-4 text-sm"
+              className="mt-6 flex flex-wrap justify-center gap-2 text-xs sm:mt-8 sm:gap-4 sm:text-sm md:mt-10"
             >
               <Link
                 href="/status"
