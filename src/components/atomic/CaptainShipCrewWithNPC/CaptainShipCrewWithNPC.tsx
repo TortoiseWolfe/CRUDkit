@@ -2,6 +2,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import DraggableDice from '../DraggableDice/DraggableDice';
+import { ValidatedInput } from '@/components/forms';
+import { playerNameSchema } from '@/schemas/forms';
+
+// TODO: Add validation to other atomic components throughout the app
+// This is a demonstration of the new validation system in action.
+// Future work: Extend validation to Button, Input, and other form components.
 
 type PlayerType = 'human' | 'npc';
 type NPCDifficulty = 'easy' | 'medium' | 'hard';
@@ -58,6 +64,9 @@ export default function CaptainShipCrewWithNPC({
 }: CaptainShipCrewWithNPCProps) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [playerSetups, setPlayerSetups] = useState<PlayerSetup[]>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    Record<number, string>
+  >({});
   const [gameState, setGameState] = useState<GameState>({
     currentPlayerIndex: 0,
     round: 1,
@@ -481,6 +490,24 @@ export default function CaptainShipCrewWithNPC({
   ]);
 
   const startGame = () => {
+    // Validate all player names before starting
+    let hasErrors = false;
+    const newErrors: Record<number, string> = {};
+
+    playerSetups.forEach((setup, index) => {
+      const result = playerNameSchema.safeParse(setup.name);
+      if (!result.success) {
+        hasErrors = true;
+        newErrors[index] = result.error.issues[0].message;
+      }
+    });
+
+    setValidationErrors(newErrors);
+
+    if (hasErrors) {
+      return; // Don't start game if there are validation errors
+    }
+
     // Create players from setups
     const gamePlayers: Player[] = playerSetups.map((setup, i) => ({
       id: `player-${i}`,
@@ -577,14 +604,26 @@ export default function CaptainShipCrewWithNPC({
                 key={index}
                 className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2"
               >
-                <input
+                <ValidatedInput
                   type="text"
                   value={setup.name}
-                  onChange={(e) =>
-                    updatePlayerSetup(index, { name: e.target.value })
-                  }
-                  className="input input-bordered input-sm w-full sm:flex-1"
+                  onChange={(value) => {
+                    updatePlayerSetup(index, { name: value });
+                    // Clear validation error for this field when user types
+                    setValidationErrors((prev) => {
+                      const next = { ...prev };
+                      delete next[index];
+                      return next;
+                    });
+                  }}
+                  schema={playerNameSchema}
+                  error={validationErrors[index]}
+                  className="input-bordered input-sm w-full sm:flex-1"
                   placeholder="Player name"
+                  size="sm"
+                  validateOnChange
+                  debounceMs={500}
+                  showStateIcon
                 />
                 <select
                   value={setup.type}
