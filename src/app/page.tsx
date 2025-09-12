@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-base-200 via-base-100 to-base-200">
       {/* Skip to main content for accessibility */}
-      <a href="#tutorial" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 btn btn-sm btn-primary">
-        Skip to tutorial
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 btn btn-sm btn-primary">
+        Skip to main content
       </a>
 
       {/* Floating Progress Badge */}
@@ -170,7 +170,16 @@ export default function Home() {
             <p className="text-center text-base-content/70 mb-8 max-w-2xl mx-auto">
               Generated from spec-kit → PLAN.md → TASKS.md
               <br />
-              <span className="text-sm">Fork this project, replace the spec-kit with your own requirements, and run Docker to generate your custom project plan!</span>
+              <span className="text-sm">
+                Fork this project, edit the{' '}
+                <a href="https://github.com/TortoiseWolfe/CRUDkit/blob/main/docs/constitution.md" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   className="link link-primary">
+                  constitution
+                </a>
+                {' '}with your requirements, and run Docker to generate your custom project plan!
+              </span>
             </p>
             
             <div className="flex justify-center mb-8">
@@ -184,13 +193,13 @@ export default function Home() {
                 <div className="stat">
                   <div className="stat-title">Project Status</div>
                   <div className="stat-value text-success">{taskProgress.percentage}%</div>
-                  <div className="stat-desc">Fully complete</div>
+                  <div className="stat-desc">Complete</div>
                 </div>
                 
                 <div className="stat">
                   <div className="stat-title">Phases Done</div>
                   <div className="stat-value text-secondary">{Object.keys(taskProgress.phases).length}</div>
-                  <div className="stat-desc">All milestones reached</div>
+                  <div className="stat-desc">Milestones reached</div>
                 </div>
               </div>
             </div>
@@ -236,7 +245,7 @@ export default function Home() {
                         <span className="badge badge-primary">4</span>
                         <div className="flex-1">
                           <code className="font-mono text-sm">docs/spec-kit/TASKS.md</code>
-                          <span className="text-xs text-base-content/70 ml-2">→ 96 tasks (Claude created, 100% complete!)</span>
+                          <span className="text-xs text-base-content/70 ml-2">→ 161 tasks (59% complete)</span>
                         </div>
                       </div>
                     </div>

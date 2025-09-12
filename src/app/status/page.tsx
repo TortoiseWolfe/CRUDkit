@@ -592,8 +592,8 @@ export default function StatusPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-8">
-          <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 items-stretch">
+          <div className="space-y-6">
             <Card title="Build Status" bordered>
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -729,56 +729,218 @@ export default function StatusPage() {
                 </button>
               </div>
             </Card>
+            
+            
+            {/* PWA Feature Tests */}
+            <Card 
+              title={
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <span>PWA Feature Tests</span>
+                    {autoRefresh && (
+                      <span className="badge badge-success badge-sm animate-pulse">
+                        Live Monitoring
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <label className="swap swap-flip" aria-label="Toggle auto-refresh for PWA tests">
+                      <input 
+                        type="checkbox" 
+                        checked={autoRefresh}
+                        onChange={(e) => setAutoRefresh(e.target.checked)}
+                        aria-checked={autoRefresh}
+                        role="switch"
+                      />
+                      <div className="swap-on" aria-hidden="true">🟢</div>
+                      <div className="swap-off" aria-hidden="true">⭕</div>
+                    </label>
+                    <button 
+                      className={`btn btn-sm ${
+                        isTestingPWA ? 'btn-warning' : 
+                        testError ? 'btn-error' : 
+                        pwaResults.length > 0 ? 'btn-success' : 'btn-primary'
+                      }`}
+                      onClick={runPWATests}
+                      disabled={isTestingPWA}
+                    >
+                      {isTestingPWA ? (
+                        <span className="flex items-center gap-2">
+                          <span className="loading loading-spinner loading-xs"></span>
+                          Testing...
+                        </span>
+                      ) : (
+                        'Run Tests'
+                      )}
+                    </button>
+                  </div>
+                </div>
+              }
+              bordered
+            >
+              {testError ? (
+                <div className="alert alert-error">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{testError}</span>
+                </div>
+              ) : pwaResults.length > 0 ? (
+                <>
+                  <div className="stats shadow mb-4 w-full">
+                    <div className="stat">
+                      <div className="stat-title">Passed</div>
+                      <div className="stat-value text-success text-2xl">{pwaTestSummary.passed}</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-title">Warnings</div>
+                      <div className="stat-value text-warning text-2xl">{pwaTestSummary.warnings}</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-title">Failed</div>
+                      <div className="stat-value text-error text-2xl">{pwaTestSummary.failed}</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {lastTestTime && (
+                      <div className="text-sm text-base-content/50 mb-2">
+                        Last tested: {lastTestTime.toLocaleTimeString()}
+                        {autoRefresh && ' • Auto-refreshing every 30s'}
+                      </div>
+                    )}
+                    {pwaResults.map((result, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <span>{getStatusIcon(result.status)}</span>
+                        <div className="flex-1">
+                          <Text variant="small" className="font-semibold">{result.feature}</Text>
+                          <Text variant="small" className="text-base-content/70">{result.message}</Text>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p className="text-center text-base-content/50 py-8">
+                  Click &quot;Run Tests&quot; to check PWA features
+                </p>
+              )}
+            </Card>
           </div>
 
-          <Card title="Project Progress" bordered className="md:col-span-2 lg:col-span-4">
-            <div className="space-y-4">
+          <div className="space-y-6">
+            <Card title="Project Progress" bordered>
+              <div className="space-y-4">
+              {/* Single combined progress display */}
               <div>
-                <div className="flex justify-between mb-1">
-                  <span>Tasks (TASKS.md)</span>
-                  <span>{taskProgress?.completedTasks || metrics.featuresComplete}/{taskProgress?.totalTasks || metrics.featuresTotal}</span>
+                <div className="flex justify-between items-center mb-2">
+                  <div>
+                    <span className="font-medium">Overall Progress</span>
+                    {taskProgress?.sprints && taskProgress.sprints.length > 0 && (
+                      <div className="text-xs text-base-content/70 mt-1">
+                        {taskProgress.sprints.map((sprint, idx) => (
+                          <span key={idx}>
+                            {idx > 0 && ' • '}
+                            {sprint.name.split(':')[0]}: {sprint.percentage}%
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold">{taskProgress?.percentage || metrics.completionPercentage}%</div>
+                    <div className="text-xs text-base-content/70">
+                      {taskProgress?.completedTasks || metrics.featuresComplete}/{taskProgress?.totalTasks || metrics.featuresTotal} tasks
+                    </div>
+                  </div>
                 </div>
                 <progress 
                   className="progress progress-primary w-full" 
                   value={taskProgress?.completedTasks || metrics.featuresComplete} 
                   max={taskProgress?.totalTasks || metrics.featuresTotal}
                 ></progress>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span>Overall Progress</span>
-                  <span>{taskProgress?.lastUpdated ? `Updated: ${taskProgress.lastUpdated}` : 'Completed'}</span>
-                </div>
-                <progress 
-                  className="progress progress-success w-full" 
-                  value={taskProgress?.percentage || metrics.completionPercentage} 
-                  max={100}
-                ></progress>
-              </div>
-              <div className="text-center">
-                <span className="text-3xl font-bold">{taskProgress?.percentage || metrics.completionPercentage}%</span>
-                <span className="text-sm block">Complete</span>
-              </div>
-              {taskProgress?.phases && Object.keys(taskProgress.phases).length > 0 && (
-                <div className="divider my-2"></div>
-              )}
-              {taskProgress?.phases && Object.entries(taskProgress.phases).map(([phase, info]) => (
-                <div key={phase} className="flex items-start gap-2 text-sm">
-                  <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
-                    {info.complete ? '✅' : '⭕'}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <span className="font-medium whitespace-nowrap">{phase}:</span>
-                    <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                {taskProgress?.lastUpdated && (
+                  <div className="text-xs text-base-content/60 text-right mt-1">
+                    Updated: {taskProgress.lastUpdated}
                   </div>
-                </div>
-              ))}
-            </div>
-          </Card>
+                )}
+              </div>
+              
+              {/* Sprint 1 Phases - Collapsed by default */}
+              {taskProgress?.phases && Object.keys(taskProgress.phases).length > 0 && (
+                <details className="collapse collapse-arrow bg-base-200">
+                  <summary className="collapse-title text-sm font-medium">
+                    Sprint 1 Phases ✅ (All Complete)
+                  </summary>
+                  <div className="collapse-content space-y-2">
+                    {Object.entries(taskProgress.phases).map(([phase, info]) => (
+                      <div key={`s1-${phase}`} className="flex items-start gap-2 text-sm">
+                        <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
+                          {info.complete ? '✅' : '⭕'}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="font-medium whitespace-nowrap">{phase}:</span>
+                          <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+              
+              {/* Sprint 2 Phases - Expanded by default */}
+              {taskProgress?.sprint2Phases && Object.keys(taskProgress.sprint2Phases).length > 0 && (
+                <details className="collapse collapse-arrow bg-base-200" open>
+                  <summary className="collapse-title text-sm font-medium">
+                    Sprint 2 Phases 🚧 (Not Started)
+                  </summary>
+                  <div className="collapse-content space-y-2">
+                    {Object.entries(taskProgress.sprint2Phases).map(([phase, info]) => (
+                      <div key={`s2-${phase}`} className="flex items-start gap-2 text-sm">
+                        <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
+                          {info.complete ? '✅' : '⭕'}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="font-medium whitespace-nowrap">{phase}:</span>
+                          <span className="text-xs text-base-content/70 ml-1">{info.description}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+              </div>
+            </Card>
+            
+            {/* Feature Status moved here */}
+            <Card title="Feature Status" bordered>
+              <div className="space-y-2">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${
+                        feature.status === 'operational' ? 'bg-success' : 'bg-error'
+                      }`}></div>
+                      <span>{feature.name}</span>
+                    </div>
+                    {feature.url !== '#' && (
+                      <a 
+                        href={feature.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-ghost btn-xs"
+                      >
+                        Visit →
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
 
-          <Card 
-            className="md:col-span-2 lg:col-span-5"
-            title={
+          <div className="space-y-6">
+            <Card 
+              title={
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-2">
                   <span>Lighthouse Scores</span>
@@ -884,11 +1046,28 @@ export default function StatusPage() {
                     <p>Alternative: Visit <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer" className="link">PageSpeed Insights</a> directly</p>
                   </div>
                 </div>
-              ) : Object.entries(lighthouse).map(([key, data]) => (
+              ) : (
+                <>
+                  {/* Visual Score Display */}
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    {Object.entries(lighthouse).slice(0, 4).map(([key, data]) => (
+                      <div key={key} className="text-center">
+                        <div className="radial-progress" 
+                             style={{"--value": data.score, "--size": "4rem", "--thickness": "4px"} as React.CSSProperties}
+                             role="progressbar">
+                          <span className="text-sm font-bold">{data.score}</span>
+                        </div>
+                        <div className="text-xs mt-1 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Detailed Scores */}
+                  {Object.entries(lighthouse).map(([key, data]) => (
                 <div key={key}>
                   <div className="flex justify-between mb-1">
                     <div className="flex items-center gap-1">
-                      <span className="capitalize font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                      <span className="capitalize font-medium text-sm">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                       <span className="text-xs text-base-content/60">{data.description}</span>
                       {data.details && (
                         <div className="dropdown dropdown-hover">
@@ -1005,108 +1184,12 @@ export default function StatusPage() {
                   ></progress>
                 </div>
               ))}
+                </>
+              )}
             </div>
           </Card>
-        </div>
-
-
-        {/* PWA Testing Section */}
-        <Card 
-          title={
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <span>PWA Feature Tests</span>
-                {autoRefresh && (
-                  <span className="badge badge-success badge-sm animate-pulse">
-                    Live Monitoring
-                  </span>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <label className="swap swap-flip" aria-label="Toggle auto-refresh for PWA tests">
-                  <input 
-                    type="checkbox" 
-                    checked={autoRefresh}
-                    onChange={(e) => setAutoRefresh(e.target.checked)}
-                    aria-checked={autoRefresh}
-                    role="switch"
-                  />
-                  <div className="swap-on" aria-hidden="true">🟢</div>
-                  <div className="swap-off" aria-hidden="true">⭕</div>
-                </label>
-                <button 
-                  className={`btn btn-sm ${
-                    isTestingPWA ? 'btn-warning' : 
-                    testError ? 'btn-error' : 
-                    pwaResults.length > 0 ? 'btn-success' : 'btn-primary'
-                  }`}
-                  onClick={runPWATests}
-                  disabled={isTestingPWA}
-                >
-                  {isTestingPWA ? (
-                    <span className="flex items-center gap-2">
-                      <span className="loading loading-spinner loading-xs"></span>
-                      Testing...
-                    </span>
-                  ) : (
-                    'Run Tests'
-                  )}
-                </button>
-              </div>
-            </div>
-          } 
-          className="mb-8" 
-          bordered
-        >
-          {testError ? (
-            <div className="alert alert-error">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{testError}</span>
-            </div>
-          ) : pwaResults.length > 0 ? (
-            <>
-              <div className="stats shadow mb-4 w-full">
-                <div className="stat">
-                  <div className="stat-title">Passed</div>
-                  <div className="stat-value text-success text-2xl">{pwaTestSummary.passed}</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-title">Warnings</div>
-                  <div className="stat-value text-warning text-2xl">{pwaTestSummary.warnings}</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-title">Failed</div>
-                  <div className="stat-value text-error text-2xl">{pwaTestSummary.failed}</div>
-                </div>
-              </div>
-              <div className="space-y-2">
-                {lastTestTime && (
-                  <div className="text-sm text-base-content/50 mb-2">
-                    Last tested: {lastTestTime.toLocaleTimeString()}
-                    {autoRefresh && ' • Auto-refreshing every 30s'}
-                  </div>
-                )}
-                {pwaResults.map((result, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <span>{getStatusIcon(result.status)}</span>
-                    <div className="flex-1">
-                      <Text variant="small" className="font-semibold">{result.feature}</Text>
-                      <Text variant="small" className="text-base-content/70">{result.message}</Text>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-center text-base-content/50 py-8">
-              Click &quot;Run Tests&quot; to check PWA features
-            </p>
-          )}
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          
+          {/* Recent Deployments moved here */}
           <Card title="Recent Deployments" bordered>
             <div className="overflow-x-auto">
               <table className="table table-sm">
@@ -1135,31 +1218,7 @@ export default function StatusPage() {
               </table>
             </div>
           </Card>
-
-          <Card title="Feature Status" bordered>
-            <div className="space-y-2">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      feature.status === 'operational' ? 'bg-success' : 'bg-error'
-                    }`}></div>
-                    <span>{feature.name}</span>
-                  </div>
-                  {feature.url !== '#' && (
-                    <a 
-                      href={feature.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-ghost btn-xs"
-                    >
-                      Visit →
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Card>
+        </div>
         </div>
 
         <Card title="System Information" bordered>
