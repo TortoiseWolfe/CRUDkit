@@ -1220,15 +1220,52 @@ export default function StatusPage() {
               </div>
             </Card>
             
+            {/* Features Completed */}
+            <Card title={
+              <div className="flex items-center gap-2">
+                <span>Features Completed</span>
+                <InfoTooltip
+                  title="Implemented Features"
+                  description="Major features that have been completed in this project."
+                  whyItMatters="Tracks what functionality has been built and is available to users."
+                  howToImprove="Update project-status.json as you complete new features"
+                  position="end"
+                  size="compact"
+                />
+              </div>
+            } bordered>
+              <details className="collapse collapse-arrow bg-base-200" open>
+                <summary className="collapse-title text-sm font-medium">
+                  <div className="flex items-center justify-between">
+                    <span>View Completed Features</span>
+                    <span className="text-xs text-base-content/60">
+                      {projectConfig.features.filter(f => f.completed).length} features implemented
+                    </span>
+                  </div>
+                </summary>
+                <div className="collapse-content space-y-2">
+                  {projectConfig.features.filter(f => f.completed).map((feature, index) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <span className="text-success mt-0.5">✅</span>
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{feature.name}</div>
+                        <div className="text-xs text-base-content/70">{feature.description}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </Card>
+            
             {/* Feature Status moved here */}
             <Card title={
               <div className="flex items-center gap-2">
-                <span>Feature Status</span>
+                <span>Service Status</span>
                 <InfoTooltip
-                  title="Core Feature Health"
-                  description="Real-time status of key application features and services."
-                  whyItMatters="Quickly identify which parts of your app are working and which need attention."
-                  howToImprove="Set up monitoring for each feature to detect issues early"
+                  title="Deployed Services"
+                  description="Real-time status of deployed services and endpoints."
+                  whyItMatters="Quickly identify which services are operational and accessible."
+                  howToImprove="Set up monitoring for each service to detect issues early"
                   position="end"
                   size="compact"
                 />

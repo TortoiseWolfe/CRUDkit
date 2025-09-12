@@ -12,7 +12,10 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky",
+    "lint:staged": "lint-staged",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "next": "15.5.2",
@@ -41,10 +44,19 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "eslint-plugin-storybook": "^9.1.5",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.6",
     "storybook": "^9.1.5",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "vitest related --run"
+    ],
+    "*.{css,md,json}": "prettier --write"
   }
 }
