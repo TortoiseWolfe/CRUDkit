@@ -41,8 +41,15 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - Dynamic Lighthouse testing via PageSpeed API
 - PWA feature testing with comprehensive suite
 - TASKS.md progress tracking (auto-updated)
-- GitHub Actions CI/CD with daily monitoring
+- GitHub Actions CI/CD with automated testing
 - Interactive status dashboard at `/status`
+
+### 🧪 Testing & Quality
+- Vitest unit testing framework
+- React Testing Library for component tests
+- Coverage reporting with thresholds
+- Husky pre-commit hooks with lint-staged
+- Automated CI/CD pipeline on GitHub Actions
 
 ### 🏆 Lighthouse Scores
 - **Performance**: 92/100
@@ -57,7 +64,8 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - **UI**: React 19.1.0
 - **Styling**: Tailwind CSS + DaisyUI
 - **TypeScript**: 5.x with strict mode
-- **Testing**: PWA test utilities
+- **Testing**: Vitest, React Testing Library, @vitest/coverage-v8
+- **CI/CD**: GitHub Actions, Husky pre-commit hooks
 - **Deployment**: GitHub Pages
 - **Documentation**: Storybook 9.1.5
 
@@ -95,6 +103,13 @@ docker-compose up
 
 ## 📚 Documentation
 
+### Testing Documentation
+See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, including:
+- Component testing patterns
+- Coverage requirements
+- CI/CD integration
+- Pre-commit hooks setup
+
 ### Key Pages
 - `/` - Home with component showcase
 - `/themes` - Theme switcher
@@ -114,6 +129,9 @@ pnpm build           # Build for production
 pnpm export          # Export static site
 
 # Testing
+pnpm test            # Run unit tests
+pnpm test:watch      # Run tests in watch mode
+pnpm test:coverage   # Generate coverage report
 pnpm lint            # Run ESLint
 pnpm type-check      # Run TypeScript checks
 
@@ -144,7 +162,7 @@ See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where cont
 
 ## 📈 Project Status
 
-**Overall Progress**: 59% Complete (95/161 tasks)
+**Overall Progress**: 66% Complete (107/161 tasks)
 
 **Sprint 1**: ✅ Complete (95/96 tasks - 99%)
 - ✅ **Phase 0**: Next.js app deployed to GitHub Pages
@@ -153,8 +171,8 @@ See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where cont
 - ✅ **Phase 3**: Component gallery with atomic design
 - ✅ **Phase 4**: PWA features with comprehensive testing
 
-**Sprint 2**: 🚧 In Progress (0/65 tasks - 0%)
-- ⏳ **Phase 1**: Testing Foundation (Vitest, Husky)
+**Sprint 2**: 🚧 In Progress (12/65 tasks - 18%)
+- ✅ **Phase 1**: Testing Foundation (Vitest, Husky, CI/CD)
 - ⏳ **Phase 2**: Developer Experience (Prettier, Dependabot)
 - ⏳ **Phase 3**: First Simple Feature (Dice component)
 - ⏳ **Phase 4**: Quality Baseline (Zod validation, security)

@@ -15,6 +15,8 @@ docker compose exec crudkit pnpm run dev       # Dev server on :3000
 docker compose exec crudkit pnpm run build     # Production build
 docker compose exec crudkit pnpm run storybook # Storybook on :6006
 docker compose exec crudkit pnpm run lint      # Run ESLint
+docker compose exec crudkit pnpm test          # Run unit tests
+docker compose exec crudkit pnpm test:coverage # Run tests with coverage
 ```
 
 ### Direct Commands (if not using Docker)
@@ -23,6 +25,8 @@ pnpm run dev              # Start Next.js dev server
 pnpm run build            # Build for production  
 pnpm run start            # Start production server
 pnpm run lint             # Run ESLint
+pnpm run test             # Run unit tests
+pnpm run test:coverage    # Run tests with coverage
 pnpm run storybook        # Start Storybook
 pnpm run build-storybook  # Build Storybook
 ```
@@ -34,6 +38,8 @@ pnpm run build-storybook  # Build Storybook
 - **React 19.1.0** with TypeScript strict mode
 - **Tailwind CSS 4** with DaisyUI beta for 32-theme system
 - **PWA** features with Service Worker and offline support
+- **Vitest** for unit testing with React Testing Library
+- **Husky** for git hooks and lint-staged for pre-commit checks
 
 ### Project Structure
 ```
@@ -105,10 +111,15 @@ The `/status` page provides real-time monitoring:
 - Components use DaisyUI classes for theming consistency
 
 ### Testing & Quality
+- Vitest testing framework with React Testing Library
+- Test coverage reporting with configurable thresholds (currently 10%)
+- Husky pre-commit hooks running lint-staged
+- GitHub Actions CI/CD pipeline for automated testing
 - TypeScript strict mode enabled
 - ESLint configuration via `eslint.config.mjs`
 - Web Vitals monitoring integrated
 - PWA test utilities in `/src/utils/pwa-test.ts`
+- Testing documentation in `/TESTING.md`
 
 ### Important Notes for Modifications
 
