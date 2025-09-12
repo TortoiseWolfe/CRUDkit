@@ -39,7 +39,15 @@ export interface FormFieldProps {
  *   required
  *   helpText="We'll never share your email"
  * >
- *   <input type="email" name="email" />
+ *   <input
+ *     type="email"
+ *     name="email"
+ *     id="email"
+ *     aria-invalid={!!errors.email}
+ *     aria-describedby={errors.email ? "email-error" : helpText ? "email-help" : undefined}
+ *     aria-required={required}
+ *     className={errors.email ? 'input-error' : ''}
+ *   />
  * </FormField>
  * ```
  */
@@ -69,25 +77,8 @@ export const FormField: React.FC<FormFieldProps> = ({
         </span>
       </label>
 
-      {/* Clone children and add ARIA attributes */}
-      {React.isValidElement(children)
-        ? React.cloneElement(
-            children as React.ReactElement<{ className?: string }>,
-            {
-              id: name,
-              'aria-invalid': !!error,
-              'aria-describedby':
-                [error && errorId, helpText && helpId]
-                  .filter(Boolean)
-                  .join(' ') || undefined,
-              'aria-required': required,
-              className: `${
-                (children as React.ReactElement<{ className?: string }>).props
-                  ?.className || ''
-              } ${error ? 'input-error' : ''}`,
-            }
-          )
-        : children}
+      {/* Render children directly - parent is responsible for props */}
+      {children}
 
       {/* Help text */}
       {helpText && !error && (
@@ -101,3 +92,49 @@ export const FormField: React.FC<FormFieldProps> = ({
     </div>
   );
 };
+
+/**
+ * Helper function to get input props for FormField
+ * Use this to get the correct ARIA attributes for your input
+ *
+ * @example
+ * ```tsx
+ * const inputProps = getFormFieldInputProps({
+ *   name: 'email',
+ *   error: errors.email,
+ *   required: true,
+ *   helpText: 'Enter your email'
+ * });
+ *
+ * <FormField {...fieldProps}>
+ *   <input {...inputProps} type="email" />
+ * </FormField>
+ * ```
+ */
+export function getFormFieldInputProps({
+  name,
+  error,
+  required,
+  helpText,
+  className = '',
+}: {
+  name: string;
+  error?: string;
+  required?: boolean;
+  helpText?: string;
+  className?: string;
+}) {
+  const errorId = `${name}-error`;
+  const helpId = `${name}-help`;
+
+  return {
+    id: name,
+    name,
+    'aria-invalid': !!error,
+    'aria-describedby':
+      [error && errorId, helpText && helpId].filter(Boolean).join(' ') ||
+      undefined,
+    'aria-required': required,
+    className: `${className} ${error ? 'input-error' : ''}`.trim(),
+  };
+}

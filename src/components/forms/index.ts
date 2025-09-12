@@ -7,7 +7,7 @@
 export { FormError } from './FormError';
 export type { FormErrorProps } from './FormError';
 
-export { FormField } from './FormField';
+export { FormField, getFormFieldInputProps } from './FormField';
 export type { FormFieldProps } from './FormField';
 
 export { ValidatedInput } from './ValidatedInput';
