@@ -123,7 +123,7 @@ pnpm deploy          # Deploy to GitHub Pages
 
 ## 🎯 Future Improvements
 
-See [docs/spec-kit/IMPROVEMENTS.md](./docs/spec-kit/IMPROVEMENTS.md) for detailed optimization opportunities.
+See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for detailed optimization opportunities.
 
 ### Quick Wins (< 30 minutes)
 - Add maskable PWA icons (192x192, 512x512)
@@ -140,7 +140,7 @@ See [docs/spec-kit/IMPROVEMENTS.md](./docs/spec-kit/IMPROVEMENTS.md) for detaile
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See [docs/spec-kit/IMPROVEMENTS.md](./docs/spec-kit/IMPROVEMENTS.md) for specific areas where contributions are welcome.
+See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where contributions are welcome.
 
 ## 📈 Project Status
 
@@ -178,4 +178,4 @@ MIT
 - TASKS.md automatically updates during build (`pnpm build`)
 - Update your own tasks in `docs/spec-kit/TASKS.md`
 - Status page dynamically tracks your project progress
-- Check [docs/spec-kit/IMPROVEMENTS.md](./docs/spec-kit/IMPROVEMENTS.md) for optimization opportunities
+- Check [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for optimization opportunities

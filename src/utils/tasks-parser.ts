@@ -37,7 +37,9 @@ export async function parseTasksFile(): Promise<TaskProgress> {
       ? '' 
       : '/CRUDkit';
     
-    const response = await fetch(`${baseUrl}/TASKS.md`);
+    // Add cache-busting timestamp to ensure fresh data
+    const url = `${baseUrl}/TASKS.md?t=${Date.now()}`;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch TASKS.md');
     }
@@ -130,30 +132,84 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     // Extract Sprint 2 phase statuses
     const sprint2Phases: TaskProgress['sprint2Phases'] = {};
     
-    // Sprint 2 phases are not yet started, so we define them manually
+    // Parse Sprint 2 Phase 1 (Testing Foundation)
+    // Count completed tasks T001-T012
+    let phase1Completed = 0;
+    const phase1Total = 12;
+    for (let i = 1; i <= 12; i++) {
+      const taskNum = String(i).padStart(3, '0');
+      const taskPattern = new RegExp(`T${taskNum}.*?\\[x\\] Complete`, 's');
+      if (taskPattern.test(content)) {
+        phase1Completed++;
+      }
+    }
     sprint2Phases['Phase 1'] = {
-      complete: false,
-      description: 'Testing Foundation (Weeks 1-2)'
+      complete: phase1Completed === phase1Total,
+      description: `Testing Foundation (Weeks 1-2) - ${phase1Completed}/${phase1Total} tasks`
     };
     
+    // Parse Sprint 2 Phase 2 (Developer Experience)
+    // Count completed tasks T013-T024
+    let phase2Completed = 0;
+    const phase2Total = 12;
+    for (let i = 13; i <= 24; i++) {
+      const taskNum = String(i).padStart(3, '0');
+      const taskPattern = new RegExp(`T${taskNum}.*?\\[x\\] Complete`, 's');
+      if (taskPattern.test(content)) {
+        phase2Completed++;
+      }
+    }
     sprint2Phases['Phase 2'] = {
-      complete: false,
-      description: 'Developer Experience (Weeks 3-4)'
+      complete: phase2Completed === phase2Total,
+      description: `Developer Experience (Weeks 3-4) - ${phase2Completed}/${phase2Total} tasks`
     };
     
+    // Parse Sprint 2 Phase 3 (First Simple Feature)
+    // Count completed tasks T025-T036
+    let phase3Completed = 0;
+    const phase3Total = 12;
+    for (let i = 25; i <= 36; i++) {
+      const taskNum = String(i).padStart(3, '0');
+      const taskPattern = new RegExp(`T${taskNum}.*?\\[x\\] Complete`, 's');
+      if (taskPattern.test(content)) {
+        phase3Completed++;
+      }
+    }
     sprint2Phases['Phase 3'] = {
-      complete: false,
-      description: 'First Simple Feature (Weeks 5-6)'
+      complete: phase3Completed === phase3Total,
+      description: `First Simple Feature (Weeks 5-6) - ${phase3Completed}/${phase3Total} tasks`
     };
     
+    // Parse Sprint 2 Phase 4 (Quality Baseline)
+    // Count completed tasks T037-T048
+    let phase4Completed = 0;
+    const phase4Total = 12;
+    for (let i = 37; i <= 48; i++) {
+      const taskNum = String(i).padStart(3, '0');
+      const taskPattern = new RegExp(`T${taskNum}.*?\\[x\\] Complete`, 's');
+      if (taskPattern.test(content)) {
+        phase4Completed++;
+      }
+    }
     sprint2Phases['Phase 4'] = {
-      complete: false,
-      description: 'Quality Baseline (Weeks 7-8)'
+      complete: phase4Completed === phase4Total,
+      description: `Quality Baseline (Weeks 7-8) - ${phase4Completed}/${phase4Total} tasks`
     };
     
+    // Parse Sprint 2 Phase 5 (Foundation Completion)
+    // Count completed tasks T049-T060
+    let phase5Completed = 0;
+    const phase5Total = 12;
+    for (let i = 49; i <= 60; i++) {
+      const taskNum = String(i).padStart(3, '0');
+      const taskPattern = new RegExp(`T${taskNum}.*?\\[x\\] Complete`, 's');
+      if (taskPattern.test(content)) {
+        phase5Completed++;
+      }
+    }
     sprint2Phases['Phase 5'] = {
-      complete: false,
-      description: 'Foundation Completion (Weeks 9-10)'
+      complete: phase5Completed === phase5Total,
+      description: `Foundation Completion (Weeks 9-10) - ${phase5Completed}/${phase5Total} tasks`
     };
     
     return {

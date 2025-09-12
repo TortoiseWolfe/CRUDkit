@@ -1133,7 +1133,7 @@ export default function StatusPage() {
                 <details className="collapse collapse-arrow bg-base-200 overflow-visible" open>
                   <summary className="collapse-title text-sm font-medium">
                     <div className="flex items-center gap-2">
-                      <span>Sprint 2 Phases 🚧 (Not Started)</span>
+                      <span>Sprint 2 Phases 🚧 ({taskProgress.sprints?.[1]?.status === 'in-progress' ? 'In Progress' : 'Not Started'})</span>
                       <InfoTooltip
                         title="Sprint 2: Fix the Foundation"
                         description="A 10-week sprint focused on testing, developer experience, and quality improvements."
@@ -1194,8 +1194,8 @@ export default function StatusPage() {
                       
                       return (
                         <div key={`s2-${phase}`} className="flex items-start gap-2 text-sm">
-                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}>
-                            {info.complete ? '✅' : '⭕'}
+                          <span className={`flex-shrink-0 ${info.complete ? 'text-success' : info.description.includes(' - ') && !info.description.includes(' - 0/') ? 'text-warning' : 'text-base-content/50'}`}>
+                            {info.complete ? '✅' : info.description.includes(' - ') && !info.description.includes(' - 0/') ? '🚧' : '⭕'}
                           </span>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1">
