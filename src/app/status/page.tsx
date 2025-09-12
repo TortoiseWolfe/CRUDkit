@@ -1523,7 +1523,7 @@ export default function StatusPage() {
                                 tasks: '12 tasks, ~14 hours (Weeks 3-4)',
                               },
                               'Phase 3': {
-                                title: 'First Simple Feature',
+                                title: 'First Simple Feature 🎲',
                                 description:
                                   'Build a Dice component as a reference implementation with full testing and documentation.',
                                 whyItMatters:
@@ -1566,10 +1566,12 @@ export default function StatusPage() {
                                 >
                                   {info.complete
                                     ? '✅'
-                                    : info.description.includes(' - ') &&
-                                        !info.description.includes(' - 0/')
-                                      ? '🚧'
-                                      : '⭕'}
+                                    : phase === 'Phase 3'
+                                      ? '🚧🎲'
+                                      : info.description.includes(' - ') &&
+                                          !info.description.includes(' - 0/')
+                                        ? '🚧'
+                                        : '⭕'}
                                 </span>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1">
