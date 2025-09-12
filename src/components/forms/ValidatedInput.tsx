@@ -6,7 +6,10 @@ import { validateField } from '@/schemas/forms';
 import { FormError } from './FormError';
 
 export interface ValidatedInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    'onChange' | 'size'
+  > {
   /** Zod schema for validation */
   schema?: z.ZodSchema;
   /** Error message override */
