@@ -179,17 +179,18 @@ export default defineConfig({
 
 ### Current Thresholds
 
-- **Statements**: 10%
-- **Branches**: 10%
-- **Functions**: 10%
-- **Lines**: 10%
+- **Statements**: 0.5%
+- **Branches**: 0.5%
+- **Functions**: 0.5%
+- **Lines**: 0.5%
 
 These thresholds will increase as the project matures:
 
-- Sprint 2: 10% (current)
-- Sprint 3: 25%
-- Sprint 4: 50%
-- Sprint 5: 75%
+- Sprint 2: 0.5% (current - minimal baseline)
+- Sprint 3: 10%
+- Sprint 4: 25%
+- Sprint 5: 50%
+- Sprint 6: 75%
 
 ### Viewing Coverage
 

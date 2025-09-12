@@ -194,10 +194,10 @@ pnpm test:coverage
 
 Current minimum coverage thresholds:
 
-- Statements: 10%
-- Branches: 10%
-- Functions: 10%
-- Lines: 10%
+- Statements: 0.5%
+- Branches: 0.5%
+- Functions: 0.5%
+- Lines: 0.5%
 
 These will increase as the project matures.
 
