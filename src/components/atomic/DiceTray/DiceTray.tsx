@@ -23,7 +23,7 @@ export default function DiceTray({
 }: DiceTrayProps) {
   const [dice, setDice] = useState<DiceData[]>([]);
   const [isRolling, setIsRolling] = useState(false);
-  const [draggedDiceId, setDraggedDiceId] = useState<string | null>(null);
+  const [, setDraggedDiceId] = useState<string | null>(null);
   const [dragOverZone, setDragOverZone] = useState<'tray' | 'lock' | null>(
     null
   );

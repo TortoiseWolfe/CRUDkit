@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { parseTasksFile, TaskProgress } from '@/utils/tasks-parser';
+import CaptainShipCrewWithNPC from '@/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC';
 
 export default function Home() {
   const [taskProgress, setTaskProgress] = useState<TaskProgress | null>(null);
@@ -15,10 +16,10 @@ export default function Home() {
     <main className="from-base-200 via-base-100 to-base-200 min-h-screen bg-gradient-to-br">
       {/* Skip to main content for accessibility */}
       <a
-        href="#main-content"
+        href="#game-demo"
         className="btn btn-sm btn-primary sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
       >
-        Skip to main content
+        Skip to game demo
       </a>
 
       {/* Floating Progress Badge */}
@@ -50,6 +51,44 @@ export default function Home() {
           </Link>
         </aside>
       )}
+
+      {/* Interactive Demo Section - TOP OF PAGE */}
+      <section
+        id="game-demo"
+        aria-label="Interactive game demo"
+        className="from-primary/10 to-base-200/50 relative bg-gradient-to-b px-4 py-8"
+      >
+        <div className="container mx-auto max-w-6xl">
+          <div className="mb-4 text-center">
+            <h1 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent">
+              🎲 Captain, Ship & Crew Tournament
+            </h1>
+            <p className="mt-2 text-sm opacity-75">
+              🎯 Tournament Mode • 🤖 3 AI Opponents • 🏆 First to 50 Points
+              Wins
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-2xl">
+              <CaptainShipCrewWithNPC
+                playerCount={4}
+                gameMode="target"
+                targetScore={50}
+                className="shadow-2xl"
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <p className="mx-auto max-w-2xl text-base opacity-87">
+              Experience our interactive components! Play this classic dice game
+              against AI opponents. Roll for Ship (6), Captain (5), and Crew (4)
+              in sequence, then score with cargo dice!
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Hero Section */}
       <section

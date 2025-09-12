@@ -37,7 +37,11 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - Atomic design pattern
 - Sub-atomic components (Text, Button, Input)
 - Atomic components (Card, Dice, DiceTray, DraggableDice)
-- Interactive gaming components with drag-and-drop
+- Interactive gaming components:
+  - Captain Ship & Crew dice game with full rule implementation
+  - NPC opponents with difficulty levels (Easy/Medium/Hard)
+  - Drag-and-drop dice locking mechanics
+  - Player name persistence with localStorage
 - Fully documented in Storybook
 
 ### 📊 Monitoring & Analytics
@@ -54,7 +58,7 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 
 - Vitest unit testing framework
 - React Testing Library for component tests
-- 58 passing tests across 5 test suites
+- 73 passing tests across 6 test suites
 - Coverage reporting with thresholds
 - Prettier code formatting with Tailwind CSS plugin
 - Husky pre-commit hooks with lint-staged
@@ -126,7 +130,7 @@ See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, including:
 
 ### Key Pages
 
-- `/` - Home with component showcase
+- `/` - Home with interactive Captain Ship & Crew game demo
 - `/themes` - Theme switcher
 - `/components` - Component gallery
 - `/accessibility` - Accessibility controls
