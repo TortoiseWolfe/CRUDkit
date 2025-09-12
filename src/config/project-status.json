@@ -61,6 +61,26 @@
       "name": "CI/CD Pipeline",
       "completed": true,
       "description": "GitHub Actions for automated testing and builds"
+    },
+    {
+      "name": "Code Formatting",
+      "completed": true,
+      "description": "Prettier with automatic formatting on commit"
+    },
+    {
+      "name": "Error Handling",
+      "completed": true,
+      "description": "Error boundaries and centralized error handling"
+    },
+    {
+      "name": "Dice Components",
+      "completed": true,
+      "description": "Interactive dice with drag-and-drop functionality"
+    },
+    {
+      "name": "Captain Ship & Crew Game",
+      "completed": true,
+      "description": "Full dice game with NPC support and tournaments"
     }
   ],
   "lighthouse": {

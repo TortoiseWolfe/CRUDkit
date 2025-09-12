@@ -9,6 +9,7 @@ import { onFCP, onLCP, onCLS, onTTFB } from '@/utils/web-vitals';
 import { parseTasksFile, TaskProgress } from '@/utils/tasks-parser';
 import projectConfig from '@/config/project-status.json';
 import packageJson from '../../../package.json';
+import deploymentHistory from '@/data/deployment-history.json';
 
 interface PerformanceMetrics {
   FCP: number | null;
@@ -357,55 +358,8 @@ export default function StatusPage() {
     },
   });
 
-  // Actual historical deployment data from git history
-  const [deployments] = useState([
-    {
-      date: '9/11/2025',
-      feature: 'Accessibility Improvements',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Navigation Links Fix',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Spec Kit Documentation',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Spec Kit Tutorial',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Dynamic Progress Tracking',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Lighthouse Integration',
-      status: 'success' as const,
-    },
-    {
-      date: '9/11/2025',
-      feature: 'Status Dashboard',
-      status: 'success' as const,
-    },
-    {
-      date: '9/10/2025',
-      feature: 'Storybook + Components',
-      status: 'success' as const,
-    },
-    {
-      date: '9/10/2025',
-      feature: 'Next.js 15.5 + Docker',
-      status: 'success' as const,
-    },
-    { date: '9/9/2025', feature: 'Initial Setup', status: 'success' as const },
-  ]);
+  // Deployment history generated from git commits at build time
+  const [deployments] = useState(deploymentHistory);
 
   const [features] = useState([
     {
