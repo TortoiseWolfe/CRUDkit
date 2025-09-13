@@ -81,6 +81,46 @@
       "name": "Captain Ship & Crew Game",
       "completed": true,
       "description": "Full dice game with NPC support and tournaments"
+    },
+    {
+      "name": "Pa11y Accessibility Testing",
+      "completed": true,
+      "description": "WCAG compliance testing in CI pipeline"
+    },
+    {
+      "name": "Zod Form Validation",
+      "completed": true,
+      "description": "Runtime validation schemas for all forms"
+    },
+    {
+      "name": "Dependabot Integration",
+      "completed": true,
+      "description": "Automated dependency updates with grouping"
+    },
+    {
+      "name": "Architecture Decision Records",
+      "completed": true,
+      "description": "ADRs documenting key technical decisions"
+    },
+    {
+      "name": "Pre-push Hooks",
+      "completed": true,
+      "description": "Test suite runs before git push"
+    },
+    {
+      "name": "Performance Utilities",
+      "completed": true,
+      "description": "Resource timing and performance analysis tools"
+    },
+    {
+      "name": "Security Features",
+      "completed": true,
+      "description": "CSP headers and SECURITY.md documentation"
+    },
+    {
+      "name": "Test Coverage Enforcement",
+      "completed": true,
+      "description": "25% minimum coverage (58% actual)"
     }
   ],
   "lighthouse": {
