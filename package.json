@@ -1,6 +1,6 @@
 {
-  "name": "000",
-  "version": "0.1.0",
+  "name": "crudkit",
+  "version": "0.3.0",
   "description": "CRUDkit - Modern Next.js starter with PWA, theming, and interactive components",
   "keywords": [
     "nextjs",
@@ -29,6 +29,11 @@
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
+    "sprint:plan": "node scripts/sprint-planning.js full",
+    "sprint:spec": "node scripts/sprint-planning.js spec",
+    "sprint:tasks": "node scripts/sprint-planning.js tasks",
+    "sprint:archive": "node scripts/sprint-planning.js archive",
+    "sprint:status": "node scripts/sprint-planning.js status",
     "prepare": "husky",
     "lint:staged": "lint-staged",
     "type-check": "tsc --noEmit"

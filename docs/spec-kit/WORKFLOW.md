@@ -68,7 +68,7 @@ cd docs/spec-kit
 **Use AI Assistant Commands (in Claude, Copilot, etc.)**
 
 ```
-# Ask your AI assistant to generate a specification
+# For regular features:
 /specify Create Sprint-002 specification based on constitution.md focusing on [features]
 
 # The AI will generate a structured spec.md file
@@ -86,7 +86,11 @@ cd docs/spec-kit
 **Generate Technical Plan**
 
 ```
-# Use AI assistant command
+# For major features, include PRP for context:
+/plan Create technical implementation plan based on spec.md
+      Include context from prp/outbox/feature-name-prp.md
+
+# For regular features:
 /plan Create technical implementation plan based on spec.md
 
 # The AI will generate a detailed PLAN.md
@@ -98,6 +102,8 @@ cd docs/spec-kit
 - Review technical architecture
 - Adjust technology choices
 - Refine component structure
+
+**Note**: PRPs provide implementation context during planning phase
 
 ### 4. Task Generation (Day 2-3)
 
@@ -172,6 +178,59 @@ cp docs/constitution.md \
 - What went well?
 - What could improve?
 - Action items for next sprint
+
+## PRP (Product Requirements Prompt) Integration
+
+PRPs provide rich context engineering for major features. They work as **context inputs** during the Planning phase rather than a separate workflow step.
+
+### When to Create PRPs
+
+**Major Features** (Use PRP):
+
+- New user-facing features (forms, integrations, UI components)
+- System architecture changes
+- Complex multi-file implementations
+- Features requiring external dependencies
+
+**Minor Features** (Skip PRP):
+
+- Bug fixes
+- Small updates
+- Single-file changes
+- Documentation updates
+
+### PRP Workflow
+
+1. **Create PRP** (Before Sprint Planning)
+
+```bash
+cd docs/spec-kit/prp
+cp templates/prp-template.md inbox/feature-name-prp.md
+# Fill out comprehensive context
+```
+
+2. **Review & Approve**
+
+```bash
+# After technical review
+mv inbox/feature-name-prp.md outbox/
+```
+
+3. **Use During Planning**
+
+```
+# Reference PRP in /plan command
+/plan Create plan based on spec.md
+      Include context from prp/outbox/feature-name-prp.md
+```
+
+4. **Archive After Implementation**
+
+```bash
+mv outbox/feature-name-prp.md archive/
+```
+
+**Key Insight**: PRPs aren't a new phase - they're context documents that enhance the Planning phase with implementation details, code patterns, and validation criteria.
 
 ## Key Commands Reference
 

@@ -1,7 +1,15 @@
 FROM python:3.11-slim
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Install system dependencies including PowerShell for Specify scripts
+# Install PowerShell directly from GitHub releases to avoid package conflicts
+RUN apt-get update && apt-get install -y git wget curl libicu-dev && \
+    wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell-7.4.6-linux-x64.tar.gz && \
+    mkdir -p /opt/microsoft/powershell/7 && \
+    tar zxf powershell-7.4.6-linux-x64.tar.gz -C /opt/microsoft/powershell/7 && \
+    chmod +x /opt/microsoft/powershell/7/pwsh && \
+    ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh && \
+    rm powershell-7.4.6-linux-x64.tar.gz && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create non-root user FIRST (following Bret Fisher's best practices)
 # Using UID 1000 which typically matches the first user on Linux systems

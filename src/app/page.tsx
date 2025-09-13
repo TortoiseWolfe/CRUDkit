@@ -379,7 +379,9 @@ export default function Home() {
                 <div className="stat">
                   <div className="stat-title">Phases Done</div>
                   <div className="stat-value text-secondary">
-                    {Object.keys(taskProgress.phases).length +
+                    {Object.values(taskProgress.phases || {}).filter(
+                      (phase) => phase.complete
+                    ).length +
                       Object.values(taskProgress.sprint2Phases || {}).filter(
                         (phase) => phase.complete
                       ).length}

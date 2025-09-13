@@ -359,7 +359,20 @@ export default function StatusPage() {
   });
 
   // Deployment history generated from git commits at build time
-  const [deployments] = useState(deploymentHistory);
+  // Filter to show only major features (Complete Phase, Add feature, Implement system)
+  const majorKeywords = [
+    'Complete Sprint',
+    'Add ',
+    'Implement ',
+    'dice game',
+    'form validation',
+    'Automate',
+  ];
+  const [deployments] = useState(
+    deploymentHistory.filter((d: { feature: string }) =>
+      majorKeywords.some((keyword) => d.feature.includes(keyword))
+    )
+  );
 
   const [features] = useState([
     {
@@ -1296,262 +1309,596 @@ export default function StatusPage() {
                   )}
                 </div>
 
-                {/* Sprint 1 Phases - Collapsed by default */}
-                {taskProgress?.phases &&
-                  Object.keys(taskProgress.phases).length > 0 && (
-                    <details className="collapse-arrow bg-base-200 collapse overflow-visible">
-                      <summary className="collapse-title text-sm font-medium">
-                        <div className="flex items-center gap-2">
-                          <span>Sprint 1 Phases ✅ (All Complete)</span>
-                          <InfoTooltip
-                            title="Sprint 1: Core Implementation"
-                            description="The foundational sprint that established the project infrastructure, component system, and deployment pipeline."
-                            whyItMatters="These phases created the base architecture that all future features build upon."
-                            howToImprove={[
-                              'Review completed tasks for lessons learned',
-                              'Document any technical debt identified',
-                              'Use as reference for future sprints',
-                            ]}
-                            position="end"
-                            size="compact"
-                          />
-                        </div>
-                      </summary>
-                      <div className="collapse-content space-y-2 overflow-visible">
-                        {Object.entries(taskProgress.phases).map(
-                          ([phase, info]) => {
-                            // Define phase-specific tooltips
-                            const phaseTooltips: Record<
-                              string,
-                              {
-                                title: string;
-                                description: string;
-                                whyItMatters: string;
-                                tasks?: string;
-                              }
-                            > = {
-                              'Phase 0': {
-                                title: 'Initial Setup & Deployment',
-                                description:
-                                  'Docker environment, Next.js 15.5 setup, and GitHub Pages deployment pipeline.',
-                                whyItMatters:
-                                  'Establishes the development environment and ensures the app is accessible online from day one.',
-                                tasks: '20 tasks focused on infrastructure',
-                              },
-                              'Phase 1': {
-                                title: 'Component Documentation System',
-                                description:
-                                  'Storybook integration for visual component testing and documentation.',
-                                whyItMatters:
-                                  'Enables isolated component development and serves as living documentation for the UI library.',
-                                tasks: '19 tasks for Storybook setup',
-                              },
-                              'Phase 2': {
-                                title: 'Theme & Accessibility System',
-                                description:
-                                  '32 DaisyUI themes with persistent selection and accessibility controls.',
-                                whyItMatters:
-                                  'Provides users with visual customization options and ensures the app is usable by everyone.',
-                                tasks: '19 tasks for theming infrastructure',
-                              },
-                              'Phase 3': {
-                                title: 'Component Gallery',
-                                description:
-                                  'Atomic design pattern implementation with reusable UI components.',
-                                whyItMatters:
-                                  'Creates a scalable component library that speeds up future development.',
-                                tasks: '19 tasks for component system',
-                              },
-                              'Phase 4': {
-                                title: 'Progressive Web App Features',
-                                description:
-                                  'Service worker, offline support, and app installation capabilities.',
-                                whyItMatters:
-                                  'Transforms the website into an app-like experience that works offline and can be installed.',
-                                tasks: '19 tasks for PWA implementation',
-                              },
-                            };
+                {/* All Sprints Display - Unified */}
+                {taskProgress?.sprints &&
+                  taskProgress.sprints.map((sprint, index) => {
+                    const isComplete = sprint.status === 'completed';
+                    const isActive = sprint.status === 'in-progress';
+                    const sprintNumber = index + 1;
 
-                            const tooltipInfo = phaseTooltips[phase] || {
-                              title: phase,
-                              description: info.description,
-                              whyItMatters:
-                                'Part of the core implementation sprint.',
-                              tasks: 'Multiple tasks',
-                            };
+                    return (
+                      <details
+                        key={`sprint-${sprintNumber}`}
+                        className="collapse-arrow bg-base-200 collapse mb-4 overflow-visible"
+                        open={isActive}
+                      >
+                        <summary className="collapse-title text-sm font-medium">
+                          <div className="flex items-center gap-2">
+                            <span>
+                              {sprint.name}{' '}
+                              {isComplete ? '✅' : isActive ? '🚀' : '⏳'} (
+                              {sprint.completedTasks}/{sprint.totalTasks} tasks
+                              - {sprint.percentage}%)
+                            </span>
+                            <InfoTooltip
+                              title={sprint.name}
+                              description={`Sprint ${sprintNumber} progress tracking`}
+                              whyItMatters="Tracks completion of major project milestones"
+                              position="top"
+                              size="compact"
+                            />
+                          </div>
+                        </summary>
+                        <div className="collapse-content">
+                          <div className="space-y-2 pt-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-base-content/70 text-xs">
+                                Progress
+                              </span>
+                              <span className="text-xs font-medium">
+                                {sprint.percentage}%
+                              </span>
+                            </div>
+                            <progress
+                              className="progress progress-primary"
+                              value={sprint.percentage}
+                              max="100"
+                            />
+                            <div className="text-base-content/70 text-xs">
+                              {sprint.completedTasks} of {sprint.totalTasks}{' '}
+                              tasks completed
+                            </div>
 
-                            return (
-                              <div
-                                key={`s1-${phase}`}
-                                className="flex items-start gap-2 text-sm"
-                              >
-                                <span
-                                  className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}
-                                >
-                                  {info.complete ? '✅' : '⭕'}
-                                </span>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-1">
-                                    <span className="font-medium whitespace-nowrap">
-                                      {phase}:
+                            {/* Sprint-specific phase details */}
+                            {sprintNumber === 1 && taskProgress.phases && (
+                              <div className="mt-4 space-y-2">
+                                <div className="text-base-content/70 text-xs font-medium">
+                                  Sprint 1 Phases:
+                                </div>
+                                {Object.entries(taskProgress.phases).map(
+                                  ([phase, info]) => {
+                                    const phaseTooltips: Record<
+                                      string,
+                                      {
+                                        title: string;
+                                        description: string;
+                                        whyItMatters: string;
+                                        howToImprove?: string;
+                                      }
+                                    > = {
+                                      'Phase 0': {
+                                        title: 'Next.js Deployment Foundation',
+                                        description:
+                                          'Established Next.js 15.5.2 with TypeScript, configured static export for GitHub Pages, set up CI/CD pipeline with GitHub Actions, and created the deployment infrastructure that powers continuous delivery.',
+                                        whyItMatters:
+                                          'Without solid deployment from day one, development would be slower and riskier. This phase ensured every commit could be automatically tested and deployed.',
+                                      },
+                                      'Phase 1': {
+                                        title:
+                                          'Storybook Component Documentation',
+                                        description:
+                                          'Integrated Storybook 9.1.5 for isolated component development, created the first Text component with full documentation, configured automatic prop detection and interactive controls.',
+                                        whyItMatters:
+                                          'Component-driven development means building UI in isolation before integration. This created a living style guide accessible at /storybook.',
+                                      },
+                                      'Phase 2': {
+                                        title: '32-Theme Customization System',
+                                        description:
+                                          'Implemented DaisyUI beta with 32 themes (16 light + 16 dark), localStorage persistence, zero-flash theme loading with ThemeScript, and smooth CSS transitions.',
+                                        whyItMatters:
+                                          'Extreme customization demonstrates architectural flexibility. Users can personalize their experience across 32 different visual themes.',
+                                      },
+                                      'Phase 3': {
+                                        title: 'Atomic Component Architecture',
+                                        description:
+                                          'Built component hierarchy from sub-atomic (Text, Button) to atomic (Card, Modal) to molecular (Dice, DiceTray), following atomic design principles with TypeScript interfaces.',
+                                        whyItMatters:
+                                          'Scalable design system where complex features are composed from simple, well-tested parts. Every component works with all 32 themes.',
+                                      },
+                                      'Phase 4': {
+                                        title:
+                                          'Progressive Web App Transformation',
+                                        description:
+                                          'Implemented Service Worker with cache-first strategy, Web App Manifest for installability, offline support, background sync for forms, and achieved 92/100 PWA score.',
+                                        whyItMatters:
+                                          'Transformed the website into an installable app that works offline. Users can install it on desktop/mobile and use it without internet.',
+                                      },
+                                    };
+
+                                    const tooltipInfo = phaseTooltips[
+                                      phase
+                                    ] || {
+                                      title: phase,
+                                      description: info.description,
+                                      whyItMatters:
+                                        'Part of the core implementation sprint.',
+                                    };
+
+                                    return (
+                                      <div
+                                        key={phase}
+                                        className="flex items-center gap-2 pl-2 text-xs"
+                                      >
+                                        <span
+                                          className={
+                                            info.complete
+                                              ? 'text-success'
+                                              : 'text-base-content/50'
+                                          }
+                                        >
+                                          {info.complete ? '✅' : '⭕'}
+                                        </span>
+                                        <span>
+                                          {phase}: {info.description}
+                                        </span>
+                                        <InfoTooltip
+                                          title={tooltipInfo.title}
+                                          description={tooltipInfo.description}
+                                          whyItMatters={
+                                            tooltipInfo.whyItMatters
+                                          }
+                                          position="top"
+                                          size="compact"
+                                        />
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            )}
+
+                            {sprintNumber === 2 &&
+                              taskProgress.sprint2Phases && (
+                                <div className="mt-4 space-y-2">
+                                  <div className="text-base-content/70 text-xs font-medium">
+                                    Sprint 2 Phases:
+                                  </div>
+                                  {Object.entries(
+                                    taskProgress.sprint2Phases
+                                  ).map(([phase, info]) => {
+                                    const phaseTooltips: Record<
+                                      string,
+                                      {
+                                        title: string;
+                                        description: string;
+                                        whyItMatters: string;
+                                        howToImprove?: string;
+                                      }
+                                    > = {
+                                      'Phase 1': {
+                                        title: 'Testing Foundation with Vitest',
+                                        description:
+                                          'Established Vitest test runner with React Testing Library, configured coverage reporting, implemented Husky pre-commit hooks, created GitHub Actions for CI testing. Wrote 111+ tests achieving 58% coverage.',
+                                        whyItMatters:
+                                          'Comprehensive testing enables fearless refactoring. The safety net catches regressions before they reach production.',
+                                      },
+                                      'Phase 2': {
+                                        title:
+                                          'Developer Experience Enhancement',
+                                        description:
+                                          'Configured Prettier 3.6.2 with Tailwind plugin, set up Husky and lint-staged for automation, implemented Dependabot for dependencies, added error boundaries for graceful failures.',
+                                        whyItMatters:
+                                          'Great DX translates to velocity and quality. Automated formatting and linting lets developers focus on features.',
+                                      },
+                                      'Phase 3': {
+                                        title:
+                                          'Captain Ship & Crew Game Feature',
+                                        description:
+                                          'Built complete dice game with drag-and-drop mechanics, three AI difficulty levels, player persistence, animated dice rolls, and full game state management.',
+                                        whyItMatters:
+                                          'Validated the entire architecture by building something complex and interactive. If we could build this, we could build anything.',
+                                      },
+                                      'Phase 4': {
+                                        title: 'Security & Validation Baseline',
+                                        description:
+                                          'Integrated Zod 4.1.8 for runtime validation, configured Content Security Policy headers, created security.txt, implemented input sanitization, established coverage thresholds.',
+                                        whyItMatters:
+                                          'Security and data integrity are foundational. Every future feature inherits robust validation and security by default.',
+                                      },
+                                      'Phase 5': {
+                                        title:
+                                          'Accessibility & Performance Metrics',
+                                        description:
+                                          'Integrated Pa11y for accessibility testing, implemented Web Vitals 5.1.0 monitoring, created status dashboard with real-time metrics, integrated Lighthouse API, established ADRs.',
+                                        whyItMatters:
+                                          "Can't improve what you don't measure. This phase gave visibility into performance and accessibility metrics.",
+                                      },
+                                    };
+
+                                    const tooltipInfo = phaseTooltips[
+                                      phase
+                                    ] || {
+                                      title: phase,
+                                      description: info.description,
+                                      whyItMatters:
+                                        'Part of the foundation improvement sprint.',
+                                    };
+
+                                    return (
+                                      <div
+                                        key={phase}
+                                        className="flex items-center gap-2 pl-2 text-xs"
+                                      >
+                                        <span
+                                          className={
+                                            info.complete
+                                              ? 'text-success'
+                                              : 'text-base-content/50'
+                                          }
+                                        >
+                                          {info.complete ? '✅' : '⭕'}
+                                        </span>
+                                        <span>
+                                          {phase}: {info.description}
+                                        </span>
+                                        <InfoTooltip
+                                          title={tooltipInfo.title}
+                                          description={tooltipInfo.description}
+                                          whyItMatters={
+                                            tooltipInfo.whyItMatters
+                                          }
+                                          position="top"
+                                          size="compact"
+                                        />
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              )}
+
+                            {sprintNumber === 3 && (
+                              <div className="mt-4 space-y-3">
+                                <div className="text-base-content/70 text-xs">
+                                  Sprint 3 is actively being developed with 128
+                                  tasks across 4 phases:
+                                </div>
+                                <div className="space-y-2 pl-2">
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-xs font-medium">
+                                      Phase 1:
                                     </span>
-                                    <InfoTooltip
-                                      title={tooltipInfo.title}
-                                      description={tooltipInfo.description}
-                                      whyItMatters={tooltipInfo.whyItMatters}
-                                      howToImprove={tooltipInfo.tasks}
-                                      position="top"
-                                      size="compact"
-                                    />
-                                    <span className="text-base-content/70 ml-1 text-xs">
-                                      {info.description}
+                                    <div className="flex-1">
+                                      <span className="text-xs">
+                                        Missing Core Features (Weeks 1-2)
+                                      </span>
+                                      <InfoTooltip
+                                        title="PRP Methodology & Enhanced PWA"
+                                        description="Implementing Problem-Requirements-Plan workflow system for structured problem-solving. Adding WCAG AA compliance with comprehensive colorblind support including 8 different filters."
+                                        whyItMatters="PRP ensures clear thinking before coding. WCAG AA compliance ensures universal accessibility for all users."
+                                        position="top"
+                                        size="compact"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-xs font-medium">
+                                      Phase 2:
                                     </span>
+                                    <div className="flex-1">
+                                      <span className="text-xs">
+                                        Forms & Integrations (Weeks 3-4)
+                                      </span>
+                                      <InfoTooltip
+                                        title="Email & Calendar Systems"
+                                        description="Building resilient email integration with Web3Forms/EmailJS failover, offline queue management, and IndexedDB persistence. Adding calendar booking with Calendly/Cal.com support."
+                                        whyItMatters="Real-world connectivity with enterprise-grade reliability. Forms that never lose data even offline."
+                                        position="top"
+                                        size="compact"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-xs font-medium">
+                                      Phase 3:
+                                    </span>
+                                    <div className="flex-1">
+                                      <span className="text-xs">
+                                        Privacy & Testing (Weeks 5-6)
+                                      </span>
+                                      <InfoTooltip
+                                        title="Privacy-First Architecture"
+                                        description="Implementing GDPR compliance tools, data encryption at rest, user consent management, data export/deletion capabilities. Pushing test coverage from 25% to 35% with E2E testing."
+                                        whyItMatters="Privacy is a fundamental right. Comprehensive testing ensures these privacy features actually work."
+                                        position="top"
+                                        size="compact"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-xs font-medium">
+                                      Phase 4:
+                                    </span>
+                                    <div className="flex-1">
+                                      <span className="text-xs">
+                                        Enhanced Features (Weeks 7-8)
+                                      </span>
+                                      <InfoTooltip
+                                        title="Performance & Platform Excellence"
+                                        description="Adding React Suspense, virtual scrolling, optimistic UI updates, WebSocket support, keyboard shortcuts. Creating onboarding flows, feature flags, A/B testing infrastructure."
+                                        whyItMatters="Transforms functional into delightful. Performance optimizations make it feel instant. Platform features make it production-ready."
+                                        position="top"
+                                        size="compact"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            );
-                          }
-                        )}
-                      </div>
-                    </details>
-                  )}
-
-                {/* Sprint 2 Phases - Expanded by default */}
-                {taskProgress?.sprint2Phases &&
-                  Object.keys(taskProgress.sprint2Phases).length > 0 && (
-                    <details
-                      className="collapse-arrow bg-base-200 collapse overflow-visible"
-                      open
-                    >
-                      <summary className="collapse-title text-sm font-medium">
-                        <div className="flex items-center gap-2">
-                          <span>
-                            Sprint 2 Phases 🚧 (
-                            {taskProgress.sprints?.[1]?.status === 'in-progress'
-                              ? 'In Progress'
-                              : 'Not Started'}
-                            )
-                          </span>
-                          <InfoTooltip
-                            title="Sprint 2: Fix the Foundation"
-                            description="A 10-week sprint focused on testing, developer experience, and quality improvements."
-                            whyItMatters="Addresses technical debt and establishes quality standards before adding more features."
-                            howToImprove={[
-                              'Start with Phase 1 testing setup',
-                              'Complete P0 (critical) tasks first',
-                              'Track progress weekly',
-                              '65 total tasks, ~93 hours estimated',
-                            ]}
-                            position="end"
-                            size="compact"
-                          />
-                        </div>
-                      </summary>
-                      <div className="collapse-content space-y-2 overflow-visible">
-                        {Object.entries(taskProgress.sprint2Phases).map(
-                          ([phase, info]) => {
-                            // Define Sprint 2 phase-specific tooltips
-                            const phase2Tooltips: Record<
-                              string,
-                              {
-                                title: string;
-                                description: string;
-                                whyItMatters: string;
-                                tasks?: string;
-                              }
-                            > = {
-                              'Phase 1': {
-                                title: 'Testing Foundation',
-                                description:
-                                  'Set up Vitest for unit testing, Husky for git hooks, and CI/CD pipeline.',
-                                whyItMatters:
-                                  'Catches bugs early and ensures code quality before commits reach production.',
-                                tasks: '12 tasks, ~14.5 hours (Weeks 1-2)',
-                              },
-                              'Phase 2': {
-                                title: 'Developer Experience',
-                                description:
-                                  'Add Prettier formatting, fix Docker HMR, set up Dependabot for dependency updates.',
-                                whyItMatters:
-                                  'Improves development speed and maintains consistent code style across the team.',
-                                tasks: '12 tasks, ~14 hours (Weeks 3-4)',
-                              },
-                              'Phase 3': {
-                                title: 'First Simple Feature 🎲',
-                                description:
-                                  'Build a Dice component as a reference implementation with full testing and documentation.',
-                                whyItMatters:
-                                  'Establishes patterns for future component development with a simple, testable example.',
-                                tasks: '12 tasks, ~19 hours (Weeks 5-6)',
-                              },
-                              'Phase 4': {
-                                title: 'Quality Baseline',
-                                description:
-                                  'Add Zod validation, security headers, and increase test coverage to 25%.',
-                                whyItMatters:
-                                  'Protects against security vulnerabilities and ensures data integrity.',
-                                tasks: '12 tasks, ~18.5 hours (Weeks 7-8)',
-                              },
-                              'Phase 5': {
-                                title: 'Foundation Completion',
-                                description:
-                                  'Health endpoints, Pa11y accessibility testing, Web Vitals monitoring, and ADRs.',
-                                whyItMatters:
-                                  'Ensures the app is accessible, performant, and maintainable long-term.',
-                                tasks: '12 tasks, ~20 hours (Weeks 9-10)',
-                              },
-                            };
-
-                            const tooltipInfo = phase2Tooltips[phase] || {
-                              title: phase,
-                              description: info.description,
-                              whyItMatters:
-                                'Part of the foundation improvement sprint.',
-                              tasks: 'Multiple tasks scheduled',
-                            };
-
-                            return (
-                              <div
-                                key={`s2-${phase}`}
-                                className="flex items-start gap-2 text-sm"
-                              >
-                                <span
-                                  className={`flex-shrink-0 ${info.complete ? 'text-success' : info.description.includes('-') && !info.description.includes('- 0/') ? 'text-warning' : 'text-base-content/50'}`}
-                                >
-                                  {info.complete
-                                    ? '✅'
-                                    : phase === 'Phase 3'
-                                      ? '🚧🎲'
-                                      : info.description.includes(' - ') &&
-                                          !info.description.includes(' - 0/')
-                                        ? '🚧'
-                                        : '⭕'}
-                                </span>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-1">
-                                    <span className="font-medium whitespace-nowrap">
-                                      {phase}:
-                                    </span>
-                                    <InfoTooltip
-                                      title={tooltipInfo.title}
-                                      description={tooltipInfo.description}
-                                      whyItMatters={tooltipInfo.whyItMatters}
-                                      howToImprove={tooltipInfo.tasks}
-                                      position="top"
-                                      size="compact"
-                                    />
-                                    <span className="text-base-content/70 ml-1 text-xs">
-                                      {info.description}
-                                    </span>
-                                  </div>
+                                <div className="text-base-content/50 pl-2 text-xs italic">
+                                  Tasks use S3T prefix (S3T001-S3T128)
                                 </div>
                               </div>
-                            );
-                          }
-                        )}
+                            )}
+                          </div>
+                        </div>
+                      </details>
+                    );
+                  })}
+
+                {/* Legacy Sprint 1 Phases - Removed, now in unified display above */}
+                {false && (
+                  <details className="collapse-arrow bg-base-200 collapse overflow-visible">
+                    <summary className="collapse-title text-sm font-medium">
+                      <div className="flex items-center gap-2">
+                        <span>Sprint 1 Phases ✅ (All Complete)</span>
+                        <InfoTooltip
+                          title="Sprint 1: Core Implementation"
+                          description="The foundational sprint that established the project infrastructure, component system, and deployment pipeline."
+                          whyItMatters="These phases created the base architecture that all future features build upon."
+                          howToImprove={[
+                            'Review completed tasks for lessons learned',
+                            'Document any technical debt identified',
+                            'Use as reference for future sprints',
+                          ]}
+                          position="end"
+                          size="compact"
+                        />
                       </div>
-                    </details>
-                  )}
+                    </summary>
+                    <div className="collapse-content space-y-2 overflow-visible">
+                      {Object.entries(taskProgress?.phases || {}).map(
+                        ([phase, info]) => {
+                          // Define phase-specific tooltips
+                          const phaseTooltips: Record<
+                            string,
+                            {
+                              title: string;
+                              description: string;
+                              whyItMatters: string;
+                              tasks?: string;
+                            }
+                          > = {
+                            'Phase 0': {
+                              title: 'Initial Setup & Deployment',
+                              description:
+                                'Docker environment, Next.js 15.5 setup, and GitHub Pages deployment pipeline.',
+                              whyItMatters:
+                                'Establishes the development environment and ensures the app is accessible online from day one.',
+                              tasks: '20 tasks focused on infrastructure',
+                            },
+                            'Phase 1': {
+                              title: 'Component Documentation System',
+                              description:
+                                'Storybook integration for visual component testing and documentation.',
+                              whyItMatters:
+                                'Enables isolated component development and serves as living documentation for the UI library.',
+                              tasks: '19 tasks for Storybook setup',
+                            },
+                            'Phase 2': {
+                              title: 'Theme & Accessibility System',
+                              description:
+                                '32 DaisyUI themes with persistent selection and accessibility controls.',
+                              whyItMatters:
+                                'Provides users with visual customization options and ensures the app is usable by everyone.',
+                              tasks: '19 tasks for theming infrastructure',
+                            },
+                            'Phase 3': {
+                              title: 'Component Gallery',
+                              description:
+                                'Atomic design pattern implementation with reusable UI components.',
+                              whyItMatters:
+                                'Creates a scalable component library that speeds up future development.',
+                              tasks: '19 tasks for component system',
+                            },
+                            'Phase 4': {
+                              title: 'Progressive Web App Features',
+                              description:
+                                'Service worker, offline support, and app installation capabilities.',
+                              whyItMatters:
+                                'Transforms the website into an app-like experience that works offline and can be installed.',
+                              tasks: '19 tasks for PWA implementation',
+                            },
+                          };
+
+                          const tooltipInfo = phaseTooltips[phase] || {
+                            title: phase,
+                            description: info.description,
+                            whyItMatters:
+                              'Part of the core implementation sprint.',
+                            tasks: 'Multiple tasks',
+                          };
+
+                          return (
+                            <div
+                              key={`s1-${phase}`}
+                              className="flex items-start gap-2 text-sm"
+                            >
+                              <span
+                                className={`flex-shrink-0 ${info.complete ? 'text-success' : 'text-base-content/50'}`}
+                              >
+                                {info.complete ? '✅' : '⭕'}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1">
+                                  <span className="font-medium whitespace-nowrap">
+                                    {phase}:
+                                  </span>
+                                  <InfoTooltip
+                                    title={tooltipInfo.title}
+                                    description={tooltipInfo.description}
+                                    whyItMatters={tooltipInfo.whyItMatters}
+                                    howToImprove={tooltipInfo.tasks}
+                                    position="top"
+                                    size="compact"
+                                  />
+                                  <span className="text-base-content/70 ml-1 text-xs">
+                                    {info.description}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  </details>
+                )}
+
+                {/* Legacy Sprint 2 Phases - Hidden now that it's in unified display */}
+                {false && (
+                  <details
+                    className="collapse-arrow bg-base-200 collapse overflow-visible"
+                    open
+                  >
+                    <summary className="collapse-title text-sm font-medium">
+                      <div className="flex items-center gap-2">
+                        <span>
+                          Sprint 2 Phases 🚧 (
+                          {taskProgress?.sprints?.[1]?.status === 'in-progress'
+                            ? 'In Progress'
+                            : 'Not Started'}
+                          )
+                        </span>
+                        <InfoTooltip
+                          title="Sprint 2: Fix the Foundation"
+                          description="A 10-week sprint focused on testing, developer experience, and quality improvements."
+                          whyItMatters="Addresses technical debt and establishes quality standards before adding more features."
+                          howToImprove={[
+                            'Start with Phase 1 testing setup',
+                            'Complete P0 (critical) tasks first',
+                            'Track progress weekly',
+                            '65 total tasks, ~93 hours estimated',
+                          ]}
+                          position="end"
+                          size="compact"
+                        />
+                      </div>
+                    </summary>
+                    <div className="collapse-content space-y-2 overflow-visible">
+                      {Object.entries(taskProgress?.sprint2Phases || {}).map(
+                        ([phase, info]) => {
+                          // Define Sprint 2 phase-specific tooltips
+                          const phase2Tooltips: Record<
+                            string,
+                            {
+                              title: string;
+                              description: string;
+                              whyItMatters: string;
+                              tasks?: string;
+                            }
+                          > = {
+                            'Phase 1': {
+                              title: 'Testing Foundation',
+                              description:
+                                'Set up Vitest for unit testing, Husky for git hooks, and CI/CD pipeline.',
+                              whyItMatters:
+                                'Catches bugs early and ensures code quality before commits reach production.',
+                              tasks: '12 tasks, ~14.5 hours (Weeks 1-2)',
+                            },
+                            'Phase 2': {
+                              title: 'Developer Experience',
+                              description:
+                                'Add Prettier formatting, fix Docker HMR, set up Dependabot for dependency updates.',
+                              whyItMatters:
+                                'Improves development speed and maintains consistent code style across the team.',
+                              tasks: '12 tasks, ~14 hours (Weeks 3-4)',
+                            },
+                            'Phase 3': {
+                              title: 'First Simple Feature 🎲',
+                              description:
+                                'Build a Dice component as a reference implementation with full testing and documentation.',
+                              whyItMatters:
+                                'Establishes patterns for future component development with a simple, testable example.',
+                              tasks: '12 tasks, ~19 hours (Weeks 5-6)',
+                            },
+                            'Phase 4': {
+                              title: 'Quality Baseline',
+                              description:
+                                'Add Zod validation, security headers, and increase test coverage to 25%.',
+                              whyItMatters:
+                                'Protects against security vulnerabilities and ensures data integrity.',
+                              tasks: '12 tasks, ~18.5 hours (Weeks 7-8)',
+                            },
+                            'Phase 5': {
+                              title: 'Foundation Completion',
+                              description:
+                                'Health endpoints, Pa11y accessibility testing, Web Vitals monitoring, and ADRs.',
+                              whyItMatters:
+                                'Ensures the app is accessible, performant, and maintainable long-term.',
+                              tasks: '12 tasks, ~20 hours (Weeks 9-10)',
+                            },
+                          };
+
+                          const tooltipInfo = phase2Tooltips[phase] || {
+                            title: phase,
+                            description: info.description,
+                            whyItMatters:
+                              'Part of the foundation improvement sprint.',
+                            tasks: 'Multiple tasks scheduled',
+                          };
+
+                          return (
+                            <div
+                              key={`s2-${phase}`}
+                              className="flex items-start gap-2 text-sm"
+                            >
+                              <span
+                                className={`flex-shrink-0 ${info.complete ? 'text-success' : info.description.includes('-') && !info.description.includes('- 0/') ? 'text-warning' : 'text-base-content/50'}`}
+                              >
+                                {info.complete
+                                  ? phase === 'Phase 3'
+                                    ? '🎲'
+                                    : '✅'
+                                  : phase === 'Phase 3'
+                                    ? '🚧🎲'
+                                    : info.description.includes(' - ') &&
+                                        !info.description.includes(' - 0/')
+                                      ? '🚧'
+                                      : '⭕'}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1">
+                                  <span className="font-medium whitespace-nowrap">
+                                    {phase}:
+                                  </span>
+                                  <InfoTooltip
+                                    title={tooltipInfo.title}
+                                    description={tooltipInfo.description}
+                                    whyItMatters={tooltipInfo.whyItMatters}
+                                    howToImprove={tooltipInfo.tasks}
+                                    position="top"
+                                    size="compact"
+                                  />
+                                  <span className="text-base-content/70 ml-1 text-xs">
+                                    {info.description}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  </details>
+                )}
               </div>
             </Card>
 
