@@ -1,6 +1,21 @@
 [
   {
     "date": "9/13/2025",
+    "feature": "Clean up documentation and fix feature counts",
+    "status": "success"
+  },
+  {
+    "date": "9/13/2025",
+    "feature": "Update deployment history",
+    "status": "success"
+  },
+  {
+    "date": "9/13/2025",
+    "feature": "Update Sprint 2 task completion to 100%",
+    "status": "success"
+  },
+  {
+    "date": "9/13/2025",
     "feature": "Simplify prebuild to just copy TASKS.md without...",
     "status": "success"
   },
@@ -82,21 +97,6 @@
   {
     "date": "9/12/2025",
     "feature": "Add interactive Dice components with drag-and-d...",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Make tutorial expand button more prominent",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Correctly count completed phases on homepage",
-    "status": "success"
-  },
-  {
-    "date": "9/12/2025",
-    "feature": "Replace hourglass with dice emoji for Phase 3",
     "status": "success"
   }
 ]

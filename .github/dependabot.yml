@@ -4,31 +4,31 @@
 version: 2
 updates:
   # Enable version updates for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     open-pull-requests-limit: 10
     # Group dependency updates to reduce PR noise
     groups:
       # Group all production dependencies
       production-dependencies:
-        dependency-type: "production"
+        dependency-type: 'production'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       # Group all development dependencies
       development-dependencies:
-        dependency-type: "development"
+        dependency-type: 'development'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       # Group major version updates separately
       major-updates:
         update-types:
-          - "major"
+          - 'major'
     # Ignore specific dependencies if needed
     ignore:
       # Example: Don't update to Next.js 16 until ready
@@ -36,48 +36,48 @@ updates:
       #   versions: ["16.x"]
     # Add assignees to PRs
     assignees:
-      - "TortoiseWolfe"
+      - 'TortoiseWolfe'
     # Add labels to PRs
     labels:
-      - "dependencies"
-      - "automated"
+      - 'dependencies'
+      - 'automated'
     # Commit message prefix
     commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-      include: "scope"
+      prefix: 'chore'
+      prefix-development: 'chore'
+      include: 'scope'
 
   # Enable version updates for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     open-pull-requests-limit: 5
     groups:
       # Group all GitHub Actions updates
       github-actions:
         patterns:
-          - "*"
+          - '*'
     labels:
-      - "github-actions"
-      - "automated"
+      - 'github-actions'
+      - 'automated'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'
 
   # Enable version updates for Docker
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "04:00"
+      interval: 'weekly'
+      day: 'monday'
+      time: '04:00'
     open-pull-requests-limit: 5
     labels:
-      - "docker"
-      - "automated"
+      - 'docker'
+      - 'automated'
     commit-message:
-      prefix: "build"
-      include: "scope"
+      prefix: 'build'
+      include: 'scope'

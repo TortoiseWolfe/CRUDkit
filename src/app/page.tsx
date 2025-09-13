@@ -459,7 +459,7 @@ export default function Home() {
                             docs/spec-kit/TASKS.md
                           </code>
                           <span className="text-base-content/70 ml-2 text-xs">
-                            → 161 tasks (59% complete)
+                            → Actionable task list
                           </span>
                         </div>
                       </div>
