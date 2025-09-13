@@ -48,24 +48,27 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 
 ### 📊 Monitoring & Analytics
 
-- Real-time Web Vitals tracking
+- Real-time Web Vitals tracking with performance utilities
 - Dynamic Lighthouse testing via PageSpeed API
 - PWA feature testing with comprehensive suite
 - Docker health monitoring via main page check
 - TASKS.md progress tracking (auto-updated)
 - GitHub Actions CI/CD with automated testing
+- Pa11y accessibility testing in CI pipeline
 - Interactive status dashboard at `/status`
+- Performance baseline tracking and reporting
 
 ### 🧪 Testing & Quality
 
 - Vitest unit testing framework with React Testing Library
-- 111+ passing tests across multiple test suites
-- Coverage thresholds enforced at 15% minimum
+- 120+ passing tests across multiple test suites
+- Coverage thresholds enforced at 25% minimum (58% actual)
 - Integration tests for form workflows and game interactions
 - Pre-commit hooks: Prettier formatting, ESLint, and related tests
 - Pre-push hooks: Full test suite with coverage checks
 - Automated CI/CD pipeline with TypeScript checking
 - Comprehensive Zod validation testing for all form schemas
+- Pa11y accessibility testing for WCAG compliance
 
 ### 🔒 Security
 
@@ -91,7 +94,8 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - **UI**: React 19.1.0
 - **Styling**: Tailwind CSS + DaisyUI
 - **TypeScript**: 5.x with strict mode
-- **Validation**: Zod 3.24.1 for runtime validation
+- **Validation**: Zod 4.1.8 for runtime validation
+- **Performance**: Web Vitals 5.1.0 for monitoring
 - **Testing**: Vitest, React Testing Library, @vitest/coverage-v8
 - **Code Quality**: Prettier 3.6.2 with Tailwind plugin
 - **CI/CD**: GitHub Actions, Husky git hooks
@@ -141,6 +145,12 @@ See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, including:
 - Coverage requirements
 - CI/CD integration
 - Pre-commit hooks setup
+
+### Architecture Documentation
+
+- [Architecture Decision Records](./docs/adr/) - Key technical decisions
+- [Sprint 2 Summary](./docs/sprint-2-summary.md) - Recent achievements
+- [Sprint 3 Plan](./docs/sprint-3-plan.md) - Upcoming features
 
 ### Key Pages
 
