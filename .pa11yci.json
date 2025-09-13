@@ -1,0 +1,40 @@
+{
+  "defaults": {
+    "timeout": 30000,
+    "viewport": {
+      "width": 1280,
+      "height": 1024
+    },
+    "runners": ["axe", "htmlcs"],
+    "standard": "WCAG2AA",
+    "chromeLaunchConfig": {
+      "args": [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage"
+      ]
+    }
+  },
+  "urls": [
+    {
+      "url": "http://localhost:3000/",
+      "screenCapture": "pa11y-screenshots/home.png"
+    },
+    {
+      "url": "http://localhost:3000/themes",
+      "screenCapture": "pa11y-screenshots/themes.png"
+    },
+    {
+      "url": "http://localhost:3000/components",
+      "screenCapture": "pa11y-screenshots/components.png"
+    },
+    {
+      "url": "http://localhost:3000/accessibility",
+      "screenCapture": "pa11y-screenshots/accessibility.png"
+    },
+    {
+      "url": "http://localhost:3000/status",
+      "screenCapture": "pa11y-screenshots/status.png"
+    }
+  ]
+}

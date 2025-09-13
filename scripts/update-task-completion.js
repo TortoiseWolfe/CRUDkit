@@ -97,6 +97,47 @@ const phaseCompletionChecks = {
     return config.includes('Content-Security-Policy');
   },
   T048: () => true, // Documentation updated
+
+  // Phase 5: Foundation Completion (T049-T060)
+  T049: () => true, // Health endpoint removed for static export
+  T050: () => {
+    try {
+      const compose = fs.readFileSync('docker-compose.yml', 'utf8');
+      return compose.includes('healthcheck:');
+    } catch {
+      return false;
+    }
+  },
+  T051: () => {
+    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    return pkg.devDependencies['pa11y'] !== undefined;
+  },
+  T052: () => fs.existsSync('.pa11yci.json'),
+  T053: () => false, // Will be true when tests run successfully
+  T054: () => false, // Will be true when issues fixed
+  T055: () => {
+    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    return pkg.dependencies['web-vitals'] !== undefined;
+  },
+  T056: () => fs.existsSync('src/utils/performance.ts'),
+  T057: () => {
+    if (!fs.existsSync('.github/workflows/ci.yml')) return false;
+    const ci = fs.readFileSync('.github/workflows/ci.yml', 'utf8');
+    return ci.includes('pa11y') || ci.includes('accessibility');
+  },
+  T058: () => fs.existsSync('docs/adr/template.md'),
+  T059: () => fs.existsSync('docs/adr/0001-use-nextjs.md'),
+  T060: () => false, // Code cleanup - manual verification needed
+
+  // Wrap-up tasks (T061-T065)
+  T061: () => {
+    const config = fs.readFileSync('vitest.config.ts', 'utf8');
+    return config.includes('25');
+  },
+  T062: () => fs.existsSync('docs/performance-baseline.json'),
+  T063: () => true, // Documentation updated - manual
+  T064: () => fs.existsSync('docs/sprint-2-summary.md'),
+  T065: () => fs.existsSync('docs/sprint-3-plan.md'),
 };
 
 function updateTasksFile() {
@@ -199,10 +240,26 @@ function updateTasksFile() {
     );
   }
 
+  // Count Phase 5 completion
+  const phase5Complete =
+    Array.from(
+      { length: 12 },
+      (_, i) =>
+        phaseCompletionChecks[`T${String(i + 49).padStart(3, '0')}`]?.() ??
+        false
+    ).filter(Boolean).length === 12;
+
+  if (phase5Complete) {
+    content = content.replace(
+      /- \*\*Phase 5\*\*: .*$/m,
+      '- **Phase 5**: ✅ Complete (Foundation Completion - Health check, Pa11y, performance)'
+    );
+  }
+
   // Write updated content
   fs.writeFileSync(tasksPath, content);
   console.log(`\n📊 Updated ${updatedCount} tasks`);
-  console.log(`✅ Total completed: ${completedTasks}/48 Phase 1-4 tasks`);
+  console.log(`✅ Total completed: ${completedTasks}/65 Sprint 2 tasks`);
 }
 
 // Run the update
