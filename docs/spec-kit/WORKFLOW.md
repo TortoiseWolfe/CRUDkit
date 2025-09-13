@@ -58,42 +58,67 @@ cat docs/spec-kit/archive/sprint-XXX/SPRINT_SUMMARY.md
 
 ### 2. Specification Phase (Day 1-2)
 
-**Generate New Spec**
+**Process Constitution with SpecKit**
 
 ```bash
 # Navigate to spec-kit directory
 cd docs/spec-kit
+
+# Feed constitution to SpecKit Docker container
+docker cp ../constitution.md speckit-dev:/workspace/constitution.md
+
+# Run SpecKit processing
+docker compose exec speckit pwsh -File /workspace/.specify/scripts/powershell/create-new-feature.ps1 \
+  -InputFilePath /workspace/constitution.md \
+  -FeatureName "Sprint-$(date +%Y%m%d)"
 ```
 
-**Use AI Assistant Commands (in Claude, Copilot, etc.)**
+**Generate PRPs from SpecKit Output**
+
+```bash
+# Review what SpecKit generated
+docker compose exec speckit cat /workspace/.specify/features/Sprint-*/spec.md
+
+# Use AI to identify features and generate PRPs
+"Claude, analyze this SpecKit output and generate PRPs for major features"
+```
+
+**Create Enhanced Specification**
 
 ```
-# For regular features:
-/specify Create Sprint-002 specification based on constitution.md focusing on [features]
+# With PRPs now generated and reviewed:
+/specify Create enhanced Sprint-002 specification using:
+  - SpecKit output from .specify/features/
+  - PRPs from prp/outbox/
+  - Updated constitution.md
 
-# The AI will generate a structured spec.md file
+# The AI will generate a comprehensive spec.md file
 # Save the output to docs/spec-kit/spec.md
 ```
 
 **Human Review Point** 🔍
 
-- Review spec-output.md
+- Review spec.md
+- Verify PRPs are properly incorporated
+- Ensure alignment with SpecKit's analysis
 - Edit to add/remove features
-- Ensure alignment with updated constitution
 
 ### 3. Planning Phase (Day 2)
 
-**Generate Technical Plan**
+**Generate Technical Plan with PRPs**
 
 ```
-# For major features, include PRP for context:
-/plan Create technical implementation plan based on spec.md
-      Include context from prp/outbox/feature-name-prp.md
+# PRPs were generated from SpecKit output, now use them:
+/plan Create technical implementation plan based on:
+  - spec.md (enhanced specification)
+  - All PRPs in prp/outbox/
+  - SpecKit analysis from .specify/features/
 
-# For regular features:
-/plan Create technical implementation plan based on spec.md
+# The AI will generate a detailed PLAN.md that incorporates:
+# - Technical requirements from PRPs
+# - Implementation patterns from PRPs
+# - Validation criteria from PRPs
 
-# The AI will generate a detailed PLAN.md
 # Review and save to docs/spec-kit/PLAN.md
 ```
 
@@ -179,58 +204,85 @@ cp docs/constitution.md \
 - What could improve?
 - Action items for next sprint
 
-## PRP (Product Requirements Prompt) Integration
+## Iterative SpecKit + PRP Workflow
 
-PRPs provide rich context engineering for major features. They work as **context inputs** during the Planning phase rather than a separate workflow step.
+### The Pair Programming Approach
 
-### When to Create PRPs
+SpecKit processes the constitution through Docker, and we iterate together to generate PRPs and specifications. This is a **collaborative workflow** between you, the AI assistant, and SpecKit's Docker processing.
 
-**Major Features** (Use PRP):
+### Phase 0: Constitution Processing with SpecKit
 
-- New user-facing features (forms, integrations, UI components)
-- System architecture changes
-- Complex multi-file implementations
-- Features requiring external dependencies
-
-**Minor Features** (Skip PRP):
-
-- Bug fixes
-- Small updates
-- Single-file changes
-- Documentation updates
-
-### PRP Workflow
-
-1. **Create PRP** (Before Sprint Planning)
+1. **Feed Constitution to SpecKit**
 
 ```bash
-cd docs/spec-kit/prp
-cp templates/prp-template.md inbox/feature-name-prp.md
-# Fill out comprehensive context
+# Copy constitution to container
+docker cp ../constitution.md speckit-dev:/workspace/constitution.md
+
+# Run SpecKit's PowerShell script
+docker compose exec speckit pwsh -File /workspace/.specify/scripts/powershell/create-new-feature.ps1 \
+  -InputFilePath /workspace/constitution.md \
+  -FeatureName "Sprint-3-Features"
 ```
 
-2. **Review & Approve**
+2. **SpecKit Generates Basic Structure**
+
+SpecKit creates:
+
+- `.specify/features/Sprint-3-Features/spec.md` (basic specification)
+- Includes the full constitution for reference
+- Provides initial structure for enhancement
+
+3. **AI Enhancement Phase** (This is where PRPs come from!)
 
 ```bash
-# After technical review
-mv inbox/feature-name-prp.md outbox/
+# Review SpecKit's output
+docker compose exec speckit cat /workspace/.specify/features/Sprint-3-Features/spec.md
+
+# Use AI to analyze and generate PRPs from the output
+"Claude, analyze the SpecKit output and identify major features that need PRPs"
 ```
 
-3. **Use During Planning**
+4. **Generate PRPs from SpecKit Output**
 
-```
-# Reference PRP in /plan command
-/plan Create plan based on spec.md
-      Include context from prp/outbox/feature-name-prp.md
-```
+The AI assistant:
 
-4. **Archive After Implementation**
+- Reads SpecKit's processed constitution
+- Identifies major features (forms, integrations, etc.)
+- Generates PRPs for each major feature
+- Places them in `prp/inbox/`
 
 ```bash
-mv outbox/feature-name-prp.md archive/
+# AI generates PRPs based on SpecKit analysis
+/generate-prp Based on SpecKit output, create PRP for Web3Forms integration
+/generate-prp Based on SpecKit output, create PRP for Firebase Auth
+/generate-prp Based on SpecKit output, create PRP for Stripe Payment
 ```
 
-**Key Insight**: PRPs aren't a new phase - they're context documents that enhance the Planning phase with implementation details, code patterns, and validation criteria.
+5. **Review and Refine PRPs**
+
+```bash
+# Human review of generated PRPs
+cat prp/inbox/web3forms-integration-prp.md
+# Edit if needed
+vim prp/inbox/web3forms-integration-prp.md
+# Move to outbox when ready
+mv prp/inbox/*.prp.md prp/outbox/
+```
+
+### The Complete Iterative Flow
+
+```
+Constitution → SpecKit (Docker) → Basic Spec → AI Analysis → PRPs →
+→ Enhanced Spec → Plan → Tasks → Implementation
+```
+
+**Key Insights**:
+
+- SpecKit provides the initial processing via Docker
+- AI enhances SpecKit's output to generate PRPs
+- PRPs are OUTPUT from the SpecKit+AI collaboration
+- This is an iterative pair programming process
+- Each phase builds on the previous one
 
 ## Key Commands Reference
 

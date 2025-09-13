@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PRP workflow implements Cole Medlin's **Context Engineering** methodology, providing AI coding assistants with comprehensive implementation blueprints for major features. PRPs bridge the gap between high-level requirements and actual code implementation by supplying precise technical context.
+The PRP workflow implements Cole Medlin's **Context Engineering** methodology through an iterative process with SpecKit. PRPs are **generated outputs** from the SpecKit+AI collaboration, not manual inputs. They provide comprehensive implementation blueprints for major features identified during constitution processing.
 
 ## What is a PRP?
 
@@ -40,37 +40,56 @@ prp/
 └── README.md       # This file
 ```
 
-## The PRP-Enhanced SpecKit Workflow
+## The SpecKit → PRP Generation Workflow
 
-PRPs are **context documents** that enhance the Planning phase, not a separate workflow step. They provide implementation details that `/plan` can reference.
+PRPs are **generated from SpecKit's constitution analysis**, not manually created. This is a pair programming process between you, the AI, and SpecKit's Docker processing.
 
-### 1. Create PRP (Before Sprint)
-
-For major features, create a PRP to provide context:
+### 1. SpecKit Processes Constitution
 
 ```bash
-# Copy template to inbox
-cp templates/prp-template.md inbox/feature-name-prp.md
+# Feed constitution to SpecKit Docker container
+docker cp ../constitution.md speckit-dev:/workspace/constitution.md
 
-# Fill out the PRP with comprehensive context
-vim inbox/feature-name-prp.md
+# Run SpecKit PowerShell script
+docker compose exec speckit pwsh -File /workspace/.specify/scripts/powershell/create-new-feature.ps1 \
+  -InputFilePath /workspace/constitution.md \
+  -FeatureName "Sprint-3-Analysis"
 ```
 
-### 2. Review PRP (Inbox → Outbox)
+### 2. AI Analyzes SpecKit Output → Generates PRPs
+
+```bash
+# Review SpecKit's processed output
+docker compose exec speckit cat /workspace/.specify/features/Sprint-3-Analysis/spec.md
+
+# AI identifies major features and generates PRPs
+"Claude, analyze this SpecKit output and generate PRPs for all major features"
+
+# PRPs are created in inbox/ based on SpecKit's analysis
+# Each PRP includes context from existing codebase patterns
+```
+
+### 3. Review Generated PRPs (Inbox → Outbox)
 
 **Human Review Point** 🔍
 
-- Technical feasibility validated
-- Dependencies available
-- Resources confirmed
-- No conflicts with ongoing work
+- Verify SpecKit correctly identified features
+- Validate technical approach
+- Add missing constraints or context
+- Confirm dependencies available
 
 ```bash
+# Review each generated PRP
+cat inbox/web3forms-integration-prp.md
+
+# Edit if needed to add context
+vim inbox/web3forms-integration-prp.md
+
 # After approval, move to outbox
 mv inbox/feature-name-prp.md outbox/
 ```
 
-### 3. Use in Planning Phase (Outbox → Archive)
+### 4. Use PRPs in Planning Phase (Outbox → Archive)
 
 Reference the PRP during planning for rich context:
 
@@ -97,50 +116,63 @@ mv outbox/feature-name-prp.md archive/2025-09-13-feature-name-prp.md
 
 ## Example Workflow
 
-### Creating a PRP for Web3Forms Integration
+### Generating PRPs from Constitution
 
-1. **Create PRP in inbox:**
-
-```bash
-cp templates/prp-template.md inbox/web3forms-integration-prp.md
-```
-
-2. **Fill out PRP with context:**
-
-- Existing form patterns from `src/components/atomic/Form.tsx`
-- Zod validation schemas already in use
-- Environment variable patterns from `.env.example`
-- Testing patterns from existing form tests
-
-3. **Review and approve:**
-
-- Verify Web3Forms API documentation
-- Check no conflicting email integrations
-- Confirm GDPR compliance approach
-
-4. **Move to outbox:**
+1. **SpecKit processes constitution:**
 
 ```bash
-mv inbox/web3forms-integration-prp.md outbox/
+docker compose exec speckit pwsh -File /workspace/.specify/scripts/powershell/create-new-feature.ps1 \
+  -InputFilePath /workspace/constitution.md \
+  -FeatureName "Sprint-3"
 ```
 
-5. **Generate specifications:**
+2. **AI analyzes output and identifies features:**
 
 ```
-"Claude, use the Web3Forms PRP in outbox to generate the specification"
+"Claude, from the SpecKit output, I see these major features need PRPs:
+- Web3Forms email integration (Section 6, Phase 2)
+- Firebase authentication (Section 6, Phase 3)
+- Stripe payment processing (Section 6, Phase 4)
+Generate PRPs for each."
 ```
 
-## Integration with Existing Workflow
+3. **AI generates PRPs with codebase context:**
 
-PRPs enhance the Planning phase with context engineering:
+For each feature, the AI:
+
+- References existing patterns from the codebase
+- Includes specific file paths and code examples
+- Defines validation criteria
+- Creates implementation runbook
+
+4. **Review generated PRPs:**
+
+- Verify feature identification is correct
+- Check technical approach is sound
+- Add any missing context
+
+5. **Move to outbox and use in planning:**
+
+```bash
+mv inbox/*.prp.md outbox/
+
+# Use PRPs to create enhanced specification
+/specify Create enhanced specification using PRPs from outbox/
+```
+
+## Integration with SpecKit Workflow
+
+PRPs are generated outputs from SpecKit processing:
 
 ```
-Constitution → Specify → Plan (with PRP context) → Tasks → Implement
+Constitution → SpecKit (Docker) → Basic Spec → AI Analysis → PRPs (Generated) →
+→ Enhanced Spec → Plan → Tasks → Implement
 ```
 
-- **Major features**: Create PRP, reference in `/plan` command
-- **Minor features**: Skip PRP, use standard `/plan` command
-- **Key insight**: PRPs are context documents, not a workflow phase
+- **SpecKit processes**: Constitution through PowerShell scripts
+- **AI enhances**: Analyzes SpecKit output, generates PRPs
+- **Human reviews**: Validates and refines generated PRPs
+- **Key insight**: PRPs are OUTPUTS from SpecKit+AI collaboration, not manual inputs
 
 ## Benefits of Context Engineering
 
@@ -174,13 +206,17 @@ Before moving a PRP from inbox to outbox:
   - [ ] Risk mitigation strategies included
   - [ ] References to documentation provided
 
-## Tips for Writing Effective PRPs
+## Understanding PRP Generation
 
-1. **Be Specific**: Use exact file paths, not vague descriptions
-2. **Show Examples**: Include actual code snippets from the codebase
-3. **Define Success**: Clear, measurable criteria for completion
-4. **Think Ahead**: Identify risks and mitigation strategies
-5. **Stay Focused**: One major feature per PRP
+When the AI generates PRPs from SpecKit output, it:
+
+1. **Identifies Features**: Extracts major features from constitution sections
+2. **Maps to Codebase**: Finds existing patterns and files to reference
+3. **Defines Context**: Includes specific dependencies and versions
+4. **Creates Runbook**: Step-by-step implementation guide
+5. **Sets Validation**: Clear success criteria and test requirements
+
+**The template** (`templates/prp-template.md`) shows the structure PRPs should follow, but they're generated automatically, not filled manually.
 
 ## Resources
 
@@ -191,4 +227,4 @@ Before moving a PRP from inbox to outbox:
 
 ---
 
-**Remember**: PRPs are for major features only. They provide the rich context needed for AI assistants to generate production-ready code on the first pass, following Cole Medlin's principle: "Stop vibe coding, start context engineering."
+**Remember**: PRPs are generated BY SpecKit+AI collaboration, not created manually. This iterative process ensures comprehensive context engineering, following Cole Medlin's principle: "Stop vibe coding, start context engineering." The power comes from SpecKit's Docker processing combined with AI's ability to enhance and contextualize the output.
