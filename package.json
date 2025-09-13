@@ -18,7 +18,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/update-task-completion.js && cp docs/spec-kit/TASKS.md public/TASKS.md && node scripts/generate-deployment-history.js",
+    "prebuild": "cp docs/spec-kit/TASKS.md public/TASKS.md && node scripts/generate-deployment-history.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
