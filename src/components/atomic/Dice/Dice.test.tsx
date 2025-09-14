@@ -56,7 +56,6 @@ describe('Dice', () => {
     );
 
     // Should show one of the dice face Unicode characters
-    const diceContainer = screen.getByText(/Dice showing/);
     const diceIcon = screen.getByText(/[⚀⚁⚂⚃⚄⚅]/);
     expect(diceIcon).toBeInTheDocument();
   });

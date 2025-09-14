@@ -1,6 +1,11 @@
 [
   {
     "date": "9/14/2025",
+    "feature": "Resolve build and accessibility issues",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
     "feature": "Add server startup for E2E tests in GitHub Actions",
     "status": "success"
   },
@@ -92,11 +97,6 @@
   {
     "date": "9/14/2025",
     "feature": "Resolve CI/CD issues for component structure va...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Install pnpm before Node.js setup in CI workflow",
     "status": "success"
   }
 ]
