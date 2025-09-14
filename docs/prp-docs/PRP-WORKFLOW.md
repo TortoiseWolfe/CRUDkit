@@ -2,54 +2,47 @@
 
 **Version**: 1.0.0
 **Created**: 2025-09-13
-**Purpose**: Sequential implementation guide for processing 14 Product Requirements Prompts (PRPs)
+**Purpose**: Sequential implementation guide for processing 13 Product Requirements Prompts (PRPs)
 
 ---
 
 ## Overview
 
-This document defines the workflow for processing 14 PRPs through the Specify system without creating 14 simultaneous branches. Each PRP will be processed sequentially, building upon previous work and maintaining a clean, manageable repository structure.
+This document defines the workflow for processing 13 PRPs through the Specify system without creating 13 simultaneous branches. Each PRP will be processed sequentially, building upon previous work and maintaining a clean, manageable repository structure.
 
 ## Implementation Sequence
 
 ### Phase 1: Foundation (Must Complete First)
 
-#### 1. PRP Methodology Implementation (`001-prp-methodology`)
+#### 1. Component Structure Standardization (`001-component-structure`)
 
 - **Priority**: P0 (Constitutional Requirement)
-- **Why First**: Establishes the PRP workflow system itself
+- **Why First**: Ensures consistent 4-file pattern before building new components
 - **Dependencies**: None
-- **Deliverables**: PRP templates, workflow scripts, documentation
-
-#### 2. Component Structure Standardization (`002-component-structure`)
-
-- **Priority**: P0 (Constitutional Requirement)
-- **Why Second**: Ensures consistent 4-file pattern before building new components
-- **Dependencies**: PRP methodology
 - **Deliverables**: Audit tool, scaffolding scripts, migrated components
 
-#### 3. E2E Testing Framework (`003-e2e-testing`)
+#### 2. E2E Testing Framework (`002-e2e-testing`)
 
 - **Priority**: P0 (Constitutional Requirement)
-- **Why Third**: Testing infrastructure needed before feature development
+- **Why Second**: Testing infrastructure needed before feature development
 - **Dependencies**: Component structure
 - **Deliverables**: Playwright setup, test suites, CI integration
 
 ### Phase 2: Compliance & Accessibility
 
-#### 4. WCAG AA Compliance (`004-wcag-compliance`)
+#### 3. WCAG AA Compliance (`003-wcag-compliance`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: E2E testing framework
 - **Deliverables**: Pa11y CI, axe-core integration, automated testing
 
-#### 5. Colorblind Mode (`005-colorblind-mode`)
+#### 4. Colorblind Mode (`004-colorblind-mode`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: WCAG compliance (extends accessibility)
 - **Deliverables**: Filter system, theme integration, UI controls
 
-#### 6. Font Switcher (`006-font-switcher`)
+#### 5. Font Switcher (`005-font-switcher`)
 
 - **Priority**: P1 (Constitutional Enhancement)
 - **Dependencies**: Colorblind mode (extends accessibility controls)
@@ -57,13 +50,13 @@ This document defines the workflow for processing 14 PRPs through the Specify sy
 
 ### Phase 3: Privacy & Analytics
 
-#### 7. Cookie Consent & GDPR (`007-cookie-consent`)
+#### 6. Cookie Consent & GDPR (`006-cookie-consent`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: Component structure
 - **Deliverables**: Consent modal, privacy controls, data management
 
-#### 8. Google Analytics (`008-google-analytics`)
+#### 7. Google Analytics (`007-google-analytics`)
 
 - **Priority**: P1 (Constitutional Enhancement)
 - **Dependencies**: Cookie consent (requires consent management)
@@ -71,19 +64,19 @@ This document defines the workflow for processing 14 PRPs through the Specify sy
 
 ### Phase 4: Forms & Communication
 
-#### 9. Web3Forms Integration (`009-web3forms`)
+#### 8. Web3Forms Integration (`008-web3forms`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: Component structure
 - **Deliverables**: Contact form, validation, error handling
 
-#### 10. EmailJS Integration (`010-emailjs-backup`)
+#### 9. EmailJS Integration (`009-emailjs-backup`)
 
 - **Priority**: P1 (Constitutional Requirement)
 - **Dependencies**: Web3Forms (provides fallback)
 - **Deliverables**: Backup service, failover logic, monitoring
 
-#### 11. PWA Background Sync (`011-pwa-sync`)
+#### 10. PWA Background Sync (`010-pwa-sync`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: Web3Forms, EmailJS
@@ -91,19 +84,19 @@ This document defines the workflow for processing 14 PRPs through the Specify sy
 
 ### Phase 5: Additional Features
 
-#### 12. Visual Regression Testing (`012-visual-regression`)
+#### 11. Visual Regression Testing (`011-visual-regression`)
 
 - **Priority**: P0 (Constitutional Requirement)
 - **Dependencies**: E2E testing, Storybook
 - **Deliverables**: Chromatic/Percy setup, snapshot tests
 
-#### 13. Calendar Integration (`013-calendar`)
+#### 12. Calendar Integration (`012-calendar`)
 
 - **Priority**: P2 (Constitutional Enhancement)
 - **Dependencies**: Component structure
 - **Deliverables**: Calendly/Cal.com embed, booking flow
 
-#### 14. Geolocation Map (`014-geolocation`)
+#### 13. Geolocation Map (`013-geolocation`)
 
 - **Priority**: P2 (Constitutional Enhancement)
 - **Dependencies**: Component structure, privacy controls
@@ -154,20 +147,19 @@ cp docs/prp-docs/prp-methodology-prp.md specs/001-prp-methodology/spec.md
 
 | Phase | PRP                 | Branch                    | Status   | Merged |
 | ----- | ------------------- | ------------------------- | -------- | ------ |
-| 1     | PRP Methodology     | `001-prp-methodology`     | 📥 Inbox | ❌     |
-| 1     | Component Structure | `002-component-structure` | 📥 Inbox | ❌     |
-| 1     | E2E Testing         | `003-e2e-testing`         | 📥 Inbox | ❌     |
-| 2     | WCAG Compliance     | `004-wcag-compliance`     | 📥 Inbox | ❌     |
-| 2     | Colorblind Mode     | `005-colorblind-mode`     | 📥 Inbox | ❌     |
-| 2     | Font Switcher       | `006-font-switcher`       | 📥 Inbox | ❌     |
-| 3     | Cookie Consent      | `007-cookie-consent`      | 📥 Inbox | ❌     |
-| 3     | Google Analytics    | `008-google-analytics`    | 📥 Inbox | ❌     |
-| 4     | Web3Forms           | `009-web3forms`           | 📥 Inbox | ❌     |
-| 4     | EmailJS             | `010-emailjs-backup`      | 📥 Inbox | ❌     |
-| 4     | PWA Sync            | `011-pwa-sync`            | 📥 Inbox | ❌     |
-| 5     | Visual Regression   | `012-visual-regression`   | 📥 Inbox | ❌     |
-| 5     | Calendar            | `013-calendar`            | 📥 Inbox | ❌     |
-| 5     | Geolocation         | `014-geolocation`         | 📥 Inbox | ❌     |
+| 1     | Component Structure | `001-component-structure` | 📥 Inbox | ❌     |
+| 1     | E2E Testing         | `002-e2e-testing`         | 📥 Inbox | ❌     |
+| 2     | WCAG Compliance     | `003-wcag-compliance`     | 📥 Inbox | ❌     |
+| 2     | Colorblind Mode     | `004-colorblind-mode`     | 📥 Inbox | ❌     |
+| 2     | Font Switcher       | `005-font-switcher`       | 📥 Inbox | ❌     |
+| 3     | Cookie Consent      | `006-cookie-consent`      | 📥 Inbox | ❌     |
+| 3     | Google Analytics    | `007-google-analytics`    | 📥 Inbox | ❌     |
+| 4     | Web3Forms           | `008-web3forms`           | 📥 Inbox | ❌     |
+| 4     | EmailJS             | `009-emailjs-backup`      | 📥 Inbox | ❌     |
+| 4     | PWA Sync            | `010-pwa-sync`            | 📥 Inbox | ❌     |
+| 5     | Visual Regression   | `011-visual-regression`   | 📥 Inbox | ❌     |
+| 5     | Calendar            | `012-calendar`            | 📥 Inbox | ❌     |
+| 5     | Geolocation         | `013-geolocation`         | 📥 Inbox | ❌     |
 
 ### Status Legend
 
