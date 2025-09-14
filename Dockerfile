@@ -26,6 +26,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    chromium \
     # Dependencies for Chromium, Firefox, and WebKit
     libnss3 \
     libnspr4 \
@@ -81,6 +82,8 @@ EXPOSE 3000 6006
 # Set hostname and port
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
+# Set Puppeteer to use system chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Start development server (Storybook can be run separately if needed)
 CMD ["pnpm", "run", "dev"]

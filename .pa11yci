@@ -14,7 +14,7 @@
     ],
     "chromeLaunchConfig": {
       "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-      "executablePath": "/usr/bin/chromium-browser"
+      "executablePath": "/usr/bin/chromium"
     },
     "headers": {
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"

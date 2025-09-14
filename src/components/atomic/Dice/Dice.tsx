@@ -50,12 +50,19 @@ export default function Dice({ sides = 6, className = '' }: DiceProps) {
             isRolling ? 'animate-bounce opacity-50' : ''
           }`}
           aria-live="polite"
-          aria-label={value ? `Dice showing ${value}` : 'Dice not rolled yet'}
         >
+          <span className="sr-only">
+            {value ? `Dice showing ${value}` : 'Dice not rolled yet'}
+          </span>
           {sides === 6 ? (
-            <span className="font-mono">{getDiceIcon()}</span>
+            <span className="font-mono" aria-hidden="true">
+              {getDiceIcon()}
+            </span>
           ) : (
-            <div className="bg-primary text-primary-content flex h-24 w-24 items-center justify-center rounded-full text-4xl font-bold">
+            <div
+              className="bg-primary text-primary-content flex h-24 w-24 items-center justify-center rounded-full text-4xl font-bold"
+              aria-hidden="true"
+            >
               {value || '?'}
             </div>
           )}

@@ -56,9 +56,9 @@ describe('Dice', () => {
     );
 
     // Should show one of the dice face Unicode characters
-    const diceContainer = screen.getByLabelText(/Dice showing/);
-    const text = diceContainer.textContent;
-    expect(['⚀', '⚁', '⚂', '⚃', '⚄', '⚅']).toContain(text);
+    const diceContainer = screen.getByText(/Dice showing/);
+    const diceIcon = screen.getByText(/[⚀⚁⚂⚃⚄⚅]/);
+    expect(diceIcon).toBeInTheDocument();
   });
 
   it('shows number for D20', async () => {
@@ -140,7 +140,7 @@ describe('Dice', () => {
     // Check button aria-label
     expect(screen.getByLabelText('Roll 6-sided dice')).toBeInTheDocument();
 
-    // Check dice display aria-label
-    expect(screen.getByLabelText('Dice not rolled yet')).toBeInTheDocument();
+    // Check dice display text for screen readers
+    expect(screen.getByText('Dice not rolled yet')).toBeInTheDocument();
   });
 });

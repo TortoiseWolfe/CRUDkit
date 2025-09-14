@@ -71,8 +71,8 @@ const InfoTooltip = ({
 
   return (
     <div className={`dropdown dropdown-hover ${positionClass}`}>
-      <div
-        tabIndex={0}
+      <button
+        type="button"
         className="btn btn-circle btn-ghost btn-xs"
         aria-label={`Learn more about ${title}`}
       >
@@ -89,7 +89,7 @@ const InfoTooltip = ({
             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           ></path>
         </svg>
-      </div>
+      </button>
       <div
         tabIndex={0}
         className={`card compact dropdown-content bg-base-200 border-base-300 rounded-box z-[100] border shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl backdrop-brightness-90 ${sizeClass}`}
@@ -2005,8 +2005,8 @@ export default function StatusPage() {
                   <div className="flex items-center gap-2">
                     <span>Lighthouse Scores</span>
                     <div className="dropdown dropdown-hover">
-                      <div
-                        tabIndex={0}
+                      <button
+                        type="button"
                         className="btn btn-circle btn-ghost btn-xs"
                         aria-label="View lighthouse score information"
                       >
@@ -2023,7 +2023,7 @@ export default function StatusPage() {
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                           ></path>
                         </svg>
-                      </div>
+                      </button>
                       <div
                         tabIndex={0}
                         className="card compact dropdown-content bg-base-100 rounded-box z-[1] w-80 shadow"
@@ -2218,6 +2218,10 @@ export default function StatusPage() {
                                   } as React.CSSProperties
                                 }
                                 role="progressbar"
+                                aria-label={`${key.replace(/([A-Z])/g, ' $1').trim()} score: ${data.score} out of 100`}
+                                aria-valuenow={data.score}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
                               >
                                 <span className="text-sm font-bold">
                                   {data.score}

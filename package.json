@@ -24,7 +24,7 @@
     "docker:down": "docker compose down",
     "docker:rebuild": "docker compose build --no-cache",
     "prebuild": "cp docs/spec-kit/TASKS.md public/TASKS.md && node scripts/generate-deployment-history.js",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",

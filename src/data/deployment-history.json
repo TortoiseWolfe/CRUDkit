@@ -1,6 +1,31 @@
 [
   {
     "date": "9/14/2025",
+    "feature": "Add server startup for E2E tests in GitHub Actions",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Properly type E2E tests without using any",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Resolve TypeScript errors in accessibility tests",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Update test:a11y:ci to serve static export inst...",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Add missing @testing-library/user-event dependency",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
     "feature": "Implement WCAG 2.1 AA compliance testing infras...",
     "status": "success"
   },
@@ -72,31 +97,6 @@
   {
     "date": "9/14/2025",
     "feature": "Install pnpm before Node.js setup in CI workflow",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Exclude Node.js test files from Vitest",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Add comprehensive component creation guide",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Export Props interfaces and fix component tests",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Remove deleted .claude/settings.local.json file",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Implement Component Structure Standardization (...",
     "status": "success"
   }
 ]
