@@ -65,6 +65,16 @@ RUN apt-get update && apt-get install -y \
     libhyphen0 \
     libmanette-0.2-0 \
     libwebpdemux2 \
+    # Missing Playwright dependencies from validation
+    libgtk-4-1 \
+    libatomic1 \
+    libwoff2dec1.0.2 \
+    libvpx7 \
+    libevent-2.1-7 \
+    libflite1 \
+    libavif15 \
+    libharfbuzz-icu0 \
+    libwebpmux3 \
     && rm -rf /var/lib/apt/lists/* \
     && git config --global --add safe.directory /app
 
