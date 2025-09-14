@@ -10,6 +10,29 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    a11y: {
+      // Configure addon-a11y to use WCAG 2.1 AA standards
+      config: {
+        rules: [
+          {
+            // WCAG 2.1 AA rules
+            id: 'wcag2aa',
+            enabled: true,
+          },
+          {
+            // Additional best practices
+            id: 'best-practice',
+            enabled: true,
+          },
+        ],
+      },
+      options: {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2aa', 'best-practice'],
+        },
+      },
+    },
   },
   decorators: [
     withThemeByDataAttribute({

@@ -27,7 +27,7 @@ function validateStructure(options = {}) {
     failFast = false,
     strict = false,
     format = 'console',
-    filter = null
+    filter = null,
   } = options;
 
   // Initialize report
@@ -43,8 +43,8 @@ function validateStructure(options = {}) {
     report: {
       total: 0,
       passed: 0,
-      failed: 0
-    }
+      failed: 0,
+    },
   };
 
   // Run audit
@@ -56,7 +56,7 @@ function validateStructure(options = {}) {
     report.errors.push({
       component: 'N/A',
       rule: 'path-exists',
-      message: audit.error
+      message: audit.error,
     });
     outputReport(report, format);
     return report;
@@ -66,7 +66,9 @@ function validateStructure(options = {}) {
   let componentsToValidate = audit.components;
   if (filter) {
     const filterRegex = new RegExp(filter);
-    componentsToValidate = componentsToValidate.filter(c => filterRegex.test(c.name));
+    componentsToValidate = componentsToValidate.filter((c) =>
+      filterRegex.test(c.name)
+    );
   }
 
   report.total = componentsToValidate.length;
@@ -83,13 +85,13 @@ function validateStructure(options = {}) {
       report.valid = false;
 
       // Add errors
-      validation.errors.forEach(error => {
+      validation.errors.forEach((error) => {
         report.errors.push({
           component: component.name,
           rule: error.rule,
           message: error.message,
           file: error.file,
-          missing: component.missing
+          missing: component.missing,
         });
       });
 
@@ -102,12 +104,12 @@ function validateStructure(options = {}) {
     // Add warnings in strict mode
     if (strict && validation.warnings.length > 0) {
       report.valid = false;
-      validation.warnings.forEach(warning => {
+      validation.warnings.forEach((warning) => {
         report.warnings.push({
           component: component.name,
           rule: warning.rule,
           message: warning.message,
-          suggestion: warning.suggestion
+          suggestion: warning.suggestion,
         });
       });
     }
@@ -133,7 +135,7 @@ function validateComponent(component, strict) {
   const validation = {
     valid: true,
     errors: [],
-    warnings: []
+    warnings: [],
   };
 
   // Check for missing files (errors)
@@ -141,11 +143,11 @@ function validateComponent(component, strict) {
     validation.valid = false;
 
     if (component.missing && component.missing.length > 0) {
-      component.missing.forEach(file => {
+      component.missing.forEach((file) => {
         validation.errors.push({
           rule: 'required-file',
           file: file,
-          message: `Missing required file: ${file}`
+          message: `Missing required file: ${file}`,
         });
       });
     }
@@ -153,14 +155,14 @@ function validateComponent(component, strict) {
 
   // Check file naming conventions
   const files = fs.readdirSync(component.path);
-  files.forEach(file => {
+  files.forEach((file) => {
     if (!validateFileName(file, component.name)) {
       validation.valid = false;
       validation.errors.push({
         rule: 'naming-convention',
         file: file,
         message: `File naming convention error: ${file}`,
-        reason: 'naming'
+        reason: 'naming',
       });
     }
   });
@@ -171,7 +173,7 @@ function validateComponent(component, strict) {
       const issue = {
         rule: 'content-validation',
         file: path.basename(fileInfo.path),
-        message: `Invalid content in ${type} file`
+        message: `Invalid content in ${type} file`,
       };
 
       if (strict) {
@@ -180,7 +182,7 @@ function validateComponent(component, strict) {
       } else {
         validation.warnings.push({
           ...issue,
-          suggestion: `Update ${type} file to meet requirements`
+          suggestion: `Update ${type} file to meet requirements`,
         });
       }
     }
@@ -202,6 +204,9 @@ function validateFileName(fileName, componentName) {
   // Test file should be .test.tsx, not .spec.tsx
   if (fileName === `${componentName}.test.tsx`) return true;
 
+  // Accessibility test file should be .accessibility.test.tsx
+  if (fileName === `${componentName}.accessibility.test.tsx`) return true;
+
   // Story file should be .stories.tsx, not .story.tsx
   if (fileName === `${componentName}.stories.tsx`) return true;
 
@@ -211,6 +216,7 @@ function validateFileName(fileName, componentName) {
     if (fileName === `${componentName.toLowerCase()}.tsx`) return false; // Wrong case
     if (fileName === `${componentName}.spec.tsx`) return false; // Should be .test.tsx
     if (fileName === `${componentName}.story.tsx`) return false; // Should be .stories.tsx
+    if (fileName === `${componentName}.a11y.test.tsx`) return false; // Should be .accessibility.test.tsx
   }
 
   return true; // Allow other files
@@ -224,7 +230,10 @@ function validateContent(content, type) {
 
   switch (type) {
     case 'index':
-      if (!content.includes('export { default }') && !content.includes('export default')) {
+      if (
+        !content.includes('export { default }') &&
+        !content.includes('export default')
+      ) {
         validation.valid = false;
         validation.errors.push('Missing default export');
       }
@@ -238,7 +247,11 @@ function validateContent(content, type) {
       break;
 
     case 'test':
-      if (!content.includes('describe') && !content.includes('test') && !content.includes('it(')) {
+      if (
+        !content.includes('describe') &&
+        !content.includes('test') &&
+        !content.includes('it(')
+      ) {
         validation.valid = false;
         validation.errors.push('No test cases found');
       }
@@ -270,15 +283,21 @@ function outputReport(report, format) {
 
   // Console output
   if (report.valid) {
-    console.log('\n✅ All components follow the 4-file pattern!\n');
-    console.log(`Total: ${report.total} | Passed: ${report.passed} | Failed: ${report.failed}`);
+    console.log(
+      '\n✅ All components follow the 5-file pattern (with accessibility tests)!\n'
+    );
+    console.log(
+      `Total: ${report.total} | Passed: ${report.passed} | Failed: ${report.failed}`
+    );
   } else {
     console.error('\n❌ Component structure validation failed!\n');
-    console.error(`Total: ${report.total} | Passed: ${report.passed} | Failed: ${report.failed}`);
+    console.error(
+      `Total: ${report.total} | Passed: ${report.passed} | Failed: ${report.failed}`
+    );
 
     if (report.errors.length > 0) {
       console.error('\nErrors:');
-      report.errors.forEach(error => {
+      report.errors.forEach((error) => {
         console.error(`  - ${error.component}: ${error.message}`);
         if (error.missing && error.missing.length > 0) {
           console.error(`    Missing: ${error.missing.join(', ')}`);
@@ -288,7 +307,7 @@ function outputReport(report, format) {
 
     if (report.warnings.length > 0) {
       console.warn('\nWarnings:');
-      report.warnings.forEach(warning => {
+      report.warnings.forEach((warning) => {
         console.warn(`  - ${warning.component}: ${warning.message}`);
         if (warning.suggestion) {
           console.warn(`    Suggestion: ${warning.suggestion}`);
@@ -308,11 +327,11 @@ module.exports.validateContent = validateContent;
 if (require.main === module) {
   const args = process.argv.slice(2);
   const options = {
-    path: args.find(a => !a.startsWith('--')) || 'src/components',
+    path: args.find((a) => !a.startsWith('--')) || 'src/components',
     failFast: args.includes('--fail-fast'),
     strict: args.includes('--strict'),
     format: args.includes('--json') ? 'json' : 'console',
-    filter: args.find(a => a.startsWith('--filter='))?.split('=')[1]
+    filter: args.find((a) => a.startsWith('--filter='))?.split('=')[1],
   };
 
   const result = validateStructure(options);

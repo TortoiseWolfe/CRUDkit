@@ -626,6 +626,7 @@ export default function CaptainShipCrewWithNPC({
                   showStateIcon
                 />
                 <select
+                  aria-label={`Player type for ${setup.name}`}
                   value={setup.type}
                   onChange={(e) =>
                     updatePlayerSetup(index, {
@@ -641,6 +642,7 @@ export default function CaptainShipCrewWithNPC({
                 </select>
                 {setup.type === 'npc' && (
                   <select
+                    aria-label={`Difficulty for ${setup.name}`}
                     value={setup.difficulty}
                     onChange={(e) =>
                       updatePlayerSetup(index, {

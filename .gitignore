@@ -56,3 +56,5 @@ public/TASKS.md
 plan
 specify
 tasks
+storybook-static/
+.component-backup-*

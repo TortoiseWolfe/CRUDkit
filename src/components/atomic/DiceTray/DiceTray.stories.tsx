@@ -6,6 +6,18 @@ const meta = {
   component: DiceTray,
   parameters: {
     layout: 'centered',
+    a11y: {
+      // Component-specific a11y configuration
+      config: {
+        rules: [
+          {
+            // Ensure proper button labeling for roll actions
+            id: 'button-name',
+            enabled: true,
+          },
+        ],
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {

@@ -6,6 +6,18 @@ const meta = {
   component: Dice,
   parameters: {
     layout: 'centered',
+    a11y: {
+      // Component-specific a11y configuration
+      config: {
+        rules: [
+          {
+            // Ensure color contrast for dice dots
+            id: 'color-contrast',
+            enabled: true,
+          },
+        ],
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {

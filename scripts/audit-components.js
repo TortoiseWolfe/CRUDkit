@@ -19,6 +19,7 @@ const REQUIRED_FILES = {
   component: (name) => `${name}.tsx`,
   test: (name) => `${name}.test.tsx`,
   story: (name) => `${name}.stories.tsx`,
+  accessibility: (name) => `${name}.accessibility.test.tsx`,
 };
 
 /**
@@ -56,6 +57,7 @@ function auditComponents(options = {}) {
         test: 0,
         story: 0,
         component: 0,
+        accessibility: 0,
       },
     },
     compliant: [],
@@ -96,6 +98,8 @@ function auditComponents(options = {}) {
       // Count missing files
       analysis.missing.forEach((file) => {
         if (file === 'index.tsx') report.summary.missingFiles.index++;
+        else if (file.endsWith('.accessibility.test.tsx'))
+          report.summary.missingFiles.accessibility++;
         else if (file.endsWith('.test.tsx')) report.summary.missingFiles.test++;
         else if (file.endsWith('.stories.tsx'))
           report.summary.missingFiles.story++;
@@ -186,6 +190,7 @@ function analyzeComponent(componentPath, componentName) {
     component: REQUIRED_FILES.component(componentName),
     test: REQUIRED_FILES.test(componentName),
     story: REQUIRED_FILES.story(componentName),
+    accessibility: REQUIRED_FILES.accessibility(componentName),
   };
 
   Object.entries(requiredFiles).forEach(([key, fileName]) => {
@@ -238,6 +243,8 @@ function validateFile(filePath, type) {
         return validateTestFile(content);
       case 'story':
         return validateStoryFile(content);
+      case 'accessibility':
+        return validateAccessibilityFile(content);
       default:
         return true;
     }
@@ -273,6 +280,20 @@ function validateStoryFile(content) {
   return (
     content.includes('export default') &&
     (content.includes('title:') || content.includes('title'))
+  );
+}
+
+/**
+ * Validate accessibility test file content
+ */
+function validateAccessibilityFile(content) {
+  return (
+    (content.includes('jest-axe') ||
+      content.includes('axe') ||
+      content.includes('toHaveNoViolations')) &&
+    (content.includes('describe') ||
+      content.includes('test') ||
+      content.includes('it('))
   );
 }
 
@@ -332,6 +353,7 @@ module.exports = auditComponents;
 module.exports.validateIndexFile = validateIndexFile;
 module.exports.validateTestFile = validateTestFile;
 module.exports.validateStoryFile = validateStoryFile;
+module.exports.validateAccessibilityFile = validateAccessibilityFile;
 
 // CLI execution
 if (require.main === module) {

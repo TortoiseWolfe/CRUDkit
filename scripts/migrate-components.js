@@ -31,7 +31,7 @@ function migrateComponents(options = {}) {
     components = [],
     continueOnError = false,
     verbose = false,
-    output = null
+    output = null,
   } = options;
 
   // Initialize result
@@ -48,8 +48,8 @@ function migrateComponents(options = {}) {
     report: {
       migrated: 0,
       failed: 0,
-      skipped: 0
-    }
+      skipped: 0,
+    },
   };
 
   // Run audit to find non-compliant components
@@ -62,9 +62,10 @@ function migrateComponents(options = {}) {
   }
 
   // Filter components to migrate
-  const componentsToMigrate = components.length > 0
-    ? audit.nonCompliant.filter(c => components.includes(c.name))
-    : audit.nonCompliant;
+  const componentsToMigrate =
+    components.length > 0
+      ? audit.nonCompliant.filter((c) => components.includes(c.name))
+      : audit.nonCompliant;
 
   result.toMigrate = componentsToMigrate;
 
@@ -88,7 +89,7 @@ function migrateComponents(options = {}) {
     console.log('\n🔄 Starting Component Migration\n');
   }
 
-  componentsToMigrate.forEach(component => {
+  componentsToMigrate.forEach((component) => {
     if (verbose || !dryRun) {
       console.log(`\n  Migrating ${component.name}...`);
     }
@@ -97,7 +98,7 @@ function migrateComponents(options = {}) {
       component: component.name,
       status: 'pending',
       filesCreated: [],
-      error: null
+      error: null,
     };
 
     try {
@@ -106,14 +107,14 @@ function migrateComponents(options = {}) {
         const planned = planMigration(component);
         result.planned.push(...planned);
         migrationDetail.status = 'planned';
-        migrationDetail.filesCreated = planned.map(p => p.file);
+        migrationDetail.filesCreated = planned.map((p) => p.file);
       } else {
         const created = executeMigration(component);
         migrationDetail.filesCreated = created;
         migrationDetail.status = 'success';
         result.migrated++;
 
-        created.forEach(file => {
+        created.forEach((file) => {
           console.log(`    ✅ Created ${path.basename(file)}`);
         });
       }
@@ -143,17 +144,21 @@ function migrateComponents(options = {}) {
 
   // Output summary
   if (!dryRun) {
-    console.log(`\n✅ Migration complete! ${result.migrated} components updated.\n`);
+    console.log(
+      `\n✅ Migration complete! ${result.migrated} components updated.\n`
+    );
   } else {
-    console.log(`\n📋 Dry run complete. ${result.planned.length} files would be created.\n`);
+    console.log(
+      `\n📋 Dry run complete. ${result.planned.length} files would be created.\n`
+    );
   }
 
   // Save report if requested
   if (output) {
     const report = {
       ...result,
-      components: componentsToMigrate.map(c => c.name),
-      filesCreated: result.details.flatMap(d => d.filesCreated)
+      components: componentsToMigrate.map((c) => c.name),
+      filesCreated: result.details.flatMap((d) => d.filesCreated),
     };
     fs.writeFileSync(output, JSON.stringify(report, null, 2));
     if (verbose) {
@@ -170,12 +175,12 @@ function migrateComponents(options = {}) {
 function planMigration(component) {
   const planned = [];
 
-  component.missing.forEach(file => {
+  component.missing.forEach((file) => {
     planned.push({
       action: 'create',
       component: component.name,
       file: path.join(component.path, file),
-      template: getTemplateType(file)
+      template: getTemplateType(file),
     });
   });
 
@@ -188,7 +193,7 @@ function planMigration(component) {
 function executeMigration(component) {
   const created = [];
 
-  component.missing.forEach(file => {
+  component.missing.forEach((file) => {
     const filePath = path.join(component.path, file);
     const content = generateFileContent(file, component.name, component.path);
 
@@ -205,6 +210,8 @@ function executeMigration(component) {
 function generateFileContent(fileName, componentName, componentPath) {
   if (fileName === 'index.tsx') {
     return getIndexTemplate(componentName);
+  } else if (fileName.endsWith('.accessibility.test.tsx')) {
+    return getAccessibilityTestTemplate(componentName);
   } else if (fileName.endsWith('.test.tsx')) {
     return getTestTemplate(componentName);
   } else if (fileName.endsWith('.stories.tsx')) {
@@ -219,6 +226,7 @@ function generateFileContent(fileName, componentName, componentPath) {
  */
 function getTemplateType(fileName) {
   if (fileName === 'index.tsx') return 'index';
+  if (fileName.endsWith('.accessibility.test.tsx')) return 'accessibility';
   if (fileName.endsWith('.test.tsx')) return 'test';
   if (fileName.endsWith('.stories.tsx')) return 'story';
   return 'unknown';
@@ -241,7 +249,10 @@ function detectCategory(componentPath) {
  */
 function createBackup(componentsPath) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const backupPath = path.join(path.dirname(componentsPath), `.component-backup-${timestamp}`);
+  const backupPath = path.join(
+    path.dirname(componentsPath),
+    `.component-backup-${timestamp}`
+  );
 
   copyDirectory(componentsPath, backupPath);
   return backupPath;
@@ -255,7 +266,7 @@ function copyDirectory(src, dest) {
 
   const entries = fs.readdirSync(src, { withFileTypes: true });
 
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
@@ -320,25 +331,54 @@ export const Default: Story = {
 `;
 }
 
+/**
+ * Template for accessibility test file
+ */
+function getAccessibilityTestTemplate(componentName) {
+  return `import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { axe } from 'jest-axe';
+import { ${componentName} } from './${componentName}';
+
+describe('${componentName} Accessibility', () => {
+  it('should have no accessibility violations with default props', async () => {
+    const { container } = render(<${componentName} />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  // TODO: Add more specific accessibility tests for different component states
+  // Examples:
+  // - Test with different prop combinations
+  // - Test keyboard navigation
+  // - Test ARIA attributes
+  // - Test color contrast
+  // - Test focus management
+});
+`;
+}
+
 // Export for testing
 module.exports = migrateComponents;
 module.exports.getIndexTemplate = getIndexTemplate;
 module.exports.getTestTemplate = getTestTemplate;
 module.exports.getStoryTemplate = getStoryTemplate;
+module.exports.getAccessibilityTestTemplate = getAccessibilityTestTemplate;
 
 // CLI execution
 if (require.main === module) {
   const args = process.argv.slice(2);
   const options = {
-    path: args.find(a => !a.startsWith('--')) || 'src/components',
+    path: args.find((a) => !a.startsWith('--')) || 'src/components',
     dryRun: args.includes('--dry-run'),
     backup: !args.includes('--no-backup'),
     verbose: args.includes('--verbose'),
-    output: args.find(a => a.startsWith('--output='))?.split('=')[1],
-    components: args
-      .find(a => a.startsWith('--components='))
-      ?.split('=')[1]
-      ?.split(',') || []
+    output: args.find((a) => a.startsWith('--output='))?.split('=')[1],
+    components:
+      args
+        .find((a) => a.startsWith('--components='))
+        ?.split('=')[1]
+        ?.split(',') || [],
   };
 
   migrateComponents(options);
