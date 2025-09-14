@@ -44,6 +44,12 @@ jobs:
       - name: Build application
         run: pnpm run build
 
+      - name: Start server
+        run: npx serve@latest out -p 3000 &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000/CRUDkit --timeout 30000
+
       - name: Run Playwright tests
         run: |
           pnpm exec playwright test \
