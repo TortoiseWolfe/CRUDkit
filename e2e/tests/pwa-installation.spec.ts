@@ -75,7 +75,7 @@ test.describe('PWA Installation', () => {
     expect(manifest.icons.length).toBeGreaterThan(0);
 
     // Verify at least one icon is 192x192 or larger (required for PWA)
-    const hasLargeIcon = manifest.icons.some((icon) => {
+    const hasLargeIcon = manifest.icons.some((icon: { sizes: string }) => {
       const size = parseInt(icon.sizes.split('x')[0]);
       return size >= 192;
     });
@@ -118,13 +118,13 @@ test.describe('PWA Installation', () => {
       // Dispatch a fake beforeinstallprompt event
       const event = new Event('beforeinstallprompt');
       (
-        event as {
+        event as unknown as {
           prompt: () => Promise<void>;
           userChoice: Promise<{ outcome: string }>;
         }
       ).prompt = () => Promise.resolve();
       (
-        event as {
+        event as unknown as {
           prompt: () => Promise<void>;
           userChoice: Promise<{ outcome: string }>;
         }
@@ -173,7 +173,8 @@ test.describe('PWA Installation', () => {
 
     // Check for maskable icon (recommended for Android)
     const hasMaskableIcon = manifest.icons.some(
-      (icon) => icon.purpose && icon.purpose.includes('maskable')
+      (icon: { purpose?: string }) =>
+        icon.purpose && icon.purpose.includes('maskable')
     );
 
     // This is optional but recommended
@@ -191,10 +192,12 @@ test.describe('PWA Installation', () => {
       expect(Array.isArray(manifest.shortcuts)).toBe(true);
 
       // Verify shortcut structure
-      manifest.shortcuts.forEach((shortcut) => {
-        expect(shortcut.name).toBeDefined();
-        expect(shortcut.url).toBeDefined();
-      });
+      manifest.shortcuts.forEach(
+        (shortcut: { name?: string; url?: string }) => {
+          expect(shortcut.name).toBeDefined();
+          expect(shortcut.url).toBeDefined();
+        }
+      );
     }
   });
 

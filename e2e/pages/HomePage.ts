@@ -211,7 +211,6 @@ export class HomePage extends BasePage {
    * Get all navigation link texts from the footer
    */
   async getFooterNavigationLinks(): Promise<string[]> {
-    const footerLinks = this.page.locator('footer a');
     return await this.getAllText('footer a');
   }
 

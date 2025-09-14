@@ -272,9 +272,11 @@ export class BasePage {
 
   /**
    * Verify accessibility of the current page
-   * @param options - Accessibility check options
+   * @param options - Accessibility check options (currently unused but reserved for future use)
    */
   async checkAccessibility(options = {}) {
+    // Options parameter reserved for future axe-playwright integration
+    void options; // Mark as intentionally unused
     // This would integrate with axe-playwright if needed
     // For now, we'll do basic checks
 

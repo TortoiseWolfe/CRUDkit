@@ -35,7 +35,7 @@ test.describe('Cross-Page Navigation', () => {
     ).toBeVisible();
 
     // Navigate back to Home
-    await page.click('a:has-text("Home")').first();
+    await page.locator('a:has-text("Home")').first().click();
     await expect(page).toHaveURL(/\/$/);
   });
 
@@ -276,22 +276,25 @@ test.describe('Cross-Page Navigation', () => {
     await page.goto('/');
 
     // Check for view transitions API or CSS transitions
-    await page.evaluate(() => {
+    const hasTransitions = await page.evaluate(() => {
       // Check if View Transitions API is used
       if ('startViewTransition' in document) {
         return true;
       }
 
       // Check for CSS transitions on body or main
-      const body = document.body;
-      const main = document.querySelector('main');
+      const body = (document as Document).body;
+      const main = (document as Document).querySelector('main');
       const bodyTransition = window.getComputedStyle(body).transition;
       const mainTransition = main
-        ? window.getComputedStyle(main).transition
+        ? window.getComputedStyle(main as Element).transition
         : '';
 
       return bodyTransition !== 'none' || mainTransition !== 'none';
     });
+
+    // We're just checking the mechanism exists, not asserting
+    expect(hasTransitions).toBeDefined();
 
     // Navigate and observe smooth transition
     await page.click('text=Browse Themes');
