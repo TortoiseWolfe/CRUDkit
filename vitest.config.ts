@@ -14,6 +14,7 @@ export default defineConfig({
       'out/**',
       'scripts/**/*.test.js', // Exclude Node.js test runner tests
       'scripts/__tests__/**', // Exclude all script tests
+      'e2e/**', // Exclude Playwright E2E tests
     ],
     coverage: {
       provider: 'v8',
