@@ -101,13 +101,27 @@ jobs:
         with:
           pattern: playwright-results-*
           path: all-results/
+        continue-on-error: true
+        id: download
+
+      - name: Check if artifacts exist
+        id: check-artifacts
+        run: |
+          if [ -d "all-results" ] && [ "$(ls -A all-results)" ]; then
+            echo "has_artifacts=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_artifacts=false" >> $GITHUB_OUTPUT
+            echo "No test artifacts found to merge"
+          fi
 
       - name: Merge test results
+        if: steps.check-artifacts.outputs.has_artifacts == 'true'
         run: |
           mkdir -p merged-results
           pnpm exec playwright merge-reports --reporter html ./all-results
 
       - name: Upload merged HTML report
+        if: steps.check-artifacts.outputs.has_artifacts == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
@@ -116,7 +130,7 @@ jobs:
 
       - name: Comment PR with results
         uses: actions/github-script@v7
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.check-artifacts.outputs.has_artifacts == 'true'
         with:
           script: |
             const fs = require('fs');
