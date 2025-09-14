@@ -8,7 +8,7 @@
 Learn from these implementations, improve upon them:
 
 - **Punk_Stack**: Working app with 12 themes, modern stack (primary reference)
-- **001_template**: PRP methodology, email providers, form patterns
+- **001_template**: PRP (Product Requirements Prompt) methodology, email providers, form patterns
 - **000_Template**: Testing configs, validation loops, AI documentation
 - **Punk_Stack_archived**: Advanced tooling, OKLCH scripts, monorepo patterns
 
@@ -29,13 +29,13 @@ Learn from these implementations, improve upon them:
 
 ### Development Philosophy
 
-- **PRP→Spec→Implementation**: Problem definition first **[❌ NOT IMPLEMENTED - Sprint 3 Priority]**
+- **PRP→Spec→Implementation**: Product Requirements Prompt first (Cole Medlin's context engineering) **[❌ NOT IMPLEMENTED - Sprint 3 Priority]**
 - **Test-First Development**: TDD strongly encouraged **[✅ Vitest installed, 16% coverage]**
 - **Performance Gates**: <100ms interactions, >90 Lighthouse **[✅ 92+ scores, ⚠️ manual only]**
 
 ## 3. DEVELOPMENT PIPELINE
 
-1. **PRP Creation** - Define the problem **[❌ Sprint 3 Priority]**
+1. **PRP Creation** - Generate Product Requirements Prompts **[❌ Sprint 3 Priority]**
 2. **Spec Generation** - Design the solution **[⚠️ Partial - has spec.md]**
 3. **Test Writing** - Validation first **[✅ Vitest + 111 tests]**
 4. **Implementation** - Code second **[✅ Working]**
@@ -113,7 +113,7 @@ Learn from these implementations, improve upon them:
 
 Critical constitutional requirements never implemented:
 
-- [ ] **PRP Methodology**: Implement Problem-Requirements-Plan workflow
+- [ ] **PRP Methodology**: Implement Product Requirements Prompt workflow (Cole Medlin's context engineering)
 - [ ] **PWA Background Sync**: Add offline form submission capability
 - [ ] **WCAG AA Compliance**: Automate accessibility testing in CI
 - [ ] **Colorblind Mode**: Add to accessibility controls
@@ -147,7 +147,7 @@ Building on constitution Section 11 features:
 ### 📊 Current Compliance Scores (Post-Sprint 2)
 
 1. **FOUNDATION**: 85% ✅ (missing full spec-kit)
-2. **CORE PRINCIPLES**: 50% ⚠️ (testing added, PRP missing)
+2. **CORE PRINCIPLES**: 50% ⚠️ (testing added, Product Requirements Prompts missing)
 3. **DEVELOPMENT PIPELINE**: 65% ✅ (testing/validation working)
 4. **TECHNICAL STANDARDS**: 70% ✅ (hooks working, coverage low)
 5. **DEPLOYMENT**: 85% ✅ (GitHub Pages + Storybook live)
@@ -232,7 +232,7 @@ Building on constitution Section 11 features:
 
 - Updated all status markers to reflect Sprint 2 completion
 - Marked Sprint 2 achievements (65/65 tasks - 100%)
-- Identified critical gaps for Sprint 3 (PRP, PWA sync, forms, privacy)
+- Identified critical gaps for Sprint 3 (Product Requirements Prompts, PWA sync, forms, privacy)
 - Reorganized Sprint 3 to prioritize overlooked constitutional requirements
 - Updated compliance scores (70% overall vs 40% at Sprint 1 end)
 - Added specific implementation targets for missing features
@@ -240,7 +240,7 @@ Building on constitution Section 11 features:
 
 **Sprint 3 Focus**: Complete the 30% of constitutional requirements that were never implemented, particularly:
 
-- PRP methodology
+- Product Requirements Prompt methodology (Cole Medlin's context engineering)
 - Forms integration
 - Privacy/GDPR features
 - Visual regression testing

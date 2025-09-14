@@ -254,10 +254,11 @@ lhci autorun
 
 ### Development Process
 
-- [ ] **PRP Methodology**
-  - Problem-Requirements-Plan templates
-  - Spec-kit integration
-  - Documentation standards
+- [ ] **PRP Methodology** (Product Requirements Prompts)
+  - Cole Medlin's context engineering approach
+  - Generated from SpecKit constitution analysis
+  - Spec-kit integration for automated PRP generation
+  - Documentation standards for PRPs
   - _Estimated effort: Medium_
 
 ### Architecture Documentation
