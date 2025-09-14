@@ -24,6 +24,8 @@ export default defineConfig({
     ['html', { open: 'never' }],
     ['list'],
     process.env.CI ? ['github'] : ['line'],
+    ['json', { outputFile: 'test-results/results.json' }],
+    ['junit', { outputFile: 'test-results/junit.xml' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -35,6 +37,16 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     /* Retain video on failure */
     video: 'retain-on-failure',
+    /* Maximum time each action can take */
+    actionTimeout: 10000,
+    /* Global timeout for each test */
+    navigationTimeout: 30000,
+    /* Emulate mobile device capabilities */
+    isMobile: false,
+    /* Context options */
+    contextOptions: {
+      ignoreHTTPSErrors: true,
+    },
   },
 
   /* Configure projects for major browsers */
