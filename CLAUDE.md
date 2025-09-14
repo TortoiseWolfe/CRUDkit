@@ -38,6 +38,80 @@ pnpm run storybook        # Start Storybook
 pnpm run build-storybook  # Build Storybook
 ```
 
+## PRP (Product Requirements Prompt) Workflow
+
+### Quick Command Reference for PRPs
+
+```bash
+# Step 1: Setup feature branch from PRP
+./scripts/prp-to-feature.sh <prp-name> <number>
+# Example: ./scripts/prp-to-feature.sh e2e-testing-framework 003
+
+# Step 2: Execute /plan command (creates plan.md + Phase 0/1 artifacts)
+# Just tell Claude: "execute /plan"
+
+# Step 3: Execute /tasks command (creates tasks.md)
+# Just tell Claude: "execute /tasks" or "proceed with /tasks"
+```
+
+### What The Slash Commands Actually Do
+
+**IMPORTANT**: The `/plan` and `/tasks` commands are **Claude instructions**, NOT shell scripts!
+
+- **`/plan`** - Claude reads the spec and generates:
+  - plan.md (implementation plan)
+  - research.md (technology decisions)
+  - data-model.md (entities and models)
+  - contracts/ (API specifications)
+  - quickstart.md (getting started guide)
+
+- **`/tasks`** - Claude reads the plan artifacts and generates:
+  - tasks.md (numbered tasks T001, T002, etc. following TDD)
+
+### Common Mistakes to Avoid
+
+❌ **DON'T** look for scripts that don't exist:
+
+- `.specify/scripts/bash/setup-plan.sh` - DOESN'T EXIST
+- `.specify/scripts/bash/check-task-prerequisites.sh` - DOESN'T EXIST
+
+❌ **DON'T** try to use specify tool for plan/tasks:
+
+- `uvx specify generate plan` - WRONG
+- `uvx specify generate tasks` - WRONG
+
+✅ **DO** just tell Claude to execute the commands:
+
+- "execute /plan" - Claude generates the plan artifacts
+- "execute /tasks" - Claude generates the task list
+
+### Complete PRP Example
+
+```bash
+# List available PRPs
+ls docs/prp-docs/*-prp.md
+
+# Start PRP 003 (E2E Testing)
+./scripts/prp-to-feature.sh e2e-testing-framework 003
+# Creates branch: 003-e2e-testing-framework
+# Copies PRP to: specs/003-e2e-testing-framework/spec.md
+
+# Tell Claude: "execute /plan"
+# Claude creates: plan.md, research.md, data-model.md, contracts/, quickstart.md
+
+# Tell Claude: "execute /tasks"
+# Claude creates: tasks.md with ~25 tasks
+
+# Start implementing tasks in order
+# Follow TDD: Write tests first (RED), then implement (GREEN)
+```
+
+### PRP Documentation
+
+- **Workflow Guide**: `/docs/PRP-EXECUTION-GUIDE.md` - Detailed step-by-step guide
+- **Command Reference**: `/.claude/commands/README.md` - What slash commands do
+- **PRP Status**: `/docs/prp-docs/PRP-STATUS.md` - Track all PRPs
+
 ## Architecture
 
 ### Core Stack
