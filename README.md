@@ -160,6 +160,17 @@ See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, including:
 - `/accessibility` - Accessibility controls
 - `/status` - System status dashboard
 
+### Creating New Components
+
+See [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md) for detailed guide on creating components.
+
+Quick start:
+
+```bash
+# Generate a new component with the required 4-file structure
+docker compose exec crudkit pnpm run generate:component
+```
+
 ### Development Commands
 
 ```bash

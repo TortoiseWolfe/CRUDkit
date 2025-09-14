@@ -131,10 +131,14 @@ The `/status` page provides real-time monitoring:
 - All components should be documented in Storybook
 - Use TypeScript interfaces for all props
 - Components use DaisyUI classes for theming consistency
+- **Use the component generator**: `docker compose exec crudkit pnpm run generate:component`
+- All components must follow the 4-file pattern (enforced by CI/CD)
+- See [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md) for detailed guide
 
 ### Component Structure (4-File Pattern) ⚠️ REQUIRED
 
 All components MUST follow the 4-file pattern:
+
 ```
 ComponentName/
 ├── index.tsx              # Barrel export
@@ -162,6 +166,7 @@ pnpm run generate:component
 #### VSCode Snippets
 
 Use these snippets for faster development:
+
 - `rfc4` - Create React component with 4-file structure
 - `rcindex` - Create index.tsx barrel export
 - `rctest` - Create component test file
