@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { Text } from './Text';
+import { Text, type TextVariant } from './Text';
 
 describe('Text Accessibility', () => {
   it('should have no accessibility violations with default props', async () => {
@@ -11,13 +11,20 @@ describe('Text Accessibility', () => {
   });
 
   it('should have no violations with all text variants', async () => {
-    const variants = [
+    const variants: TextVariant[] = [
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
       'body',
-      'heading',
-      'subheading',
+      'lead',
+      'small',
+      'code',
+      'emphasis',
       'caption',
-      'label',
-    ] as const;
+    ];
 
     for (const variant of variants) {
       const { container } = render(<Text variant={variant}>Text content</Text>);
@@ -26,35 +33,20 @@ describe('Text Accessibility', () => {
     }
   });
 
-  it('should have no violations with all sizes', async () => {
-    const sizes = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
-
-    for (const size of sizes) {
-      const { container } = render(<Text size={size}>Sized text</Text>);
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    }
-  });
-
-  it('should have no violations with all weights', async () => {
-    const weights = ['light', 'normal', 'medium', 'bold'] as const;
-
-    for (const weight of weights) {
-      const { container } = render(<Text weight={weight}>Weighted text</Text>);
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    }
+  it('should have no violations with className overrides', async () => {
+    const { container } = render(
+      <Text className="text-lg font-bold">Styled text</Text>
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 
   it('should maintain proper heading hierarchy', async () => {
     const { container } = render(
       <div>
-        <Text variant="heading" as="h1">
-          Main Heading
-        </Text>
-        <Text variant="subheading" as="h2">
-          Subheading
-        </Text>
+        <Text variant="h1">Main Heading</Text>
+        <Text variant="h2">Subheading</Text>
+        <Text variant="h3">Section</Text>
         <Text variant="body">Body text</Text>
       </div>
     );
@@ -66,9 +58,10 @@ describe('Text Accessibility', () => {
   it('should have sufficient color contrast', async () => {
     const { container } = render(
       <div style={{ backgroundColor: 'white' }}>
-        <Text color="primary">Primary color text</Text>
-        <Text color="secondary">Secondary color text</Text>
-        <Text color="accent">Accent color text</Text>
+        <Text>Default text</Text>
+        <Text variant="lead">Lead text</Text>
+        <Text variant="small">Small text</Text>
+        <Text variant="caption">Caption text</Text>
       </div>
     );
 
@@ -81,26 +74,14 @@ describe('Text Accessibility', () => {
     expect(results).toHaveNoViolations();
   });
 
-  it('should handle text alignment accessibly', async () => {
-    const alignments = ['left', 'center', 'right', 'justify'] as const;
+  it('should handle different element types accessibly', async () => {
+    const elements = ['div', 'span', 'p', 'article', 'section'] as const;
 
-    for (const align of alignments) {
-      const { container } = render(<Text align={align}>Aligned text</Text>);
+    for (const element of elements) {
+      const { container } = render(<Text as={element}>Text as {element}</Text>);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     }
-  });
-
-  it('should handle truncation accessibly', async () => {
-    const { container } = render(
-      <Text truncate>
-        This is a very long text that should be truncated when it exceeds the
-        available width of its container
-      </Text>
-    );
-
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
   });
 
   it('should use semantic HTML elements', () => {
@@ -131,8 +112,8 @@ describe('Text Accessibility', () => {
   it('should maintain readability with different styles', async () => {
     const { container } = render(
       <div>
-        <Text italic>Italic text</Text>
-        <Text underline>Underlined text</Text>
+        <Text variant="emphasis">Emphasized text</Text>
+        <Text variant="code">Code text</Text>
         <Text className="line-through">Strike-through text</Text>
       </div>
     );

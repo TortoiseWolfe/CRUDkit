@@ -4,8 +4,8 @@ import { axe } from 'jest-axe';
 import DraggableDice from './DraggableDice';
 
 describe('DraggableDice Accessibility', () => {
-  it('should have no accessibility violations with default props', async () => {
-    const { container } = render(<DraggableDice />);
+  it('should have no accessibility violations with required props', async () => {
+    const { container } = render(<DraggableDice id="dice-1" value={1} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
