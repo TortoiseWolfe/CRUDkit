@@ -43,8 +43,8 @@ jobs:
       - name: Generate audit report
         if: failure()
         run: |
-          pnpm run audit:components -- --format json > component-audit.json
-          pnpm run audit:components -- --format markdown > component-audit.md
+          node scripts/audit-components.js --path src/components --format json > component-audit.json
+          node scripts/audit-components.js --path src/components --format markdown > component-audit.md
 
       - name: Upload audit report
         if: failure()
@@ -72,8 +72,9 @@ jobs:
       - name: Check compliance rate
         if: always()
         run: |
-          REPORT=$(pnpm run audit:components -- --format json)
-          COMPLIANCE_RATE=$(echo $REPORT | jq '.summary.complianceRate')
+          # Run audit script directly to get clean JSON output
+          REPORT=$(node scripts/audit-components.js --path src/components --format json)
+          COMPLIANCE_RATE=$(echo "$REPORT" | jq '.summary.complianceRate')
 
           if [ "$COMPLIANCE_RATE" -lt 100 ]; then
             echo "⚠️ Component compliance rate is ${COMPLIANCE_RATE}%"
