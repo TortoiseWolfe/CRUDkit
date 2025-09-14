@@ -45,6 +45,11 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - Form validation system with Zod schemas
 - Reusable form components with built-in validation
 - Fully documented in Storybook
+- **Component Structure Enforcement (NEW)**:
+  - Mandatory 4-file pattern (index, component, test, story)
+  - Automated compliance checking and migration tools
+  - CI/CD validation on every PR
+  - Plop generator for consistent component creation
 
 ### 📊 Monitoring & Analytics
 
@@ -174,6 +179,12 @@ pnpm lint            # Run ESLint
 pnpm type-check      # Run TypeScript checks
 pnpm format          # Format all files with Prettier
 pnpm format:check    # Check formatting without changes
+
+# Component Structure Management (NEW)
+pnpm audit:components    # Check component compliance
+pnpm migrate:components  # Auto-fix non-compliant components
+pnpm validate:structure  # CI validation (exits 1 if non-compliant)
+pnpm generate:component  # Generate new component with 4-file pattern
 
 # Deployment
 pnpm deploy          # Deploy to GitHub Pages

@@ -132,6 +132,45 @@ The `/status` page provides real-time monitoring:
 - Use TypeScript interfaces for all props
 - Components use DaisyUI classes for theming consistency
 
+### Component Structure (4-File Pattern) ⚠️ REQUIRED
+
+All components MUST follow the 4-file pattern:
+```
+ComponentName/
+├── index.tsx              # Barrel export
+├── ComponentName.tsx      # Main component
+├── ComponentName.test.tsx # Tests (required)
+└── ComponentName.stories.tsx # Storybook (required)
+```
+
+#### Component Management Commands
+
+```bash
+# Check component compliance
+pnpm run audit:components
+
+# Auto-fix non-compliant components
+pnpm run migrate:components
+
+# Validate for CI (exits with error if non-compliant)
+pnpm run validate:structure
+
+# Generate new component with proper structure
+pnpm run generate:component
+```
+
+#### VSCode Snippets
+
+Use these snippets for faster development:
+- `rfc4` - Create React component with 4-file structure
+- `rcindex` - Create index.tsx barrel export
+- `rctest` - Create component test file
+- `rcstory` - Create component story file
+
+#### CI Enforcement
+
+Pull requests will fail if components don't follow the 4-file pattern. The GitHub Actions workflow automatically validates structure on every PR.
+
 ### Testing & Quality
 
 - Vitest testing framework with React Testing Library
