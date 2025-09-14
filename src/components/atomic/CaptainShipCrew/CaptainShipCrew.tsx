@@ -32,7 +32,7 @@ interface TurnState {
   phase: 'rolling' | 'deciding' | 'complete';
 }
 
-interface CaptainShipCrewProps {
+export interface CaptainShipCrewProps {
   playerCount?: number;
   gameMode?: 'single' | 'target';
   targetScore?: number;

@@ -49,7 +49,7 @@ interface PlayerSetup {
   difficulty?: NPCDifficulty;
 }
 
-interface CaptainShipCrewWithNPCProps {
+export interface CaptainShipCrewWithNPCProps {
   playerCount?: number;
   gameMode?: 'single' | 'target';
   targetScore?: number;

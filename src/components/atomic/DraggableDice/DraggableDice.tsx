@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-interface DraggableDiceProps {
+export interface DraggableDiceProps {
   id: string;
   sides?: 6 | 20;
   value: number | null;

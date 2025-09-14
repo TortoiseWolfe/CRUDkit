@@ -10,7 +10,7 @@ interface DiceData {
   position: 'tray' | 'lock-zone';
 }
 
-interface DiceTrayProps {
+export interface DiceTrayProps {
   numberOfDice?: number;
   sides?: 6 | 20;
   className?: string;

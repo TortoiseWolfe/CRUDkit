@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-interface DiceProps {
+export interface DiceProps {
   sides?: 6 | 20;
   className?: string;
 }

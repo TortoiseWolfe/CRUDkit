@@ -5,7 +5,7 @@ import DraggableDice from './DraggableDice';
 describe('DraggableDice', () => {
   it('renders without crashing', () => {
     render(<DraggableDice />);
-    expect(screen.getByRole('generic')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   // TODO: Add more specific tests

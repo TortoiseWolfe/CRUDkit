@@ -5,7 +5,9 @@ import CaptainShipCrewWithNPC from './CaptainShipCrewWithNPC';
 describe('CaptainShipCrewWithNPC', () => {
   it('renders without crashing', () => {
     render(<CaptainShipCrewWithNPC />);
-    expect(screen.getByRole('generic')).toBeInTheDocument();
+    expect(
+      screen.getByText('Captain, Ship & Crew - Setup')
+    ).toBeInTheDocument();
   });
 
   // TODO: Add more specific tests
