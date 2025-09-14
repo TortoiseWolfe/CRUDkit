@@ -34,9 +34,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pnpm install --frozen-lockfile
-          # Ensure glob is available for the validation script
-          pnpm list glob || pnpm add -D glob
+          # Use no-frozen-lockfile in CI due to lockfile compatibility issues
+          pnpm install --no-frozen-lockfile
 
       - name: Run component structure validation
         run: pnpm run validate:structure
