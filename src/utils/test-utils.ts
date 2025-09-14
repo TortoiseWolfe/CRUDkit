@@ -34,8 +34,8 @@ export const axeConfig = {
 
 // Helper function to run axe accessibility tests
 export async function testAccessibility(container: HTMLElement) {
-  const axe = (await import('axe-core')).default;
-  const results = await axe.run(container, {
+  const { axe } = await import('jest-axe');
+  const results = await axe(container, {
     rules: {
       // WCAG 2.1 AA rules
       'color-contrast': { enabled: true },
