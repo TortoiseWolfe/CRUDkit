@@ -7,6 +7,27 @@ const meta = {
   component: Card,
   parameters: {
     layout: 'centered',
+    a11y: {
+      config: {
+        rules: [
+          {
+            // Images should have alt text
+            id: 'image-alt',
+            enabled: true,
+          },
+          {
+            // Color contrast for text
+            id: 'color-contrast',
+            enabled: true,
+          },
+          {
+            // Ensure proper heading hierarchy
+            id: 'heading-order',
+            enabled: true,
+          },
+        ],
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {

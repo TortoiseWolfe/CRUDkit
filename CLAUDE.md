@@ -283,6 +283,26 @@ Pull requests will fail if components don't follow the 4-file pattern. The GitHu
 
 ### Troubleshooting Common Issues
 
+#### Husky v10 Deprecation Warning
+
+When running `git push`, you may see this warning:
+
+```
+husky - DEPRECATED
+Please remove the following two lines from .husky/pre-push:
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+```
+
+**Current Status**: The warning is non-breaking and tests still run correctly. The deprecated lines will need to be removed when upgrading to Husky v10.
+
+**To fix (when ready to migrate to v10)**:
+
+1. Remove lines 1-2 from `.husky/pre-push`
+2. Keep only the actual command: `docker compose exec -T crudkit pnpm test:coverage`
+
+**Note**: This is a known issue with Husky v9 preparing for v10 changes. No immediate action required.
+
 #### Webpack "Cannot read properties of undefined" Errors
 
 This error typically occurs when the `.next` build cache becomes corrupted or stale. The project now includes automatic cleanup, but if you encounter this:

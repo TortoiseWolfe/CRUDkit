@@ -71,6 +71,7 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - Integration tests for form workflows and game interactions
 - Pre-commit hooks: Prettier formatting, ESLint, and tests
 - Pre-push hooks: Full test suite with coverage checks
+- **Note**: Husky v9 shows deprecation warnings for v10 preparation (see CLAUDE.md for details)
 
 ### 🔒 Security & Validation
 

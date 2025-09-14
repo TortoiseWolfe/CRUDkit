@@ -45,7 +45,7 @@ export const Card: React.FC<CardProps> = ({
     .join(' ');
 
   return (
-    <div className={classes}>
+    <article className={classes}>
       {image && (
         <figure>
           <Image
@@ -58,12 +58,16 @@ export const Card: React.FC<CardProps> = ({
         </figure>
       )}
       <div className="card-body">
-        {title && <h2 className="card-title">{title}</h2>}
-        {subtitle && <p className="text-sm opacity-70">{subtitle}</p>}
+        {(title || subtitle) && (
+          <header>
+            {title && <h2 className="card-title">{title}</h2>}
+            {subtitle && <p className="text-sm opacity-70">{subtitle}</p>}
+          </header>
+        )}
         {children}
         {actions && <div className="card-actions justify-end">{actions}</div>}
       </div>
-    </div>
+    </article>
   );
 };
 

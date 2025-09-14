@@ -6,6 +6,23 @@ const meta = {
   component: Button,
   parameters: {
     layout: 'centered',
+    a11y: {
+      // Accessibility configuration for all stories
+      config: {
+        rules: [
+          {
+            // Button components should have accessible names
+            id: 'button-name',
+            enabled: true,
+          },
+          {
+            // Color contrast should meet WCAG AA standards
+            id: 'color-contrast',
+            enabled: true,
+          },
+        ],
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {

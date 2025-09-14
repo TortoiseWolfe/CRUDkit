@@ -1,5 +1,2 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Run tests before pushing
 docker compose exec -T crudkit pnpm test:coverage
