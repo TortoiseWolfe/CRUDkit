@@ -1,5 +1,5 @@
 # Development Dockerfile for CRUDkit
-FROM node:22-alpine AS base
+FROM node:22-slim AS base
 
 # Install pnpm and configure store
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -9,7 +9,6 @@ RUN pnpm config set store-dir /pnpm/store --global
 
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy package files
@@ -23,12 +22,57 @@ RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
 FROM base AS dev
 WORKDIR /app
 
-# Install git and curl for development
-RUN apk add --no-cache git curl && \
-    git config --global --add safe.directory /app
+# Install system dependencies for Playwright browsers and development tools
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    # Dependencies for Chromium, Firefox, and WebKit
+    libnss3 \
+    libnspr4 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libdbus-1-3 \
+    libxkbcommon0 \
+    libatspi2.0-0 \
+    libx11-6 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libxcb1 \
+    libxss1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    # Additional dependencies found missing
+    libx11-xcb1 \
+    libxcursor1 \
+    libgtk-3-0 \
+    libgdk-pixbuf2.0-0 \
+    libcairo-gobject2 \
+    # WebKit specific
+    libgstreamer1.0-0 \
+    libgstreamer-plugins-base1.0-0 \
+    libgstreamer-gl1.0-0 \
+    libgstreamer-plugins-bad1.0-0 \
+    libenchant-2-2 \
+    libsecret-1-0 \
+    libhyphen0 \
+    libmanette-0.2-0 \
+    libwebpdemux2 \
+    && rm -rf /var/lib/apt/lists/* \
+    && git config --global --add safe.directory /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
+
+# Install Playwright browsers
+RUN npx playwright install chromium firefox webkit
+
 COPY . .
 
 # Expose ports for Next.js and Storybook
@@ -38,8 +82,8 @@ EXPOSE 3000 6006
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
 
-# Start both development server and Storybook
-CMD ["sh", "-c", "pnpm run dev & pnpm run storybook & wait"]
+# Start development server (Storybook can be run separately if needed)
+CMD ["pnpm", "run", "dev"]
 
 # Builder stage for production
 FROM base AS builder

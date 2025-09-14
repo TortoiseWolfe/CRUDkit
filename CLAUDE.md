@@ -9,8 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 All commands should be run through Docker Compose for consistent builds:
 
 ```bash
-# Start development environment
+# Start development environment (with automatic cleanup)
 docker compose up
+
+# Alternative: Clean start (removes stale build artifacts)
+pnpm run docker:clean  # or ./scripts/clean-start.sh
 
 # Run commands in container
 docker compose exec crudkit pnpm run dev       # Dev server on :3000
@@ -21,6 +24,10 @@ docker compose exec crudkit pnpm run format    # Format all files with Prettier
 docker compose exec crudkit pnpm run format:check # Check formatting
 docker compose exec crudkit pnpm test          # Run unit tests
 docker compose exec crudkit pnpm test:coverage # Run tests with coverage
+
+# Troubleshooting webpack/build issues
+pnpm run docker:clean    # Clean start with fresh build
+pnpm run docker:rebuild  # Rebuild containers from scratch
 ```
 
 ### Direct Commands (if not using Docker)
@@ -273,3 +280,40 @@ Pull requests will fail if components don't follow the 4-file pattern. The GitHu
 6. **CSP Headers**: Security headers are configured but may need adjustment for external resources
 7. **PWA Icons**: Use SVG format to avoid Canvas dependency issues in Docker
 8. **Package Manager**: Project uses pnpm exclusively - no npm or yarn
+
+### Troubleshooting Common Issues
+
+#### Webpack "Cannot read properties of undefined" Errors
+
+This error typically occurs when the `.next` build cache becomes corrupted or stale. The project now includes automatic cleanup, but if you encounter this:
+
+**Quick Fix:**
+
+```bash
+pnpm run docker:clean  # Automated clean start
+```
+
+**Manual Fix:**
+
+```bash
+docker compose down
+rm -rf .next
+docker compose up
+```
+
+**Prevention:**
+
+- The `docker-compose.override.yml` now uses tmpfs for `.next` directory (in-memory, no persistence)
+- The development container automatically cleans stale artifacts on startup
+- Use `pnpm run dev:clean` when running locally to ensure clean builds
+
+#### Port Already in Use
+
+If port 3000 is already in use:
+
+```bash
+docker compose down
+lsof -i :3000  # Find process using port
+kill -9 <PID>  # Kill the process
+docker compose up
+```
