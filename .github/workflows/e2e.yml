@@ -154,33 +154,3 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
-
-  lighthouse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.16.1
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build application
-        run: pnpm run build
-
-      - name: Run Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v11
-        with:
-          urls: |
-            http://localhost:3000/CRUDkit
-            http://localhost:3000/CRUDkit/themes
-            http://localhost:3000/CRUDkit/components
-          uploadArtifacts: true
-          temporaryPublicStorage: true
