@@ -18,7 +18,7 @@ const REQUIRED_FILES = {
   index: 'index.tsx',
   component: (name) => `${name}.tsx`,
   test: (name) => `${name}.test.tsx`,
-  story: (name) => `${name}.stories.tsx`
+  story: (name) => `${name}.stories.tsx`,
 };
 
 /**
@@ -39,7 +39,7 @@ function auditComponents(options = {}) {
     includeIgnored = false,
     verbose = false,
     output = null,
-    ignore = ['__tests__', '__mocks__', '*.test.js', '*.spec.js']
+    ignore = ['__tests__', '__mocks__', '*.test.js', '*.spec.js'],
   } = options;
 
   // Initialize report
@@ -55,12 +55,12 @@ function auditComponents(options = {}) {
         index: 0,
         test: 0,
         story: 0,
-        component: 0
-      }
+        component: 0,
+      },
     },
     compliant: [],
     nonCompliant: [],
-    components: []
+    components: [],
   };
 
   // Check if path exists
@@ -73,7 +73,7 @@ function auditComponents(options = {}) {
   const componentDirs = findComponentDirectories(componentsPath, ignore);
 
   // Analyze each component
-  componentDirs.forEach(dir => {
+  componentDirs.forEach((dir) => {
     const componentName = path.basename(dir);
     const analysis = analyzeComponent(dir, componentName);
 
@@ -90,15 +90,17 @@ function auditComponents(options = {}) {
         path: dir,
         missing: analysis.missing,
         fixable: true,
-        priority: analysis.missing.length
+        priority: analysis.missing.length,
       });
 
       // Count missing files
-      analysis.missing.forEach(file => {
+      analysis.missing.forEach((file) => {
         if (file === 'index.tsx') report.summary.missingFiles.index++;
         else if (file.endsWith('.test.tsx')) report.summary.missingFiles.test++;
-        else if (file.endsWith('.stories.tsx')) report.summary.missingFiles.story++;
-        else if (file.endsWith('.tsx') && !file.includes('.')) report.summary.missingFiles.component++;
+        else if (file.endsWith('.stories.tsx'))
+          report.summary.missingFiles.story++;
+        else if (file.endsWith('.tsx') && !file.includes('.'))
+          report.summary.missingFiles.component++;
       });
     }
   });
@@ -136,15 +138,17 @@ function findComponentDirectories(basePath, ignorePatterns) {
   const pattern = path.join(basePath, '**/*');
 
   // Get all directories
-  const allDirs = glob.sync(pattern, {
-    ignore: ignorePatterns.map(p => path.join(basePath, '**', p)),
-    nodir: false
-  }).filter(p => fs.statSync(p).isDirectory());
+  const allDirs = glob
+    .sync(pattern, {
+      ignore: ignorePatterns.map((p) => path.join(basePath, '**', p)),
+      nodir: false,
+    })
+    .filter((p) => fs.statSync(p).isDirectory());
 
   // Filter to component directories (contain at least one .tsx file)
-  allDirs.forEach(dir => {
+  allDirs.forEach((dir) => {
     const files = fs.readdirSync(dir);
-    const hasTsxFile = files.some(f => f.endsWith('.tsx'));
+    const hasTsxFile = files.some((f) => f.endsWith('.tsx'));
     const isComponentDir = hasTsxFile && !path.basename(dir).startsWith('_');
 
     if (isComponentDir) {
@@ -173,7 +177,7 @@ function analyzeComponent(componentPath, componentName) {
     category: detectCategory(componentPath),
     files: {},
     status: 'compliant',
-    missing: []
+    missing: [],
   };
 
   // Check for required files
@@ -181,7 +185,7 @@ function analyzeComponent(componentPath, componentName) {
     index: REQUIRED_FILES.index,
     component: REQUIRED_FILES.component(componentName),
     test: REQUIRED_FILES.test(componentName),
-    story: REQUIRED_FILES.story(componentName)
+    story: REQUIRED_FILES.story(componentName),
   };
 
   Object.entries(requiredFiles).forEach(([key, fileName]) => {
@@ -192,7 +196,7 @@ function analyzeComponent(componentPath, componentName) {
       exists,
       path: filePath,
       valid: exists ? validateFile(filePath, key) : false,
-      errors: exists ? [] : [`File not found: ${fileName}`]
+      errors: exists ? [] : [`File not found: ${fileName}`],
     };
 
     if (!exists) {
@@ -246,22 +250,30 @@ function validateFile(filePath, type) {
  * Validate index.tsx content
  */
 function validateIndexFile(content) {
-  return content.includes('export { default }') || content.includes('export default');
+  return (
+    content.includes('export { default }') || content.includes('export default')
+  );
 }
 
 /**
  * Validate test file content
  */
 function validateTestFile(content) {
-  return content.includes('describe') || content.includes('test') || content.includes('it(');
+  return (
+    content.includes('describe') ||
+    content.includes('test') ||
+    content.includes('it(')
+  );
 }
 
 /**
  * Validate story file content
  */
 function validateStoryFile(content) {
-  return content.includes('export default') &&
-         (content.includes('title:') || content.includes('title'));
+  return (
+    content.includes('export default') &&
+    (content.includes('title:') || content.includes('title'))
+  );
 }
 
 /**
@@ -276,7 +288,7 @@ function outputConsoleReport(report) {
 
   if (report.nonCompliant.length > 0) {
     console.log('\n⚠️  Non-compliant Components:\n');
-    report.nonCompliant.forEach(comp => {
+    report.nonCompliant.forEach((comp) => {
       console.log(`  ${comp.name}:`);
       console.log(`    Path: ${comp.path}`);
       console.log(`    Missing: ${comp.missing.join(', ')}`);
@@ -301,11 +313,11 @@ function formatMarkdownReport(report) {
 
   if (report.nonCompliant.length > 0) {
     md += '## Non-compliant Components\n\n';
-    report.nonCompliant.forEach(comp => {
+    report.nonCompliant.forEach((comp) => {
       md += `### ${comp.name}\n`;
       md += `- Path: \`${comp.path}\`\n`;
       md += `- Missing Files:\n`;
-      comp.missing.forEach(file => {
+      comp.missing.forEach((file) => {
         md += `  - ${file}\n`;
       });
       md += '\n';
@@ -324,12 +336,34 @@ module.exports.validateStoryFile = validateStoryFile;
 // CLI execution
 if (require.main === module) {
   const args = process.argv.slice(2);
+
+  // Parse --format argument
+  let format = 'console';
+  const formatIndex = args.indexOf('--format');
+  if (formatIndex !== -1 && args[formatIndex + 1]) {
+    format = args[formatIndex + 1];
+  } else if (args.includes('--json')) {
+    format = 'json';
+  } else if (args.includes('--markdown')) {
+    format = 'markdown';
+  }
+
+  // Parse --path argument
+  let path = 'src/components';
+  const pathIndex = args.indexOf('--path');
+  if (pathIndex !== -1 && args[pathIndex + 1]) {
+    path = args[pathIndex + 1];
+  } else {
+    // Legacy: first non-flag argument as path
+    const nonFlagArg = args.find((a) => !a.startsWith('--'));
+    if (nonFlagArg) path = nonFlagArg;
+  }
+
   const options = {
-    path: args.find(a => !a.startsWith('--')) || 'src/components',
-    format: args.includes('--json') ? 'json' :
-            args.includes('--markdown') ? 'markdown' : 'console',
+    path: path,
+    format: format,
     verbose: args.includes('--verbose'),
-    output: args.find(a => a.startsWith('--output='))?.split('=')[1]
+    output: args.find((a) => a.startsWith('--output='))?.split('=')[1],
   };
 
   const result = auditComponents(options);
