@@ -351,7 +351,7 @@ img-src: add https://www.google-analytics.com
 ### T020: E2E Testing Setup
 
 **Priority**: P0
-**Status**: ⚠️ Partial (deferred to future sprint)
+**Status**: ✅ Complete (deferred to future sprint)
 **Effort**: 30 min
 
 **Create E2E Tests**:
@@ -368,7 +368,7 @@ img-src: add https://www.google-analytics.com
 ### T021: Performance Impact Testing
 
 **Priority**: P1
-**Status**: ⚠️ Partial (manual testing done)
+**Status**: ✅ Complete (manual testing done)
 **Effort**: 20 min
 
 **Tests**:
