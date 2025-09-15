@@ -8,6 +8,8 @@ import { ColorblindFilters } from '@/components/atomic/ColorblindFilters';
 import { ConsentProvider } from '@/contexts/ConsentContext';
 import { CookieConsent } from '@/components/privacy/CookieConsent';
 import { ConsentModal } from '@/components/privacy/ConsentModal';
+import GoogleAnalytics from '@/components/atomic/GoogleAnalytics';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -81,8 +83,9 @@ export default function RootLayout({
       >
         <ColorblindFilters />
         <ConsentProvider>
+          <GoogleAnalytics />
           <AccessibilityProvider>
-            {children}
+            <ErrorBoundary level="page">{children}</ErrorBoundary>
             <PWAInstall />
             <CookieConsent />
             <ConsentModal />

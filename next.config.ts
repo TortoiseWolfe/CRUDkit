@@ -7,13 +7,14 @@ const isGithubPages =
 const basePath = isGithubPages ? '/CRUDkit' : '';
 
 // Content Security Policy
+// Updated to allow Google Analytics 4 domains
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline';
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com;
-  img-src 'self' data: https: blob:;
+  img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com;
   font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com;
-  connect-src 'self' https:;
+  connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;
   media-src 'self';
   object-src 'none';
   frame-src 'none';

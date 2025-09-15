@@ -312,20 +312,17 @@ export function reportWebVitals(callback: ReportCallback): void {
 
 // Helper to send metrics to analytics
 export function sendToAnalytics(metric: Metric): void {
-  // Example: send to Google Analytics, custom endpoint, etc.
-  interface WindowWithGtag extends Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-  const windowWithGtag = window as WindowWithGtag;
-  if (typeof window !== 'undefined' && windowWithGtag.gtag) {
-    windowWithGtag.gtag('event', 'web_vitals', {
-      event_category: 'Web Vitals',
-      event_label: metric.name,
-      value: metric.value,
-      metric_rating: metric.rating,
-      non_interaction: true,
+  // Import our analytics utilities dynamically to avoid circular dependencies
+  import('./analytics')
+    .then(({ trackWebVital, isAnalyticsEnabled }) => {
+      // Use our centralized analytics tracking
+      if (isAnalyticsEnabled()) {
+        trackWebVital(metric);
+      }
+    })
+    .catch((error) => {
+      console.error('Failed to load analytics module:', error);
     });
-  }
 
   // Or send to custom endpoint
   const endpoint = process.env.NEXT_PUBLIC_ANALYTICS_ENDPOINT;

@@ -3,6 +3,8 @@
  * Provides consistent error logging and handling across the application
  */
 
+import { trackError } from '@/utils/analytics';
+
 // Error severity levels
 export enum ErrorSeverity {
   LOW = 'low',
@@ -65,7 +67,7 @@ interface ErrorHandlerConfig {
 // Default configuration
 const defaultConfig: ErrorHandlerConfig = {
   logToConsole: true,
-  logToService: false,
+  logToService: true, // Enable analytics tracking by default
   showUserNotification: true,
   isDevelopment: process.env.NODE_ENV === 'development',
 };
@@ -217,14 +219,25 @@ class ErrorHandler {
    * Send error to external logging service
    */
   private sendToService(error: AppError): void {
-    // TODO: Implement integration with logging service
+    // Track error to Google Analytics (respects user consent)
+    const isFatal =
+      error.severity === ErrorSeverity.CRITICAL ||
+      error.severity === ErrorSeverity.HIGH;
+
+    // Create error message with category for better tracking
+    const errorMessage = `[${error.category}] ${error.message}`;
+
+    // Track to analytics
+    trackError(errorMessage, isFatal);
+
+    // TODO: Implement additional integration with logging service
     // Example: Sentry, LogRocket, DataDog, etc.
-    // This is a placeholder for future implementation
     if (this.config.isDevelopment) {
-      console.log('Would send to logging service:', {
+      console.log('Error tracked to analytics:', {
         message: error.message,
         severity: error.severity,
         category: error.category,
+        isFatal,
       });
     }
   }

@@ -156,6 +156,39 @@ docker-compose up
 # Storybook runs on http://localhost:6006
 ```
 
+### Configuration
+
+#### Google Analytics 4 (Optional)
+
+To enable privacy-conscious analytics tracking:
+
+1. **Create a GA4 property** in [Google Analytics](https://analytics.google.com/)
+2. **Copy your Measurement ID** (format: G-XXXXXXXXXX)
+3. **Add to environment variables**:
+
+```bash
+# Copy the example file
+cp .env.example .env.local
+
+# Edit .env.local and add your measurement ID
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+**Features:**
+
+- ✅ Privacy-first: Analytics only loads after user consent
+- ✅ Consent management integrated with cookie banner
+- ✅ Web Vitals tracking (FCP, LCP, CLS, TTFB, INP)
+- ✅ Custom event tracking for user interactions
+- ✅ Error tracking with severity levels
+- ✅ PWA installation tracking
+- ✅ Theme change tracking
+- ✅ Debug mode in development environment
+
+**Documentation:** See [docs/ANALYTICS.md](./docs/ANALYTICS.md) for complete setup and usage guide.
+
+**Note:** Analytics will not load without user consent. Users can manage their preferences via the cookie consent banner.
+
 ## 📚 Documentation
 
 ### Testing Documentation

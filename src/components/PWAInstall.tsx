@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -13,6 +14,7 @@ export default function PWAInstall() {
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const { trackPWAEvent } = useAnalytics();
 
   // Check debug mode immediately
   const [isDebugMode] = useState(() => {
@@ -81,6 +83,9 @@ export default function PWAInstall() {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShowInstallButton(true);
+
+      // Track that the install prompt is available
+      trackPWAEvent('install_prompt_shown');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -91,6 +96,9 @@ export default function PWAInstall() {
       setIsInstalled(true);
       setShowInstallButton(false);
       setDeferredPrompt(null);
+
+      // Track successful installation
+      trackPWAEvent('installed');
     });
 
     return () => {
@@ -99,10 +107,13 @@ export default function PWAInstall() {
         handleBeforeInstallPrompt
       );
     };
-  }, []);
+  }, [trackPWAEvent]);
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
+
+    // Track install button click
+    trackPWAEvent('install_button_clicked');
 
     // Show the install prompt
     deferredPrompt.prompt();
@@ -110,6 +121,11 @@ export default function PWAInstall() {
     // Wait for the user choice
     const { outcome } = await deferredPrompt.userChoice;
     console.log(`User choice: ${outcome}`);
+
+    // Track the outcome
+    trackPWAEvent(
+      outcome === 'accepted' ? 'install_accepted' : 'install_dismissed'
+    );
 
     // Clear the deferred prompt
     setDeferredPrompt(null);
@@ -120,17 +136,26 @@ export default function PWAInstall() {
     setIsMinimized(true);
     // Store minimized state in localStorage
     localStorage.setItem('pwa-install-minimized', 'true');
+
+    // Track minimization
+    trackPWAEvent('install_prompt_minimized');
   };
 
   const handleExpand = () => {
     setIsMinimized(false);
     localStorage.removeItem('pwa-install-minimized');
+
+    // Track expansion
+    trackPWAEvent('install_prompt_expanded');
   };
 
   const handleHideForever = () => {
     setShowInstallButton(false);
     // Store permanent dismissal
     localStorage.setItem('pwa-install-dismissed', 'true');
+
+    // Track permanent dismissal
+    trackPWAEvent('install_prompt_dismissed_forever');
   };
 
   // Check localStorage for previous state

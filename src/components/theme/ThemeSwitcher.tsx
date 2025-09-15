@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { canUseCookies } from '../../utils/consent';
 import { CookieCategory } from '../../utils/consent-types';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 // DaisyUI themes
 const THEMES = [
@@ -42,6 +43,7 @@ const THEMES = [
 
 export function ThemeSwitcher() {
   const [currentTheme, setCurrentTheme] = useState('light');
+  const { trackThemeChange } = useAnalytics();
 
   useEffect(() => {
     // Check if we can use persistent storage
@@ -62,44 +64,51 @@ export function ThemeSwitcher() {
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
-  const handleThemeChange = useCallback((theme: string) => {
-    setCurrentTheme(theme);
+  const handleThemeChange = useCallback(
+    (theme: string) => {
+      const previousTheme = currentTheme;
+      setCurrentTheme(theme);
 
-    // Apply to DOM
-    document.documentElement.setAttribute('data-theme', theme);
-    document.body?.setAttribute('data-theme', theme);
+      // Track theme change in analytics
+      trackThemeChange(theme, previousTheme);
 
-    // Check if we can persist the preference
-    const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
+      // Apply to DOM
+      document.documentElement.setAttribute('data-theme', theme);
+      document.body?.setAttribute('data-theme', theme);
 
-    if (canPersist) {
-      // Save to localStorage for persistence across sessions
-      localStorage.setItem('theme', theme);
-      // Also save to sessionStorage for consistency
-      sessionStorage.setItem('theme', theme);
+      // Check if we can persist the preference
+      const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
 
-      // Broadcast to other tabs/windows
-      window.dispatchEvent(
-        new StorageEvent('storage', {
-          key: 'theme',
-          newValue: theme,
-          url: window.location.href,
-          storageArea: localStorage,
-        })
-      );
-    } else {
-      // Only save to sessionStorage for current session
-      sessionStorage.setItem('theme', theme);
-    }
+      if (canPersist) {
+        // Save to localStorage for persistence across sessions
+        localStorage.setItem('theme', theme);
+        // Also save to sessionStorage for consistency
+        sessionStorage.setItem('theme', theme);
 
-    // Force update service worker if available
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'THEME_CHANGE',
-        theme: theme,
-      });
-    }
-  }, []);
+        // Broadcast to other tabs/windows
+        window.dispatchEvent(
+          new StorageEvent('storage', {
+            key: 'theme',
+            newValue: theme,
+            url: window.location.href,
+            storageArea: localStorage,
+          })
+        );
+      } else {
+        // Only save to sessionStorage for current session
+        sessionStorage.setItem('theme', theme);
+      }
+
+      // Force update service worker if available
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'THEME_CHANGE',
+          theme: theme,
+        });
+      }
+    },
+    [currentTheme, trackThemeChange]
+  );
 
   return (
     <div className="card bg-base-200 shadow-xl">
