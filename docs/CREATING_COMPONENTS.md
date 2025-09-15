@@ -30,14 +30,15 @@ When you run the generator, you'll be prompted for:
 
 ## Generated Structure
 
-The generator creates a complete component with the required 4-file pattern:
+The generator creates a complete component with the required 5-file pattern:
 
 ```
 src/components/{category}/{ComponentName}/
-├── index.tsx                    # Barrel export
-├── {ComponentName}.tsx          # Component implementation
-├── {ComponentName}.test.tsx    # Unit tests
-└── {ComponentName}.stories.tsx # Storybook stories
+├── index.tsx                             # Barrel export
+├── {ComponentName}.tsx                   # Component implementation
+├── {ComponentName}.test.tsx              # Unit tests
+├── {ComponentName}.stories.tsx           # Storybook stories
+└── {ComponentName}.accessibility.test.tsx # Accessibility tests
 ```
 
 ### Example: Creating a ContactForm Component

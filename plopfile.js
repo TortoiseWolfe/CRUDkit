@@ -1,12 +1,12 @@
 /**
  * Plop Component Generator Configuration
- * Generates React components with the 4-file pattern
+ * Generates React components with the 5-file pattern (including accessibility tests)
  */
 
 module.exports = function (plop) {
   // Component generator
   plop.setGenerator('component', {
-    description: 'Create a new component with 4-file structure',
+    description: 'Create a new component with 5-file structure',
     prompts: [
       {
         type: 'input',
@@ -18,7 +18,7 @@ module.exports = function (plop) {
             return 'Component name must be in PascalCase (e.g., ButtonComponent)';
           }
           return true;
-        }
+        },
       },
       {
         type: 'list',
@@ -29,22 +29,22 @@ module.exports = function (plop) {
           { name: 'Atomic (basic UI elements)', value: 'atomic' },
           { name: 'Molecular (compound components)', value: 'molecular' },
           { name: 'Organisms (complex sections)', value: 'organisms' },
-          { name: 'Templates (page layouts)', value: 'templates' }
+          { name: 'Templates (page layouts)', value: 'templates' },
         ],
-        default: 'atomic'
+        default: 'atomic',
       },
       {
         type: 'confirm',
         name: 'hasProps',
         message: 'Will this component have props?',
-        default: true
+        default: true,
       },
       {
         type: 'confirm',
         name: 'withHooks',
         message: 'Include custom hooks?',
-        default: false
-      }
+        default: false,
+      },
     ],
     actions: (data) => {
       const actions = [];
@@ -54,28 +54,36 @@ module.exports = function (plop) {
       actions.push({
         type: 'add',
         path: `${componentPath}/index.tsx`,
-        templateFile: 'plop-templates/component/index.tsx.hbs'
+        templateFile: 'plop-templates/component/index.tsx.hbs',
       });
 
       // Add Component.tsx
       actions.push({
         type: 'add',
         path: `${componentPath}/{{pascalCase name}}.tsx`,
-        templateFile: 'plop-templates/component/Component.tsx.hbs'
+        templateFile: 'plop-templates/component/Component.tsx.hbs',
       });
 
       // Add Component.test.tsx
       actions.push({
         type: 'add',
         path: `${componentPath}/{{pascalCase name}}.test.tsx`,
-        templateFile: 'plop-templates/component/Component.test.tsx.hbs'
+        templateFile: 'plop-templates/component/Component.test.tsx.hbs',
       });
 
       // Add Component.stories.tsx
       actions.push({
         type: 'add',
         path: `${componentPath}/{{pascalCase name}}.stories.tsx`,
-        templateFile: 'plop-templates/component/Component.stories.tsx.hbs'
+        templateFile: 'plop-templates/component/Component.stories.tsx.hbs',
+      });
+
+      // Add Component.accessibility.test.tsx
+      actions.push({
+        type: 'add',
+        path: `${componentPath}/{{pascalCase name}}.accessibility.test.tsx`,
+        templateFile:
+          'plop-templates/component/Component.accessibility.test.tsx.hbs',
       });
 
       // Add custom hook if requested
@@ -97,12 +105,12 @@ export function use{{pascalCase name}}() {
 
   return { state };
 }
-`
+`,
         });
       }
 
       return actions;
-    }
+    },
   });
 
   // Helper to add custom Handlebars helpers

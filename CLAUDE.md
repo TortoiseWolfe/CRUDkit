@@ -213,19 +213,20 @@ The `/status` page provides real-time monitoring:
 - Use TypeScript interfaces for all props
 - Components use DaisyUI classes for theming consistency
 - **Use the component generator**: `docker compose exec crudkit pnpm run generate:component`
-- All components must follow the 4-file pattern (enforced by CI/CD)
+- All components must follow the 5-file pattern (enforced by CI/CD)
 - See [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md) for detailed guide
 
-### Component Structure (4-File Pattern) ⚠️ REQUIRED
+### Component Structure (5-File Pattern) ⚠️ REQUIRED
 
-All components MUST follow the 4-file pattern:
+All components MUST follow the 5-file pattern:
 
 ```
 ComponentName/
-├── index.tsx              # Barrel export
-├── ComponentName.tsx      # Main component
-├── ComponentName.test.tsx # Tests (required)
-└── ComponentName.stories.tsx # Storybook (required)
+├── index.tsx                             # Barrel export
+├── ComponentName.tsx                     # Main component
+├── ComponentName.test.tsx                # Unit tests (required)
+├── ComponentName.stories.tsx             # Storybook (required)
+└── ComponentName.accessibility.test.tsx  # Accessibility tests (required)
 ```
 
 #### Component Management Commands
@@ -248,19 +249,24 @@ pnpm run generate:component
 
 Use these snippets for faster development:
 
-- `rfc4` - Create React component with 4-file structure
+- `rfc5` - Create React component with 5-file structure
 - `rcindex` - Create index.tsx barrel export
 - `rctest` - Create component test file
 - `rcstory` - Create component story file
+- `rca11y` - Create accessibility test file
 
 #### CI Enforcement
 
-Pull requests will fail if components don't follow the 4-file pattern. The GitHub Actions workflow automatically validates structure on every PR.
+Pull requests will fail if components don't follow the 5-file pattern. The GitHub Actions workflow automatically validates structure on every PR.
 
 ### Testing & Quality
 
 - Vitest testing framework with React Testing Library
-- Test coverage reporting with configurable thresholds (currently 10%)
+- Test coverage reporting with configurable thresholds (currently 25% minimum, 58% actual)
+- **E2E Testing**: Playwright framework for local development
+  - Run with `pnpm test:e2e` (local only, not in CI)
+  - 40+ tests with Page Object Model architecture
+  - Full documentation in `/e2e/README.md`
 - Prettier code formatting with automatic formatting on pre-commit
 - Husky pre-commit hooks running lint-staged (format, lint, test)
 - GitHub Actions CI/CD pipeline for automated testing
@@ -279,7 +285,8 @@ Pull requests will fail if components don't follow the 4-file pattern. The GitHu
 5. **Code Formatting**: All code is formatted with Prettier - run `pnpm format` before committing
 6. **CSP Headers**: Security headers are configured but may need adjustment for external resources
 7. **PWA Icons**: Use SVG format to avoid Canvas dependency issues in Docker
-8. **Package Manager**: Project uses pnpm exclusively - no npm or yarn
+8. **Package Manager**: Project uses pnpm 10.16.1 exclusively - enforced via packageManager field
+9. **E2E Testing**: Tests are for local development only, not integrated with CI/CD
 
 ### Troubleshooting Common Issues
 
@@ -336,4 +343,21 @@ docker compose down
 lsof -i :3000  # Find process using port
 kill -9 <PID>  # Kill the process
 docker compose up
+```
+
+#### pnpm Version Mismatch
+
+If you encounter lockfile errors about pnpm versions:
+
+**Solution:**
+
+- All CI/CD workflows use exact version pnpm 10.16.1
+- The `packageManager` field in package.json enforces this version
+- Docker container also uses pnpm 10.16.1
+
+**If local version differs:**
+
+```bash
+corepack enable
+corepack prepare pnpm@10.16.1 --activate
 ```

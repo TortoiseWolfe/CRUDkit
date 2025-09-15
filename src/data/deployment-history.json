@@ -1,6 +1,36 @@
 [
   {
     "date": "9/14/2025",
+    "feature": "Remove E2E workflow - keep tests for local dev ...",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Handle missing artifacts in E2E report job",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Remove Lighthouse CI from E2E workflow",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Add missing dependencies and use installed pack...",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Use exact pnpm version 10.16.1 in all workflows",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Standardize pnpm version to v10 across all CI/C...",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
     "feature": "Resolve build and accessibility issues",
     "status": "success"
   },
@@ -67,36 +97,6 @@
   {
     "date": "9/14/2025",
     "feature": "Implement RED phase of E2E testing framework",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Generate E2E Testing Framework plan and tasks (...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Update deployment history with Component Struct...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Complete Component Structure Standardization (P...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Properly parse --format argument in audit-compo...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Use direct script calls in CI to avoid pnpm out...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Resolve CI/CD issues for component structure va...",
     "status": "success"
   }
 ]

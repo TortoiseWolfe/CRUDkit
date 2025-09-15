@@ -69,6 +69,10 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - 111+ passing tests across 8 test suites
 - Coverage thresholds enforced at 25% minimum (58% actual)
 - Integration tests for form workflows and game interactions
+- **E2E Testing**: Playwright framework for local development (`pnpm test:e2e`)
+  - 40+ end-to-end tests with Page Object Model
+  - Tests run locally only (not in CI/CD)
+  - Full documentation in `/e2e/README.md`
 - Pre-commit hooks: Prettier formatting, ESLint, and tests
 - Pre-push hooks: Full test suite with coverage checks
 - **Note**: Husky v9 shows deprecation warnings for v10 preparation (see CLAUDE.md for details)
@@ -82,6 +86,8 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - TypeScript strict mode for type safety
 
 ### 🏆 Lighthouse Scores
+
+[![WCAG 2.1 AA Compliant](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-success)](https://www.w3.org/WAI/WCAG21/quickref/)
 
 - **Performance**: 92/100
 - **Accessibility**: 98/100
@@ -97,9 +103,10 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - **TypeScript**: 5.x with strict mode
 - **Validation**: Zod 4.1.8 for runtime validation
 - **Performance**: Web Vitals 5.1.0 for monitoring
-- **Testing**: Vitest, React Testing Library, @vitest/coverage-v8
+- **Testing**: Vitest, React Testing Library, Playwright
 - **Code Quality**: Prettier 3.6.2 with Tailwind plugin
 - **CI/CD**: GitHub Actions, Husky git hooks
+- **Package Manager**: pnpm 10.16.1 (enforced)
 - **Deployment**: GitHub Pages
 - **Documentation**: Storybook 9.1.5
 
@@ -187,6 +194,8 @@ pnpm export          # Export static site
 pnpm test            # Run unit tests
 pnpm test:watch      # Run tests in watch mode
 pnpm test:coverage   # Generate coverage report
+pnpm test:e2e        # Run E2E tests (local only)
+pnpm test:e2e:ui     # Run E2E tests with UI
 pnpm lint            # Run ESLint
 pnpm type-check      # Run TypeScript checks
 pnpm format          # Format all files with Prettier

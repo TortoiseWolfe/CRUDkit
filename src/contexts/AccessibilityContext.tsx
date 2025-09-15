@@ -11,11 +11,15 @@ import React, {
 type FontSize = 'small' | 'medium' | 'large' | 'x-large';
 type LineHeight = 'compact' | 'normal' | 'relaxed';
 type FontFamily = 'sans-serif' | 'serif' | 'mono';
+type ContrastMode = 'normal' | 'high';
+type MotionPreference = 'no-preference' | 'reduce';
 
 interface AccessibilitySettings {
   fontSize: FontSize;
   lineHeight: LineHeight;
   fontFamily: FontFamily;
+  highContrast: ContrastMode;
+  reduceMotion: MotionPreference;
 }
 
 interface AccessibilityContextType {
@@ -28,6 +32,8 @@ const defaultSettings: AccessibilitySettings = {
   fontSize: 'medium',
   lineHeight: 'normal',
   fontFamily: 'sans-serif',
+  highContrast: 'normal',
+  reduceMotion: 'no-preference',
 };
 
 const AccessibilityContext = createContext<
@@ -82,6 +88,22 @@ export function AccessibilityProvider({
       fontFamilies[newSettings.fontFamily]
     );
 
+    // Apply high contrast mode
+    if (newSettings.highContrast === 'high') {
+      root.setAttribute('data-high-contrast', 'true');
+      root.style.setProperty('--contrast-boost', '1.2');
+    } else {
+      root.removeAttribute('data-high-contrast');
+      root.style.setProperty('--contrast-boost', '1');
+    }
+
+    // Apply reduced motion preference
+    if (newSettings.reduceMotion === 'reduce') {
+      root.setAttribute('data-reduce-motion', 'true');
+    } else {
+      root.removeAttribute('data-reduce-motion');
+    }
+
     document.body.style.lineHeight = lineHeights[newSettings.lineHeight];
     document.body.style.fontFamily = fontFamilies[newSettings.fontFamily];
   }, []);
@@ -91,11 +113,19 @@ export function AccessibilityProvider({
     const savedFontSize = localStorage.getItem('fontSize') as FontSize;
     const savedLineHeight = localStorage.getItem('lineHeight') as LineHeight;
     const savedFontFamily = localStorage.getItem('fontFamily') as FontFamily;
+    const savedHighContrast = localStorage.getItem(
+      'highContrast'
+    ) as ContrastMode;
+    const savedReduceMotion = localStorage.getItem(
+      'reduceMotion'
+    ) as MotionPreference;
 
     const initialSettings: AccessibilitySettings = {
       fontSize: savedFontSize || defaultSettings.fontSize,
       lineHeight: savedLineHeight || defaultSettings.lineHeight,
       fontFamily: savedFontFamily || defaultSettings.fontFamily,
+      highContrast: savedHighContrast || defaultSettings.highContrast,
+      reduceMotion: savedReduceMotion || defaultSettings.reduceMotion,
     };
 
     setSettings(initialSettings);
@@ -108,7 +138,9 @@ export function AccessibilityProvider({
       if (
         e.key === 'fontSize' ||
         e.key === 'lineHeight' ||
-        e.key === 'fontFamily'
+        e.key === 'fontFamily' ||
+        e.key === 'highContrast' ||
+        e.key === 'reduceMotion'
       ) {
         const newSettings: AccessibilitySettings = {
           fontSize:
@@ -119,6 +151,12 @@ export function AccessibilityProvider({
           fontFamily:
             (localStorage.getItem('fontFamily') as FontFamily) ||
             settings.fontFamily,
+          highContrast:
+            (localStorage.getItem('highContrast') as ContrastMode) ||
+            settings.highContrast,
+          reduceMotion:
+            (localStorage.getItem('reduceMotion') as MotionPreference) ||
+            settings.reduceMotion,
         };
         setSettings(newSettings);
         applySettings(newSettings);
@@ -140,6 +178,10 @@ export function AccessibilityProvider({
       localStorage.setItem('lineHeight', newSettings.lineHeight);
     if (newSettings.fontFamily)
       localStorage.setItem('fontFamily', newSettings.fontFamily);
+    if (newSettings.highContrast)
+      localStorage.setItem('highContrast', newSettings.highContrast);
+    if (newSettings.reduceMotion)
+      localStorage.setItem('reduceMotion', newSettings.reduceMotion);
 
     // Update state and apply
     setSettings(updatedSettings);
@@ -160,6 +202,8 @@ export function AccessibilityProvider({
     localStorage.removeItem('fontSize');
     localStorage.removeItem('lineHeight');
     localStorage.removeItem('fontFamily');
+    localStorage.removeItem('highContrast');
+    localStorage.removeItem('reduceMotion');
 
     setSettings(defaultSettings);
     applySettings(defaultSettings);

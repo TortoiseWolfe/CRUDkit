@@ -1,5 +1,16 @@
 # E2E Testing Framework
 
+> **⚠️ IMPORTANT: These E2E tests are for LOCAL DEVELOPMENT ONLY**
+>
+> The E2E tests require a running development server and are not integrated with CI/CD.
+> They are designed to run locally using `pnpm test:e2e` for development validation.
+>
+> **Why local-only?**
+>
+> - Tests require `pnpm dev` server (not static build)
+> - CI/CD would need to run dev server in background
+> - Designed for developer validation during development
+
 ## Overview
 
 This directory contains the end-to-end (E2E) testing framework built with Playwright, following Test-Driven Development (TDD) principles and the Page Object Model (POM) pattern.
