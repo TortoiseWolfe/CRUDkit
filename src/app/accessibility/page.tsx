@@ -87,9 +87,9 @@ export default function AccessibilityPage() {
             {/* Color Vision Control */}
             <div className="card bg-base-200 shadow-xl">
               <div className="card-body">
-                <h2 className="card-title mb-4">Color Vision</h2>
+                <h2 className="card-title mb-4">Color Vision Assistance</h2>
                 <p className="mb-4 text-sm">
-                  Apply filters to simulate different types of color vision deficiencies
+                  Apply color corrections to enhance color distinction for various types of color vision deficiencies
                 </p>
                 <ColorblindToggle className="w-full" />
               </div>

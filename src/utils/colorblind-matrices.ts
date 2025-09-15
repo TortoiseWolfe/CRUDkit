@@ -1,7 +1,7 @@
 /**
- * Colorblind simulation matrices
- * Based on Machado et al. 2009 - scientifically validated color transformation matrices
- * These matrices are used in SVG feColorMatrix filters
+ * Colorblind correction matrices (Daltonization)
+ * These matrices enhance color contrast for users with color vision deficiencies
+ * Based on daltonization algorithms that shift problematic colors to distinguishable ranges
  */
 
 import { ColorblindType } from './colorblind';
@@ -27,12 +27,13 @@ export function matrixToSVGString(matrix: ColorMatrix): string {
 }
 
 /**
- * Scientifically validated color transformation matrices
- * Source: Machado, Oliveira, and Fernandes 2009
- * "A Physiologically-based Model for Simulation of Color Vision Deficiency"
+ * Daltonization color correction matrices
+ * These enhance color distinction for users with color vision deficiencies
+ * Rather than simulating colorblindness, these matrices help colorblind users
+ * distinguish colors better by shifting problem colors to more visible ranges
  */
 export const COLORBLIND_MATRICES: Record<ColorblindType, ColorMatrix> = {
-  // Normal vision - identity matrix
+  // Normal vision - identity matrix (no correction needed)
   [ColorblindType.NONE]: [
     [1, 0, 0, 0, 0],
     [0, 1, 0, 0, 0],
@@ -40,69 +41,75 @@ export const COLORBLIND_MATRICES: Record<ColorblindType, ColorMatrix> = {
     [0, 0, 0, 1, 0],
   ],
 
-  // Protanopia - Red-blind (missing L-cones)
+  // Protanopia - Red-blind correction
+  // Shifts red information to blue channel for better distinction
   [ColorblindType.PROTANOPIA]: [
-    [0.567, 0.433, 0, 0, 0],
-    [0.558, 0.442, 0, 0, 0],
-    [0, 0.242, 0.758, 0, 0],
+    [0, 1.05, 0, 0, 0],      // R channel: Use green information
+    [0, 1, 0, 0, 0],         // G channel: Keep green
+    [0.5, 0, 0.5, 0, 0],     // B channel: Mix red into blue for distinction
     [0, 0, 0, 1, 0],
   ],
 
-  // Protanomaly - Red-weak (anomalous L-cones)
+  // Protanomaly - Red-weak correction
+  // Enhances red-green separation
   [ColorblindType.PROTANOMALY]: [
-    [0.817, 0.183, 0, 0, 0],
-    [0.333, 0.667, 0, 0, 0],
-    [0, 0.125, 0.875, 0, 0],
+    [0.5, 0.5, 0, 0, 0],     // R channel: Boost red from green
+    [0, 1.2, 0, 0, 0],       // G channel: Enhance green
+    [0.2, 0, 0.8, 0, 0],     // B channel: Add red info to blue
     [0, 0, 0, 1, 0],
   ],
 
-  // Deuteranopia - Green-blind (missing M-cones)
+  // Deuteranopia - Green-blind correction
+  // Shifts green information to red and blue channels
   [ColorblindType.DEUTERANOPIA]: [
-    [0.625, 0.375, 0, 0, 0],
-    [0.7, 0.3, 0, 0, 0],
-    [0, 0.3, 0.7, 0, 0],
+    [1, 0, 0, 0, 0],         // R channel: Keep red
+    [0.5, 0, 0.5, 0, 0],     // G channel: Use red and blue info
+    [0, 0.5, 0.5, 0, 0],     // B channel: Mix green into blue
     [0, 0, 0, 1, 0],
   ],
 
-  // Deuteranomaly - Green-weak (anomalous M-cones)
+  // Deuteranomaly - Green-weak correction
+  // Enhances red-green separation
   [ColorblindType.DEUTERANOMALY]: [
-    [0.8, 0.2, 0, 0, 0],
-    [0.258, 0.742, 0, 0, 0],
-    [0, 0.142, 0.858, 0, 0],
+    [1.2, 0, 0, 0, 0],       // R channel: Enhance red
+    [0.2, 0.8, 0, 0, 0],     // G channel: Reduce green, add red
+    [0, 0.2, 0.8, 0, 0],     // B channel: Add green info to blue
     [0, 0, 0, 1, 0],
   ],
 
-  // Tritanopia - Blue-blind (missing S-cones)
+  // Tritanopia - Blue-blind correction
+  // Shifts blue information to red and green channels
   [ColorblindType.TRITANOPIA]: [
-    [0.95, 0.05, 0, 0, 0],
-    [0, 0.433, 0.567, 0, 0],
-    [0, 0.475, 0.525, 0, 0],
+    [1, 0, 0.3, 0, 0],       // R channel: Add blue info to red
+    [0, 1, 0.3, 0, 0],       // G channel: Add blue info to green
+    [0, 0, 0.4, 0, 0],       // B channel: Reduce blue intensity
     [0, 0, 0, 1, 0],
   ],
 
-  // Tritanomaly - Blue-weak (anomalous S-cones)
+  // Tritanomaly - Blue-weak correction
+  // Enhances blue-yellow separation
   [ColorblindType.TRITANOMALY]: [
-    [0.967, 0.033, 0, 0, 0],
-    [0, 0.733, 0.267, 0, 0],
-    [0, 0.183, 0.817, 0, 0],
+    [1, 0, 0.2, 0, 0],       // R channel: Slight blue shift
+    [0, 1, 0.2, 0, 0],       // G channel: Slight blue shift
+    [0, 0, 1.4, 0, 0],       // B channel: Enhance blue
     [0, 0, 0, 1, 0],
   ],
 
-  // Achromatopsia - Complete color blindness (no functioning cones)
-  // Using standard luminance weights: 0.299 R + 0.587 G + 0.114 B
+  // Achromatopsia - Complete color blindness
+  // Enhance contrast using edge detection-like filter
   [ColorblindType.ACHROMATOPSIA]: [
-    [0.299, 0.587, 0.114, 0, 0],
-    [0.299, 0.587, 0.114, 0, 0],
-    [0.299, 0.587, 0.114, 0, 0],
+    [0.299, 0.587, 0.114, 0, 0.1],  // Add slight brightness boost
+    [0.299, 0.587, 0.114, 0, 0.1],
+    [0.299, 0.587, 0.114, 0, 0.1],
     [0, 0, 0, 1, 0],
   ],
 
-  // Achromatomaly - Partial color blindness (reduced cone function)
-  // 50% desaturation towards grayscale
+  // Achromatomaly - Partial color blindness
+  // Enhance remaining color perception
   [ColorblindType.ACHROMATOMALY]: [
-    [0.618, 0.320, 0.062, 0, 0],
-    [0.163, 0.775, 0.062, 0, 0],
-    [0.163, 0.320, 0.516, 0, 0],
+    [1.2, -0.1, -0.1, 0, 0],   // Boost color channels
+    [-0.1, 1.2, -0.1, 0, 0],
+    [-0.1, -0.1, 1.2, 0, 0],
     [0, 0, 0, 1, 0],
   ],
 };

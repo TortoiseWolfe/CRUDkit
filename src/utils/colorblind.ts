@@ -50,18 +50,18 @@ export const DEFAULT_COLORBLIND_SETTINGS: ColorblindSettings = {
 };
 
 /**
- * Human-readable labels for colorblind types
+ * Human-readable labels for colorblind correction modes
  */
 export const COLORBLIND_LABELS: Record<ColorblindType, string> = {
-  [ColorblindType.NONE]: 'Normal Vision',
-  [ColorblindType.PROTANOPIA]: 'Protanopia (Red-Blind)',
-  [ColorblindType.PROTANOMALY]: 'Protanomaly (Red-Weak)',
-  [ColorblindType.DEUTERANOPIA]: 'Deuteranopia (Green-Blind)',
-  [ColorblindType.DEUTERANOMALY]: 'Deuteranomaly (Green-Weak)',
-  [ColorblindType.TRITANOPIA]: 'Tritanopia (Blue-Blind)',
-  [ColorblindType.TRITANOMALY]: 'Tritanomaly (Blue-Weak)',
-  [ColorblindType.ACHROMATOPSIA]: 'Achromatopsia (No Color)',
-  [ColorblindType.ACHROMATOMALY]: 'Achromatomaly (Partial Color)',
+  [ColorblindType.NONE]: 'No Correction',
+  [ColorblindType.PROTANOPIA]: 'Red-Blind Assistance',
+  [ColorblindType.PROTANOMALY]: 'Red-Weak Assistance',
+  [ColorblindType.DEUTERANOPIA]: 'Green-Blind Assistance',
+  [ColorblindType.DEUTERANOMALY]: 'Green-Weak Assistance',
+  [ColorblindType.TRITANOPIA]: 'Blue-Blind Assistance',
+  [ColorblindType.TRITANOMALY]: 'Blue-Weak Assistance',
+  [ColorblindType.ACHROMATOPSIA]: 'Complete Colorblind Assistance',
+  [ColorblindType.ACHROMATOMALY]: 'Partial Colorblind Assistance',
 };
 
 /**

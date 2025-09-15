@@ -29,15 +29,15 @@ export const ColorblindToggle: React.FC<ColorblindToggleProps> = ({ className = 
   }, []);
 
   const colorblindOptions = [
-    { value: ColorblindType.NONE, label: 'Normal Vision' },
-    { value: ColorblindType.PROTANOPIA, label: 'Protanopia (Red-Blind)' },
-    { value: ColorblindType.PROTANOMALY, label: 'Protanomaly (Red-Weak)' },
-    { value: ColorblindType.DEUTERANOPIA, label: 'Deuteranopia (Green-Blind)' },
-    { value: ColorblindType.DEUTERANOMALY, label: 'Deuteranomaly (Green-Weak)' },
-    { value: ColorblindType.TRITANOPIA, label: 'Tritanopia (Blue-Blind)' },
-    { value: ColorblindType.TRITANOMALY, label: 'Tritanomaly (Blue-Weak)' },
-    { value: ColorblindType.ACHROMATOPSIA, label: 'Achromatopsia (No Color)' },
-    { value: ColorblindType.ACHROMATOMALY, label: 'Achromatomaly (Partial Color)' },
+    { value: ColorblindType.NONE, label: 'No Correction Needed' },
+    { value: ColorblindType.PROTANOPIA, label: 'Protanopia (Red-Blind) Correction' },
+    { value: ColorblindType.PROTANOMALY, label: 'Protanomaly (Red-Weak) Correction' },
+    { value: ColorblindType.DEUTERANOPIA, label: 'Deuteranopia (Green-Blind) Correction' },
+    { value: ColorblindType.DEUTERANOMALY, label: 'Deuteranomaly (Green-Weak) Correction' },
+    { value: ColorblindType.TRITANOPIA, label: 'Tritanopia (Blue-Blind) Correction' },
+    { value: ColorblindType.TRITANOMALY, label: 'Tritanomaly (Blue-Weak) Correction' },
+    { value: ColorblindType.ACHROMATOPSIA, label: 'Achromatopsia (No Color) Enhancement' },
+    { value: ColorblindType.ACHROMATOMALY, label: 'Achromatomaly (Partial Color) Enhancement' },
   ];
 
   const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,7 +56,7 @@ export const ColorblindToggle: React.FC<ColorblindToggleProps> = ({ className = 
       <button
         tabIndex={0}
         className="btn btn-ghost gap-2"
-        aria-label="Color Vision Settings"
+        aria-label="Color Vision Assistance"
       >
         <IconComponent className="h-5 w-5" />
         <span className="hidden sm:inline">Color Vision</span>
@@ -67,17 +67,17 @@ export const ColorblindToggle: React.FC<ColorblindToggleProps> = ({ className = 
         className="dropdown-content card card-compact w-80 p-4 shadow bg-base-100 z-50"
       >
         <div className="card-body">
-          <h3 className="font-bold text-lg">Color Vision Settings</h3>
+          <h3 className="font-bold text-lg">Color Vision Assistance</h3>
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Color Vision Type</span>
+              <span className="label-text">Assistance Mode</span>
             </label>
             <select
               className="select select-bordered w-full"
               value={mode}
               onChange={handleModeChange}
-              aria-label="Select color vision type"
+              aria-label="Select assistance mode"
             >
               {colorblindOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -121,8 +121,8 @@ export const ColorblindToggle: React.FC<ColorblindToggleProps> = ({ className = 
             </svg>
             <span className="text-sm">
               {mode === ColorblindType.NONE
-                ? 'Select a color vision type to apply filters'
-                : `Simulating ${COLORBLIND_LABELS[mode]}`}
+                ? 'Select your color vision type for visual assistance'
+                : `Correcting for ${COLORBLIND_LABELS[mode]}`}
             </span>
           </div>
         </div>
