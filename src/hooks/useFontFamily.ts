@@ -1,16 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import type {
-  UseFontFamilyReturn,
-  FontConfig,
-  FontSettings,
-} from '@/utils/font-types';
+import type { UseFontFamilyReturn, FontSettings } from '@/utils/font-types';
 import { loadFont, isFontLoaded as checkFontLoaded } from '@/utils/font-loader';
 import {
   fonts,
   getFontById,
-  getDefaultFont,
   DEFAULT_FONT_ID,
   FONT_STORAGE_KEYS,
   FONT_CSS_VARS,
@@ -83,7 +78,7 @@ export function useFontFamily(): UseFontFamilyReturn {
       setFontFamilyState(DEFAULT_FONT_ID);
       applyFontToDOM(DEFAULT_FONT_ID);
     }
-  }, []);
+  }, [applyFontToDOM]);
 
   // Save settings to localStorage
   const saveSettings = useCallback((fontId: string, recent: string[]) => {
@@ -104,15 +99,6 @@ export function useFontFamily(): UseFontFamilyReturn {
     } catch (error) {
       console.error('Failed to save font settings:', error);
     }
-  }, []);
-
-  // Update recent fonts list
-  const updateRecentFonts = useCallback((fontId: string) => {
-    setRecentFonts((prev) => {
-      const updated = prev.filter((id) => id !== fontId);
-      updated.unshift(fontId);
-      return updated.slice(0, MAX_RECENT_FONTS);
-    });
   }, []);
 
   // Set font family

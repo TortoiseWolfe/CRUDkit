@@ -2,8 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useAnalytics } from './useAnalytics';
 import * as analytics from '@/utils/analytics';
-import { ConsentProvider, useConsent } from '@/contexts/ConsentContext';
+import { useConsent } from '@/contexts/ConsentContext';
 import React from 'react';
+import { createMockConsentAllRejected } from '@/test-utils/consent-mocks';
 
 // Mock the analytics utilities
 vi.mock('@/utils/analytics', () => ({
@@ -133,22 +134,7 @@ describe('useAnalytics', () => {
   describe('when analytics consent is denied', () => {
     beforeEach(() => {
       // Mock consent as denied
-      vi.mocked(useConsent).mockReturnValue({
-        consent: {
-          necessary: true,
-          functional: false,
-          analytics: false, // Denied
-          marketing: false,
-        },
-        updateConsent: vi.fn(),
-        acceptAll: vi.fn(),
-        rejectAll: vi.fn(),
-        openModal: vi.fn(),
-        closeModal: vi.fn(),
-        showBanner: false,
-        showModal: false,
-        isLoading: false,
-      });
+      vi.mocked(useConsent).mockReturnValue(createMockConsentAllRejected());
     });
 
     it('should not track theme changes', () => {

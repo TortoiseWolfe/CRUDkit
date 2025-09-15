@@ -3,7 +3,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import GoogleAnalytics from './GoogleAnalytics';
 import React from 'react';
 import { useConsent } from '@/contexts/ConsentContext';
-import type { ConsentContextValue } from '@/utils/consent-types';
+import {
+  createMockConsentAllRejected,
+  createMockConsentWithAnalytics,
+} from '@/test-utils/consent-mocks';
 
 // Type for Next.js Script props
 interface ScriptProps {
@@ -79,22 +82,7 @@ describe('GoogleAnalytics', () => {
   });
 
   it('should not render scripts when consent is denied', () => {
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: false,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentAllRejected());
 
     const { queryByTestId } = render(<GoogleAnalytics />);
 
@@ -103,22 +91,7 @@ describe('GoogleAnalytics', () => {
   });
 
   it('should render scripts when consent is granted', () => {
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     const { getByTestId } = render(<GoogleAnalytics />);
 
@@ -143,22 +116,7 @@ describe('GoogleAnalytics', () => {
       configurable: true,
     });
 
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     const { queryByTestId } = render(<GoogleAnalytics />);
 
@@ -176,22 +134,7 @@ describe('GoogleAnalytics', () => {
   it('should initialize GA and track page views on mount', async () => {
     const { initializeGA, trackPageView } = await import('@/utils/analytics');
 
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     render(<GoogleAnalytics />);
 
@@ -205,42 +148,12 @@ describe('GoogleAnalytics', () => {
     const { updateGAConsent } = await import('@/utils/analytics');
 
     // Start with analytics disabled
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: false,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentAllRejected());
 
     const { rerender } = render(<GoogleAnalytics />);
 
     // Change consent to granted
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     rerender(<GoogleAnalytics />);
 
@@ -253,22 +166,7 @@ describe('GoogleAnalytics', () => {
     const { trackPageView } = await import('@/utils/analytics');
     const { usePathname } = await import('next/navigation');
 
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     // First render with /page1
     vi.mocked(usePathname).mockReturnValue('/page1');
@@ -284,22 +182,7 @@ describe('GoogleAnalytics', () => {
   });
 
   it('should render inline script with correct GA4 configuration', () => {
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: true,
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
 
     const { getByTestId } = render(<GoogleAnalytics />);
 

@@ -11,6 +11,21 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
       <h1 className="mb-8 text-4xl font-bold">Privacy Policy</h1>
+
+      {/* Quick Actions */}
+      <div className="mb-8 flex flex-wrap gap-4">
+        <button
+          onClick={openModal}
+          className="btn btn-primary"
+          aria-label="Manage cookie preferences"
+        >
+          Manage Cookie Preferences
+        </button>
+        <Link href="/cookies" className="btn btn-outline">
+          View Cookie Policy
+        </Link>
+      </div>
+
       <div className="prose prose-lg max-w-none">
         <p className="text-base-content/70 mb-6 text-sm">
           Last updated: {lastUpdated}

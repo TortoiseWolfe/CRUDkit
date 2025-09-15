@@ -1,4 +1,8 @@
 #!/bin/sh
+# Clean .next directory contents before running pre-commit checks
+echo "🧹 Cleaning .next directory before checks..."
+rm -rf .next/* .next/.* 2>/dev/null || true
+
 # Run lint-staged in Docker if available, otherwise locally
 if docker compose ps | grep -q crudkit; then
   docker compose exec -T crudkit pnpm lint:staged

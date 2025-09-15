@@ -3,7 +3,10 @@ import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import GoogleAnalytics from './GoogleAnalytics';
 import { useConsent } from '@/contexts/ConsentContext';
-import type { ConsentContextValue } from '@/utils/consent-types';
+import {
+  createMockConsentAllRejected,
+  createMockConsentWithAnalytics,
+} from '@/test-utils/consent-mocks';
 
 // Mock Next.js Script component
 vi.mock('next/script', () => ({
@@ -25,26 +28,12 @@ vi.mock('@/utils/analytics', () => ({
 
 // Mock ConsentContext
 vi.mock('@/contexts/ConsentContext', () => ({
-  useConsent: vi.fn(() => ({
-    consent: {
-      necessary: true,
-      functional: false,
-      analytics: true,
-      marketing: false,
-    },
-    updateConsent: vi.fn(),
-    acceptAll: vi.fn(),
-    rejectAll: vi.fn(),
-    openModal: vi.fn(),
-    closeModal: vi.fn(),
-    showBanner: false,
-    showModal: false,
-    isLoading: false,
-  })),
+  useConsent: vi.fn(),
 }));
 
 describe('GoogleAnalytics Accessibility', () => {
   it('should have no accessibility violations when consent is granted', async () => {
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
     const { container } = render(<GoogleAnalytics />);
 
     // GoogleAnalytics renders Script components which don't produce visible DOM
@@ -54,22 +43,7 @@ describe('GoogleAnalytics Accessibility', () => {
   });
 
   it('should have no accessibility violations when consent is denied', async () => {
-    vi.mocked(useConsent).mockReturnValue({
-      consent: {
-        necessary: true,
-        functional: false,
-        analytics: false, // Denied
-        marketing: false,
-      },
-      updateConsent: vi.fn(),
-      acceptAll: vi.fn(),
-      rejectAll: vi.fn(),
-      openModal: vi.fn(),
-      closeModal: vi.fn(),
-      showBanner: false,
-      showModal: false,
-      isLoading: false,
-    } as ConsentContextValue);
+    vi.mocked(useConsent).mockReturnValue(createMockConsentAllRejected());
 
     const { container } = render(<GoogleAnalytics />);
 
@@ -79,6 +53,7 @@ describe('GoogleAnalytics Accessibility', () => {
   });
 
   it('should not interfere with page accessibility', () => {
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
     const { container } = render(<GoogleAnalytics />);
 
     // GoogleAnalytics should not add any focusable elements
@@ -90,6 +65,7 @@ describe('GoogleAnalytics Accessibility', () => {
   });
 
   it('should not add visible content to the page', () => {
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
     const { container } = render(<GoogleAnalytics />);
 
     // The component should not render any visible text
@@ -97,6 +73,7 @@ describe('GoogleAnalytics Accessibility', () => {
   });
 
   it('should not affect screen reader experience', () => {
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
     const { container } = render(<GoogleAnalytics />);
 
     // Should not have any ARIA live regions that could interrupt screen readers
@@ -109,6 +86,7 @@ describe('GoogleAnalytics Accessibility', () => {
   });
 
   it('should not create layout shifts', () => {
+    vi.mocked(useConsent).mockReturnValue(createMockConsentWithAnalytics());
     const { container } = render(<GoogleAnalytics />);
 
     // Component should not have any elements with explicit dimensions
