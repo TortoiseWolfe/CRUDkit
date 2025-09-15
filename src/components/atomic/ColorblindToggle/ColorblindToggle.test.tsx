@@ -148,7 +148,7 @@ describe('ColorblindToggle', () => {
     expect(mockTogglePatterns).toHaveBeenCalled();
   });
 
-  it('should show correct icon based on mode', () => {
+  it('should show correct icon based on mode', async () => {
     const { rerender } = render(<ColorblindToggle />);
 
     // Normal vision - should show Eye icon
@@ -156,7 +156,7 @@ describe('ColorblindToggle', () => {
     expect(button.querySelector('svg')).toBeInTheDocument();
 
     // With colorblind mode - should show EyeOff icon
-    const { useColorblindMode } = vi.importMock('@/hooks/useColorblindMode');
+    const { useColorblindMode } = await import('@/hooks/useColorblindMode');
     (useColorblindMode as ReturnType<typeof vi.fn>).mockReturnValue({
       mode: ColorblindType.PROTANOPIA,
       setColorblindMode: vi.fn(),

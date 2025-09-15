@@ -22,7 +22,11 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - 32 DaisyUI themes (16 light + 16 dark)
 - Persistent theme selection
 - Smooth theme transitions
-- Accessibility controls (font size, spacing)
+- Accessibility controls:
+  - Font size and spacing adjustments
+  - Color vision assistance with daltonization correction
+  - Support for 8 types of color vision deficiencies
+  - Optional pattern overlays for enhanced distinction
 
 ### 📱 Progressive Web App
 

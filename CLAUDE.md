@@ -144,7 +144,7 @@ src/
 │   └── api/health/        # Health check endpoint for monitoring
 ├── components/            # Atomic design pattern
 │   ├── subatomic/        # Text, Button, Input primitives
-│   ├── atomic/           # Card, Form, Modal components
+│   ├── atomic/           # Card, Form, Modal, ColorblindToggle, ColorblindFilters
 │   └── PWAInstall.tsx    # PWA installation prompt
 ├── config/
 │   └── project-status.json # Dynamic configuration for forks
@@ -193,6 +193,12 @@ The project uses GitHub Actions for automated deployment:
 - Theme persistence via localStorage
 - ThemeScript component prevents flash on load
 - Accessibility controls for font size and spacing adjustments
+- Color vision assistance with daltonization correction matrices
+  - Located in `/src/components/atomic/ColorblindToggle` and `/src/components/atomic/ColorblindFilters`
+  - Uses SVG filters for GPU-accelerated color correction (not simulation)
+  - Supports 8 types of color vision deficiencies
+  - Settings persist to localStorage
+  - Optional pattern overlays for additional visual distinction
 
 ### Status Dashboard Features
 
