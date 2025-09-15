@@ -136,7 +136,7 @@ describe('ColorblindToggle Accessibility', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Should have a heading for the settings section
-    const heading = getByText('Color Vision Settings');
+    const heading = getByText('Color Vision Assistance');
     expect(heading.tagName).toMatch(/^H[1-6]$/);
   });
 

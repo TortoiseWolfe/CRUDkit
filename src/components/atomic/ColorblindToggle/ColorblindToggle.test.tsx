@@ -33,7 +33,7 @@ describe('ColorblindToggle', () => {
     await user.click(button);
 
     // Check for dropdown content
-    expect(screen.getByText('Color Vision Settings')).toBeInTheDocument();
+    expect(screen.getByText('Color Vision Assistance')).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
@@ -185,7 +185,7 @@ describe('ColorblindToggle', () => {
     await user.click(button);
 
     // Should show current mode in alert
-    expect(screen.getByText(/Simulating Deuteranopia/i)).toBeInTheDocument();
+    expect(screen.getByText(/Correcting for.*Green-Blind/i)).toBeInTheDocument();
   });
 
   it('should be keyboard accessible', async () => {
@@ -200,7 +200,7 @@ describe('ColorblindToggle', () => {
     // Should open on Enter key
     fireEvent.keyDown(button, { key: 'Enter' });
     await waitFor(() => {
-      expect(screen.getByText('Color Vision Settings')).toBeInTheDocument();
+      expect(screen.getByText('Color Vision Assistance')).toBeInTheDocument();
     });
   });
 
@@ -216,14 +216,14 @@ describe('ColorblindToggle', () => {
     const toggleButton = screen.getByRole('button', { name: /color vision/i });
     await user.click(toggleButton);
 
-    expect(screen.getByText('Color Vision Settings')).toBeInTheDocument();
+    expect(screen.getByText('Color Vision Assistance')).toBeInTheDocument();
 
     // Click outside
     const outsideButton = screen.getByText('Outside button');
     await user.click(outsideButton);
 
     await waitFor(() => {
-      expect(screen.queryByText('Color Vision Settings')).not.toBeInTheDocument();
+      expect(screen.queryByText('Color Vision Assistance')).not.toBeInTheDocument();
     });
   });
 
