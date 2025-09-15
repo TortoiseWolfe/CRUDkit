@@ -4,6 +4,7 @@ import './globals.css';
 import PWAInstall from '@/components/PWAInstall';
 import ThemeScript from '@/components/ThemeScript';
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
+import { ColorblindFilters } from '@/components/atomic/ColorblindFilters';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -75,6 +76,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <ColorblindFilters />
         <AccessibilityProvider>
           {children}
           <PWAInstall />
