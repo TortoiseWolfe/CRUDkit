@@ -19,23 +19,6 @@ export function useColorblindMode() {
     DEFAULT_COLORBLIND_SETTINGS.patternsEnabled
   );
 
-  // Load settings from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(COLORBLIND_STORAGE_KEY);
-      if (saved) {
-        const settings: ColorblindSettings = JSON.parse(saved);
-        if (settings.mode && Object.values(ColorblindType).includes(settings.mode)) {
-          setMode(settings.mode);
-          setPatternsEnabled(settings.patternsEnabled ?? false);
-          applyColorblindMode(settings.mode, settings.patternsEnabled ?? false);
-        }
-      }
-    } catch (error) {
-      console.error('Failed to load colorblind settings:', error);
-    }
-  }, []);
-
   // Apply colorblind mode to the DOM
   const applyColorblindMode = useCallback(
     (type: ColorblindType, patterns: boolean) => {
@@ -60,6 +43,23 @@ export function useColorblindMode() {
     },
     []
   );
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(COLORBLIND_STORAGE_KEY);
+      if (saved) {
+        const settings: ColorblindSettings = JSON.parse(saved);
+        if (settings.mode && Object.values(ColorblindType).includes(settings.mode)) {
+          setMode(settings.mode);
+          setPatternsEnabled(settings.patternsEnabled ?? false);
+          applyColorblindMode(settings.mode, settings.patternsEnabled ?? false);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load colorblind settings:', error);
+    }
+  }, [applyColorblindMode]);
 
   // Save settings to localStorage
   const saveSettings = useCallback((settings: ColorblindSettings) => {
