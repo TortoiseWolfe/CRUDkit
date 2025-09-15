@@ -140,17 +140,22 @@ src/
 │   ├── themes/            # Theme switcher page
 │   ├── components/        # Component gallery page
 │   ├── accessibility/     # Accessibility controls
+│   ├── privacy/           # Privacy policy page
+│   ├── cookies/           # Cookie policy page
+│   ├── privacy-controls/  # Privacy controls dashboard
 │   ├── status/            # Real-time status dashboard
 │   └── api/health/        # Health check endpoint for monitoring
 ├── components/            # Atomic design pattern
 │   ├── subatomic/        # Text, Button, Input primitives
 │   ├── atomic/           # Card, Form, Modal, ColorblindToggle, ColorblindFilters
+│   ├── privacy/          # CookieConsent, ConsentModal, PrivacyControls
 │   └── PWAInstall.tsx    # PWA installation prompt
 ├── config/
 │   └── project-status.json # Dynamic configuration for forks
 ├── contexts/
-│   └── AccessibilityContext.tsx # Font size/spacing controls
-└── utils/                # Web Vitals, PWA testing utilities
+│   ├── AccessibilityContext.tsx # Font size/spacing controls
+│   └── ConsentContext.tsx       # Cookie consent management
+└── utils/                # Web Vitals, PWA testing, consent utilities
 ```
 
 ### Key Configuration Files
@@ -199,6 +204,18 @@ The project uses GitHub Actions for automated deployment:
   - Supports 8 types of color vision deficiencies
   - Settings persist to localStorage
   - Optional pattern overlays for additional visual distinction
+
+### Privacy & Compliance
+
+- GDPR-compliant cookie consent system with granular control
+- ConsentContext manages consent state across the application
+- Cookie categories: essential, analytics, marketing, functional
+- Consent UI appears on first visit, dismissible after choice
+- Privacy controls dashboard at `/privacy-controls`
+- Comprehensive privacy policy at `/privacy`
+- Detailed cookie policy at `/cookies`
+- All consent preferences persist via localStorage
+- Analytics and tracking only activate after explicit user consent
 
 ### Status Dashboard Features
 

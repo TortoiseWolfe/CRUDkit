@@ -55,6 +55,15 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
   - CI/CD validation on every PR
   - Plop generator for consistent component creation
 
+### 🔒 Privacy & Compliance
+
+- GDPR-compliant cookie consent system
+- Granular consent management (essential, analytics, marketing, functional)
+- Privacy-first approach with opt-in analytics
+- Comprehensive privacy and cookie policies
+- User-friendly privacy controls dashboard
+- Persistent consent preferences via localStorage
+
 ### 📊 Monitoring & Analytics
 
 - Real-time Web Vitals tracking with performance utilities
