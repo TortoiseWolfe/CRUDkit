@@ -5,6 +5,9 @@ import PWAInstall from '@/components/PWAInstall';
 import ThemeScript from '@/components/ThemeScript';
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
 import { ColorblindFilters } from '@/components/atomic/ColorblindFilters';
+import { ConsentProvider } from '@/contexts/ConsentContext';
+import { CookieConsent } from '@/components/privacy/CookieConsent';
+import { ConsentModal } from '@/components/privacy/ConsentModal';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -77,10 +80,14 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ColorblindFilters />
-        <AccessibilityProvider>
-          {children}
-          <PWAInstall />
-        </AccessibilityProvider>
+        <ConsentProvider>
+          <AccessibilityProvider>
+            {children}
+            <PWAInstall />
+            <CookieConsent />
+            <ConsentModal />
+          </AccessibilityProvider>
+        </ConsentProvider>
       </body>
     </html>
   );
