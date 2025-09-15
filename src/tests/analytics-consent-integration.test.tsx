@@ -9,8 +9,8 @@ type GtagCall = [string, ...unknown[]];
 describe('Analytics and Consent Integration', () => {
   beforeEach(() => {
     // Clean window object
-    delete (window as Window & { gtag?: unknown }).gtag;
-    delete (window as Window & { dataLayer?: unknown }).dataLayer;
+    (window as any).gtag = undefined;
+    (window as any).dataLayer = undefined;
     vi.clearAllMocks();
 
     // Set measurement ID
@@ -22,8 +22,8 @@ describe('Analytics and Consent Integration', () => {
 
   afterEach(() => {
     try {
-      delete (window as Window & { gtag?: unknown }).gtag;
-      delete (window as Window & { dataLayer?: unknown }).dataLayer;
+      (window as any).gtag = undefined;
+      (window as any).dataLayer = undefined;
     } catch {}
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
     vi.resetModules();
@@ -175,7 +175,7 @@ describe('Analytics and Consent Integration', () => {
       expect(() => isAnalyticsEnabled()).not.toThrow();
 
       // Clean up
-      delete (window as Window & { gtag?: unknown }).gtag;
+      (window as any).gtag = undefined;
       consoleSpy.mockRestore();
     });
   });

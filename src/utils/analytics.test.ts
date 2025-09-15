@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { GtagFunction } from '@/types/analytics.types';
 
 // Type for window with gtag properties
-interface WindowWithGtag extends Window {
+interface WindowWithGtag {
   gtag?: GtagFunction;
   dataLayer?: unknown[];
 }
@@ -13,9 +13,9 @@ type GtagCall = [string, ...unknown[]];
 describe('Analytics Utilities', () => {
   beforeEach(() => {
     // Reset window.gtag and dataLayer
-    const windowWithGtag = window as WindowWithGtag;
-    delete windowWithGtag.gtag;
-    delete windowWithGtag.dataLayer;
+    const windowWithGtag = window as any as WindowWithGtag;
+    windowWithGtag.gtag = undefined;
+    windowWithGtag.dataLayer = undefined;
     vi.clearAllMocks();
 
     // Set environment variable
@@ -24,9 +24,9 @@ describe('Analytics Utilities', () => {
 
   afterEach(() => {
     // Clean up
-    const windowWithGtag = window as WindowWithGtag;
-    delete windowWithGtag.gtag;
-    delete windowWithGtag.dataLayer;
+    const windowWithGtag = window as any as WindowWithGtag;
+    windowWithGtag.gtag = undefined;
+    windowWithGtag.dataLayer = undefined;
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
     // Clear module cache to ensure fresh import

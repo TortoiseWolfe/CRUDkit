@@ -7,9 +7,9 @@ import { ConsentModal } from '@/components/privacy/ConsentModal';
 import { PrivacyControls } from '@/components/privacy/PrivacyControls';
 import { getConsentFromStorage, saveConsentToStorage } from '@/utils/consent';
 import {
-  initializeAnalytics,
+  // initializeAnalytics, // Not exported
   trackEvent,
-  isAnalyticsLoaded,
+  // isAnalyticsLoaded, // Not exported
 } from '@/utils/analytics';
 import { exportUserData, clearUserData } from '@/utils/privacy';
 import {
