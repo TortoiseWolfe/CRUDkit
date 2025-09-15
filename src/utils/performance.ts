@@ -18,7 +18,7 @@ function sendToAnalytics(metric: Metric) {
   if (process.env.NODE_ENV === 'production') {
     // Example: send to Google Analytics
     if (typeof window !== 'undefined' && 'gtag' in window) {
-      const gtag = (window as Record<string, unknown>).gtag as (
+      const gtag = (window as unknown as Record<string, unknown>).gtag as (
         ...args: unknown[]
       ) => void;
       gtag('event', metric.name, {

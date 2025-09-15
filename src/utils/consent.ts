@@ -20,7 +20,7 @@ import {
  */
 export function canUseCookies(category: CookieCategory): boolean {
   try {
-    const storedConsent = localStorage.getItem(StorageKey.CONSENT_STATE);
+    const storedConsent = localStorage.getItem(StorageKey.CONSENT);
     if (!storedConsent) return false;
 
     const consent = JSON.parse(storedConsent) as ConsentState;

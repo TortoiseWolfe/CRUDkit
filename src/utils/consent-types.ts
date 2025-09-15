@@ -304,12 +304,12 @@ export function isValidConsent(value: unknown): value is ConsentState {
  * Type guard to check if a value is a valid CookieCategory
  */
 export function isValidCategory(value: unknown): value is CookieCategory {
-  return Object.values(CookieCategory).includes(value);
+  return Object.values(CookieCategory).includes(value as CookieCategory);
 }
 
 /**
  * Type guard to check if a value is a valid ConsentMethod
  */
 export function isValidMethod(value: unknown): value is ConsentMethod {
-  return Object.values(ConsentMethod).includes(value);
+  return Object.values(ConsentMethod).includes(value as ConsentMethod);
 }

@@ -9,7 +9,7 @@ import {
   shouldLoadAnalytics,
   cleanupAnalytics,
 } from './analytics';
-import { ConsentState } from './consent-types';
+import { ConsentState, ConsentMethod } from './consent-types';
 
 // Mock window.gtag
 declare global {
@@ -36,7 +36,7 @@ describe('Analytics Integration', () => {
     timestamp: Date.now(),
     version: '1.0.0',
     lastUpdated: Date.now(),
-    method: 'default',
+    method: ConsentMethod.DEFAULT,
   };
 
   beforeEach(() => {
@@ -131,7 +131,7 @@ describe('Analytics Integration', () => {
       if (mockScript.onload) mockScript.onload();
 
       const createElementCalls = (
-        document.createElement as ReturnType<typeof vi.spyOn>
+        document.createElement as unknown as ReturnType<typeof vi.spyOn>
       ).mock.calls.length;
 
       // Second initialization
@@ -139,8 +139,8 @@ describe('Analytics Integration', () => {
 
       // Should not create additional scripts
       expect(
-        (document.createElement as ReturnType<typeof vi.spyOn>).mock.calls
-          .length
+        (document.createElement as unknown as ReturnType<typeof vi.spyOn>).mock
+          .calls.length
       ).toBe(createElementCalls);
     });
   });

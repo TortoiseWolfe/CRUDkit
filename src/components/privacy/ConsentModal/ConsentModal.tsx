@@ -104,6 +104,7 @@ export function ConsentModal({
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }
+    return undefined;
   }, [showModal, handleClose]);
 
   // Focus management
