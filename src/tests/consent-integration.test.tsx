@@ -4,18 +4,6 @@ import userEvent from '@testing-library/user-event';
 import { ConsentProvider } from '@/contexts/ConsentContext';
 import { CookieConsent } from '@/components/privacy/CookieConsent';
 import { ConsentModal } from '@/components/privacy/ConsentModal';
-import { PrivacyControls } from '@/components/privacy/PrivacyControls';
-import { getConsentFromStorage, saveConsentToStorage } from '@/utils/consent';
-import {
-  // initializeAnalytics, // Not exported
-  trackEvent,
-  // isAnalyticsLoaded, // Not exported
-} from '@/utils/analytics';
-import { exportUserData, clearUserData } from '@/utils/privacy';
-import {
-  addConsentHistoryEntry,
-  getConsentHistory,
-} from '@/utils/consent-history';
 
 // Mock analytics module
 vi.mock('@/utils/analytics', () => ({

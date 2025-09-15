@@ -1,17 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { ConsentProvider } from '@/contexts/ConsentContext';
 import { CookieConsent } from '@/components/privacy/CookieConsent';
-import { ConsentModal } from '@/components/privacy/ConsentModal';
-import { PrivacyControls } from '@/components/privacy/PrivacyControls';
 
 expect.extend(toHaveNoViolations);
 
 describe('Consent Accessibility Tests', () => {
-  const user = userEvent.setup();
-
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();

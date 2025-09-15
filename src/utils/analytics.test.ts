@@ -12,13 +12,25 @@ type GtagCall = [string, ...unknown[]];
 
 describe('Analytics Utilities', () => {
   beforeEach(() => {
-    // Reset window.gtag and dataLayer - delete properties completely
+    // Reset window.gtag and dataLayer - use Reflect.deleteProperty for strict mode
     const windowWithGtag = window as unknown as WindowWithGtag;
-    try {
-      delete windowWithGtag.gtag;
-      delete windowWithGtag.dataLayer;
-    } catch {}
-    // Don't set to undefined as that recreates the property
+
+    // Make properties configurable so they can be deleted
+    if ('gtag' in windowWithGtag) {
+      Object.defineProperty(windowWithGtag, 'gtag', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(windowWithGtag, 'gtag');
+    }
+    if ('dataLayer' in windowWithGtag) {
+      Object.defineProperty(windowWithGtag, 'dataLayer', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(windowWithGtag, 'dataLayer');
+    }
+
     vi.clearAllMocks();
 
     // Set environment variable
@@ -26,13 +38,25 @@ describe('Analytics Utilities', () => {
   });
 
   afterEach(() => {
-    // Clean up - delete properties completely
+    // Clean up - use Reflect.deleteProperty for strict mode
     const windowWithGtag = window as unknown as WindowWithGtag;
-    try {
-      delete windowWithGtag.gtag;
-      delete windowWithGtag.dataLayer;
-    } catch {}
-    // Don't set to undefined as that recreates the property
+
+    // Make properties configurable so they can be deleted
+    if ('gtag' in windowWithGtag) {
+      Object.defineProperty(windowWithGtag, 'gtag', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(windowWithGtag, 'gtag');
+    }
+    if ('dataLayer' in windowWithGtag) {
+      Object.defineProperty(windowWithGtag, 'dataLayer', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(windowWithGtag, 'dataLayer');
+    }
+
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
     // Clear module cache to ensure fresh import

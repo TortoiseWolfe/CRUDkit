@@ -8,12 +8,25 @@ type GtagCall = [string, ...unknown[]];
 
 describe('Analytics and Consent Integration', () => {
   beforeEach(() => {
-    // Clean window object - delete properties completely
-    try {
-      delete (window as Window & { gtag?: unknown }).gtag;
-      delete (window as Window & { dataLayer?: unknown }).dataLayer;
-    } catch {}
-    // Don't set to undefined as that recreates the property
+    // Clean window object - use Reflect.deleteProperty for strict mode
+    const win = window as Window & { gtag?: unknown; dataLayer?: unknown };
+
+    // Make properties configurable so they can be deleted
+    if ('gtag' in win) {
+      Object.defineProperty(win, 'gtag', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(win, 'gtag');
+    }
+    if ('dataLayer' in win) {
+      Object.defineProperty(win, 'dataLayer', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(win, 'dataLayer');
+    }
+
     vi.clearAllMocks();
 
     // Set measurement ID
@@ -24,12 +37,25 @@ describe('Analytics and Consent Integration', () => {
   });
 
   afterEach(() => {
-    // Clean up - delete properties completely
-    try {
-      delete (window as Window & { gtag?: unknown }).gtag;
-      delete (window as Window & { dataLayer?: unknown }).dataLayer;
-    } catch {}
-    // Don't set to undefined as that recreates the property
+    // Clean up - use Reflect.deleteProperty for strict mode
+    const win = window as Window & { gtag?: unknown; dataLayer?: unknown };
+
+    // Make properties configurable so they can be deleted
+    if ('gtag' in win) {
+      Object.defineProperty(win, 'gtag', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(win, 'gtag');
+    }
+    if ('dataLayer' in win) {
+      Object.defineProperty(win, 'dataLayer', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(win, 'dataLayer');
+    }
+
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
     vi.resetModules();
     localStorage.clear();
@@ -178,8 +204,13 @@ describe('Analytics and Consent Integration', () => {
       // Should not throw
       expect(() => isAnalyticsEnabled()).not.toThrow();
 
-      // Clean up - delete the property first
-      delete (window as Window & { gtag?: unknown }).gtag;
+      // Clean up - use Reflect.deleteProperty for strict mode
+      const win = window as Window & { gtag?: unknown };
+      Object.defineProperty(win, 'gtag', {
+        value: undefined,
+        configurable: true,
+      });
+      Reflect.deleteProperty(win, 'gtag');
       consoleSpy.mockRestore();
     });
   });
