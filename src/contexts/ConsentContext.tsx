@@ -24,6 +24,7 @@ import {
   hasUserConsented,
   setCurrentConsentState,
 } from '../utils/consent';
+// Removed unused import - history tracking integrated inline
 
 /**
  * Consent Context

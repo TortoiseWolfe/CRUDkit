@@ -2,6 +2,11 @@
 
 import React, { useState } from 'react';
 import { useConsent } from '../../../contexts/ConsentContext';
+import {
+  exportUserData,
+  downloadJSON,
+  clearUserData,
+} from '../../../utils/privacy';
 
 export interface PrivacyControlsProps {
   className?: string;
@@ -12,6 +17,8 @@ export interface PrivacyControlsProps {
   theme?: 'light' | 'dark';
   onManage?: () => void;
   onRevoke?: () => void;
+  onExport?: () => void;
+  onDelete?: () => void;
 }
 
 /**
@@ -27,12 +34,16 @@ export function PrivacyControls({
   theme,
   onManage,
   onRevoke,
+  onExport,
+  onDelete,
 }: PrivacyControlsProps) {
   const { consent, isLoading, openModal, resetConsent, hasConsented } =
     useConsent();
 
   const [expanded, setExpanded] = useState(initialExpanded);
   const [showRevokeConfirm, setShowRevokeConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteStatus, setDeleteStatus] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -62,6 +73,43 @@ export function PrivacyControls({
     resetConsent();
     onRevoke?.();
     setShowRevokeConfirm(false);
+  };
+
+  const handleExport = async () => {
+    try {
+      const data = await exportUserData();
+      downloadJSON(data);
+      onExport?.();
+    } catch (error) {
+      console.error('Failed to export data:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (showConfirmation && !showDeleteConfirm) {
+      setShowDeleteConfirm(true);
+      return;
+    }
+
+    try {
+      const result = await clearUserData({
+        keepLocalStorage: ['cookieConsent'],
+        keepCookies: ['necessary'],
+      });
+
+      if (result.success) {
+        setDeleteStatus('Your data has been successfully deleted.');
+        onDelete?.();
+      } else {
+        setDeleteStatus('Failed to delete data. Please try again.');
+      }
+    } catch (error) {
+      console.error('Failed to delete data:', error);
+      setDeleteStatus('An error occurred while deleting your data.');
+    }
+
+    setShowDeleteConfirm(false);
+    setTimeout(() => setDeleteStatus(null), 5000);
   };
 
   const formatMethod = (method?: string): string => {
@@ -179,7 +227,7 @@ export function PrivacyControls({
         </div>
 
         {/* Actions */}
-        <div className="card-actions mt-4 justify-end">
+        <div className="card-actions mt-4 flex-wrap justify-end gap-2">
           {expandable && !expanded && (
             <button
               onClick={() => setExpanded(true)}
@@ -204,6 +252,20 @@ export function PrivacyControls({
             aria-label="Manage cookie preferences"
           >
             Manage Cookies
+          </button>
+          <button
+            onClick={handleExport}
+            className="btn btn-sm btn-ghost"
+            aria-label="Export my data"
+          >
+            Export My Data
+          </button>
+          <button
+            onClick={handleDelete}
+            className="btn btn-sm btn-ghost text-warning"
+            aria-label="Delete my data"
+          >
+            Delete My Data
           </button>
           {hasConsented() && (
             <button
@@ -256,6 +318,59 @@ export function PrivacyControls({
                 Confirm
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation */}
+        {showDeleteConfirm && (
+          <div className="alert alert-error mt-4">
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 flex-shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <div>
+                <h3 className="font-bold">Delete All Data?</h3>
+                <div className="text-xs">
+                  This will permanently delete all your stored data except
+                  necessary cookies. This action cannot be undone.
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="btn btn-sm"
+                aria-label="Cancel"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="btn btn-sm btn-error"
+                aria-label="Confirm delete"
+              >
+                Delete All Data
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Status */}
+        {deleteStatus && (
+          <div
+            className={`alert ${deleteStatus.includes('success') ? 'alert-success' : 'alert-error'} mt-4`}
+          >
+            <span>{deleteStatus}</span>
           </div>
         )}
       </div>
