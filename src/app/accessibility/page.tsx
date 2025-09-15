@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
+import { ColorblindToggle } from '@/components/atomic/ColorblindToggle';
 
 export default function AccessibilityPage() {
   const { settings, updateSettings, resetSettings } = useAccessibility();
@@ -80,6 +81,17 @@ export default function AccessibilityPage() {
                     </button>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Color Vision Control */}
+            <div className="card bg-base-200 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title mb-4">Color Vision Assistance</h2>
+                <p className="mb-4 text-sm">
+                  Apply color corrections to enhance color distinction for various types of color vision deficiencies
+                </p>
+                <ColorblindToggle className="w-full" />
               </div>
             </div>
 
