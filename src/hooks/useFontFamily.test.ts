@@ -3,6 +3,13 @@ import { renderHook, act } from '@testing-library/react';
 import { useFontFamily } from './useFontFamily';
 import { fonts, DEFAULT_FONT_ID, FONT_STORAGE_KEYS } from '@/config/fonts';
 
+// Mock the font-loader module
+vi.mock('@/utils/font-loader', () => ({
+  loadFont: vi.fn(() => Promise.resolve()),
+  isFontLoaded: vi.fn(() => false),
+  clearAllFonts: vi.fn(),
+}));
+
 describe('useFontFamily', () => {
   beforeEach(() => {
     // Clear localStorage
@@ -99,11 +106,11 @@ describe('useFontFamily', () => {
       expect(result.current.fontFamily).toBe(DEFAULT_FONT_ID);
     });
 
-    it('should save font settings object to localStorage', () => {
+    it('should save font settings object to localStorage', async () => {
       const { result } = renderHook(() => useFontFamily());
 
-      act(() => {
-        result.current.setFontFamily('inter');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
       });
 
       const settings = localStorage.getItem(FONT_STORAGE_KEYS.FONT_SETTINGS);
@@ -114,15 +121,15 @@ describe('useFontFamily', () => {
       expect(parsed.lastUpdated).toBeDefined();
     });
 
-    it('should track recent fonts in localStorage', () => {
+    it('should track recent fonts in localStorage', async () => {
       const { result } = renderHook(() => useFontFamily());
 
-      act(() => {
-        result.current.setFontFamily('inter');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
       });
 
-      act(() => {
-        result.current.setFontFamily('georgia');
+      await act(async () => {
+        await result.current.setFontFamily('georgia');
       });
 
       expect(result.current.recentFonts).toContain('inter');
@@ -142,11 +149,11 @@ describe('useFontFamily', () => {
       expect(fontFamily).toContain('Georgia');
     });
 
-    it('should update CSS variable on font change', () => {
+    it('should update CSS variable on font change', async () => {
       const { result } = renderHook(() => useFontFamily());
 
-      act(() => {
-        result.current.setFontFamily('inter');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
       });
 
       const fontFamily =
@@ -164,14 +171,14 @@ describe('useFontFamily', () => {
       expect(document.body.style.fontFamily).toContain('var(--font-family)');
     });
 
-    it('should dispatch custom event on font change', () => {
+    it('should dispatch custom event on font change', async () => {
       const { result } = renderHook(() => useFontFamily());
       const eventListener = vi.fn();
 
       window.addEventListener('fontchange', eventListener);
 
-      act(() => {
-        result.current.setFontFamily('inter');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
       });
 
       expect(eventListener).toHaveBeenCalled();
@@ -181,42 +188,46 @@ describe('useFontFamily', () => {
   });
 
   describe('Font Management', () => {
-    it('should change font when setFontFamily is called', () => {
+    it('should change font when setFontFamily is called', async () => {
       const { result } = renderHook(() => useFontFamily());
 
-      act(() => {
-        result.current.setFontFamily('inter');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
       });
 
       expect(result.current.fontFamily).toBe('inter');
       expect(result.current.currentFontConfig?.id).toBe('inter');
     });
 
-    it('should not change font for invalid ID', () => {
+    it('should not change font for invalid ID', async () => {
+      const { result } = renderHook(() => useFontFamily());
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      await act(async () => {
+        await result.current.setFontFamily('invalid-font');
+      });
+
+      expect(result.current.fontFamily).toBe(DEFAULT_FONT_ID);
+      expect(consoleSpy).toHaveBeenCalledWith('Invalid font ID: invalid-font');
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should reset to default font', async () => {
       const { result } = renderHook(() => useFontFamily());
 
-      act(() => {
-        result.current.setFontFamily('invalid-font');
+      await act(async () => {
+        await result.current.setFontFamily('inter');
+      });
+
+      await act(async () => {
+        await result.current.resetFont();
       });
 
       expect(result.current.fontFamily).toBe(DEFAULT_FONT_ID);
     });
 
-    it('should reset to default font', () => {
-      const { result } = renderHook(() => useFontFamily());
-
-      act(() => {
-        result.current.setFontFamily('inter');
-      });
-
-      act(() => {
-        result.current.resetFont();
-      });
-
-      expect(result.current.fontFamily).toBe(DEFAULT_FONT_ID);
-    });
-
-    it('should limit recent fonts to maximum', () => {
+    it('should limit recent fonts to maximum', async () => {
       const { result } = renderHook(() => useFontFamily());
 
       // Add more than MAX_RECENT_FONTS
@@ -229,11 +240,11 @@ describe('useFontFamily', () => {
         'system',
       ];
 
-      fontIds.forEach((id) => {
-        act(() => {
-          result.current.setFontFamily(id);
+      for (const id of fontIds) {
+        await act(async () => {
+          await result.current.setFontFamily(id);
         });
-      });
+      }
 
       expect(result.current.recentFonts.length).toBeLessThanOrEqual(5);
     });

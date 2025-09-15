@@ -1,5 +1,25 @@
 [
   {
+    "date": "9/15/2025",
+    "feature": "Implement core foundation with TDD",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Add /tasks for font switcher implementation",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Add /plan artifacts for font switcher PRP-006",
+    "status": "success"
+  },
+  {
+    "date": "9/14/2025",
+    "feature": "Resolve ESLint errors for successful build",
+    "status": "success"
+  },
+  {
     "date": "9/14/2025",
     "feature": "Skip environment-specific and implementation de...",
     "status": "success"
@@ -77,26 +97,6 @@
   {
     "date": "9/14/2025",
     "feature": "Use exact pnpm version 10.16.1 in all workflows",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Standardize pnpm version to v10 across all CI/C...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Resolve build and accessibility issues",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Add server startup for E2E tests in GitHub Actions",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Properly type E2E tests without using any",
     "status": "success"
   }
 ]

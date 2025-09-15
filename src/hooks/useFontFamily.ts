@@ -6,6 +6,7 @@ import type {
   FontConfig,
   FontSettings,
 } from '@/utils/font-types';
+import { loadFont, isFontLoaded as checkFontLoaded } from '@/utils/font-loader';
 import {
   fonts,
   getFontById,
@@ -116,11 +117,22 @@ export function useFontFamily(): UseFontFamilyReturn {
 
   // Set font family
   const setFontFamily = useCallback(
-    (fontId: string) => {
+    async (fontId: string) => {
       // Validate font ID
-      if (!getFontById(fontId)) {
+      const font = getFontById(fontId);
+      if (!font) {
         console.warn(`Invalid font ID: ${fontId}`);
         return;
+      }
+
+      // Load font if needed
+      if (font.loading !== 'system' && !loadedFonts.has(fontId)) {
+        try {
+          await loadFont(font);
+          setLoadedFonts((prev) => new Set([...prev, fontId]));
+        } catch (error) {
+          console.error(`Failed to load font ${fontId}:`, error);
+        }
       }
 
       setFontFamilyState(fontId);
@@ -135,13 +147,12 @@ export function useFontFamily(): UseFontFamilyReturn {
       // Save to localStorage
       saveSettings(fontId, updatedRecent);
 
-      // Mark font as loaded if it's a system font
-      const font = getFontById(fontId);
+      // Mark font as loaded
       if (font?.loading === 'system') {
         setLoadedFonts((prev) => new Set([...prev, fontId]));
       }
     },
-    [recentFonts, saveSettings, applyFontToDOM]
+    [recentFonts, saveSettings, applyFontToDOM, loadedFonts]
   );
 
   // Get font by ID
@@ -159,15 +170,15 @@ export function useFontFamily(): UseFontFamilyReturn {
         return true;
       }
 
-      // Check if web font is in loaded set
-      return loadedFonts.has(fontId);
+      // Check if web font is loaded
+      return loadedFonts.has(fontId) || checkFontLoaded(fontId);
     },
     [loadedFonts]
   );
 
   // Reset to default font
-  const resetFont = useCallback(() => {
-    setFontFamily(DEFAULT_FONT_ID);
+  const resetFont = useCallback(async () => {
+    await setFontFamily(DEFAULT_FONT_ID);
   }, [setFontFamily]);
 
   // Get current font configuration
