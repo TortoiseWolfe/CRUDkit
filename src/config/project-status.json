@@ -131,6 +131,11 @@
       "name": "Font Switcher",
       "completed": true,
       "description": "6 fonts including dyslexia-friendly and high-readability options"
+    },
+    {
+      "name": "Cookie Consent & GDPR",
+      "completed": true,
+      "description": "Full GDPR compliance with granular consent management"
     }
   ],
   "lighthouse": {

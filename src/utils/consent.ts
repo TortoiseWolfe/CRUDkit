@@ -16,6 +16,34 @@ import {
 } from './consent-types';
 
 /**
+ * Check if we can use cookies for a specific category
+ */
+export function canUseCookies(category: CookieCategory): boolean {
+  try {
+    const storedConsent = localStorage.getItem(StorageKey.CONSENT_STATE);
+    if (!storedConsent) return false;
+
+    const consent = JSON.parse(storedConsent) as ConsentState;
+
+    // Check category consent
+    switch (category) {
+      case CookieCategory.NECESSARY:
+        return true; // Always allowed
+      case CookieCategory.FUNCTIONAL:
+        return consent.functional === true;
+      case CookieCategory.ANALYTICS:
+        return consent.analytics === true;
+      case CookieCategory.MARKETING:
+        return consent.marketing === true;
+      default:
+        return false;
+    }
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Get default consent state for new users
  */
 export function getDefaultConsent(): ConsentState {
