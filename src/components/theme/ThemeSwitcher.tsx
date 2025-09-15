@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { canUseCookies } from '../../utils/consent';
+import { CookieCategory } from '../../utils/consent-types';
 
 // DaisyUI themes
 const THEMES = [
@@ -42,32 +44,53 @@ export function ThemeSwitcher() {
   const [currentTheme, setCurrentTheme] = useState('light');
 
   useEffect(() => {
-    // Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Check if we can use persistent storage
+    const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
+
+    // Try to load saved theme
+    let savedTheme = 'light';
+
+    if (canPersist) {
+      // Use localStorage if functional cookies allowed
+      savedTheme = localStorage.getItem('theme') || 'light';
+    } else {
+      // Use sessionStorage as fallback
+      savedTheme = sessionStorage.getItem('theme') || 'light';
+    }
+
     setCurrentTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
-  const handleThemeChange = (theme: string) => {
+  const handleThemeChange = useCallback((theme: string) => {
     setCurrentTheme(theme);
 
     // Apply to DOM
     document.documentElement.setAttribute('data-theme', theme);
     document.body?.setAttribute('data-theme', theme);
 
-    // Store in both storages
-    localStorage.setItem('theme', theme);
-    sessionStorage.setItem('theme', theme);
+    // Check if we can persist the preference
+    const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
 
-    // Broadcast to other tabs/windows
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'theme',
-        newValue: theme,
-        url: window.location.href,
-        storageArea: localStorage,
-      })
-    );
+    if (canPersist) {
+      // Save to localStorage for persistence across sessions
+      localStorage.setItem('theme', theme);
+      // Also save to sessionStorage for consistency
+      sessionStorage.setItem('theme', theme);
+
+      // Broadcast to other tabs/windows
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: 'theme',
+          newValue: theme,
+          url: window.location.href,
+          storageArea: localStorage,
+        })
+      );
+    } else {
+      // Only save to sessionStorage for current session
+      sessionStorage.setItem('theme', theme);
+    }
 
     // Force update service worker if available
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -76,7 +99,7 @@ export function ThemeSwitcher() {
         theme: theme,
       });
     }
-  };
+  }, []);
 
   return (
     <div className="card bg-base-200 shadow-xl">

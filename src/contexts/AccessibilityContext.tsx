@@ -7,6 +7,8 @@ import React, {
   useState,
   useCallback,
 } from 'react';
+import { canUseCookies } from '../utils/consent';
+import { CookieCategory } from '../utils/consent-types';
 
 type FontSize = 'small' | 'medium' | 'large' | 'x-large';
 type LineHeight = 'compact' | 'normal' | 'relaxed';
@@ -108,15 +110,16 @@ export function AccessibilityProvider({
     document.body.style.fontFamily = fontFamilies[newSettings.fontFamily];
   }, []);
 
-  // Load settings from localStorage on mount
+  // Load settings from storage on mount (respecting consent)
   useEffect(() => {
-    const savedFontSize = localStorage.getItem('fontSize') as FontSize;
-    const savedLineHeight = localStorage.getItem('lineHeight') as LineHeight;
-    const savedFontFamily = localStorage.getItem('fontFamily') as FontFamily;
-    const savedHighContrast = localStorage.getItem(
-      'highContrast'
-    ) as ContrastMode;
-    const savedReduceMotion = localStorage.getItem(
+    const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
+    const storage = canPersist ? localStorage : sessionStorage;
+
+    const savedFontSize = storage.getItem('fontSize') as FontSize;
+    const savedLineHeight = storage.getItem('lineHeight') as LineHeight;
+    const savedFontFamily = storage.getItem('fontFamily') as FontFamily;
+    const savedHighContrast = storage.getItem('highContrast') as ContrastMode;
+    const savedReduceMotion = storage.getItem(
       'reduceMotion'
     ) as MotionPreference;
 
@@ -167,43 +170,52 @@ export function AccessibilityProvider({
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [settings, applySettings]);
 
-  // Update settings function
+  // Update settings function (respecting consent)
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
     const updatedSettings = { ...settings, ...newSettings };
+    const canPersist = canUseCookies(CookieCategory.FUNCTIONAL);
+    const storage = canPersist ? localStorage : sessionStorage;
 
-    // Save to localStorage
-    if (newSettings.fontSize)
-      localStorage.setItem('fontSize', newSettings.fontSize);
+    // Save to appropriate storage
+    if (newSettings.fontSize) storage.setItem('fontSize', newSettings.fontSize);
     if (newSettings.lineHeight)
-      localStorage.setItem('lineHeight', newSettings.lineHeight);
+      storage.setItem('lineHeight', newSettings.lineHeight);
     if (newSettings.fontFamily)
-      localStorage.setItem('fontFamily', newSettings.fontFamily);
+      storage.setItem('fontFamily', newSettings.fontFamily);
     if (newSettings.highContrast)
-      localStorage.setItem('highContrast', newSettings.highContrast);
+      storage.setItem('highContrast', newSettings.highContrast);
     if (newSettings.reduceMotion)
-      localStorage.setItem('reduceMotion', newSettings.reduceMotion);
+      storage.setItem('reduceMotion', newSettings.reduceMotion);
 
     // Update state and apply
     setSettings(updatedSettings);
     applySettings(updatedSettings);
 
-    // Dispatch storage event for same-tab updates
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: Object.keys(newSettings)[0],
-        newValue: Object.values(newSettings)[0],
-        url: window.location.href,
-      })
-    );
+    // Dispatch storage event for same-tab updates (only if using localStorage)
+    if (canPersist) {
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: Object.keys(newSettings)[0],
+          newValue: Object.values(newSettings)[0],
+          url: window.location.href,
+        })
+      );
+    }
   };
 
   // Reset settings function
   const resetSettings = () => {
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('lineHeight');
-    localStorage.removeItem('fontFamily');
-    localStorage.removeItem('highContrast');
-    localStorage.removeItem('reduceMotion');
+    // Clear from both storages
+    [
+      'fontSize',
+      'lineHeight',
+      'fontFamily',
+      'highContrast',
+      'reduceMotion',
+    ].forEach((key) => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
 
     setSettings(defaultSettings);
     applySettings(defaultSettings);
