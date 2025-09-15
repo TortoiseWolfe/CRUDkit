@@ -97,7 +97,10 @@ export const FontSwitcher: React.FC<FontSwitcherProps> = ({
   const otherFonts = fonts.filter((f) => !recentFonts.includes(f.id));
 
   return (
-    <div className={`dropdown dropdown-end ${className}`} ref={dropdownRef}>
+    <div
+      className={`dropdown dropdown-end ${isOpen ? 'dropdown-open' : ''} ${className}`}
+      ref={dropdownRef}
+    >
       <button
         tabIndex={0}
         className="btn btn-ghost gap-2"
@@ -113,7 +116,7 @@ export const FontSwitcher: React.FC<FontSwitcherProps> = ({
 
       {isOpen && (
         <div
-          className="dropdown-content card card-compact bg-base-100 z-50 w-80 p-4 shadow-xl"
+          className="dropdown-content menu card card-compact bg-base-100 z-[100] mt-2 w-80 p-4 shadow-xl"
           onKeyDown={handleKeyDown}
         >
           <div className="card-body">

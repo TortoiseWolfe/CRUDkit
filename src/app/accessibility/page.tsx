@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { ColorblindToggle } from '@/components/atomic/ColorblindToggle';
+import { FontSwitcher } from '@/components/atomic/FontSwitcher';
 
 export default function AccessibilityPage() {
   const { settings, updateSettings, resetSettings } = useAccessibility();
@@ -65,22 +66,12 @@ export default function AccessibilityPage() {
             {/* Font Family Control */}
             <div className="card bg-base-200 shadow-xl">
               <div className="card-body">
-                <h2 className="card-title mb-4">Reading Mode</h2>
-                <div className="flex flex-wrap gap-2">
-                  {(['sans-serif', 'serif', 'mono'] as const).map((family) => (
-                    <button
-                      key={family}
-                      onClick={() => updateSettings({ fontFamily: family })}
-                      className={`btn ${fontFamily === family ? 'btn-primary' : 'btn-outline'}`}
-                    >
-                      {family === 'sans-serif'
-                        ? 'Sans'
-                        : family === 'serif'
-                          ? 'Serif'
-                          : 'Mono'}
-                    </button>
-                  ))}
-                </div>
+                <h2 className="card-title mb-4">Font Selection</h2>
+                <p className="mb-4 text-sm">
+                  Choose from a variety of fonts including accessibility-focused
+                  options for improved readability
+                </p>
+                <FontSwitcher className="w-full" />
               </div>
             </div>
 
@@ -89,7 +80,8 @@ export default function AccessibilityPage() {
               <div className="card-body">
                 <h2 className="card-title mb-4">Color Vision Assistance</h2>
                 <p className="mb-4 text-sm">
-                  Apply color corrections to enhance color distinction for various types of color vision deficiencies
+                  Apply color corrections to enhance color distinction for
+                  various types of color vision deficiencies
                 </p>
                 <ColorblindToggle className="w-full" />
               </div>
