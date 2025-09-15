@@ -41,42 +41,9 @@ export const FontSwitcher: React.FC<FontSwitcherProps> = ({
 
   const handleFontSelect = (fontId: string) => {
     setFontFamily(fontId);
-    setIsOpen(false);
-    setFocusedIndex(-1);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      setIsOpen(true);
-      setFocusedIndex(0);
-      return;
-    }
-
-    if (!isOpen) return;
-
-    switch (e.key) {
-      case 'Escape':
-        setIsOpen(false);
-        setFocusedIndex(-1);
-        break;
-
-      case 'ArrowDown':
-        e.preventDefault();
-        setFocusedIndex((prev) => (prev < fonts.length - 1 ? prev + 1 : prev));
-        break;
-
-      case 'ArrowUp':
-        e.preventDefault();
-        setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-        break;
-
-      case 'Enter':
-        e.preventDefault();
-        if (focusedIndex >= 0 && focusedIndex < fonts.length) {
-          handleFontSelect(fonts[focusedIndex].id);
-        }
-        break;
+    // Close dropdown by removing focus
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
     }
   };
 
@@ -97,97 +64,87 @@ export const FontSwitcher: React.FC<FontSwitcherProps> = ({
   const otherFonts = fonts.filter((f) => !recentFonts.includes(f.id));
 
   return (
-    <div
-      className={`dropdown dropdown-end ${isOpen ? 'dropdown-open' : ''} ${className}`}
-      ref={dropdownRef}
-    >
-      <button
+    <div className={`dropdown dropdown-end ${className}`} ref={dropdownRef}>
+      <label
         tabIndex={0}
         className="btn btn-ghost gap-2"
         aria-label="Font Selection"
-        onClick={() => setIsOpen(!isOpen)}
-        onKeyDown={handleKeyDown}
+        role="button"
       >
         <FontIcon className="h-5 w-5" />
         <span className="hidden sm:inline">
           {currentFontConfig?.name || 'Select Font'}
         </span>
-      </button>
+      </label>
+      <div
+        tabIndex={0}
+        className="dropdown-content menu card card-compact bg-base-100 z-[100] mt-2 w-80 p-4 shadow-xl"
+      >
+        <div className="card-body">
+          <h3 className="mb-2 text-lg font-bold">Font Selection</h3>
 
-      {isOpen && (
-        <div
-          className="dropdown-content menu card card-compact bg-base-100 z-[100] mt-2 w-80 p-4 shadow-xl"
-          onKeyDown={handleKeyDown}
-        >
-          <div className="card-body">
-            <h3 className="mb-2 text-lg font-bold">Font Selection</h3>
-
-            {/* Recent fonts section */}
-            {recentFontObjects.length > 0 && (
-              <>
-                <div className="text-sm font-semibold opacity-60">Recent</div>
-                <div
-                  className="mb-3 space-y-1"
-                  role="listbox"
-                  aria-label="Recent fonts"
-                >
-                  {recentFontObjects.map((font, index) => (
-                    <FontOption
-                      key={font!.id}
-                      font={font!}
-                      isActive={font!.id === fontFamily}
-                      isLoaded={isFontLoaded(font!.id)}
-                      onSelect={handleFontSelect}
-                      dataIndex={index}
-                    />
-                  ))}
-                </div>
-                <div className="divider my-2"></div>
-              </>
-            )}
-
-            {/* All fonts */}
-            <div className="text-sm font-semibold opacity-60">All Fonts</div>
-            <div className="space-y-1" role="listbox" aria-label="Font options">
-              {otherFonts.map((font, index) => {
-                const isActive = font.id === fontFamily;
-                return (
-                  <FontOption
-                    key={font.id}
-                    font={font}
-                    isActive={font.id === fontFamily}
-                    isLoaded={isFontLoaded(font.id)}
-                    onSelect={handleFontSelect}
-                    dataIndex={recentFontObjects.length + index}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Info alert */}
-            <div className="alert alert-info mt-4" role="status">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-6 w-6 shrink-0 stroke-current"
+          {/* Recent fonts section */}
+          {recentFontObjects.length > 0 && (
+            <>
+              <div className="text-sm font-semibold opacity-60">Recent</div>
+              <div
+                className="mb-3 space-y-1"
+                role="listbox"
+                aria-label="Recent fonts"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span className="text-sm">
-                {currentFontConfig?.accessibility
-                  ? `Using ${currentFontConfig.name} (${currentFontConfig.accessibility})`
-                  : `Using ${currentFontConfig?.name || 'default font'}`}
-              </span>
-            </div>
+                {recentFontObjects.map((font, index) => (
+                  <FontOption
+                    key={font!.id}
+                    font={font!}
+                    isActive={font!.id === fontFamily}
+                    isLoaded={isFontLoaded(font!.id)}
+                    onSelect={handleFontSelect}
+                    dataIndex={index}
+                  />
+                ))}
+              </div>
+              <div className="divider my-2"></div>
+            </>
+          )}
+
+          {/* All fonts */}
+          <div className="text-sm font-semibold opacity-60">All Fonts</div>
+          <div className="space-y-1" role="listbox" aria-label="Font options">
+            {otherFonts.map((font, index) => (
+              <FontOption
+                key={font.id}
+                font={font}
+                isActive={font.id === fontFamily}
+                isLoaded={isFontLoaded(font.id)}
+                onSelect={handleFontSelect}
+                dataIndex={recentFontObjects.length + index}
+              />
+            ))}
+          </div>
+
+          {/* Info alert */}
+          <div className="alert alert-info mt-4" role="status">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="h-6 w-6 shrink-0 stroke-current"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span className="text-sm">
+              {currentFontConfig?.accessibility
+                ? `Using ${currentFontConfig.name} (${currentFontConfig.accessibility})`
+                : `Using ${currentFontConfig?.name || 'default font'}`}
+            </span>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

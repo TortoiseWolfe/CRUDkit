@@ -16,8 +16,11 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-      # Explicitly exclude .next to prevent persistence issues
-      - /app/.next
+      # Use tmpfs (RAM) for .next to prevent persistence and corruption issues
+      - type: tmpfs
+        target: /app/.next
+        tmpfs:
+          size: 500M
 
     # Development command with clean option
     command: >

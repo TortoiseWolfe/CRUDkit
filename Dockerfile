@@ -22,6 +22,9 @@ RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
 FROM base AS dev
 WORKDIR /app
 
+# Create node user if it doesn't exist and set ownership
+RUN useradd -m -u 1000 node 2>/dev/null || true
+
 # Install system dependencies for Playwright browsers and development tools
 RUN apt-get update && apt-get install -y \
     git \
@@ -68,7 +71,7 @@ RUN apt-get update && apt-get install -y \
     # Missing Playwright dependencies from validation
     libgtk-4-1 \
     libatomic1 \
-    libwoff2dec1.0.2 \
+    libwoff1 \
     libvpx7 \
     libevent-2.1-7 \
     libflite1 \
@@ -84,7 +87,13 @@ COPY --from=deps /app/node_modules ./node_modules
 # Install Playwright browsers
 RUN npx playwright install chromium firefox webkit
 
-COPY . .
+COPY --chown=node:node . .
+
+# Set proper ownership for all files
+RUN chown -R node:node /app
+
+# Switch to node user
+USER node
 
 # Expose ports for Next.js and Storybook
 EXPOSE 3000 6006

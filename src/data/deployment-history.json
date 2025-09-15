@@ -1,6 +1,21 @@
 [
   {
     "date": "9/15/2025",
+    "feature": "Fix FontSwitcher tests and dropdown interaction",
+    "status": "success"
+  },
+  {
+    "date": "9/15/2025",
+    "feature": "Complete FontSwitcher dropdown functionality an...",
+    "status": "success"
+  },
+  {
+    "date": "9/15/2025",
+    "feature": "Implement FontSwitcher component with full test...",
+    "status": "success"
+  },
+  {
+    "date": "9/15/2025",
     "feature": "Implement core foundation with TDD",
     "status": "success"
   },
@@ -87,16 +102,6 @@
   {
     "date": "9/14/2025",
     "feature": "Remove Lighthouse CI from E2E workflow",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Add missing dependencies and use installed pack...",
-    "status": "success"
-  },
-  {
-    "date": "9/14/2025",
-    "feature": "Use exact pnpm version 10.16.1 in all workflows",
     "status": "success"
   }
 ]

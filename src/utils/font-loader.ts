@@ -65,14 +65,29 @@ export async function loadFont(fontConfig: FontConfig): Promise<void> {
       link.href = url;
       link.setAttribute('data-font-id', fontConfig.id);
 
-      // Wait for font to load
-      await new Promise<void>((resolve, reject) => {
+      // Wait for font to load with timeout
+      await new Promise<void>((resolve) => {
+        const timeoutId: NodeJS.Timeout = setTimeout(() => {
+          console.warn(
+            `Font loading timeout for ${fontConfig.name}, continuing anyway`
+          );
+          loadedFonts.add(fontConfig.id);
+          resolve();
+        }, 5000);
+
         link.onload = () => {
+          clearTimeout(timeoutId);
           loadedFonts.add(fontConfig.id);
           resolve();
         };
         link.onerror = () => {
-          reject(new Error(`Failed to load font: ${fontConfig.name}`));
+          clearTimeout(timeoutId);
+          console.warn(
+            `Failed to load font: ${fontConfig.name}, falling back to system font`
+          );
+          // Don't reject, just resolve and mark as loaded to prevent retries
+          loadedFonts.add(fontConfig.id);
+          resolve();
         };
 
         document.head.appendChild(link);

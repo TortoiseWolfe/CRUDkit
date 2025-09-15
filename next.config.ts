@@ -10,9 +10,9 @@ const basePath = isGithubPages ? '/CRUDkit' : '';
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline';
-  style-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com;
   img-src 'self' data: https: blob:;
-  font-src 'self' data:;
+  font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com;
   connect-src 'self' https:;
   media-src 'self';
   object-src 'none';
