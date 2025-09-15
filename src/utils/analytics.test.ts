@@ -12,10 +12,13 @@ type GtagCall = [string, ...unknown[]];
 
 describe('Analytics Utilities', () => {
   beforeEach(() => {
-    // Reset window.gtag and dataLayer
-    const windowWithGtag = window as any as WindowWithGtag;
-    windowWithGtag.gtag = undefined;
-    windowWithGtag.dataLayer = undefined;
+    // Reset window.gtag and dataLayer - delete properties completely
+    const windowWithGtag = window as unknown as WindowWithGtag;
+    try {
+      delete windowWithGtag.gtag;
+      delete windowWithGtag.dataLayer;
+    } catch {}
+    // Don't set to undefined as that recreates the property
     vi.clearAllMocks();
 
     // Set environment variable
@@ -23,10 +26,13 @@ describe('Analytics Utilities', () => {
   });
 
   afterEach(() => {
-    // Clean up
-    const windowWithGtag = window as any as WindowWithGtag;
-    windowWithGtag.gtag = undefined;
-    windowWithGtag.dataLayer = undefined;
+    // Clean up - delete properties completely
+    const windowWithGtag = window as unknown as WindowWithGtag;
+    try {
+      delete windowWithGtag.gtag;
+      delete windowWithGtag.dataLayer;
+    } catch {}
+    // Don't set to undefined as that recreates the property
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
     // Clear module cache to ensure fresh import

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { ConsentProvider, useConsent } from '@/contexts/ConsentContext';
 import React from 'react';
 
@@ -8,9 +8,12 @@ type GtagCall = [string, ...unknown[]];
 
 describe('Analytics and Consent Integration', () => {
   beforeEach(() => {
-    // Clean window object
-    (window as any).gtag = undefined;
-    (window as any).dataLayer = undefined;
+    // Clean window object - delete properties completely
+    try {
+      delete (window as Window & { gtag?: unknown }).gtag;
+      delete (window as Window & { dataLayer?: unknown }).dataLayer;
+    } catch {}
+    // Don't set to undefined as that recreates the property
     vi.clearAllMocks();
 
     // Set measurement ID
@@ -21,10 +24,12 @@ describe('Analytics and Consent Integration', () => {
   });
 
   afterEach(() => {
+    // Clean up - delete properties completely
     try {
-      (window as any).gtag = undefined;
-      (window as any).dataLayer = undefined;
+      delete (window as Window & { gtag?: unknown }).gtag;
+      delete (window as Window & { dataLayer?: unknown }).dataLayer;
     } catch {}
+    // Don't set to undefined as that recreates the property
     delete process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
     vi.resetModules();
     localStorage.clear();
@@ -44,9 +49,7 @@ describe('Analytics and Consent Integration', () => {
       );
 
       // Import analytics module
-      const { initializeGA, isAnalyticsEnabled } = await import(
-        '@/utils/analytics'
-      );
+      const { isAnalyticsEnabled } = await import('@/utils/analytics');
 
       // Render consent provider
       const { result } = renderHook(() => useConsent(), {
@@ -166,6 +169,7 @@ describe('Analytics and Consent Integration', () => {
         get() {
           throw new Error('Blocked by ad blocker');
         },
+        set() {}, // Add setter to allow cleanup
         configurable: true,
       });
 
@@ -174,8 +178,8 @@ describe('Analytics and Consent Integration', () => {
       // Should not throw
       expect(() => isAnalyticsEnabled()).not.toThrow();
 
-      // Clean up
-      (window as any).gtag = undefined;
+      // Clean up - delete the property first
+      delete (window as Window & { gtag?: unknown }).gtag;
       consoleSpy.mockRestore();
     });
   });
