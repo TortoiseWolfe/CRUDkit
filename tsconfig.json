@@ -13,7 +13,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-
     // Stricter type checking options
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -22,7 +21,6 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-
     // Additional checks
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -33,7 +31,6 @@
     "noPropertyAccessFromIndexSignature": false,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
-
     // Code quality
     "forceConsistentCasingInFileNames": true,
     "plugins": [
@@ -45,6 +42,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".next", "out"]
 }
