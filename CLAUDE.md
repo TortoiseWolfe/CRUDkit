@@ -2,6 +2,96 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Development Philosophy
+
+**This is a long-term stable template. Always prioritize:**
+
+1. **Proper Solutions Over Quick Fixes** - Take time to implement things correctly the first time
+2. **Permanent Fixes Over Workarounds** - Address root causes, not symptoms
+3. **Stability Over Speed** - This template will be used by many projects; reliability is paramount
+4. **Clean Architecture** - Follow established patterns and maintain consistency
+5. **Future-Proof Code** - Consider long-term maintenance and scalability
+
+**When encountering issues:**
+
+- Investigate the root cause thoroughly
+- Implement the correct solution, even if it takes longer
+- Document the solution properly for future reference
+- Test the solution across different environments
+- Never leave TODO comments or temporary fixes in production code
+
+## Component Structure Requirements ⚠️ MANDATORY
+
+**CRITICAL**: This project enforces a strict 5-file component pattern. Components without all 5 files will FAIL CI/CD.
+
+### The 5-File Pattern (Required)
+
+```
+ComponentName/
+├── index.tsx                             # Barrel export
+├── ComponentName.tsx                     # Main component
+├── ComponentName.test.tsx                # Unit tests (REQUIRED)
+├── ComponentName.stories.tsx             # Storybook (REQUIRED)
+└── ComponentName.accessibility.test.tsx  # Accessibility tests (REQUIRED)
+```
+
+### Creating Components
+
+**ALWAYS use the component generator:**
+
+```bash
+# Docker (required for consistency)
+docker compose exec crudkit pnpm run generate:component
+
+# The generator will prompt for:
+# - Component name (PascalCase)
+# - Category (subatomic/atomic/molecular/organisms/templates)
+# - Props configuration
+# - Custom hooks option
+```
+
+**NEVER create components manually** - the generator ensures:
+
+- All 5 required files are created
+- Proper TypeScript interfaces are exported
+- Tests follow the correct patterns
+- Storybook stories are properly configured
+- Accessibility tests are included
+
+### Component Validation & Enforcement
+
+```bash
+# Check compliance (run before committing)
+pnpm run audit:components
+
+# Auto-fix non-compliant components
+pnpm run migrate:components
+
+# CI validation (this runs on every PR)
+pnpm run validate:structure
+```
+
+### VSCode Snippets (Reference Only)
+
+The project includes VSCode snippets in `.vscode/component.code-snippets`:
+
+- `rcindex` - Index barrel export pattern
+- `rctest` - Test file pattern
+- `rcstory` - Storybook story pattern
+- `rcquick` - Reminder to use the generator
+
+**Note**: These snippets are for reference only. Always use `pnpm run generate:component` to create new components.
+
+### Why This Matters
+
+- **CI/CD will reject** any PR with non-compliant components
+- **Consistency** across the entire codebase
+- **Quality assurance** through mandatory testing
+- **Documentation** through required Storybook stories
+- **Accessibility** through required a11y tests
+
+For detailed documentation, see `/docs/CREATING_COMPONENTS.md`
+
 ## Commands
 
 ### Docker Development (Preferred)
@@ -229,58 +319,14 @@ The `/status` page provides real-time monitoring:
 - Results stored in localStorage for persistence
 - Health check endpoint at `/api/health` returns system status
 
-### Component Development
+### Component Development Guidelines
 
-- Follow atomic design pattern (subatomic → atomic → molecular)
-- All components should be documented in Storybook
-- Use TypeScript interfaces for all props
+- Follow atomic design pattern (subatomic → atomic → molecular → organisms → templates)
+- All components must be documented in Storybook
+- Use TypeScript interfaces for all props (must be exported)
 - Components use DaisyUI classes for theming consistency
-- **Use the component generator**: `docker compose exec crudkit pnpm run generate:component`
-- All components must follow the 5-file pattern (enforced by CI/CD)
-- See [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md) for detailed guide
-
-### Component Structure (5-File Pattern) ⚠️ REQUIRED
-
-All components MUST follow the 5-file pattern:
-
-```
-ComponentName/
-├── index.tsx                             # Barrel export
-├── ComponentName.tsx                     # Main component
-├── ComponentName.test.tsx                # Unit tests (required)
-├── ComponentName.stories.tsx             # Storybook (required)
-└── ComponentName.accessibility.test.tsx  # Accessibility tests (required)
-```
-
-#### Component Management Commands
-
-```bash
-# Check component compliance
-pnpm run audit:components
-
-# Auto-fix non-compliant components
-pnpm run migrate:components
-
-# Validate for CI (exits with error if non-compliant)
-pnpm run validate:structure
-
-# Generate new component with proper structure
-pnpm run generate:component
-```
-
-#### VSCode Snippets
-
-Use these snippets for faster development:
-
-- `rfc5` - Create React component with 5-file structure
-- `rcindex` - Create index.tsx barrel export
-- `rctest` - Create component test file
-- `rcstory` - Create component story file
-- `rca11y` - Create accessibility test file
-
-#### CI Enforcement
-
-Pull requests will fail if components don't follow the 5-file pattern. The GitHub Actions workflow automatically validates structure on every PR.
+- **MANDATORY**: Use the component generator (see Component Structure Requirements above)
+- **ENFORCED**: All components must follow the 5-file pattern or CI/CD will fail
 
 ### Testing & Quality
 
@@ -299,17 +345,25 @@ Pull requests will fail if components don't follow the 5-file pattern. The GitHu
 - PWA test utilities in `/src/utils/pwa-test.ts`
 - Testing documentation in `/TESTING.md`
 
-### Important Notes for Modifications
+### Important Development Principles
 
-1. **Dynamic Status Page**: After forking, users should update `/src/config/project-status.json` with their project details
-2. **GitHub Pages URLs**: All hardcoded URLs reference `tortoisewolfe.github.io/CRUDkit` - these need updating after forking
-3. **Docker-First Development**: Always use Docker Compose commands for consistency
-4. **Build Verification**: Run `docker compose exec crudkit pnpm run build` before committing
-5. **Code Formatting**: All code is formatted with Prettier - run `pnpm format` before committing
-6. **CSP Headers**: Security headers are configured but may need adjustment for external resources
-7. **PWA Icons**: Use SVG format to avoid Canvas dependency issues in Docker
-8. **Package Manager**: Project uses pnpm 10.16.1 exclusively - enforced via packageManager field
-9. **E2E Testing**: Tests are for local development only, not integrated with CI/CD
+1. **Quality Over Speed**: This is a stable template - implement solutions properly the first time
+2. **Root Cause Analysis**: Always investigate and fix the underlying issue, not just symptoms
+3. **Docker-First Development**: All development must work correctly in Docker containers
+4. **Security by Default**: Run containers as non-root users, implement proper CSP headers
+5. **Consistent Environment**: Use exact versions (pnpm 10.16.1, Node 22) to ensure reproducibility
+6. **Proper Testing**: Write tests before implementing features (TDD approach)
+7. **Clean Architecture**: Follow atomic design patterns and maintain the 5-file component structure
+8. **Documentation**: Document solutions thoroughly for future maintainers
+9. **No Technical Debt**: Never commit TODOs, workarounds, or temporary fixes
+
+### Configuration Requirements After Forking
+
+1. **Update project metadata** in `/src/config/project-status.json`
+2. **Replace GitHub Pages URLs** from `tortoisewolfe.github.io/CRUDkit` to your domain
+3. **Create `.env` file** with your system's UID/GID for Docker permissions
+4. **Verify security headers** in `next.config.ts` for your specific needs
+5. **Test the complete setup** in Docker before making any changes
 
 ### Troubleshooting Common Issues
 
@@ -335,27 +389,103 @@ Please remove the following two lines from .husky/pre-push:
 
 #### Webpack "Cannot read properties of undefined" Errors
 
-This error typically occurs when the `.next` build cache becomes corrupted or stale. The project now includes automatic cleanup, but if you encounter this:
+**Root Cause:**
+This error occurs when Next.js webpack cache becomes corrupted, often due to interrupted builds, version mismatches, or file system issues.
 
-**Quick Fix:**
+**Proper Solution:**
 
-```bash
-pnpm run docker:clean  # Automated clean start
+Configure Next.js to handle cache more robustly in `next.config.ts`:
+
+```typescript
+const nextConfig: NextConfig = {
+  // ... existing config
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Use in-memory cache for development
+      config.cache = {
+        type: 'memory',
+        maxGenerations: 1,
+      };
+    }
+    return config;
+  },
+  // Disable SWC minification if causing issues
+  swcMinify: true,
+  // Configure proper cache handling
+  experimental: {
+    // Use proper cache invalidation
+    incrementalCacheHandlerPath: undefined,
+  },
+};
 ```
 
-**Manual Fix:**
+**Implementation Steps:**
 
-```bash
-docker compose down
-rm -rf .next
-docker compose up
+1. **Configure webpack cache properly** in next.config.ts
+2. **Use tmpfs for .next in Docker** (already implemented in docker-compose.override.yml)
+3. **Implement proper build lifecycle** in package.json:
+   ```json
+   "prebuild": "rm -rf .next",
+   "build": "next build",
+   "postbuild": "echo 'Build completed successfully'"
+   ```
+4. **Set proper Node.js memory limits** for builds in Docker:
+   ```yaml
+   environment:
+     - NODE_OPTIONS="--max-old-space-size=4096"
+   ```
+
+**Why This Approach:**
+
+- Addresses the root cause (cache corruption) not symptoms
+- Provides consistent build behavior across environments
+- Eliminates need for manual cleanup
+- Follows Next.js best practices for cache management
+
+#### .next Directory Permission Issues
+
+**Root Cause:**
+The `.next` directory permission issue occurs due to a UID/GID mismatch between the Docker container user and the host system user. When Docker creates files as root (UID 0) inside the container, those files become inaccessible to the host user (typically UID 1000).
+
+**Proper Solution:**
+
+The correct approach is to ensure the Docker container runs with the same UID/GID as the host user. This should be implemented in the base `docker-compose.yml`:
+
+```yaml
+services:
+  crudkit:
+    user: '${UID:-1000}:${GID:-1000}' # Uses environment variables with sensible defaults
+    # ... rest of configuration
 ```
 
-**Prevention:**
+And users should set their UID/GID in a `.env` file (which is gitignored):
 
-- The `docker-compose.override.yml` now uses tmpfs for `.next` directory (in-memory, no persistence)
-- The development container automatically cleans stale artifacts on startup
-- Use `pnpm run dev:clean` when running locally to ensure clean builds
+```bash
+# .env file (create if it doesn't exist)
+UID=1000
+GID=1000
+```
+
+**Implementation Steps:**
+
+1. **Update docker-compose.yml** to use the user directive with environment variables
+2. **Create a .env.example** file documenting the required variables
+3. **Ensure .env is in .gitignore** to prevent committing user-specific IDs
+4. **Update Dockerfile** to create a non-root user that matches common UIDs:
+   ```dockerfile
+   RUN useradd -m -u 1000 -U appuser && \
+       chown -R appuser:appuser /app
+   USER appuser
+   ```
+
+**Why This Matters:**
+
+- Eliminates permission issues permanently across all environments
+- Follows Docker security best practices (never run as root)
+- Ensures consistent behavior for all developers
+- Prevents the need for cleanup scripts or workarounds
+
+**Note:** The tmpfs mount in `docker-compose.override.yml` is a performance optimization, not a permission fix. The root cause must be addressed at the container user level.
 
 #### Port Already in Use
 
