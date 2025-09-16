@@ -48,12 +48,17 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
   - Player name persistence with localStorage
 - Form validation system with Zod schemas
 - Reusable form components with built-in validation
+- **Contact Form with Web3Forms integration**:
+  - Server-side email delivery without backend
+  - Honeypot spam protection
+  - Real-time validation with Zod schemas
+  - Accessible with WCAG AA compliance
 - Fully documented in Storybook
-- **Component Structure Enforcement (NEW)**:
-  - Mandatory 4-file pattern (index, component, test, story)
+- **Component Structure Enforcement**:
+  - Mandatory 5-file pattern (index, component, test, story, accessibility test)
   - Automated compliance checking and migration tools
   - CI/CD validation on every PR
-  - Plop generator for consistent component creation
+  - Component generator for consistent creation
 
 ### 🔒 Privacy & Compliance
 
@@ -79,7 +84,7 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 ### 🧪 Testing & Quality
 
 - Vitest unit testing framework with React Testing Library
-- 111+ passing tests across 8 test suites
+- **620 passing tests** across 49 test suites
 - Coverage thresholds enforced at 25% minimum (58% actual)
 - Integration tests for form workflows and game interactions
 - **E2E Testing**: Playwright framework for local development (`pnpm test:e2e`)
