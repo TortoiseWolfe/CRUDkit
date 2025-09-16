@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { ConsentProvider } from '@/contexts/ConsentContext';
 import { CookieConsent } from '@/components/privacy/CookieConsent';
 import { ConsentModal } from '@/components/privacy/ConsentModal';
@@ -15,8 +14,6 @@ vi.mock('@/utils/analytics', () => ({
 }));
 
 describe('Consent Integration Tests', () => {
-  const user = userEvent.setup();
-
   beforeEach(() => {
     localStorage.clear();
     sessionStorage.clear();
