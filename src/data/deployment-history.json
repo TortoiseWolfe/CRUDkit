@@ -1,6 +1,11 @@
 [
   {
     "date": "9/16/2025",
+    "feature": "Resolve CI test failures",
+    "status": "success"
+  },
+  {
+    "date": "9/16/2025",
     "feature": "Update deployment history",
     "status": "success"
   },
@@ -92,11 +97,6 @@
   {
     "date": "9/15/2025",
     "feature": "Merge branch '007-cookie-consent': Complete Coo...",
-    "status": "success"
-  },
-  {
-    "date": "9/15/2025",
-    "feature": "Add missing canUseCookies function and update d...",
     "status": "success"
   }
 ]

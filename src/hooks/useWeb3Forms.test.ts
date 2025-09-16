@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useWeb3Forms } from './useWeb3Forms';
 import * as web3formsUtils from '@/utils/web3forms';
+import type { Web3FormsResponse } from '@/utils/web3forms';
 import type { ContactFormData } from '@/schemas/contact.schema';
 
 // Mock the utilities
