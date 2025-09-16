@@ -3,6 +3,9 @@ import type {
   Web3FormsResponse,
 } from '@/schemas/contact.schema';
 
+// Re-export the Web3FormsResponse type for external use
+export type { Web3FormsResponse };
+
 /**
  * Web3Forms configuration
  */

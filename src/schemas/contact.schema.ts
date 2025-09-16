@@ -6,38 +6,46 @@ import { z } from 'zod';
  * Follows existing form validation patterns in the codebase
  */
 export const contactSchema = z.object({
-  name: z.preprocess(
-    (str) => (typeof str === 'string' ? str.trim() : str),
-    z
-      .string()
-      .min(2, 'Name must be at least 2 characters')
-      .max(100, 'Name must be less than 100 characters')
-      .regex(/^[a-zA-Z\s\-'\.]+$/, 'Name contains invalid characters')
-  ),
+  name: z
+    .string()
+    .transform((str) => str.trim())
+    .pipe(
+      z
+        .string()
+        .min(2, 'Name must be at least 2 characters')
+        .max(100, 'Name must be less than 100 characters')
+        .regex(/^[a-zA-Z\s\-'\.]+$/, 'Name contains invalid characters')
+    ),
 
-  email: z.preprocess(
-    (str) => (typeof str === 'string' ? str.toLowerCase().trim() : str),
-    z
-      .string()
-      .email('Please enter a valid email address')
-      .max(254, 'Email address is too long')
-  ),
+  email: z
+    .string()
+    .transform((str) => str.toLowerCase().trim())
+    .pipe(
+      z
+        .string()
+        .email('Please enter a valid email address')
+        .max(254, 'Email address is too long')
+    ),
 
-  subject: z.preprocess(
-    (str) => (typeof str === 'string' ? str.trim() : str),
-    z
-      .string()
-      .min(5, 'Subject must be at least 5 characters')
-      .max(200, 'Subject must be less than 200 characters')
-  ),
+  subject: z
+    .string()
+    .transform((str) => str.trim())
+    .pipe(
+      z
+        .string()
+        .min(5, 'Subject must be at least 5 characters')
+        .max(200, 'Subject must be less than 200 characters')
+    ),
 
-  message: z.preprocess(
-    (str) => (typeof str === 'string' ? str.trim() : str),
-    z
-      .string()
-      .min(10, 'Message must be at least 10 characters')
-      .max(5000, 'Message must be less than 5000 characters')
-  ),
+  message: z
+    .string()
+    .transform((str) => str.trim())
+    .pipe(
+      z
+        .string()
+        .min(10, 'Message must be at least 10 characters')
+        .max(5000, 'Message must be less than 5000 characters')
+    ),
 
   // Honeypot field for spam protection (should remain empty)
   _gotcha: z.string().max(0, 'Bot detected').optional(),

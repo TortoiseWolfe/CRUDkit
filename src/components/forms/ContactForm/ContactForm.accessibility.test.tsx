@@ -85,7 +85,7 @@ describe('ContactForm Accessibility', () => {
   });
 
   it('should have accessible error messages', () => {
-    const { container, getByText } = render(<ContactForm />);
+    const { container } = render(<ContactForm />);
 
     // Trigger validation by submitting empty form
     const form = container.querySelector('form');
