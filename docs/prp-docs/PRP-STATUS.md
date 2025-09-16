@@ -140,17 +140,17 @@ graph TD
 
 ### Immediate (Next PRP)
 
-1. PRP-009 (Web3Forms Integration) - Ready to begin
-2. Create branch `009-web3forms`
+1. PRP-011 (PWA Background Sync) - Ready to begin
+2. Create branch `011-pwa-background-sync`
 3. Copy PRP to specs directory
 4. Run `/plan` command
 5. Generate tasks with `/tasks`
 
 ### Upcoming (Next 3 PRPs)
 
-- PRP-009: Web3Forms Integration (Primary contact form)
-- PRP-010: EmailJS Integration (Fallback email service)
 - PRP-011: PWA Background Sync (Offline form submission)
+- PRP-010: EmailJS Integration (Fallback email service)
+- PRP-012: Visual Regression Testing (Chromatic/Percy)
 
 ### Blocked Items
 
