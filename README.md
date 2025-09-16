@@ -4,106 +4,75 @@
 [![Fork](https://img.shields.io/github/forks/TortoiseWolfe/CRUDkit?style=social)](https://github.com/TortoiseWolfe/CRUDkit/fork)
 [![Stars](https://img.shields.io/github/stars/TortoiseWolfe/CRUDkit?style=social)](https://github.com/TortoiseWolfe/CRUDkit)
 
-A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, component gallery, and extensive monitoring tools.
+A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, component gallery, and extensive testing infrastructure.
 
-**GitHub Repository**: [https://github.com/TortoiseWolfe/CRUDkit](https://github.com/TortoiseWolfe/CRUDkit)  
-**Fork this template**: [Click here to fork](https://github.com/TortoiseWolfe/CRUDkit/fork)
-
-## 🚀 Live Demo
+## 🚀 Live Demos
 
 - **Main App**: [https://tortoisewolfe.github.io/CRUDkit/](https://tortoisewolfe.github.io/CRUDkit/)
 - **Storybook**: [https://tortoisewolfe.github.io/CRUDkit/storybook/](https://tortoisewolfe.github.io/CRUDkit/storybook/)
 - **Status Dashboard**: [https://tortoisewolfe.github.io/CRUDkit/status](https://tortoisewolfe.github.io/CRUDkit/status)
 
-## ✨ Features
+## ✨ Key Features
 
-### 🎨 Theming System
+- 🎨 **32 DaisyUI Themes** - Light/dark variants with persistent selection
+- 📱 **Progressive Web App** - Installable with offline support
+- 🧩 **Component Library** - Atomic design with Storybook documentation
+- ♿ **Accessibility** - WCAG AA compliant, colorblind assistance
+- 🔒 **Privacy Compliance** - GDPR-ready cookie consent system
+- 🧪 **Testing Suite** - 620+ unit tests, 40+ E2E tests, 58% coverage
+- 📊 **Real-time Monitoring** - Web Vitals, Lighthouse scores, health checks
+- 🚀 **CI/CD Pipeline** - GitHub Actions with automated deployment
 
-- 32 DaisyUI themes (16 light + 16 dark)
-- Persistent theme selection
-- Smooth theme transitions
-- Accessibility controls:
-  - Font size and spacing adjustments
-  - Color vision assistance with daltonization correction
-  - Support for 8 types of color vision deficiencies
-  - Optional pattern overlays for enhanced distinction
+## 🛠️ Tech Stack
 
-### 📱 Progressive Web App
+- **Next.js 15.5** / **React 19** / **TypeScript 5**
+- **Tailwind CSS 4** + **DaisyUI** (beta)
+- **Vitest** / **Playwright** / **Pa11y**
+- **Docker** / **GitHub Actions** / **pnpm 10.16.1**
 
-- Installable on desktop and mobile
-- Offline support with Service Worker
-- Background sync for forms
-- App shortcuts
-- 92/100 PWA Lighthouse score
+## 🚀 Quick Start
 
-### 🧩 Component Library
+```bash
+# Clone and install
+git clone https://github.com/TortoiseWolfe/CRUDkit.git
+cd CRUDkit
+pnpm install
 
-- Atomic design pattern
-- Sub-atomic components (Text, Button, Input)
-- Atomic components (Card, Dice, DiceTray, DraggableDice)
-- Interactive gaming components:
-  - Captain Ship & Crew dice game with full rule implementation
-  - NPC opponents with difficulty levels (Easy/Medium/Hard)
-  - Drag-and-drop dice locking mechanics
-  - Player name persistence with localStorage
-- Form validation system with Zod schemas
-- Reusable form components with built-in validation
-- **Contact Form with Web3Forms integration**:
-  - Server-side email delivery without backend
-  - Honeypot spam protection
-  - Real-time validation with Zod schemas
-  - Accessible with WCAG AA compliance
-- Fully documented in Storybook
-- **Component Structure Enforcement**:
-  - Mandatory 5-file pattern (index, component, test, story, accessibility test)
-  - Automated compliance checking and migration tools
-  - CI/CD validation on every PR
-  - Component generator for consistent creation
+# Development
+pnpm dev              # Start dev server on localhost:3000
+pnpm storybook        # Start Storybook on localhost:6006
 
-### 🔒 Privacy & Compliance
+# Docker (recommended)
+docker compose up     # Start everything in containers
 
-- GDPR-compliant cookie consent system
-- Granular consent management (essential, analytics, marketing, functional)
-- Privacy-first approach with opt-in analytics
-- Comprehensive privacy and cookie policies
-- User-friendly privacy controls dashboard
-- Persistent consent preferences via localStorage
+# Testing
+pnpm test            # Run unit tests
+pnpm test:e2e        # Run E2E tests (local only)
+pnpm test:coverage   # Generate coverage report
+```
 
-### 📊 Monitoring & Analytics
+## 📚 Documentation
 
-- Real-time Web Vitals tracking with performance utilities
-- Dynamic Lighthouse testing via PageSpeed API
-- PWA feature testing with comprehensive suite
-- Docker health monitoring via main page check
-- TASKS.md progress tracking (auto-updated)
-- GitHub Actions CI/CD with automated testing
-- Pa11y accessibility testing in CI pipeline
-- Interactive status dashboard at `/status`
-- Performance baseline tracking and reporting
+- **Developer Guide**: See [CLAUDE.md](./CLAUDE.md) for comprehensive development documentation
+- **Component Creation**: [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md)
+- **PRP Workflow**: [docs/PRP-EXECUTION-GUIDE.md](./docs/PRP-EXECUTION-GUIDE.md)
+- **Testing Guide**: [TESTING.md](./TESTING.md)
 
-### 🧪 Testing & Quality
+## 🎯 Project Status
 
-- Vitest unit testing framework with React Testing Library
-- **620 passing tests** across 49 test suites
-- Coverage thresholds enforced at 25% minimum (58% actual)
-- Integration tests for form workflows and game interactions
-- **E2E Testing**: Playwright framework for local development (`pnpm test:e2e`)
-  - 40+ end-to-end tests with Page Object Model
-  - Tests run locally only (not in CI/CD)
-  - Full documentation in `/e2e/README.md`
-- Pre-commit hooks: Prettier formatting, ESLint, and tests
-- Pre-push hooks: Full test suite with coverage checks
-- **Note**: Husky v9 shows deprecation warnings for v10 preparation (see CLAUDE.md for details)
+**Version 0.3.0** - 8 of 14 PRPs completed
 
-### 🔒 Security & Validation
+| Category      | Completed                               | Remaining                      |
+| ------------- | --------------------------------------- | ------------------------------ |
+| Foundation    | Component Structure, E2E Testing        | -                              |
+| Accessibility | WCAG AA, Colorblind Mode, Font Switcher | -                              |
+| Privacy       | Cookie Consent, Google Analytics        | -                              |
+| Forms         | Web3Forms Integration                   | EmailJS, PWA Sync              |
+| Features      | -                                       | Visual Testing, Calendar, Maps |
 
-- Zod runtime validation for all user inputs
-- Content Security Policy (CSP) headers configured
-- Security documentation in SECURITY.md
-- Dependabot for automated dependency updates
-- TypeScript strict mode for type safety
+See [docs/prp-docs/PRP-STATUS.md](./docs/prp-docs/PRP-STATUS.md) for detailed progress.
 
-### 🏆 Lighthouse Scores
+## 🏆 Lighthouse Scores
 
 [![WCAG 2.1 AA Compliant](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-success)](https://www.w3.org/WAI/WCAG21/quickref/)
 
@@ -113,214 +82,18 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 - **SEO**: 100/100
 - **PWA**: 92/100
 
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15.5.2
-- **UI**: React 19.1.0
-- **Styling**: Tailwind CSS + DaisyUI
-- **TypeScript**: 5.x with strict mode
-- **Validation**: Zod 4.1.8 for runtime validation
-- **Performance**: Web Vitals 5.1.0 for monitoring
-- **Testing**: Vitest, React Testing Library, Playwright
-- **Code Quality**: Prettier 3.6.2 with Tailwind plugin
-- **CI/CD**: GitHub Actions, Husky git hooks
-- **Package Manager**: pnpm 10.16.1 (enforced)
-- **Deployment**: GitHub Pages
-- **Documentation**: Storybook 9.1.5
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- pnpm (recommended) or npm
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/TortoiseWolfe/CRUDkit.git
-cd CRUDkit
-
-# Install dependencies
-pnpm install
-
-# Run development server
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see the app.
-
-### Docker Development
-
-```bash
-# Build and run with Docker Compose
-docker-compose up
-
-# App runs on http://localhost:3000
-# Storybook runs on http://localhost:6006
-```
-
-### Configuration
-
-#### Google Analytics 4 (Optional)
-
-To enable privacy-conscious analytics tracking:
-
-1. **Create a GA4 property** in [Google Analytics](https://analytics.google.com/)
-2. **Copy your Measurement ID** (format: G-XXXXXXXXXX)
-3. **Add to environment variables**:
-
-```bash
-# Copy the example file
-cp .env.example .env.local
-
-# Edit .env.local and add your measurement ID
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-```
-
-**Features:**
-
-- ✅ Privacy-first: Analytics only loads after user consent
-- ✅ Consent management integrated with cookie banner
-- ✅ Web Vitals tracking (FCP, LCP, CLS, TTFB, INP)
-- ✅ Custom event tracking for user interactions
-- ✅ Error tracking with severity levels
-- ✅ PWA installation tracking
-- ✅ Theme change tracking
-- ✅ Debug mode in development environment
-
-**Documentation:** See [docs/ANALYTICS.md](./docs/ANALYTICS.md) for complete setup and usage guide.
-
-**Note:** Analytics will not load without user consent. Users can manage their preferences via the cookie consent banner.
-
-## 📚 Documentation
-
-### Testing Documentation
-
-See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, including:
-
-- Component testing patterns
-- Coverage requirements
-- CI/CD integration
-- Pre-commit hooks setup
-
-### Architecture Documentation
-
-- [Architecture Decision Records](./docs/adr/) - Key technical decisions
-- [Sprint 2 Summary](./docs/sprint-2-summary.md) - Recent achievements
-- [Sprint 3 Plan](./docs/sprint-3-plan.md) - Upcoming features
-
-### Key Pages
-
-- `/` - Home with interactive Captain Ship & Crew game demo
-- `/themes` - Theme switcher
-- `/components` - Component gallery
-- `/accessibility` - Accessibility controls
-- `/status` - System status dashboard
-
-### Creating New Components
-
-See [docs/CREATING_COMPONENTS.md](./docs/CREATING_COMPONENTS.md) for detailed guide on creating components.
-
-Quick start:
-
-```bash
-# Generate a new component with the required 4-file structure
-docker compose exec crudkit pnpm run generate:component
-```
-
-### Development Commands
-
-```bash
-# Development
-pnpm dev              # Start Next.js dev server
-pnpm storybook       # Start Storybook
-
-# Building
-pnpm build           # Build for production
-pnpm export          # Export static site
-
-# Testing
-pnpm test            # Run unit tests
-pnpm test:watch      # Run tests in watch mode
-pnpm test:coverage   # Generate coverage report
-pnpm test:e2e        # Run E2E tests (local only)
-pnpm test:e2e:ui     # Run E2E tests with UI
-pnpm lint            # Run ESLint
-pnpm type-check      # Run TypeScript checks
-pnpm format          # Format all files with Prettier
-pnpm format:check    # Check formatting without changes
-
-# Component Structure Management (NEW)
-pnpm audit:components    # Check component compliance
-pnpm migrate:components  # Auto-fix non-compliant components
-pnpm validate:structure  # CI validation (exits 1 if non-compliant)
-pnpm generate:component  # Generate new component with 4-file pattern
-
-# Deployment
-pnpm deploy          # Deploy to GitHub Pages
-```
-
-## 🎯 Future Improvements
-
-See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for detailed optimization opportunities.
-
-### Quick Wins (< 30 minutes)
-
-- Add maskable PWA icons (192x192, 512x512)
-- Add Apple touch icon for iOS
-- Improve button accessibility labels
-- Add form input labels
-- Implement SRI for external resources
-
 ## 🤝 Contributing
 
-1. Fork the repository on [GitHub](https://github.com/TortoiseWolfe/CRUDkit/fork)
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-See [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for specific areas where contributions are welcome.
-
-## 📈 Project Status
-
-**Overall Progress**: 99% Complete (160/161 tasks)
-
-**Sprint 1**: ✅ Complete (95/96 tasks - 99%)
-
-- ✅ **Phase 0**: Next.js app deployed to GitHub Pages
-- ✅ **Phase 1**: Storybook integrated with Text component
-- ✅ **Phase 2**: 32-theme system with accessibility controls
-- ✅ **Phase 3**: Component gallery with atomic design
-- ✅ **Phase 4**: PWA features with comprehensive testing
-
-**Sprint 2**: ✅ Complete (65/65 tasks - 100%)
-
-- ✅ **Phase 1**: Testing Foundation (Vitest, Husky, CI/CD)
-- ✅ **Phase 2**: Developer Experience (Prettier, Dependabot, Error handling)
-- ✅ **Phase 3**: First Simple Feature (Dice component - Complete!)
-- ✅ **Phase 4**: Quality Baseline (Zod validation, security, coverage - Complete!)
-- ✅ **Phase 5**: Foundation Completion (Pa11y, Web Vitals, ADRs)
-
-View detailed progress in [docs/spec-kit/TASKS.md](./docs/spec-kit/TASKS.md)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing`)
+3. Run tests (`pnpm test`)
+4. Commit changes (`git commit -m 'Add feature'`)
+5. Push and open a PR
 
 ## 📄 License
 
-MIT
-
-## 🙏 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org)
-- Styled with [DaisyUI](https://daisyui.com)
-- Deployed on [GitHub Pages](https://pages.github.com)
+MIT - See [LICENSE](./LICENSE) for details
 
 ---
 
-**Note for Forkers**:
-
-- TASKS.md automatically updates during build (`pnpm build`)
-- Update your own tasks in `docs/spec-kit/TASKS.md`
-- Status page dynamically tracks your project progress
-- Check [docs/IMPROVEMENTS.md](./docs/IMPROVEMENTS.md) for optimization opportunities
+**For Forkers**: Update `/src/config/project-status.json` with your project details and replace GitHub Pages URLs in configuration files.

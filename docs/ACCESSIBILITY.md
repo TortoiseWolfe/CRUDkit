@@ -2,7 +2,7 @@
 
 ## WCAG 2.1 AA Compliance
 
-This project aims to meet WCAG 2.1 AA standards for web accessibility. We use multiple tools and testing approaches to ensure our components are accessible to all users.
+This project meets WCAG 2.1 AA standards for web accessibility. We use multiple tools and testing approaches to ensure our components are accessible to all users.
 
 ## Testing Tools
 
@@ -48,6 +48,102 @@ Configuration in `.pa11yci` tests all main routes.
 ## Component Requirements
 
 All components must follow the 5-file pattern including accessibility tests:
+
+```
+ComponentName/
+├── index.tsx
+├── ComponentName.tsx
+├── ComponentName.test.tsx
+├── ComponentName.stories.tsx
+└── ComponentName.accessibility.test.tsx  # Required
+```
+
+### Automated Accessibility Testing
+
+Every component must include:
+
+```typescript
+// ComponentName.accessibility.test.tsx
+import { render } from '@testing-library/react';
+import { axe } from 'jest-axe';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName Accessibility', () => {
+  it('should have no accessibility violations', async () => {
+    const { container } = render(<ComponentName />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+});
+```
+
+## Development Guidelines
+
+### Semantic HTML
+
+✅ **DO:**
+
+- Use semantic elements (`button`, `nav`, `main`, `article`)
+- Maintain proper heading hierarchy (`h1` → `h2` → `h3`)
+- Use lists (`ul`, `ol`) for grouped items
+
+❌ **DON'T:**
+
+- Use `div` for clickable elements
+- Skip heading levels
+- Use generic containers when semantic elements exist
+
+### ARIA Labels
+
+✅ **DO:**
+
+- Add `aria-label` for icon-only buttons
+- Use `aria-describedby` for form help text
+- Include `role` when semantic HTML isn't available
+
+❌ **DON'T:**
+
+- Use ARIA to fix bad HTML
+- Add redundant ARIA labels
+- Override native semantics unnecessarily
+
+### Keyboard Navigation
+
+✅ **Required:**
+
+- All interactive elements keyboard accessible
+- Visible focus indicators
+- Logical tab order
+- Escape key closes modals/menus
+
+### Color & Contrast
+
+✅ **Required:**
+
+- 4.5:1 contrast ratio for normal text
+- 3:1 contrast ratio for large text
+- Don't rely on color alone for meaning
+- Test with colorblind filters
+
+### Forms
+
+✅ **Required:**
+
+- Label all inputs
+- Group related fields with fieldset
+- Provide error messages with context
+- Mark required fields clearly
+
+## Testing Checklist
+
+- [ ] Component passes jest-axe tests
+- [ ] Zero violations in Storybook a11y panel
+- [ ] Keyboard navigation works
+- [ ] Screen reader announces properly
+- [ ] Focus indicators visible
+- [ ] Color contrast meets standards
+- [ ] Works with colorblind mode
+- [ ] Pa11y CI tests pass
 
 ```
 ComponentName/
