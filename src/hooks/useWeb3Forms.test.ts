@@ -2,15 +2,21 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useWeb3Forms } from './useWeb3Forms';
 import * as web3formsUtils from '@/utils/web3forms';
-import type { Web3FormsResponse } from '@/utils/web3forms';
+import { emailService } from '@/utils/email/email-service';
 import type { ContactFormData } from '@/schemas/contact.schema';
 
 // Mock the utilities
 vi.mock('@/utils/web3forms', () => ({
-  submitWithRetry: vi.fn(),
-  checkRateLimit: vi.fn(),
-  recordSubmission: vi.fn(),
   formatErrorMessage: vi.fn(),
+}));
+
+// Mock email service
+vi.mock('@/utils/email/email-service', () => ({
+  emailService: {
+    send: vi.fn(),
+    getStatus: vi.fn(),
+    getRateLimitStatus: vi.fn(),
+  },
 }));
 
 // Mock offline queue utilities
@@ -60,11 +66,17 @@ describe('useWeb3Forms Hook', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Default to allowing submissions
-    vi.mocked(web3formsUtils.checkRateLimit).mockReturnValue(true);
+    // Default mock implementations
     vi.mocked(web3formsUtils.formatErrorMessage).mockImplementation(
       (error) => error.message
     );
+    // Mock successful email send by default
+    vi.mocked(emailService.send).mockResolvedValue({
+      success: true,
+      provider: 'Web3Forms',
+      messageId: 'test-id',
+      timestamp: new Date().toISOString(),
+    });
   });
 
   describe('Initial State', () => {
@@ -96,13 +108,6 @@ describe('useWeb3Forms Hook', () => {
 
   describe('Form Submission', () => {
     it('should handle successful submission', async () => {
-      const mockResponse = {
-        success: true,
-        message: 'Email sent successfully',
-      };
-
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue(mockResponse);
-
       const { result } = renderHook(() =>
         useWeb3Forms({
           onSuccess: mockOnSuccess,
@@ -117,13 +122,18 @@ describe('useWeb3Forms Hook', () => {
       expect(result.current.isSuccess).toBe(true);
       expect(result.current.isError).toBe(false);
       expect(result.current.successMessage).toBe('Email sent successfully');
-      expect(mockOnSuccess).toHaveBeenCalledWith(mockResponse);
-      expect(web3formsUtils.recordSubmission).toHaveBeenCalled();
+      expect(mockOnSuccess).toHaveBeenCalledWith(
+        expect.objectContaining({
+          success: true,
+          message: 'Email sent via Web3Forms',
+        })
+      );
+      expect(emailService.send).toHaveBeenCalled();
     });
 
     it('should handle submission errors', async () => {
       const error = new Error('Network error');
-      vi.mocked(web3formsUtils.submitWithRetry).mockRejectedValue(error);
+      vi.mocked(emailService.send).mockRejectedValue(error);
       vi.mocked(web3formsUtils.formatErrorMessage).mockReturnValue(
         'Network error. Please try again.'
       );
@@ -146,13 +156,18 @@ describe('useWeb3Forms Hook', () => {
     });
 
     it('should show submitting state during submission', async () => {
-      let resolveSubmit: (value: Web3FormsResponse) => void;
+      let resolveSubmit: (value: unknown) => void;
       const submissionPromise = new Promise((resolve) => {
         resolveSubmit = resolve;
       });
 
-      vi.mocked(web3formsUtils.submitWithRetry).mockReturnValue(
-        submissionPromise as Promise<Web3FormsResponse>
+      vi.mocked(emailService.send).mockReturnValue(
+        submissionPromise.then(() => ({
+          success: true,
+          provider: 'Web3Forms',
+          messageId: 'test-id',
+          timestamp: new Date().toISOString(),
+        }))
       );
 
       const { result } = renderHook(() => useWeb3Forms());
@@ -179,7 +194,13 @@ describe('useWeb3Forms Hook', () => {
 
   describe('Rate Limiting', () => {
     it('should prevent submission when rate limited', async () => {
-      vi.mocked(web3formsUtils.checkRateLimit).mockReturnValue(false);
+      const rateLimitError = new Error(
+        'Rate limit exceeded. Please wait before sending another message.'
+      );
+      vi.mocked(emailService.send).mockRejectedValue(rateLimitError);
+      vi.mocked(web3formsUtils.formatErrorMessage).mockReturnValue(
+        'Rate limit exceeded. Please wait before sending another message.'
+      );
 
       const { result } = renderHook(() =>
         useWeb3Forms({
@@ -191,49 +212,43 @@ describe('useWeb3Forms Hook', () => {
         await result.current.submitForm(validFormData);
       });
 
-      expect(web3formsUtils.submitWithRetry).not.toHaveBeenCalled();
+      expect(emailService.send).toHaveBeenCalled();
       expect(result.current.isError).toBe(true);
-      expect(result.current.error).toContain('too many submissions');
+      expect(result.current.error).toContain('Rate limit exceeded');
       expect(mockOnError).toHaveBeenCalled();
     });
 
     it('should record successful submissions for rate limiting', async () => {
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
-      });
-
       const { result } = renderHook(() => useWeb3Forms());
 
       await act(async () => {
         await result.current.submitForm(validFormData);
       });
 
-      expect(web3formsUtils.recordSubmission).toHaveBeenCalled();
+      // Rate limiting is now handled internally by emailService
+      expect(emailService.send).toHaveBeenCalled();
+      expect(result.current.isSuccess).toBe(true);
     });
   });
 
   describe('State Reset', () => {
     it('should provide reset function', async () => {
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
-      });
-
       const { result } = renderHook(() => useWeb3Forms());
 
-      // Submit form to change state
+      // Submit form
       await act(async () => {
         await result.current.submitForm(validFormData);
       });
 
       expect(result.current.isSuccess).toBe(true);
+      expect(result.current.successMessage).toBeTruthy();
 
       // Reset state
       act(() => {
         result.current.reset();
       });
 
+      expect(result.current.isSubmitting).toBe(false);
       expect(result.current.isSuccess).toBe(false);
       expect(result.current.isError).toBe(false);
       expect(result.current.error).toBeNull();
@@ -243,14 +258,11 @@ describe('useWeb3Forms Hook', () => {
 
   describe('Custom Messages', () => {
     it('should use custom success message if provided', async () => {
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'API message',
-      });
+      const customMessage = 'Your message has been sent!';
 
       const { result } = renderHook(() =>
         useWeb3Forms({
-          successMessage: 'Custom success!',
+          successMessage: customMessage,
         })
       );
 
@@ -258,17 +270,16 @@ describe('useWeb3Forms Hook', () => {
         await result.current.submitForm(validFormData);
       });
 
-      expect(result.current.successMessage).toBe('Custom success!');
+      expect(result.current.successMessage).toBe(customMessage);
     });
 
     it('should use custom error message if provided', async () => {
-      vi.mocked(web3formsUtils.submitWithRetry).mockRejectedValue(
-        new Error('API error')
-      );
+      const customError = 'Oops! Something went wrong.';
+      vi.mocked(emailService.send).mockRejectedValue(new Error('API Error'));
 
       const { result } = renderHook(() =>
         useWeb3Forms({
-          errorMessage: 'Custom error!',
+          errorMessage: customError,
         })
       );
 
@@ -276,49 +287,99 @@ describe('useWeb3Forms Hook', () => {
         await result.current.submitForm(validFormData);
       });
 
-      expect(result.current.error).toBe('Custom error!');
+      expect(result.current.error).toBe(customError);
+    });
+  });
+
+  describe('Offline Support', () => {
+    beforeEach(() => {
+      // Mock offline queue hook for offline tests
+      vi.resetModules();
+    });
+
+    it('should queue submission when offline', async () => {
+      const { useOfflineQueue } = await import('./useOfflineQueue');
+      const mockAddToOfflineQueue = vi.fn().mockResolvedValue(true);
+
+      vi.mocked(useOfflineQueue).mockReturnValue({
+        isOnline: false,
+        isBackgroundSyncSupported: false,
+        queueSize: 0,
+        addToOfflineQueue: mockAddToOfflineQueue,
+        refreshQueueSize: vi.fn(),
+      });
+
+      const { result } = renderHook(() => useWeb3Forms());
+
+      await act(async () => {
+        await result.current.submitForm(validFormData);
+      });
+
+      expect(emailService.send).not.toHaveBeenCalled();
+      expect(mockAddToOfflineQueue).toHaveBeenCalledWith(validFormData);
+      expect(result.current.wasQueuedOffline).toBe(true);
+      expect(result.current.successMessage).toContain('queued for sending');
     });
   });
 
   describe('Validation Integration', () => {
     it('should validate form data before submission', async () => {
-      const invalidData = {
-        name: 'J', // Too short
-        email: 'invalid',
-        subject: 'Test',
-        message: 'Short',
-      } as ContactFormData;
-
       const { result } = renderHook(() => useWeb3Forms());
 
+      const isValid = await result.current.validateBeforeSubmit(validFormData);
+
+      expect(isValid).toBe(true);
+    });
+
+    it('should reject invalid form data', async () => {
+      const { result } = renderHook(() =>
+        useWeb3Forms({
+          onError: mockOnError,
+        })
+      );
+
+      const invalidData = {
+        ...validFormData,
+        email: 'invalid-email',
+      };
+
+      let isValid = true;
       await act(async () => {
-        const isValid = await result.current.validateBeforeSubmit(invalidData);
-        expect(isValid).toBe(false);
+        isValid = await result.current.validateBeforeSubmit(invalidData);
       });
 
-      expect(web3formsUtils.submitWithRetry).not.toHaveBeenCalled();
+      expect(isValid).toBe(false);
+      expect(result.current.isError).toBe(true);
+      expect(mockOnError).toHaveBeenCalled();
     });
 
     it('should submit valid data after validation', async () => {
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
+      // Ensure online state
+      const { useOfflineQueue } = await import('./useOfflineQueue');
+      vi.mocked(useOfflineQueue).mockReturnValue({
+        isOnline: true,
+        isBackgroundSyncSupported: false,
+        queueSize: 0,
+        addToOfflineQueue: vi.fn().mockResolvedValue(true),
+        refreshQueueSize: vi.fn(),
       });
 
       const { result } = renderHook(() => useWeb3Forms());
 
+      // Validate first
+      let isValid = false;
       await act(async () => {
-        const isValid =
-          await result.current.validateBeforeSubmit(validFormData);
-        expect(isValid).toBe(true);
+        isValid = await result.current.validateBeforeSubmit(validFormData);
       });
+      expect(isValid).toBe(true);
 
-      // Can proceed with submission after validation
+      // Then submit
       await act(async () => {
         await result.current.submitForm(validFormData);
       });
 
-      expect(web3formsUtils.submitWithRetry).toHaveBeenCalled();
+      expect(emailService.send).toHaveBeenCalled();
+      expect(result.current.isSuccess).toBe(true);
     });
   });
 
@@ -326,14 +387,9 @@ describe('useWeb3Forms Hook', () => {
     it('should auto-reset success state after timeout', async () => {
       vi.useFakeTimers();
 
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
-      });
-
       const { result } = renderHook(() =>
         useWeb3Forms({
-          autoResetDelay: 3000,
+          autoResetDelay: 1000,
         })
       );
 
@@ -343,23 +399,19 @@ describe('useWeb3Forms Hook', () => {
 
       expect(result.current.isSuccess).toBe(true);
 
-      // Advance timers
-      act(() => {
-        vi.advanceTimersByTime(3000);
+      // Fast-forward time and wait for state update
+      await act(async () => {
+        vi.advanceTimersByTime(1001);
       });
 
       expect(result.current.isSuccess).toBe(false);
+      expect(result.current.successMessage).toBeNull();
 
       vi.useRealTimers();
     });
 
     it('should not auto-reset if disabled', async () => {
       vi.useFakeTimers();
-
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
-      });
 
       const { result } = renderHook(() =>
         useWeb3Forms({
@@ -373,13 +425,14 @@ describe('useWeb3Forms Hook', () => {
 
       expect(result.current.isSuccess).toBe(true);
 
-      // Advance timers
+      // Fast-forward time
       act(() => {
-        vi.advanceTimersByTime(10000);
+        vi.advanceTimersByTime(10000); // Way past any timeout
       });
 
       // Should still be success
       expect(result.current.isSuccess).toBe(true);
+      expect(result.current.successMessage).toBeTruthy();
 
       vi.useRealTimers();
     });
@@ -390,14 +443,9 @@ describe('useWeb3Forms Hook', () => {
       vi.useFakeTimers();
       const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
 
-      vi.mocked(web3formsUtils.submitWithRetry).mockResolvedValue({
-        success: true,
-        message: 'Sent',
-      });
-
       const { result, unmount } = renderHook(() =>
         useWeb3Forms({
-          autoResetDelay: 3000,
+          autoResetDelay: 5000,
         })
       );
 

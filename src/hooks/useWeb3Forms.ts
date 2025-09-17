@@ -1,12 +1,9 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import {
-  submitWithRetry,
-  checkRateLimit,
-  recordSubmission,
-  formatErrorMessage,
-} from '@/utils/web3forms';
+import { formatErrorMessage } from '@/utils/web3forms';
+import { emailService } from '@/utils/email/email-service';
+import type { ContactFormData as EmailContactFormData } from '@/utils/email/types';
 import {
   contactSchema,
   type ContactFormData,
@@ -131,17 +128,7 @@ export const useWeb3Forms = (
       // Reset previous state
       reset();
 
-      // Check rate limit
-      if (!checkRateLimit()) {
-        const rateLimitError = new Error('Rate limit exceeded');
-        const errorMessage =
-          customErrorMessage ||
-          'Please wait - too many submissions. Try again in a few minutes.';
-        setError(errorMessage);
-        setIsError(true);
-        onError?.(rateLimitError);
-        return;
-      }
+      // Rate limiting is now handled by the email service
 
       // Set submitting state
       setIsSubmitting(true);
@@ -173,19 +160,37 @@ export const useWeb3Forms = (
           return;
         }
 
-        // Submit form with retry logic (online)
-        const response = await submitWithRetry(data);
+        // Submit form through email service (with failover and retry)
+        const emailData: EmailContactFormData = {
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        };
 
-        // Record successful submission for rate limiting
-        recordSubmission();
+        const result = await emailService.send(emailData);
 
         // Update state
         setIsSuccess(true);
+        const providerNote =
+          result.provider !== 'Web3Forms'
+            ? ` (sent via backup: ${result.provider})`
+            : '';
         setSuccessMessage(
-          customSuccessMessage || response.message || 'Email sent successfully'
+          customSuccessMessage || `Email sent successfully${providerNote}`
         );
 
-        // Call success callback
+        // Call success callback with Web3FormsResponse format for compatibility
+        const response: Web3FormsResponse = {
+          success: result.success,
+          message: `Email sent via ${result.provider}`,
+          data: {
+            name: data.name,
+            email: data.email,
+            subject: data.subject,
+            message: data.message,
+          },
+        };
         onSuccess?.(response);
 
         // Auto-reset after delay if enabled

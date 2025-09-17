@@ -60,6 +60,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^5.2.2",
     "next": "15.5.2",
     "react": "19.1.0",
