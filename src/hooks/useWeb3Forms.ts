@@ -185,8 +185,8 @@ export const useWeb3Forms = (
           success: result.success,
           message: `Email sent via ${result.provider}`,
           data: {
-            name: data.name,
-            email: data.email,
+            from_name: data.name,
+            from_email: data.email,
             subject: data.subject,
             message: data.message,
           },

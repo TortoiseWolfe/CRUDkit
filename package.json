@@ -45,6 +45,8 @@
     "clean:next": "rm -rf .next/* .next/.* 2>/dev/null || true",
     "type-check": "pnpm run clean:next && tsc --noEmit",
     "pretype-check": "pnpm run clean:next",
+    "ci:validate": "./scripts/validate-ci.sh",
+    "ci:quick": "./scripts/validate-ci.sh --quick",
     "audit:components": "node scripts/audit-components.js",
     "migrate:components": "node scripts/migrate-components.js",
     "validate:structure": "node scripts/validate-structure.js",
