@@ -22,11 +22,11 @@ Phase 5: Features       [⬜⬜⬜] 0/3 Complete
 
 ### Phase 1: Foundation Infrastructure
 
-| #   | PRP                   | Priority | Status       | Branch                      | Started    | Completed  | Notes                          |
-| --- | --------------------- | -------- | ------------ | --------------------------- | ---------- | ---------- | ------------------------------ |
-| 1   | PRP Methodology       | P0       | 📥 Inbox     | `001-prp-methodology`       | -          | -          | Establishes PRP workflow       |
-| 2   | Component Structure   | P0       | ✅ Completed | `002-component-structure`   | 2025-09-13 | 2025-09-13 | 5-file pattern standardization |
-| 3   | E2E Testing Framework | P0       | ✅ Completed | `003-e2e-testing-framework` | 2025-09-14 | 2025-09-14 | Playwright setup, local-only   |
+| #   | PRP                   | Priority | Status       | Branch                      | Started    | Completed  | Notes                                       |
+| --- | --------------------- | -------- | ------------ | --------------------------- | ---------- | ---------- | ------------------------------------------- |
+| 1   | PRP Methodology       | P3       | 📥 Inbox     | `001-prp-methodology`       | -          | -          | Deferred - documenting after implementation |
+| 2   | Component Structure   | P0       | ✅ Completed | `002-component-structure`   | 2025-09-13 | 2025-09-13 | 5-file pattern standardization              |
+| 3   | E2E Testing Framework | P0       | ✅ Completed | `003-e2e-testing-framework` | 2025-09-14 | 2025-09-14 | Playwright setup, local-only                |
 
 ### Phase 2: Compliance & Accessibility
 
@@ -53,11 +53,11 @@ Phase 5: Features       [⬜⬜⬜] 0/3 Complete
 
 ### Phase 5: Additional Features
 
-| #   | PRP                       | Priority | Status   | Branch                  | Started | Completed | Notes            |
-| --- | ------------------------- | -------- | -------- | ----------------------- | ------- | --------- | ---------------- |
-| 12  | Visual Regression Testing | P0       | 📥 Inbox | `012-visual-regression` | -       | -         | Chromatic/Percy  |
-| 13  | Calendar Integration      | P2       | 📥 Inbox | `013-calendar`          | -       | -         | Calendly/Cal.com |
-| 14  | Geolocation Map           | P2       | 📥 Inbox | `014-geolocation`       | -       | -         | Leaflet maps     |
+| #   | PRP                       | Priority | Status   | Branch                  | Started | Completed | Notes                                |
+| --- | ------------------------- | -------- | -------- | ----------------------- | ------- | --------- | ------------------------------------ |
+| 12  | Visual Regression Testing | P2       | 📥 Inbox | `012-visual-regression` | -       | -         | Deferred until UI stable             |
+| 13  | Calendar Integration      | P0       | 🚀 Ready | `013-calendar`          | -       | -         | Calendly/Cal.com - Next to implement |
+| 14  | Geolocation Map           | P1       | 📥 Inbox | `014-geolocation`       | -       | -         | Leaflet maps                         |
 
 ## Status Legend
 
@@ -143,17 +143,20 @@ graph TD
 
 ### Immediate (Next PRP)
 
-1. PRP-012 (Visual Regression Testing) - Ready to begin
-2. Create branch `012-visual-regression`
+1. **PRP-013 (Calendar Integration)** - Ready to begin
+2. Create branch `013-calendar-integration`
 3. Copy PRP to specs directory
 4. Run `/plan` command
 5. Generate tasks with `/tasks`
 
-### Upcoming (Next 3 PRPs)
+### Upcoming PRPs (Priority Order)
 
-- PRP-012: Visual Regression Testing (Chromatic/Percy)
-- PRP-013: Calendar Integration (Calendly/Cal.com)
-- PRP-014: Geolocation Map (Leaflet maps)
+1. **PRP-013**: Calendar Integration (Calendly/Cal.com) - P0 Priority
+2. **PRP-014**: Geolocation Map (Leaflet maps) - P1 Priority
+3. **PRP-012**: Visual Regression Testing - P2 Priority (deferred until UI stabilizes)
+4. **PRP-001**: PRP Methodology - P3 Priority (document patterns after implementation)
+
+**Note**: Visual regression testing deferred as the UI is still evolving in this early prototype phase.
 
 ### Blocked Items
 

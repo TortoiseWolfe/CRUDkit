@@ -61,13 +61,14 @@ The project uses Product Requirements Prompts for feature implementation:
 "execute /tasks"
 ```
 
-**Available PRPs** (0.3.0):
+**Remaining PRPs** (0.3.0) - Priority Order:
 
-- PRP-010: EmailJS Integration
-- PRP-011: PWA Background Sync
-- PRP-012: Visual Regression Testing
-- PRP-013: Calendar Integration
-- PRP-014: Geolocation Map
+- ~~PRP-010: EmailJS Integration~~ ✅ Completed
+- ~~PRP-011: PWA Background Sync~~ ✅ Completed
+- **PRP-013: Calendar Integration** (Next - P0)
+- **PRP-014: Geolocation Map** (P1)
+- PRP-012: Visual Regression Testing (P2 - deferred until UI stable)
+- PRP-001: PRP Methodology (P3 - document after implementation)
 
 ## Architecture Overview
 
