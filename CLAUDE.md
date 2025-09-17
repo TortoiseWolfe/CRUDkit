@@ -65,8 +65,8 @@ The project uses Product Requirements Prompts for feature implementation:
 
 - ~~PRP-010: EmailJS Integration~~ ✅ Completed
 - ~~PRP-011: PWA Background Sync~~ ✅ Completed
-- **PRP-013: Calendar Integration** (Next - P0)
-- **PRP-014: Geolocation Map** (P1)
+- ~~PRP-013: Calendar Integration~~ ✅ Completed
+- **PRP-014: Geolocation Map** (Next - P1)
 - PRP-012: Visual Regression Testing (P2 - deferred until UI stable)
 - PRP-001: PRP Methodology (P3 - document after implementation)
 
@@ -86,7 +86,8 @@ src/
 ├── app/           # Next.js pages
 ├── components/    # Atomic design pattern
 │   ├── subatomic/ # Primitives
-│   ├── atomic/    # Basic components
+│   ├── atomic/    # Basic components (includes CalendarEmbed)
+│   ├── calendar/  # Calendar providers and consent
 │   └── privacy/   # GDPR components
 ├── config/        # Project configuration
 ├── contexts/      # React contexts
