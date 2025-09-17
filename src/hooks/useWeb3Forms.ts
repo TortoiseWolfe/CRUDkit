@@ -12,6 +12,7 @@ import {
   type ContactFormData,
   type Web3FormsResponse,
 } from '@/schemas/contact.schema';
+import { useOfflineQueue } from './useOfflineQueue';
 
 /**
  * Hook configuration options
@@ -36,6 +37,9 @@ export interface UseWeb3FormsReturn {
   isError: boolean;
   error: string | null;
   successMessage: string | null;
+  isOnline: boolean;
+  queueSize: number;
+  wasQueuedOffline: boolean;
 }
 
 /**
@@ -58,6 +62,18 @@ export const useWeb3Forms = (
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [wasQueuedOffline, setWasQueuedOffline] = useState(false);
+
+  // Offline queue management
+  const { isOnline, queueSize, addToOfflineQueue } = useOfflineQueue({
+    onOnline: () => {
+      // Could trigger sync here if needed
+      console.log('[Web3Forms] Connection restored');
+    },
+    onOffline: () => {
+      console.log('[Web3Forms] Connection lost - will queue submissions');
+    },
+  });
 
   // Ref to track timeout
   const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -71,6 +87,7 @@ export const useWeb3Forms = (
     setIsError(false);
     setError(null);
     setSuccessMessage(null);
+    setWasQueuedOffline(false);
 
     // Clear any pending timeout
     if (resetTimeoutRef.current) {
@@ -130,7 +147,33 @@ export const useWeb3Forms = (
       setIsSubmitting(true);
 
       try {
-        // Submit form with retry logic
+        // Check if offline
+        if (!isOnline) {
+          console.log('[Web3Forms] Offline - queuing submission');
+
+          // Add to offline queue
+          const queued = await addToOfflineQueue(data);
+
+          if (queued) {
+            setIsSuccess(true);
+            setWasQueuedOffline(true);
+            setSuccessMessage(
+              'Message queued for sending when online. It will be sent automatically when connection is restored.'
+            );
+
+            // Auto-reset after delay
+            if (autoResetDelay > 0) {
+              resetTimeoutRef.current = setTimeout(reset, autoResetDelay);
+            }
+          } else {
+            throw new Error('Failed to queue message. Please try again.');
+          }
+
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Submit form with retry logic (online)
         const response = await submitWithRetry(data);
 
         // Record successful submission for rate limiting
@@ -174,6 +217,8 @@ export const useWeb3Forms = (
       customErrorMessage,
       autoResetDelay,
       reset,
+      isOnline,
+      addToOfflineQueue,
     ]
   );
 
@@ -197,5 +242,8 @@ export const useWeb3Forms = (
     isError,
     error,
     successMessage,
+    isOnline,
+    queueSize,
+    wasQueuedOffline,
   };
 };

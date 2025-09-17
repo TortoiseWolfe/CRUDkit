@@ -10,6 +10,78 @@ const CACHE_NAME = isDev
 console.log('[SW] Initializing Service Worker');
 console.log('[SW] Cache name:', CACHE_NAME);
 console.log('[SW] Environment:', isDev ? 'development' : 'production');
+
+// Background sync tag for form submissions
+const SYNC_TAG = 'form-submission-sync';
+
+// IndexedDB queue processing function
+async function processIndexedDBQueue() {
+  console.log('[SW] Processing IndexedDB queue...');
+  let syncedCount = 0;
+
+  try {
+    // Open the offline submissions database
+    const dbRequest = indexedDB.open('OfflineFormSubmissions', 1);
+
+    const db = await new Promise((resolve, reject) => {
+      dbRequest.onsuccess = () => resolve(dbRequest.result);
+      dbRequest.onerror = () => reject(dbRequest.error);
+    });
+
+    const transaction = db.transaction(['submissions'], 'readwrite');
+    const store = transaction.objectStore('submissions');
+
+    // Get all queued items
+    const getAllRequest = store.getAll();
+    const items = await new Promise((resolve, reject) => {
+      getAllRequest.onsuccess = () => resolve(getAllRequest.result);
+      getAllRequest.onerror = () => reject(getAllRequest.error);
+    });
+
+    console.log(`[SW] Found ${items.length} items in IndexedDB queue`);
+
+    // Process each item
+    for (const item of items) {
+      try {
+        // Attempt to submit to Web3Forms
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            ...item.data,
+            access_key: 'd9b95b8e-fcd3-486e-9e9d-b96a60833cab', // Web3Forms access key
+          }),
+        });
+
+        if (response.ok) {
+          // Remove from IndexedDB on success
+          const deleteRequest = store.delete(item.id);
+          await new Promise((resolve) => {
+            deleteRequest.onsuccess = resolve;
+          });
+          syncedCount++;
+          console.log(`[SW] Successfully synced submission ${item.id}`);
+        } else {
+          console.error(
+            `[SW] Failed to sync submission ${item.id}: ${response.status}`
+          );
+        }
+      } catch (error) {
+        console.error(`[SW] Error syncing submission ${item.id}:`, error);
+      }
+    }
+
+    db.close();
+    return syncedCount;
+  } catch (error) {
+    console.error('[SW] Error processing IndexedDB queue:', error);
+    return 0;
+  }
+}
+
 // Only cache assets, not HTML pages (to ensure theme scripts always run)
 const urlsToCache = [
   '/CRUDkit/manifest.json',
@@ -136,35 +208,60 @@ self.addEventListener('message', (event) => {
 
 // Background Sync for offline form submissions
 self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-forms') {
+  console.log('[SW] Sync event triggered:', event.tag);
+
+  if (event.tag === SYNC_TAG || event.tag === 'sync-forms') {
     event.waitUntil(syncOfflineForms());
   }
 });
 
 // Function to sync offline forms when connection is restored
 async function syncOfflineForms() {
+  console.log('[SW] Starting background sync for forms...');
+  let syncedCount = 0;
+
   try {
-    // Get all offline form data from IndexedDB or cache
-    const cache = await caches.open('offline-forms');
-    const requests = await cache.keys();
+    // Primary method: Process IndexedDB queue (used by offline queue utils)
+    try {
+      const indexedDBSyncCount = await processIndexedDBQueue();
+      syncedCount += indexedDBSyncCount;
+      console.log(
+        `[SW] IndexedDB queue processed: ${indexedDBSyncCount} items synced`
+      );
+    } catch (error) {
+      console.error('[SW] Error processing IndexedDB queue:', error);
+    }
 
-    const syncPromises = requests.map(async (request) => {
-      try {
-        // Attempt to send the cached request
-        const response = await fetch(request.clone());
+    // Fallback method: Process any cached requests (for backward compatibility)
+    try {
+      const cache = await caches.open('offline-forms');
+      const requests = await cache.keys();
 
-        if (response.ok) {
-          // If successful, remove from cache
-          await cache.delete(request);
-          console.log('Synced offline form:', request.url);
-        }
-      } catch (error) {
-        console.error('Failed to sync form:', error);
-        // Keep in cache for next sync attempt
+      if (requests.length > 0) {
+        console.log(`[SW] Found ${requests.length} cached requests to sync`);
+
+        const syncPromises = requests.map(async (request) => {
+          try {
+            // Attempt to send the cached request
+            const response = await fetch(request.clone());
+
+            if (response.ok) {
+              // If successful, remove from cache
+              await cache.delete(request);
+              syncedCount++;
+              console.log('[SW] Synced cached form:', request.url);
+            }
+          } catch (error) {
+            console.error('[SW] Failed to sync cached form:', error);
+            // Keep in cache for next sync attempt
+          }
+        });
+
+        await Promise.all(syncPromises);
       }
-    });
-
-    await Promise.all(syncPromises);
+    } catch (error) {
+      console.error('[SW] Error processing cached forms:', error);
+    }
 
     // Notify clients about sync completion
     const clients = await self.clients.matchAll();
@@ -172,42 +269,16 @@ async function syncOfflineForms() {
       client.postMessage({
         type: 'BACKGROUND_SYNC_COMPLETE',
         timestamp: new Date().toISOString(),
+        syncedCount: syncedCount,
       });
     });
+
+    console.log(`[SW] Background sync completed. Synced ${syncedCount} items.`);
   } catch (error) {
-    console.error('Background sync failed:', error);
+    console.error('[SW] Background sync failed:', error);
   }
 }
 
-// Handle form submissions when offline
-self.addEventListener('fetch', (event) => {
-  // Check if this is a form submission
-  if (event.request.method === 'POST' && event.request.url.includes('/api/')) {
-    event.respondWith(
-      fetch(event.request.clone()).catch(async () => {
-        // If offline, cache the request for later
-        const cache = await caches.open('offline-forms');
-        await cache.put(event.request.url, event.request.clone());
-
-        // Register sync event for when connection returns
-        if ('sync' in self.registration) {
-          await self.registration.sync.register('sync-forms');
-        }
-
-        // Return a custom response indicating offline storage
-        return new Response(
-          JSON.stringify({
-            status: 'offline',
-            message:
-              'Your submission has been saved and will be sent when connection is restored',
-          }),
-          {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
-      })
-    );
-    return;
-  }
-});
+// Note: Form submission offline handling is managed by the application code
+// using IndexedDB queue (offline-queue.ts) for better reliability and control.
+// The service worker only processes the queue during background sync events.

@@ -13,6 +13,40 @@ vi.mock('@/utils/web3forms', () => ({
   formatErrorMessage: vi.fn(),
 }));
 
+// Mock offline queue utilities
+vi.mock('@/utils/offline-queue', () => ({
+  addToQueue: vi.fn().mockResolvedValue(true),
+  getQueueSize: vi.fn().mockResolvedValue(0),
+  getQueuedItems: vi.fn().mockResolvedValue([]),
+  removeFromQueue: vi.fn().mockResolvedValue(true),
+  clearQueue: vi.fn().mockResolvedValue(true),
+  openDatabase: vi.fn(),
+  updateRetryCount: vi.fn().mockResolvedValue(true),
+}));
+
+// Mock background sync utilities
+vi.mock('@/utils/background-sync', () => ({
+  registerBackgroundSync: vi.fn().mockResolvedValue(true),
+  isBackgroundSyncSupported: vi.fn().mockReturnValue(false),
+  processQueue: vi.fn().mockResolvedValue(undefined),
+  getSyncStatus: vi.fn().mockResolvedValue({
+    supported: false,
+    registered: false,
+    queueSize: 0,
+  }),
+}));
+
+// Mock the offline queue hook
+vi.mock('./useOfflineQueue', () => ({
+  useOfflineQueue: vi.fn(() => ({
+    isOnline: true,
+    isBackgroundSyncSupported: false,
+    queueSize: 0,
+    addToOfflineQueue: vi.fn().mockResolvedValue(true),
+    refreshQueueSize: vi.fn().mockResolvedValue(undefined),
+  })),
+}));
+
 describe('useWeb3Forms Hook', () => {
   const mockOnSuccess = vi.fn();
   const mockOnError = vi.fn();
@@ -42,6 +76,9 @@ describe('useWeb3Forms Hook', () => {
       expect(result.current.isError).toBe(false);
       expect(result.current.error).toBeNull();
       expect(result.current.successMessage).toBeNull();
+      expect(result.current.isOnline).toBe(true);
+      expect(result.current.queueSize).toBe(0);
+      expect(result.current.wasQueuedOffline).toBe(false);
     });
 
     it('should accept custom callbacks', () => {

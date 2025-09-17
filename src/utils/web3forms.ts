@@ -327,6 +327,10 @@ export const formatErrorMessage = (error: Error): string => {
     return 'Please check your input and try again.';
   }
 
+  if (message.includes('failed to queue message')) {
+    return 'Failed to queue message. Please try again.';
+  }
+
   // Default message
   return 'An error occurred. Please try again later.';
 };

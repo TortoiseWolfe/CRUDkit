@@ -23,6 +23,9 @@ describe('ContactForm Accessibility', () => {
     isError: false,
     error: null,
     successMessage: null,
+    isOnline: true,
+    queueSize: 0,
+    wasQueuedOffline: false,
   };
 
   beforeEach(() => {

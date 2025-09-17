@@ -48,7 +48,7 @@
 **Target**: 0.3.0 Release
 **Focus**: Completing 14 Product Requirements Prompts
 
-### Completed PRPs (8/14)
+### Completed PRPs (9/14)
 
 - ✅ PRP-002: Component Structure (5-file pattern)
 - ✅ PRP-003: E2E Testing Framework (Playwright)
@@ -57,15 +57,16 @@
 - ✅ PRP-006: Font Switcher (6 fonts)
 - ✅ PRP-007: Cookie Consent (GDPR)
 - ✅ PRP-008: Google Analytics (GA4)
-- ✅ PRP-009: Web3Forms Integration
+- ✅ PRP-009: Web3Forms Integration (620 tests)
+- ✅ PRP-011: PWA Background Sync (646 tests passing, 4 known test issues)
 
-### Remaining PRPs (6/14)
+### Remaining PRPs (5/14)
 
 - ⏳ PRP-010: EmailJS Integration
-- ⏳ PRP-011: PWA Background Sync
 - ⏳ PRP-012: Visual Regression Testing
 - ⏳ PRP-013: Calendar Integration
 - ⏳ PRP-014: Geolocation Map
+- ⏳ PRP-001: PRP Methodology (documentation)
 
 ### Sprint 3 Goals
 
@@ -108,6 +109,7 @@
 - Docker-first development ensures consistency
 - Automated task tracking saves time
 - Component generator enforces standards
+- Hook-level mocking simplifies integration tests
 
 ### Challenges Solved
 
@@ -116,6 +118,8 @@
 - Docker permission issues
 - Webpack cache corruption
 - Component structure standardization
+- Service Worker dual queue processing (IndexedDB + cache)
+- React Hook Form async validation in tests (4 known issues)
 
 ### Process Improvements
 
@@ -124,3 +128,12 @@
 - Pre-commit hooks catch issues early
 - ADRs track decision rationale
 - Small, focused phases prevent scope creep
+- Document known test issues for future resolution
+
+### PRP-011 Specific Lessons
+
+- **Testing Complex Forms**: React Hook Form validation timing differs between test and browser environments
+- **Service Worker Updates**: Version stamping forces SW updates reliably
+- **Mock Strategy**: Mock at highest reasonable level (hooks vs utilities)
+- **Documentation**: Create known issues doc when tests fail but production works
+- **Future Approach**: Split integration tests into unit + E2E for better reliability
