@@ -26,7 +26,7 @@ describe('useOfflineQueue', () => {
     vi.mocked(offlineQueue.getQueueSize).mockResolvedValue(0);
     vi.mocked(offlineQueue.addToQueue).mockResolvedValue(true);
     vi.mocked(backgroundSync.isBackgroundSyncSupported).mockReturnValue(true);
-    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue();
+    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue(true);
 
     // Capture event listeners
     window.addEventListener = vi.fn((event: string, handler: EventListener) => {

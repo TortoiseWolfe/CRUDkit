@@ -107,7 +107,7 @@ describe('Offline Queue Integration', () => {
     vi.mocked(offlineQueue.updateRetryCount).mockResolvedValue(true);
 
     vi.mocked(backgroundSync.isBackgroundSyncSupported).mockReturnValue(true);
-    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue();
+    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue(true);
 
     vi.mocked(web3forms.submitWithRetry).mockResolvedValue({
       success: true,
