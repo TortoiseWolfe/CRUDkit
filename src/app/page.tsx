@@ -241,6 +241,15 @@ export default function Home() {
               <span className="opacity-30" aria-hidden="true">
                 •
               </span>
+              <Link
+                href="/schedule"
+                className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100"
+              >
+                Schedule
+              </Link>
+              <span className="opacity-30" aria-hidden="true">
+                •
+              </span>
               <a
                 href="https://tortoisewolfe.github.io/CRUDkit/storybook/"
                 target="_blank"

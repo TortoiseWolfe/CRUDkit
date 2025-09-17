@@ -2,9 +2,9 @@
 
 **Last Updated**: 2025-01-17
 **Total PRPs**: 14
-**Completed**: 10
+**Completed**: 11
 **In Progress**: 0
-**Pending**: 4
+**Pending**: 3
 
 ---
 
@@ -15,7 +15,7 @@ Phase 1: Foundation     [✅✅⬜] 2/3 Complete
 Phase 2: Compliance     [✅✅✅] 3/3 Complete ✨
 Phase 3: Privacy        [✅✅]   2/2 Complete ✨
 Phase 4: Forms          [✅✅✅] 3/3 Complete ✨
-Phase 5: Features       [⬜⬜⬜] 0/3 Complete
+Phase 5: Features       [✅⬜⬜] 1/3 Complete
 ```
 
 ## Detailed Implementation Status
@@ -53,11 +53,11 @@ Phase 5: Features       [⬜⬜⬜] 0/3 Complete
 
 ### Phase 5: Additional Features
 
-| #   | PRP                       | Priority | Status   | Branch                  | Started | Completed | Notes                                |
-| --- | ------------------------- | -------- | -------- | ----------------------- | ------- | --------- | ------------------------------------ |
-| 12  | Visual Regression Testing | P2       | 📥 Inbox | `012-visual-regression` | -       | -         | Deferred until UI stable             |
-| 13  | Calendar Integration      | P0       | 🚀 Ready | `013-calendar`          | -       | -         | Calendly/Cal.com - Next to implement |
-| 14  | Geolocation Map           | P1       | 📥 Inbox | `014-geolocation`       | -       | -         | Leaflet maps                         |
+| #   | PRP                       | Priority | Status       | Branch                     | Started    | Completed  | Notes                                 |
+| --- | ------------------------- | -------- | ------------ | -------------------------- | ---------- | ---------- | ------------------------------------- |
+| 12  | Visual Regression Testing | P2       | 📥 Inbox     | `012-visual-regression`    | -          | -          | Deferred until UI stable              |
+| 13  | Calendar Integration      | P0       | ✅ Completed | `013-calendar-integration` | 2025-09-17 | 2025-09-17 | Calendly/Cal.com support with consent |
+| 14  | Geolocation Map           | P1       | 📥 Inbox     | `014-geolocation`          | -          | -          | Leaflet maps                          |
 
 ## Status Legend
 
@@ -143,18 +143,17 @@ graph TD
 
 ### Immediate (Next PRP)
 
-1. **PRP-013 (Calendar Integration)** - Ready to begin
-2. Create branch `013-calendar-integration`
+1. **PRP-014 (Geolocation Map)** - Ready to begin
+2. Create branch `014-geolocation-map`
 3. Copy PRP to specs directory
 4. Run `/plan` command
 5. Generate tasks with `/tasks`
 
 ### Upcoming PRPs (Priority Order)
 
-1. **PRP-013**: Calendar Integration (Calendly/Cal.com) - P0 Priority
-2. **PRP-014**: Geolocation Map (Leaflet maps) - P1 Priority
-3. **PRP-012**: Visual Regression Testing - P2 Priority (deferred until UI stabilizes)
-4. **PRP-001**: PRP Methodology - P3 Priority (document patterns after implementation)
+1. **PRP-014**: Geolocation Map (Leaflet maps) - P1 Priority - Next to implement
+2. **PRP-012**: Visual Regression Testing - P2 Priority (deferred until UI stabilizes)
+3. **PRP-001**: PRP Methodology - P3 Priority (document patterns after implementation)
 
 **Note**: Visual regression testing deferred as the UI is still evolving in this early prototype phase.
 
