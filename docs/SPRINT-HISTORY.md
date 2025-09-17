@@ -48,7 +48,7 @@
 **Target**: 0.3.0 Release
 **Focus**: Completing 14 Product Requirements Prompts
 
-### Completed PRPs (9/14)
+### Completed PRPs (11/14)
 
 - ✅ PRP-002: Component Structure (5-file pattern)
 - ✅ PRP-003: E2E Testing Framework (Playwright)
@@ -58,13 +58,13 @@
 - ✅ PRP-007: Cookie Consent (GDPR)
 - ✅ PRP-008: Google Analytics (GA4)
 - ✅ PRP-009: Web3Forms Integration (620 tests)
+- ✅ PRP-010: EmailJS Integration
 - ✅ PRP-011: PWA Background Sync (646 tests passing, 4 known test issues)
+- ✅ PRP-013: Calendar Integration (Calendly/Cal.com)
 
-### Remaining PRPs (5/14)
+### Remaining PRPs (3/14)
 
-- ⏳ PRP-010: EmailJS Integration
 - ⏳ PRP-012: Visual Regression Testing
-- ⏳ PRP-013: Calendar Integration
 - ⏳ PRP-014: Geolocation Map
 - ⏳ PRP-001: PRP Methodology (documentation)
 

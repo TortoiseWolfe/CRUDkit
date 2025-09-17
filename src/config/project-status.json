@@ -146,6 +146,21 @@
       "name": "Web3Forms Contact Form",
       "completed": true,
       "description": "Professional contact form with validation and spam protection"
+    },
+    {
+      "name": "EmailJS Integration",
+      "completed": true,
+      "description": "Alternative email service with templates and auto-reply support"
+    },
+    {
+      "name": "PWA Background Sync",
+      "completed": true,
+      "description": "Offline form submission with automatic sync when online"
+    },
+    {
+      "name": "Calendar Integration",
+      "completed": true,
+      "description": "Calendly and Cal.com scheduling with GDPR-compliant consent"
     }
   ],
   "lighthouse": {
