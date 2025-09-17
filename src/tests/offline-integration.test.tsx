@@ -38,7 +38,7 @@ vi.mock('@/hooks/useOfflineQueue', () => ({
 
 // Helper to fill form fields with validation
 async function fillContactForm(
-  screen: ReturnType<(typeof import('@testing-library/react'))['screen']>
+  screen: (typeof import('@testing-library/react'))['screen']
 ) {
   const nameInput = await screen.findByLabelText(/full name/i);
   const emailInput = await screen.findByLabelText(/email/i);
@@ -107,9 +107,7 @@ describe('Offline Queue Integration', () => {
     vi.mocked(offlineQueue.updateRetryCount).mockResolvedValue(true);
 
     vi.mocked(backgroundSync.isBackgroundSyncSupported).mockReturnValue(true);
-    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue(
-      undefined
-    );
+    vi.mocked(backgroundSync.registerBackgroundSync).mockResolvedValue();
 
     vi.mocked(web3forms.submitWithRetry).mockResolvedValue({
       success: true,
@@ -210,7 +208,7 @@ describe('Offline Queue Integration', () => {
       });
 
       // If button is still disabled, try to trigger form validation manually
-      if (submitButton.disabled) {
+      if ((submitButton as HTMLButtonElement).disabled) {
         // Re-trigger validation by focusing and blurring all fields again
         const nameInput = screen.getByLabelText(/full name/i);
         const emailInput = screen.getByLabelText(/email/i);
@@ -294,7 +292,7 @@ describe('Offline Queue Integration', () => {
       });
 
       // Force validation if button is still disabled
-      if (submitButton.disabled) {
+      if ((submitButton as HTMLButtonElement).disabled) {
         const nameInput = screen.getByLabelText(/full name/i);
         const emailInput = screen.getByLabelText(/email/i);
         const subjectInput = screen.getByLabelText(/subject/i);
@@ -397,7 +395,7 @@ describe('Offline Queue Integration', () => {
       });
 
       // Force validation if needed
-      if (submitButton.disabled) {
+      if ((submitButton as HTMLButtonElement).disabled) {
         const nameInput = screen.getByLabelText(/full name/i);
         const emailInput = screen.getByLabelText(/email/i);
         const subjectInput = screen.getByLabelText(/subject/i);
@@ -630,7 +628,7 @@ describe('Offline Queue Integration', () => {
       });
 
       // Force validation if needed
-      if (submitButton.disabled) {
+      if ((submitButton as HTMLButtonElement).disabled) {
         const nameInput = screen.getByLabelText(/full name/i);
         const emailInput = screen.getByLabelText(/email/i);
         const subjectInput = screen.getByLabelText(/subject/i);
@@ -704,7 +702,7 @@ describe('Offline Queue Integration', () => {
       });
 
       // Force validation if needed
-      if (submitButton.disabled) {
+      if ((submitButton as HTMLButtonElement).disabled) {
         const nameInput = screen.getByLabelText(/full name/i);
         const emailInput = screen.getByLabelText(/email/i);
         const subjectInput = screen.getByLabelText(/subject/i);
