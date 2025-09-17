@@ -3,6 +3,7 @@ import CalendarEmbed from './CalendarEmbed';
 import { withConsentProvider } from '../../../../.storybook/decorators';
 
 const meta: Meta<typeof CalendarEmbed> = {
+  id: 'atomic-calendarembed',
   title: 'Atomic/CalendarEmbed',
   component: CalendarEmbed,
   decorators: [withConsentProvider],
@@ -14,7 +15,6 @@ const meta: Meta<typeof CalendarEmbed> = {
       },
     },
   },
-  tags: ['autodocs'],
   argTypes: {
     mode: {
       control: { type: 'select' },
