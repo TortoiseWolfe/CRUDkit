@@ -1,6 +1,11 @@
 [
   {
     "date": "9/17/2025",
+    "feature": "Add newline to deployment-history.json generator",
+    "status": "success"
+  },
+  {
+    "date": "9/17/2025",
     "feature": "Reorder PRPs to prioritize functional features",
     "status": "success"
   },
@@ -92,11 +97,6 @@
   {
     "date": "9/15/2025",
     "feature": "Resolve ContactForm test failures and ESLint is...",
-    "status": "success"
-  },
-  {
-    "date": "9/15/2025",
-    "feature": "Initialize Web3Forms integration planning",
     "status": "success"
   }
 ]
