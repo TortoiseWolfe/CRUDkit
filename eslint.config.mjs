@@ -23,9 +23,15 @@ const eslintConfig = [
       'next-env.d.ts',
       'coverage/**',
       'scripts/**',
+      'storybook-static/**',
+      'playwright-report/**',
+      'test-results/**',
+      '.pnpm-store/**',
+      'dist/**',
+      '*.min.js',
+      '**/*.min.js',
     ],
   },
-  ...storybook.configs['flat/recommended'],
   ...storybook.configs['flat/recommended'],
 ];
 

@@ -8,6 +8,11 @@ const meta: Meta<typeof CalendarEmbed> = {
   decorators: [withConsentProvider],
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: 'Calendar embedding component supporting multiple providers',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -42,6 +47,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     mode: 'inline',
+    provider: 'calendly',
+    url: '',
+  },
+  parameters: {
+    docs: {
+      storyDescription: 'Default calendar embed in inline mode',
+    },
   },
 };
 
