@@ -114,7 +114,10 @@ function generateDeploymentHistory() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  fs.writeFileSync(outputPath, JSON.stringify(finalDeployments, null, 2));
+  fs.writeFileSync(
+    outputPath,
+    JSON.stringify(finalDeployments, null, 2) + '\n'
+  );
 
   console.log(
     `✅ Generated deployment history with ${finalDeployments.length} entries`
