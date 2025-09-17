@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import { ContactForm } from './ContactForm';
 import * as useWeb3FormsModule from '@/hooks/useWeb3Forms';
@@ -87,23 +87,26 @@ describe('ContactForm Accessibility', () => {
     expect(getByLabelText(/message/i)).toBeTruthy();
   });
 
-  it('should have accessible error messages', () => {
+  it('should have accessible error messages', async () => {
     const { container } = render(<ContactForm />);
 
     // Trigger validation by submitting empty form
     const form = container.querySelector('form');
-    form?.dispatchEvent(
-      new Event('submit', { bubbles: true, cancelable: true })
-    );
-
-    // Error messages should be associated with form fields
-    const nameInput = container.querySelector('input[name="name"]');
-    const errorId = nameInput?.getAttribute('aria-describedby');
-
-    if (errorId) {
-      const errorElement = container.querySelector(`#${errorId}`);
-      expect(errorElement).toBeTruthy();
+    if (form) {
+      fireEvent.submit(form);
     }
+
+    // Wait for error messages to appear
+    await waitFor(() => {
+      // Error messages should be associated with form fields
+      const nameInput = container.querySelector('input[name="name"]');
+      const errorId = nameInput?.getAttribute('aria-describedby');
+
+      if (errorId) {
+        const errorElement = container.querySelector(`#${errorId}`);
+        expect(errorElement).toBeTruthy();
+      }
+    });
   });
 
   it('should have keyboard navigable form', () => {
