@@ -2,7 +2,11 @@
 
 /**
  * Generate deployment history from git commits
- * This script creates a JSON file with recent deployments for the status page
+ *
+ * NOTE: This is now MANUAL ONLY - no longer runs automatically during builds
+ * The deployment-history.json file is manually maintained for major milestones only
+ *
+ * To regenerate from git history: node scripts/generate-deployment-history.js
  */
 
 const { execSync } = require('child_process');
