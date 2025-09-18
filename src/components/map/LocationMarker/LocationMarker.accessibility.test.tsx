@@ -100,5 +100,5 @@ describe('LocationMarker Accessibility', () => {
     expect(circle).toHaveAttribute('role', 'presentation');
   });
 
-  // LocationMarker popup only accepts string content
+  // Note: LocationMarker popup only accepts string content, not React nodes
 });

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
@@ -62,7 +60,10 @@ describe('LocationMarker', () => {
 
     const marker = screen.getByTestId('location-marker');
     expect(marker).toBeInTheDocument();
-    expect(marker).toHaveAttribute('data-position', JSON.stringify([51.505, -0.09]));
+    expect(marker).toHaveAttribute(
+      'data-position',
+      JSON.stringify([51.505, -0.09])
+    );
   });
 
   it('should render accuracy circle when showAccuracy is true', () => {
@@ -75,7 +76,10 @@ describe('LocationMarker', () => {
 
     const circle = screen.getByTestId('accuracy-circle');
     expect(circle).toBeInTheDocument();
-    expect(circle).toHaveAttribute('data-center', JSON.stringify([51.505, -0.09]));
+    expect(circle).toHaveAttribute(
+      'data-center',
+      JSON.stringify([51.505, -0.09])
+    );
     expect(circle).toHaveAttribute('data-radius', '10');
   });
 
@@ -127,11 +131,8 @@ describe('LocationMarker', () => {
     expect(popup).toHaveTextContent('Custom location text');
   });
 
-  // Popup only accepts string content, not React nodes
-
+  // Note: Popup only accepts string content, not React nodes
   // Pan to location behavior is tested in E2E tests (requires real map instance)
-
-
 
   it('should use custom icon when provided', () => {
     const customIcon = {
@@ -168,17 +169,23 @@ describe('LocationMarker', () => {
     const { rerender } = render(<LocationMarker {...defaultProps} />);
 
     let marker = screen.getByTestId('location-marker');
-    expect(marker).toHaveAttribute('data-position', JSON.stringify([51.505, -0.09]));
+    expect(marker).toHaveAttribute(
+      'data-position',
+      JSON.stringify([51.505, -0.09])
+    );
 
     const newProps = {
       ...defaultProps,
-      position: [52.520, 13.405] as [number, number], // Berlin
+      position: [52.52, 13.405] as [number, number], // Berlin
     };
 
     rerender(<LocationMarker {...newProps} />);
 
     marker = screen.getByTestId('location-marker');
-    expect(marker).toHaveAttribute('data-position', JSON.stringify([52.520, 13.405]));
+    expect(marker).toHaveAttribute(
+      'data-position',
+      JSON.stringify([52.52, 13.405])
+    );
   });
 
   it('should update accuracy circle when accuracy changes', () => {
@@ -219,8 +226,6 @@ describe('LocationMarker', () => {
     expect(options).toHaveProperty('stroke');
     expect(options).toHaveProperty('strokeOpacity');
   });
-
-
 
   it('should display accuracy in popup when showAccuracy is true', () => {
     const props = {
