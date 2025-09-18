@@ -107,7 +107,7 @@ graph TD
 
 ### Quality Metrics
 
-- **Tests Written**: 667 total (650 unit, 40+ E2E)
+- **Tests Written**: 793+ total (750+ unit, 40+ E2E)
 - **Test Coverage**: 98% (Web3Forms), 97% (PWA Sync), 100% (EmailJS), 58% (overall)
 - **Accessibility Score**: 96/100 (4 minor issues in ContactForm)
 - **Lighthouse Score**: 92/100 (Performance)
@@ -124,6 +124,8 @@ graph TD
 - **Web3Forms (PRP-009)**: Contact form with Zod validation, honeypot spam protection, TDD approach (98% coverage)
 - **PWA Background Sync (PRP-011)**: IndexedDB queue, service worker sync, comprehensive offline support
 - **EmailJS Integration (PRP-010)**: Provider pattern with automatic failover, retry logic, rate limiting, 100% test coverage
+- **Calendar Integration (PRP-013)**: GDPR-compliant consent for third-party scheduling services
+- **Geolocation Map (PRP-014)**: Leaflet.js with dynamic imports, OpenStreetMap tiles, GDPR consent modal
 
 ### Challenges & Solutions
 
@@ -132,6 +134,7 @@ graph TD
 - **Missing dependencies**: Added to Dockerfile for consistency (Playwright deps)
 - **PRP-009 Deferred Tasks**: Offline support (T010-T011) moved to PRP-011, enhanced security features (T012-T016) marked as optional future enhancements
 - **PRP-011 Test Issues**: 4 integration tests fail due to React Hook Form async validation timing (production works correctly)
+- **PRP-014 Desktop Accuracy**: IP-based geolocation limited to city-level accuracy, documented as PRP-015 for v0.4.0
 
 ### Process Improvements
 
@@ -143,15 +146,13 @@ graph TD
 
 ### Immediate (Next PRP)
 
-1. **PRP-014 (Geolocation Map)** - Ready to begin
-2. Create branch `014-geolocation-map`
-3. Copy PRP to specs directory
-4. Run `/plan` command
-5. Generate tasks with `/tasks`
+1. **PRP-001 (PRP Methodology)** - Document the PRP process after implementation
+2. **PRP-012 (Visual Regression Testing)** - Consider when UI is stable
+3. **PRP-015 (Enhanced Geolocation)** - Future v0.4.0 enhancement
 
-### Upcoming PRPs (Priority Order)
+### Future PRPs (v0.4.0)
 
-1. **PRP-014**: Geolocation Map (Leaflet maps) - P1 Priority - Next to implement
+1. **PRP-015**: Enhanced Geolocation Accuracy - Hybrid desktop/mobile approach
 2. **PRP-012**: Visual Regression Testing - P2 Priority (deferred until UI stabilizes)
 3. **PRP-001**: PRP Methodology - P3 Priority (document patterns after implementation)
 

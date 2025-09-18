@@ -161,6 +161,11 @@
       "name": "Calendar Integration",
       "completed": true,
       "description": "Calendly and Cal.com scheduling with GDPR-compliant consent"
+    },
+    {
+      "name": "Geolocation Map",
+      "completed": true,
+      "description": "Interactive maps with Leaflet.js and OpenStreetMap, GDPR-compliant location consent"
     }
   ],
   "lighthouse": {

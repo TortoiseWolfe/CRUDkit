@@ -48,7 +48,7 @@
 **Target**: 0.3.0 Release
 **Focus**: Completing 14 Product Requirements Prompts
 
-### Completed PRPs (11/14)
+### Completed PRPs (12/14)
 
 - ✅ PRP-002: Component Structure (5-file pattern)
 - ✅ PRP-003: E2E Testing Framework (Playwright)
@@ -61,11 +61,11 @@
 - ✅ PRP-010: EmailJS Integration
 - ✅ PRP-011: PWA Background Sync (646 tests passing, 4 known test issues)
 - ✅ PRP-013: Calendar Integration (Calendly/Cal.com)
+- ✅ PRP-014: Geolocation Map (Leaflet, OpenStreetMap)
 
-### Remaining PRPs (3/14)
+### Remaining PRPs (2/14)
 
-- ⏳ PRP-012: Visual Regression Testing
-- ⏳ PRP-014: Geolocation Map
+- ⏳ PRP-012: Visual Regression Testing (deferred)
 - ⏳ PRP-001: PRP Methodology (documentation)
 
 ### Sprint 3 Goals
