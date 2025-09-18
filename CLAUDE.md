@@ -10,6 +10,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 4. **Clean Architecture** - Follow established patterns consistently
 5. **No Technical Debt** - Never commit TODOs or workarounds
 
+## Current Sprint: Technical Debt Reduction (Sprint 3.5)
+
+**IMPORTANT**: See `/CONSTITUTION.md` for current sprint priorities. Focus on eliminating technical debt before adding new features.
+
 ## Component Structure Requirements ⚠️ MANDATORY
 
 **CRITICAL**: Components must follow the 5-file pattern or CI/CD will fail:
