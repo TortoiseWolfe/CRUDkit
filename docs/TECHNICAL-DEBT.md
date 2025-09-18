@@ -33,8 +33,8 @@ This document tracks known technical issues, workarounds, and future concerns th
 
 **Current Workaround**:
 
-- Removed stories that require mocking (Submitting, Success, Error states)
-- Kept only basic stories that don't require mocking
+- Stories still exist but fail in production Storybook build
+- The component works correctly in the application
 
 **Proper Fix**:
 
@@ -42,7 +42,26 @@ This document tracks known technical issues, workarounds, and future concerns th
 - Consider using MSW (Mock Service Worker) for API mocking instead of jest.mock
 - Investigate Storybook 8's new mocking capabilities
 
-### 3. Project Configuration Complexity
+### 3. GoogleAnalytics Storybook Context Error
+
+**Date Added**: 2025-09-18
+**Severity**: Low
+**Impact**: Storybook component preview fails
+
+**Issue**: GoogleAnalytics component stories fail with "useConsent must be used within a ConsentProvider" error because the component requires ConsentContext to be available.
+
+**Current Workaround**:
+
+- The component works correctly in the application where ConsentProvider wraps the app
+- Storybook stories fail to render but don't affect production
+
+**Proper Fix**:
+
+- Add ConsentProvider as a global decorator in `.storybook/preview.tsx`
+- Or add ConsentProvider decorator specifically to GoogleAnalytics stories
+- Consider creating a mock ConsentProvider for Storybook that provides default values
+
+### 4. Project Configuration Complexity
 
 **Date Added**: 2025-09-18
 **Severity**: Low
