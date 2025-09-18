@@ -17,9 +17,15 @@ NC='\033[0m' # No Color
 
 # Track if we're in Docker or not
 if [ -f /.dockerenv ]; then
-    EXEC_CMD=""
+    IN_DOCKER=true
 else
-    EXEC_CMD="docker compose exec -T crudkit"
+    IN_DOCKER=false
+fi
+
+# Clean up .next directory before starting to avoid permission issues
+if [ "$IN_DOCKER" = false ]; then
+    echo -e "${YELLOW}🧹 Cleaning build artifacts...${NC}"
+    docker compose exec -T crudkit rm -rf .next 2>/dev/null || true
 fi
 
 # Function to run a check
@@ -30,11 +36,22 @@ run_check() {
     echo -e "\n${YELLOW}🔍 Running: ${name}${NC}"
     echo "--------------------------------"
 
-    if $EXEC_CMD $command; then
-        echo -e "${GREEN}✅ ${name} passed${NC}"
+    if [ "$IN_DOCKER" = true ]; then
+        # Running inside Docker, execute directly
+        if $command; then
+            echo -e "${GREEN}✅ ${name} passed${NC}"
+        else
+            echo -e "${RED}❌ ${name} failed${NC}"
+            exit 1
+        fi
     else
-        echo -e "${RED}❌ ${name} failed${NC}"
-        exit 1
+        # Running outside Docker, use docker compose exec
+        if docker compose exec -T crudkit $command; then
+            echo -e "${GREEN}✅ ${name} passed${NC}"
+        else
+            echo -e "${RED}❌ ${name} failed${NC}"
+            exit 1
+        fi
     fi
 }
 
