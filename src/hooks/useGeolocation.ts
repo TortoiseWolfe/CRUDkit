@@ -38,37 +38,47 @@ export function useGeolocation(
   });
 
   const watchId = useRef<number | null>(null);
-  const isSupported = typeof navigator !== 'undefined' && 'geolocation' in navigator;
+  const isSupported =
+    typeof navigator !== 'undefined' && 'geolocation' in navigator;
 
   // Check permission status
   useEffect(() => {
     if (!isSupported) return;
 
-    if ('permissions' in navigator) {
-      navigator.permissions
-        .query({ name: 'geolocation' as PermissionName })
-        .then((permissionStatus) => {
-          setState((prev) => ({
-            ...prev,
-            permission: permissionStatus.state,
-          }));
-
-          // Listen for permission changes
-          const handleChange = () => {
-            setState((prev) => ({
-              ...prev,
-              permission: permissionStatus.state,
-            }));
-          };
-
-          permissionStatus.addEventListener('change', handleChange);
-          return () => {
-            permissionStatus.removeEventListener('change', handleChange);
-          };
-        })
-        .catch(() => {
-          // Permissions API not supported or failed, continue with default
+    if ('permissions' in navigator && navigator.permissions) {
+      try {
+        const permissionsQuery = navigator.permissions.query({
+          name: 'geolocation' as PermissionName,
         });
+
+        if (permissionsQuery && typeof permissionsQuery.then === 'function') {
+          permissionsQuery
+            .then((permissionStatus) => {
+              setState((prev) => ({
+                ...prev,
+                permission: permissionStatus.state,
+              }));
+
+              // Listen for permission changes
+              const handleChange = () => {
+                setState((prev) => ({
+                  ...prev,
+                  permission: permissionStatus.state,
+                }));
+              };
+
+              permissionStatus.addEventListener('change', handleChange);
+              return () => {
+                permissionStatus.removeEventListener('change', handleChange);
+              };
+            })
+            .catch(() => {
+              // Permissions API not supported or failed, continue with default
+            });
+        }
+      } catch {
+        // Permissions API not available, continue without it
+      }
     }
   }, [isSupported]);
 
@@ -92,7 +102,8 @@ export function useGeolocation(
       error,
       lastUpdated: new Date(),
       // Only update permission if it's a permission denied error
-      permission: error.code === error.PERMISSION_DENIED ? 'denied' : prev.permission,
+      permission:
+        error.code === error.PERMISSION_DENIED ? 'denied' : prev.permission,
     }));
   }, []);
 

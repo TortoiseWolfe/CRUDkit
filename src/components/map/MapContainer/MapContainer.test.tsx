@@ -1,8 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MapContainer } from './MapContainer';
 import type { MapContainerProps } from './MapContainer';
+
+// Define mockMap before using it in mocks
+const mockMap = {
+  on: vi.fn(),
+  off: vi.fn(),
+  locate: vi.fn(),
+  getZoom: vi.fn(() => 13),
+  panTo: vi.fn(),
+  setView: vi.fn(),
+  getCenter: vi.fn(() => ({ lat: 51.505, lng: -0.09 })),
+};
+
+// Mock dynamic import for MapContainerInner
+vi.mock('next/dynamic', () => ({
+  default: (fn: () => Promise<any>) => {
+    // For MapContainerInner, return a component that calls onMapReady
+    return ({ children, onMapReady, ...props }: any) => {
+      // Call onMapReady with a mock map on mount
+      React.useEffect(() => {
+        if (onMapReady) {
+          onMapReady(mockMap);
+        }
+      }, [onMapReady]);
+
+      return (
+        <div data-testid="map-container-inner" {...props}>
+          {children}
+        </div>
+      );
+    };
+  },
+}));
 
 // Mock Leaflet and react-leaflet
 vi.mock('leaflet', () => ({
@@ -39,16 +72,6 @@ vi.mock('leaflet', () => ({
   },
 }));
 
-const mockMap = {
-  on: vi.fn(),
-  off: vi.fn(),
-  locate: vi.fn(),
-  getZoom: vi.fn(() => 13),
-  panTo: vi.fn(),
-  setView: vi.fn(),
-  getCenter: vi.fn(() => ({ lat: 51.505, lng: -0.09 })),
-};
-
 // Mock LocationButton
 vi.mock('@/components/map/LocationButton', () => ({
   LocationButton: ({ onClick }: any) => (
@@ -61,9 +84,7 @@ vi.mock('@/components/map/LocationButton', () => ({
 // Mock MapContainerInner dynamic import
 vi.mock('./MapContainerInner', () => ({
   default: ({ children }: any) => (
-    <div data-testid="map-container-inner">
-      {children}
-    </div>
+    <div data-testid="map-container-inner">{children}</div>
   ),
 }));
 
@@ -74,16 +95,18 @@ vi.mock('react-leaflet', () => ({
     </div>
   ),
   TileLayer: ({ url, attribution }: any) => (
-    <div data-testid="tile-layer" data-url={url} data-attribution={attribution} />
+    <div
+      data-testid="tile-layer"
+      data-url={url}
+      data-attribution={attribution}
+    />
   ),
   Marker: ({ position, children }: any) => (
     <div data-testid="marker" data-position={JSON.stringify(position)}>
       {children}
     </div>
   ),
-  Popup: ({ children }: any) => (
-    <div data-testid="popup">{children}</div>
-  ),
+  Popup: ({ children }: any) => <div data-testid="popup">{children}</div>,
   useMap: () => mockMap,
 }));
 
@@ -142,7 +165,9 @@ describe('MapContainer', () => {
 
     render(<MapContainer {...propsWithLocation} showUserLocation={true} />);
 
-    const locationButton = screen.getByRole('button', { name: /location/i });
+    const locationButton = screen.getByRole('button', {
+      name: /get location/i,
+    });
     expect(locationButton).toBeInTheDocument();
   });
 
@@ -173,13 +198,14 @@ describe('MapContainer', () => {
 
     // Mock geolocation API
     const mockGetCurrentPosition = vi.fn((success) => {
-      success(mockPosition);
+      setTimeout(() => success(mockPosition), 0);
     });
     Object.defineProperty(global.navigator, 'geolocation', {
       value: {
         getCurrentPosition: mockGetCurrentPosition,
       },
       writable: true,
+      configurable: true,
     });
 
     const propsWithLocation = {
@@ -190,10 +216,17 @@ describe('MapContainer', () => {
 
     render(<MapContainer {...propsWithLocation} />);
 
-    const locationButton = screen.getByRole('button', { name: /location/i });
+    const locationButton = screen.getByRole('button', {
+      name: /get location/i,
+    });
     fireEvent.click(locationButton);
 
-    // Simulate successful location
+    // Wait for the geolocation to be called
+    await waitFor(() => {
+      expect(mockGetCurrentPosition).toHaveBeenCalled();
+    });
+
+    // Wait for the callback
     await waitFor(() => {
       expect(onLocationFound).toHaveBeenCalledWith(mockPosition);
     });
@@ -211,13 +244,14 @@ describe('MapContainer', () => {
 
     // Mock geolocation API with error
     const mockGetCurrentPosition = vi.fn((success, error) => {
-      error(mockError);
+      setTimeout(() => error(mockError), 0);
     });
     Object.defineProperty(global.navigator, 'geolocation', {
       value: {
         getCurrentPosition: mockGetCurrentPosition,
       },
       writable: true,
+      configurable: true,
     });
 
     const propsWithLocation = {
@@ -228,10 +262,17 @@ describe('MapContainer', () => {
 
     render(<MapContainer {...propsWithLocation} />);
 
-    const locationButton = screen.getByRole('button', { name: /location/i });
+    const locationButton = screen.getByRole('button', {
+      name: /get location/i,
+    });
     fireEvent.click(locationButton);
 
-    // Simulate location error
+    // Wait for the geolocation to be called
+    await waitFor(() => {
+      expect(mockGetCurrentPosition).toHaveBeenCalled();
+    });
+
+    // Wait for the error callback
     await waitFor(() => {
       expect(onLocationError).toHaveBeenCalledWith(mockError);
     });

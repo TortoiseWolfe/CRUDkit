@@ -39,6 +39,8 @@ describe('useGeolocation', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    // Reset navigator mocks
+    vi.unstubAllGlobals();
   });
 
   it('should initialize with default state', () => {
@@ -66,18 +68,23 @@ describe('useGeolocation', () => {
         toJSON: () => ({ latitude: 51.505, longitude: -0.09, accuracy: 10 }),
       } as GeolocationCoordinates,
       timestamp: Date.now(),
-      toJSON: () => ({ coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 }, timestamp: Date.now() }),
+      toJSON: () => ({
+        coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 },
+        timestamp: Date.now(),
+      }),
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
-      success(mockPosition);
-    });
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (success: PositionCallback) => {
+        setTimeout(() => success(mockPosition), 0);
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'granted' });
 
     const { result } = renderHook(() => useGeolocation());
 
-    act(() => {
+    await act(async () => {
       result.current.getCurrentPosition();
     });
 
@@ -99,9 +106,11 @@ describe('useGeolocation', () => {
       TIMEOUT: 3 as const,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
-      error(mockError);
-    });
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (success: PositionCallback, error: PositionErrorCallback) => {
+        error(mockError);
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'prompt' });
 
@@ -127,9 +136,11 @@ describe('useGeolocation', () => {
       TIMEOUT: 3 as const,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
-      error(mockError);
-    });
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (success: PositionCallback, error: PositionErrorCallback) => {
+        error(mockError);
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'granted' });
 
@@ -156,9 +167,11 @@ describe('useGeolocation', () => {
       TIMEOUT: 3 as const,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
-      error(mockError);
-    });
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (success: PositionCallback, error: PositionErrorCallback) => {
+        error(mockError);
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'granted' });
 
@@ -220,12 +233,17 @@ describe('useGeolocation', () => {
         toJSON: () => ({ latitude: 51.505, longitude: -0.09, accuracy: 10 }),
       } as GeolocationCoordinates,
       timestamp: Date.now(),
-      toJSON: () => ({ coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 }, timestamp: Date.now() }),
+      toJSON: () => ({
+        coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 },
+        timestamp: Date.now(),
+      }),
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
-      success(mockPosition);
-    });
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (success: PositionCallback) => {
+        success(mockPosition);
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'granted' });
 
@@ -236,19 +254,18 @@ describe('useGeolocation', () => {
     });
 
     waitFor(() => {
-      const distance = result.current.distanceFrom([51.510, -0.08]);
+      const distance = result.current.distanceFrom([51.51, -0.08]);
       expect(distance).toBeGreaterThan(0);
       expect(distance).toBeLessThan(1000); // Should be less than 1km for nearby points
     });
   });
 
   it('should handle missing geolocation API', () => {
-    // Remove geolocation from navigator
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: undefined,
-      writable: true,
-      configurable: true,
-    });
+    // Save original geolocation
+    const originalGeolocation = global.navigator.geolocation;
+
+    // Completely remove geolocation from navigator
+    delete (global.navigator as any).geolocation;
 
     const { result } = renderHook(() => useGeolocation());
 
@@ -260,6 +277,13 @@ describe('useGeolocation', () => {
 
     expect(result.current.error).toBeDefined();
     expect(result.current.error?.message).toContain('not supported');
+
+    // Restore original geolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: originalGeolocation,
+      writable: true,
+      configurable: true,
+    });
   });
 
   it('should handle missing permissions API gracefully', async () => {
@@ -294,7 +318,8 @@ describe('useGeolocation', () => {
     // Simulate permission change
     act(() => {
       mockPermissionStatus.state = 'granted';
-      const changeHandler = mockPermissionStatus.addEventListener.mock.calls[0][1];
+      const changeHandler =
+        mockPermissionStatus.addEventListener.mock.calls[0][1];
       changeHandler();
     });
 
@@ -304,14 +329,24 @@ describe('useGeolocation', () => {
   });
 
   it('should accept custom options', () => {
-    type PositionOptions = { enableHighAccuracy?: boolean; timeout?: number; maximumAge?: number };
-    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback, options: PositionOptions) => {
-      expect(options).toEqual({
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 5000,
-      });
-    });
+    type PositionOptions = {
+      enableHighAccuracy?: boolean;
+      timeout?: number;
+      maximumAge?: number;
+    };
+    mockGeolocation.getCurrentPosition.mockImplementation(
+      (
+        success: PositionCallback,
+        error: PositionErrorCallback,
+        options: PositionOptions
+      ) => {
+        expect(options).toEqual({
+          enableHighAccuracy: false,
+          timeout: 10000,
+          maximumAge: 5000,
+        });
+      }
+    );
 
     mockPermissions.query.mockResolvedValue({ state: 'granted' });
 
