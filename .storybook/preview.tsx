@@ -6,10 +6,11 @@ import '../src/app/globals.css';
 
 // Initialize MSW
 if (typeof window !== 'undefined') {
-  const { worker } = require('../src/mocks/browser');
-  // Start the mocking when in Storybook
-  worker.start({
-    onUnhandledRequest: 'bypass', // Don't warn about unhandled requests
+  import('../src/mocks/browser').then(({ worker }) => {
+    // Start the mocking when in Storybook
+    worker.start({
+      onUnhandledRequest: 'bypass', // Don't warn about unhandled requests
+    });
   });
 }
 

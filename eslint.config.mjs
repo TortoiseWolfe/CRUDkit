@@ -28,6 +28,7 @@ const eslintConfig = [
       'test-results/**',
       '.pnpm-store/**',
       'dist/**',
+      'public/mockServiceWorker.js',
       '*.min.js',
       '**/*.min.js',
     ],
