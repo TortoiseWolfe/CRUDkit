@@ -6,22 +6,15 @@ import path from 'path';
 // Run project detection at build time
 function detectProjectConfig() {
   try {
-    // Run the detection script
+    // Run the detection script to generate .env.local
     execSync('node scripts/detect-project.js', { stdio: 'inherit' });
-
-    // Read the generated config
-    const configPath = path.join(
-      process.cwd(),
-      'src',
-      'config',
-      'project-detected.json'
-    );
-    if (fs.existsSync(configPath)) {
-      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-      return config.basePath || '';
-    }
   } catch {
-    console.warn('Could not detect project config, using defaults');
+    console.warn('Could not run detection script');
+  }
+
+  // Use environment variable if set (from .env.local or CI/CD)
+  if (process.env.NEXT_PUBLIC_BASE_PATH !== undefined) {
+    return process.env.NEXT_PUBLIC_BASE_PATH;
   }
 
   // Fallback - only use basePath in GitHub Actions CI/CD
