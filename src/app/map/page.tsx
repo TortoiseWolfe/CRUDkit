@@ -1,19 +1,25 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useState, useCallback, useEffect } from 'react';
+import dynamicImport from 'next/dynamic';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { LocationButton } from '@/components/map/LocationButton';
-import { GeolocationConsent, GeolocationPurpose } from '@/components/map/GeolocationConsent';
+import {
+  GeolocationConsent,
+  GeolocationPurpose,
+} from '@/components/map/GeolocationConsent';
 import type { LatLngTuple } from 'leaflet';
 
 // Dynamic import for MapContainer to avoid SSR issues
-const MapContainer = dynamic(
-  () => import('@/components/map/MapContainer').then(mod => ({ default: mod.MapContainer })),
+const MapContainer = dynamicImport(
+  () =>
+    import('@/components/map/MapContainer').then((mod) => ({
+      default: mod.MapContainer,
+    })),
   {
     ssr: false,
     loading: () => (
-      <div className="flex items-center justify-center h-[600px] bg-base-200">
+      <div className="bg-base-200 flex h-[600px] items-center justify-center">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     ),
@@ -22,20 +28,7 @@ const MapContainer = dynamic(
 
 export default function MapPage() {
   const [showConsentModal, setShowConsentModal] = useState(false);
-  const [hasConsent, setHasConsent] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const consent = localStorage.getItem('geolocation-consent');
-      if (consent) {
-        try {
-          const parsed = JSON.parse(consent);
-          return parsed.consentGiven === true;
-        } catch {
-          return false;
-        }
-      }
-    }
-    return false;
-  });
+  const [hasConsent, setHasConsent] = useState(false);
 
   const [userLocation, setUserLocation] = useState<LatLngTuple | null>(null);
   const [mapCenter, setMapCenter] = useState<LatLngTuple>([51.505, -0.09]); // Default to London
@@ -54,6 +47,21 @@ export default function MapPage() {
     maximumAge: 30000,
   });
 
+  // Check localStorage after mount
+  useEffect(() => {
+    const consent = localStorage.getItem('geolocation-consent');
+    if (consent) {
+      try {
+        const parsed = JSON.parse(consent);
+        if (parsed.consentGiven === true) {
+          setHasConsent(true);
+        }
+      } catch {
+        // Invalid consent data, keep as false
+      }
+    }
+  }, []);
+
   const handleLocationRequest = useCallback(() => {
     if (!hasConsent) {
       setShowConsentModal(true);
@@ -62,22 +70,27 @@ export default function MapPage() {
     }
   }, [hasConsent, getCurrentPosition]);
 
-  const handleConsentAccept = useCallback((purposes: GeolocationPurpose[]) => {
-    // Save consent to localStorage
-    const consentData = {
-      consentGiven: true,
-      consentDate: new Date().toISOString(),
-      purposes,
-      expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year
-    };
-    localStorage.setItem('geolocation-consent', JSON.stringify(consentData));
+  const handleConsentAccept = useCallback(
+    (purposes: GeolocationPurpose[]) => {
+      // Save consent to localStorage
+      const consentData = {
+        consentGiven: true,
+        consentDate: new Date().toISOString(),
+        purposes,
+        expiryDate: new Date(
+          Date.now() + 365 * 24 * 60 * 60 * 1000
+        ).toISOString(), // 1 year
+      };
+      localStorage.setItem('geolocation-consent', JSON.stringify(consentData));
 
-    setHasConsent(true);
-    setShowConsentModal(false);
+      setHasConsent(true);
+      setShowConsentModal(false);
 
-    // Request location after consent
-    getCurrentPosition();
-  }, [getCurrentPosition]);
+      // Request location after consent
+      getCurrentPosition();
+    },
+    [getCurrentPosition]
+  );
 
   const handleConsentDecline = useCallback(() => {
     // Save rejection to localStorage
@@ -92,18 +105,24 @@ export default function MapPage() {
     setShowConsentModal(false);
   }, []);
 
-  const handleLocationFound = useCallback((geolocationPosition: GeolocationPosition) => {
-    const newLocation: LatLngTuple = [
-      geolocationPosition.coords.latitude,
-      geolocationPosition.coords.longitude,
-    ];
-    setUserLocation(newLocation);
-    setMapCenter(newLocation);
-  }, []);
+  const handleLocationFound = useCallback(
+    (geolocationPosition: GeolocationPosition) => {
+      const newLocation: LatLngTuple = [
+        geolocationPosition.coords.latitude,
+        geolocationPosition.coords.longitude,
+      ];
+      setUserLocation(newLocation);
+      setMapCenter(newLocation);
+    },
+    []
+  );
 
-  const handleLocationError = useCallback((geolocationError: GeolocationPositionError) => {
-    console.error('Location error:', geolocationError);
-  }, []);
+  const handleLocationError = useCallback(
+    (geolocationError: GeolocationPositionError) => {
+      console.error('Location error:', geolocationError);
+    },
+    []
+  );
 
   // Update location when position changes
   React.useEffect(() => {
@@ -133,10 +152,11 @@ export default function MapPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="prose max-w-none mb-6">
+      <div className="prose mb-6 max-w-none">
         <h1>Interactive Map</h1>
         <p>
-          Explore the map and enable location services to see your current position.
+          Explore the map and enable location services to see your current
+          position.
           {!isSupported && (
             <span className="text-error ml-2">
               (Geolocation is not supported by your browser)
@@ -147,7 +167,7 @@ export default function MapPage() {
 
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body p-4">
-          <div className="flex flex-wrap gap-4 mb-4">
+          <div className="mb-4 flex flex-wrap gap-4">
             <LocationButton
               onClick={handleLocationRequest}
               loading={loading}
@@ -170,7 +190,9 @@ export default function MapPage() {
                     {userLocation[0].toFixed(4)}, {userLocation[1].toFixed(4)}
                   </div>
                   {accuracy && (
-                    <div className="stat-desc">Accuracy: ±{accuracy.toFixed(0)}m</div>
+                    <div className="stat-desc">
+                      Accuracy: ±{accuracy.toFixed(0)}m
+                    </div>
                   )}
                 </div>
               </div>
@@ -186,11 +208,15 @@ export default function MapPage() {
               showUserLocation={false} // We'll manage location manually
               markers={[
                 ...demoMarkers,
-                ...(userLocation ? [{
-                  id: 'user-location',
-                  position: userLocation,
-                  popup: `You are here (Accuracy: ±${accuracy?.toFixed(0) || 0}m)`,
-                }] : []),
+                ...(userLocation
+                  ? [
+                      {
+                        id: 'user-location',
+                        position: userLocation,
+                        popup: `You are here (Accuracy: ±${accuracy?.toFixed(0) || 0}m)`,
+                      },
+                    ]
+                  : []),
               ]}
               onLocationFound={handleLocationFound}
               onLocationError={handleLocationError}

@@ -1,4 +1,3 @@
-import L from 'leaflet';
 import type { LatLngTuple } from 'leaflet';
 
 /**
@@ -23,12 +22,16 @@ export const DEFAULT_MAP_CONFIG = {
  * Fix Leaflet icon paths for Next.js
  * This is needed because Leaflet's default icon paths are broken in webpack
  */
-export function fixLeafletIconPaths() {
+export async function fixLeafletIconPaths() {
   // Only run on client side
   if (typeof window === 'undefined') return;
 
+  // Dynamically import Leaflet only on client side
+  const L = (await import('leaflet')).default;
+
   // Delete the default icon to force re-initialization
-  delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
+  delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)
+    ._getIconUrl;
 
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: '/leaflet/marker-icon-2x.png',
@@ -106,7 +109,9 @@ export function formatCoordinates(lat: number, lng: number): string {
 /**
  * Get user-friendly error message for geolocation errors
  */
-export function getGeolocationErrorMessage(error: GeolocationPositionError): string {
+export function getGeolocationErrorMessage(
+  error: GeolocationPositionError
+): string {
   switch (error.code) {
     case error.PERMISSION_DENIED:
       return 'Location access was denied. Please enable location permissions in your browser settings.';
@@ -122,7 +127,8 @@ export function getGeolocationErrorMessage(error: GeolocationPositionError): str
 /**
  * OpenStreetMap tile URL template
  */
-export const OSM_TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+export const OSM_TILE_URL =
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 /**
  * OpenStreetMap attribution
@@ -150,7 +156,10 @@ export function createMapError(
   message: string,
   details?: unknown
 ): Error {
-  const error = new Error(message) as Error & { code: MapErrorCode; details?: unknown };
+  const error = new Error(message) as Error & {
+    code: MapErrorCode;
+    details?: unknown;
+  };
   error.code = code;
   error.details = details;
   return error;
