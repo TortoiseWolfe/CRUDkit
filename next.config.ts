@@ -12,9 +12,9 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com;
-  img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com;
+  img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org;
   font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com;
-  connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com;
+  connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org;
   media-src 'self';
   object-src 'none';
   frame-src 'none';
@@ -57,7 +57,7 @@ const securityHeaders = [
   },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
   },
 ];
 

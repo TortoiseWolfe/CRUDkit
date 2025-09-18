@@ -92,3 +92,88 @@ h6:not([class*='text-']) {
 p:not([class*='text-']) {
   font-size: var(--text-base);
 }
+
+/* Leaflet Map Styles */
+@import 'leaflet/dist/leaflet.css';
+
+/* Fix Leaflet container sizing */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  font-family: inherit;
+}
+
+/* Fix Leaflet controls for dark mode */
+[data-theme='dark'] .leaflet-control,
+[data-theme='dracula'] .leaflet-control,
+[data-theme='synthwave'] .leaflet-control,
+[data-theme='halloween'] .leaflet-control,
+[data-theme='forest'] .leaflet-control,
+[data-theme='black'] .leaflet-control,
+[data-theme='luxury'] .leaflet-control,
+[data-theme='night'] .leaflet-control,
+[data-theme='coffee'] .leaflet-control,
+[data-theme='dim'] .leaflet-control,
+[data-theme='sunset'] .leaflet-control {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='dark'] .leaflet-control a,
+[data-theme='dracula'] .leaflet-control a,
+[data-theme='synthwave'] .leaflet-control a,
+[data-theme='halloween'] .leaflet-control a,
+[data-theme='forest'] .leaflet-control a,
+[data-theme='black'] .leaflet-control a,
+[data-theme='luxury'] .leaflet-control a,
+[data-theme='night'] .leaflet-control a,
+[data-theme='coffee'] .leaflet-control a,
+[data-theme='dim'] .leaflet-control a,
+[data-theme='sunset'] .leaflet-control a {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Fix popup styles for themes */
+.leaflet-popup-content-wrapper {
+  @apply bg-base-100 text-base-content;
+  border-radius: var(--rounded-box, 1rem);
+}
+
+.leaflet-popup-tip {
+  @apply bg-base-100;
+}
+
+/* Accessibility improvements */
+.leaflet-control-zoom a {
+  @apply transition-colors;
+}
+
+.leaflet-control-zoom a:hover {
+  @apply bg-base-300;
+}
+
+.leaflet-control-zoom a:focus {
+  @apply ring-2 ring-primary outline-none;
+}
+
+/* Fix marker positioning */
+.leaflet-marker-icon {
+  transition: none !important;
+}
+
+/* Custom location marker styles */
+.user-location-marker {
+  @apply bg-primary;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.user-location-accuracy {
+  @apply fill-primary opacity-20;
+  stroke: theme('colors.primary.DEFAULT');
+  stroke-width: 1;
+  stroke-opacity: 0.5;
+}
