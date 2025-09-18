@@ -87,35 +87,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  async headers() {
-    return [
-      {
-        // Apply these headers to all routes
-        source: '/:path*',
-        headers: securityHeaders,
-      },
-      {
-        // Cache static assets
-        source: '/(.*)\\.(ico|svg|jpg|jpeg|png|gif|webp|avif)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        // Cache fonts
-        source: '/(.*)\\.(woff|woff2|ttf|otf)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
-  },
+  // Headers don't work with static export, removed to fix build
+  // Security headers should be set at the hosting level (nginx, Apache, etc.)
 };
 
 export default nextConfig;

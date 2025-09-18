@@ -36,7 +36,7 @@ export default function GoogleAnalytics() {
 
   // Track page views when pathname changes
   useEffect(() => {
-    if (!GA_MEASUREMENT_ID || !consent.analytics) return;
+    if (!GA_MEASUREMENT_ID || !consent.analytics || !pathname) return;
 
     trackPageView(pathname);
   }, [pathname, consent.analytics]);
