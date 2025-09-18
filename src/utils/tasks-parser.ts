@@ -32,8 +32,10 @@ export interface TaskProgress {
 
 export async function parseTasksFile(): Promise<TaskProgress> {
   try {
-    // Fetch from public folder (copied during build)
-    const baseUrl = window.location.hostname === 'localhost' ? '' : '/CRUDkit';
+    // Fetch from public folder (copied during build) - use dynamic basePath
+    const projectName = process.env.NEXT_PUBLIC_PROJECT_NAME || 'CRUDkit';
+    const baseUrl =
+      window.location.hostname === 'localhost' ? '' : `/${projectName}`;
 
     // Add cache-busting timestamp to ensure fresh data
     const url = `${baseUrl}/TASKS.md?t=${Date.now()}`;

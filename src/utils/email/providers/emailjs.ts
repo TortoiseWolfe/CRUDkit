@@ -5,6 +5,7 @@ import {
   EmailResult,
   EmailProviderError,
 } from '../types';
+import { projectConfig } from '@/config/project.config';
 
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -51,7 +52,7 @@ export class EmailJSProvider implements EmailProvider {
         from_email: data.email,
         subject: data.subject,
         message: data.message,
-        to_name: 'CRUDkit Team',
+        to_name: `${projectConfig.projectName} Team`,
         reply_to: data.email,
       };
 

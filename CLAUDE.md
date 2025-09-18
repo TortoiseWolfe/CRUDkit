@@ -67,6 +67,7 @@ The project uses Product Requirements Prompts for feature implementation:
 - ~~PRP-011: PWA Background Sync~~ ✅ Completed
 - ~~PRP-013: Calendar Integration~~ ✅ Completed
 - ~~PRP-014: Geolocation Map~~ ✅ Completed (2025-09-18)
+- **Auto-Configuration System** ✅ Completed (2025-09-18) - Auto-detects project name from git remote (not a formal PRP)
 - PRP-012: Visual Regression Testing (P2 - deferred until UI stable)
 - PRP-001: PRP Methodology (P3 - document after implementation)
 
@@ -108,12 +109,24 @@ src/
 
 ## Configuration After Forking
 
-1. Update `/src/config/project-status.json` with your project info
-2. Replace GitHub Pages URLs in configs
-3. Create `.env` file with UID/GID for Docker
-4. Update `basePath` in `next.config.ts` if needed
+**NEW: Auto-Configuration!** The project name is now automatically detected from your GitHub fork!
+
+1. ~~Update `/src/config/project-status.json` with your project info~~ Auto-detected from git remote
+2. ~~Replace GitHub Pages URLs in configs~~ Auto-configured
+3. Create `.env` file with UID/GID for Docker (still required)
+4. ~~Update `basePath` in `next.config.ts` if needed~~ Auto-detected
+
+See `/docs/FORKING-GUIDE.md` for details on the auto-configuration system.
 
 ## Common Issues & Solutions
+
+### Tailwind CSS Not Loading
+
+If CSS styles aren't appearing:
+
+1. Ensure Leaflet CSS import is NOT in `globals.css` (causes build issues)
+2. Import Leaflet CSS only in map components that use it
+3. Restart Docker container after CSS changes
 
 ### Webpack Cache Corruption
 

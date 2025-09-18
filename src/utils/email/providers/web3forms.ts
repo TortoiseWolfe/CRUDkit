@@ -4,6 +4,7 @@ import {
   EmailResult,
   EmailProviderError,
 } from '../types';
+import { projectConfig } from '@/config/project.config';
 
 const WEB3FORMS_API_URL = 'https://api.web3forms.com/submit';
 const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
@@ -37,7 +38,7 @@ export class Web3FormsProvider implements EmailProvider {
           email: data.email,
           subject: data.subject,
           message: data.message,
-          from_name: 'CRUDkit Contact Form',
+          from_name: `${projectConfig.projectName} Contact Form`,
         }),
       });
 

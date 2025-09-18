@@ -32,8 +32,27 @@ A comprehensive Next.js starter kit featuring 32 themes, PWA capabilities, compo
 
 ## 🚀 Quick Start
 
+### For Template Users (Auto-Configuration) 🎯
+
+When you fork this repo, your project name is **automatically detected** from your GitHub repository name!
+
 ```bash
-# Clone and install
+# 1. Fork on GitHub (give it your project name)
+# 2. Clone YOUR fork
+git clone https://github.com/YOUR_USERNAME/YOUR_PROJECT_NAME.git
+cd YOUR_PROJECT_NAME
+
+# 3. Install and run - auto-detects your project info!
+pnpm install
+pnpm dev              # Your project name is used everywhere automatically
+```
+
+No configuration needed! See [docs/FORKING-GUIDE.md](./docs/FORKING-GUIDE.md) for details.
+
+### For Contributors
+
+```bash
+# Clone the original repo
 git clone https://github.com/TortoiseWolfe/CRUDkit.git
 cd CRUDkit
 pnpm install
@@ -96,4 +115,4 @@ MIT - See [LICENSE](./LICENSE) for details
 
 ---
 
-**For Forkers**: Update `/src/config/project-status.json` with your project details and replace GitHub Pages URLs in configuration files.
+**For Forkers**: Your project name is automatically detected from your GitHub fork! No manual configuration needed. See [docs/FORKING-GUIDE.md](./docs/FORKING-GUIDE.md) for details.

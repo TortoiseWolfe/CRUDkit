@@ -1,10 +1,37 @@
 import type { NextConfig } from 'next';
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
-// Detect if we're building for GitHub Pages
-const isGithubPages =
-  process.env['GITHUB_ACTIONS'] === 'true' ||
-  process.env['NODE_ENV'] === 'production';
-const basePath = isGithubPages ? '/CRUDkit' : '';
+// Run project detection at build time
+function detectProjectConfig() {
+  try {
+    // Run the detection script
+    execSync('node scripts/detect-project.js', { stdio: 'inherit' });
+
+    // Read the generated config
+    const configPath = path.join(
+      process.cwd(),
+      'src',
+      'config',
+      'project-detected.json'
+    );
+    if (fs.existsSync(configPath)) {
+      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      return config.basePath || '';
+    }
+  } catch {
+    console.warn('Could not detect project config, using defaults');
+  }
+
+  // Fallback to old logic
+  const isGithubPages =
+    process.env['GITHUB_ACTIONS'] === 'true' ||
+    process.env['NODE_ENV'] === 'production';
+  return isGithubPages ? '/CRUDkit' : '';
+}
+
+const basePath = detectProjectConfig();
 
 // Content Security Policy
 // Updated to allow Google Analytics 4 domains

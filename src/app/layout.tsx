@@ -10,6 +10,7 @@ import { CookieConsent } from '@/components/privacy/CookieConsent';
 import { ConsentModal } from '@/components/privacy/ConsentModal';
 import GoogleAnalytics from '@/components/atomic/GoogleAnalytics';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { projectConfig, getAssetUrl } from '@/config/project.config';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,33 +33,31 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'CRUDkit',
-  description: 'Deploy Early, Deploy Often - A comprehensive starter kit',
-  manifest: '/CRUDkit/manifest.json',
+  title: projectConfig.projectName,
+  description: `${projectConfig.projectDescription}`,
+  manifest: projectConfig.manifestPath,
   icons: {
-    icon: '/CRUDkit/favicon.svg',
-    apple: '/CRUDkit/apple-touch-icon.svg',
+    icon: getAssetUrl('/favicon.svg'),
+    apple: getAssetUrl('/apple-touch-icon.svg'),
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'CRUDkit',
+    title: projectConfig.projectName,
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: 'website',
-    siteName: 'CRUDkit',
-    title: 'CRUDkit - Modern Web Starter',
-    description:
-      'A comprehensive starter kit with themes, components, and PWA features',
+    siteName: projectConfig.projectName,
+    title: `${projectConfig.projectName} - Modern Web Starter`,
+    description: projectConfig.projectDescription,
   },
   twitter: {
     card: 'summary',
-    title: 'CRUDkit - Modern Web Starter',
-    description:
-      'A comprehensive starter kit with themes, components, and PWA features',
+    title: `${projectConfig.projectName} - Modern Web Starter`,
+    description: projectConfig.projectDescription,
   },
   other: {
     'Cache-Control': 'no-cache, no-store, must-revalidate',

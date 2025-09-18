@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import type { Map as LeafletMap, LatLngTuple } from 'leaflet';
 import { fixLeafletIconPaths, DEFAULT_MAP_CONFIG } from '@/utils/map-utils';
 import { LocationButton } from '@/components/map/LocationButton';
+import 'leaflet/dist/leaflet.css';
 
 export interface MapContainerProps {
   center?: LatLngTuple;
@@ -39,17 +40,14 @@ export interface MapContainerProps {
   children?: React.ReactNode;
 }
 
-const MapContainerInner = dynamic(
-  () => import('./MapContainerInner'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex items-center justify-center h-full bg-base-200">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    )
-  }
-);
+const MapContainerInner = dynamic(() => import('./MapContainerInner'), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-base-200 flex h-full items-center justify-center">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>
+  ),
+});
 
 export const MapContainer: React.FC<MapContainerProps> = ({
   center = DEFAULT_MAP_CONFIG.center,
@@ -74,16 +72,19 @@ export const MapContainer: React.FC<MapContainerProps> = ({
     fixLeafletIconPaths();
   }, []);
 
-  const handleMapReady = useCallback((map: LeafletMap) => {
-    mapRef.current = map;
-    // Expose map instance to window for testing
-    if (typeof window !== 'undefined') {
-    (window as Window & { leafletMap?: LeafletMap }).leafletMap = map;
-    }
-    if (onMapReady) {
-      onMapReady(map);
-    }
-  }, [onMapReady]);
+  const handleMapReady = useCallback(
+    (map: LeafletMap) => {
+      mapRef.current = map;
+      // Expose map instance to window for testing
+      if (typeof window !== 'undefined') {
+        (window as Window & { leafletMap?: LeafletMap }).leafletMap = map;
+      }
+      if (onMapReady) {
+        onMapReady(map);
+      }
+    },
+    [onMapReady]
+  );
 
   const handleLocationClick = useCallback(() => {
     if (!mapRef.current) return;
@@ -113,7 +114,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         }
         // Pan map to user location
         if (mapRef.current) {
-          mapRef.current.setView([position.coords.latitude, position.coords.longitude], 16);
+          mapRef.current.setView(
+            [position.coords.latitude, position.coords.longitude],
+            16
+          );
         }
       },
       (error) => {
@@ -125,7 +129,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 0
+        maximumAge: 0,
       }
     );
   }, [onLocationFound, onLocationError]);

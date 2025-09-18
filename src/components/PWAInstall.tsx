@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { projectConfig } from '@/config/project.config';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -32,9 +33,8 @@ export default function PWAInstall() {
       if (process.env.NODE_ENV === 'test') return;
 
       window.addEventListener('load', () => {
-        // Use basePath for GitHub Pages in production, root path in dev
-        const swPath =
-          process.env.NODE_ENV === 'production' ? '/CRUDkit/sw.js' : '/sw.js';
+        // Use dynamic basePath from project config
+        const swPath = projectConfig.swPath;
 
         console.log(`[PWA] Registering Service Worker from: ${swPath}`);
 

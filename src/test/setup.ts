@@ -3,6 +3,9 @@ import { cleanup } from '@testing-library/react';
 import { afterEach, vi, expect } from 'vitest';
 import { toHaveNoViolations } from 'jest-axe';
 
+// Mock CSS imports
+vi.mock('leaflet/dist/leaflet.css', () => ({}));
+
 // Extend Vitest matchers with jest-axe accessibility matchers
 expect.extend(toHaveNoViolations);
 
