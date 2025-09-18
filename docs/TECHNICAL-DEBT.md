@@ -4,24 +4,20 @@ This document tracks known technical issues, workarounds, and future concerns th
 
 ## Current Issues
 
-### 1. Next.js 15.5 Static Export Compatibility
+### ~~1. Next.js 15.5 Static Export Compatibility~~ ✅ RESOLVED
 
 **Date Added**: 2025-09-18
-**Severity**: Medium
-**Impact**: Build process complexity
+**Date Resolved**: 2025-09-18
+**Severity**: ~~Medium~~ None
+**Impact**: ~~Build process complexity~~ None
 
-**Issue**: Next.js 15.5.2 with `output: 'export'` has a bug where it tries to process Pages Router files even in pure App Router projects, causing build failures.
+**Issue**: ~~Next.js 15.5.2 with `output: 'export'` has a bug where it tries to process Pages Router files even in pure App Router projects, causing build failures.~~ This was a false assumption - the build works fine without dummy Pages Router files.
 
-**Current Workaround**:
+**Resolution**:
 
-- Created dummy `src/pages/_app.tsx` and `src/pages/_document.tsx` files
-- Removed `headers()` function from `next.config.ts` (incompatible with static export)
-
-**Proper Fix**:
-
-- Wait for Next.js to fix this issue in a future release
-- Consider downgrading to Next.js 15.0.3 if the issue persists
-- Remove dummy pages files once fixed
+- Removed dummy `src/pages/_app.tsx` and `src/pages/_document.tsx` files
+- Build succeeds with Next.js 15.5.2 and pure App Router setup
+- No workaround needed - this was likely a project-specific configuration issue or has been fixed in Next.js
 
 ### 2. ContactForm Storybook Stories
 
@@ -83,16 +79,18 @@ This document tracks known technical issues, workarounds, and future concerns th
 
 ## Future Concerns
 
-### 1. Security Headers
+### ~~1. Security Headers~~ ✅ DOCUMENTED
 
 **Impact**: Production security
+**Documentation**: `/docs/deployment/security-headers.md`
 
-With the removal of the `headers()` function from Next.js config (due to static export incompatibility), security headers need to be configured at the hosting level:
+With the removal of the `headers()` function from Next.js config (due to static export incompatibility), security headers need to be configured at the hosting level. Complete documentation now available with platform-specific configurations for:
 
-- Configure headers in nginx/Apache for self-hosted deployments
-- Use `_headers` file for Netlify
-- Configure headers in vercel.json for Vercel
-- Use CloudFlare page rules or workers for CloudFlare Pages
+- ✅ Vercel (vercel.json)
+- ✅ Netlify (_headers file)
+- ✅ nginx configuration
+- ✅ Apache (.htaccess)
+- ✅ CloudFlare Pages (_headers or Workers)
 
 ### 2. PWA Manifest API Route
 
@@ -116,7 +114,7 @@ The offline queue integration tests have known issues with React Hook Form timin
 
 ## Deprecated Code to Remove
 
-1. **Pages Router Dummy Files** (`src/pages/*`) - Remove once Next.js fixes the static export issue
+1. ~~**Pages Router Dummy Files** (`src/pages/*`)~~ - ✅ Removed (2025-09-18)
 2. **Unused security headers constants** in next.config.ts - Currently defined but not used
 3. **Complex webpack workarounds** in project.config.ts - Simplified but old code comments remain
 
