@@ -1,34 +1,77 @@
 {
-  "name": "CRUDkit - Modern Web Starter",
+  "name": "CRUDkit",
   "short_name": "CRUDkit",
-  "description": "A comprehensive starter kit with themes, components, and PWA features",
-  "start_url": "/CRUDkit/",
-  "scope": "/CRUDkit/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#570df8",
+  "description": "CRUDkit - Modern Next.js starter with PWA, theming, and interactive components",
+  "theme_color": "#2563eb",
   "background_color": "#ffffff",
-  "categories": ["developer", "productivity", "utilities"],
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/CRUDkit/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "/icon-72.svg",
+      "sizes": "72x72",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/CRUDkit/icon-192x192.svg",
+      "src": "/icon-96.svg",
+      "sizes": "96x96",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128.svg",
+      "sizes": "128x128",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152.svg",
+      "sizes": "152x152",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.svg",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/CRUDkit/icon-512x512.svg",
+      "src": "/icon-384.svg",
+      "sizes": "384x384",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/CRUDkit/icon-maskable.svg",
+      "src": "/icon-192-maskable.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512-maskable.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "maskable"
@@ -36,33 +79,65 @@
   ],
   "screenshots": [
     {
-      "src": "/CRUDkit/screenshot-wide.png",
-      "sizes": "1280x720",
+      "src": "/screenshots/desktop.png",
+      "sizes": "1920x1080",
       "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Desktop view"
     },
     {
-      "src": "/CRUDkit/screenshot-narrow.png",
-      "sizes": "720x1280",
+      "src": "/screenshots/mobile.png",
+      "sizes": "390x844",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Mobile view"
     }
   ],
   "shortcuts": [
     {
-      "name": "Themes",
-      "url": "/CRUDkit/themes/",
-      "description": "Browse and switch themes"
-    },
-    {
       "name": "Components",
-      "url": "/CRUDkit/components/",
-      "description": "View component gallery"
+      "url": "/components",
+      "description": "View all components",
+      "icons": [
+        {
+          "src": "/icon-96.svg",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
-      "name": "Accessibility",
-      "url": "/CRUDkit/accessibility/",
-      "description": "Adjust reading preferences"
+      "name": "Contact",
+      "url": "/contact",
+      "description": "Send us a message",
+      "icons": [
+        {
+          "src": "/icon-96.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Themes",
+      "url": "/themes",
+      "description": "Choose your theme",
+      "icons": [
+        {
+          "src": "/icon-96.svg",
+          "sizes": "96x96"
+        }
+      ]
     }
-  ]
+  ],
+  "related_applications": [],
+  "protocol_handlers": [],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }

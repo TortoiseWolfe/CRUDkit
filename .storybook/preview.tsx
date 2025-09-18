@@ -1,6 +1,17 @@
+import React from 'react';
 import type { Preview } from '@storybook/react';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
+import { ConsentProvider } from '../src/contexts/ConsentContext';
 import '../src/app/globals.css';
+
+// Initialize MSW
+if (typeof window !== 'undefined') {
+  const { worker } = require('../src/mocks/browser');
+  // Start the mocking when in Storybook
+  worker.start({
+    onUnhandledRequest: 'bypass', // Don't warn about unhandled requests
+  });
+}
 
 const preview: Preview = {
   parameters: {
@@ -35,6 +46,13 @@ const preview: Preview = {
     },
   },
   decorators: [
+    // Add ConsentProvider wrapper
+    (Story) => (
+      <ConsentProvider>
+        <Story />
+      </ConsentProvider>
+    ),
+    // Theme decorator
     withThemeByDataAttribute({
       themes: {
         light: 'light',
