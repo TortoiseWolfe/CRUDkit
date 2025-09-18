@@ -24,11 +24,9 @@ function detectProjectConfig() {
     console.warn('Could not detect project config, using defaults');
   }
 
-  // Fallback to old logic
-  const isGithubPages =
-    process.env['GITHUB_ACTIONS'] === 'true' ||
-    process.env['NODE_ENV'] === 'production';
-  return isGithubPages ? '/CRUDkit' : '';
+  // Fallback - only use basePath in GitHub Actions CI/CD
+  const isGithubActions = process.env['GITHUB_ACTIONS'] === 'true';
+  return isGithubActions ? '/CRUDkit' : '';
 }
 
 const basePath = detectProjectConfig();

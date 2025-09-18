@@ -103,13 +103,12 @@ function getProjectInfo() {
 function generateConfig() {
   const info = getProjectInfo();
 
-  // Determine if we're in GitHub Actions or production build
-  const isProduction =
-    process.env.NODE_ENV === 'production' ||
-    process.env.GITHUB_ACTIONS === 'true';
+  // Determine if we're in GitHub Actions CI/CD
+  const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
 
-  // Generate base path for GitHub Pages
-  const basePath = isProduction && info.isGitHub ? `/${info.projectName}` : '';
+  // Generate base path for GitHub Pages - ONLY in GitHub Actions CI/CD
+  const basePath =
+    isGitHubActions && info.isGitHub ? `/${info.projectName}` : '';
 
   const config = {
     projectName: info.projectName,
