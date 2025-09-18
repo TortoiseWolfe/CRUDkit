@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { GeolocationConsent } from './GeolocationConsent';
-import { GeolocationPurpose } from '@/specs/014-geolocation-map/contracts/component-interfaces';
+import { GeolocationConsent, GeolocationPurpose } from './GeolocationConsent';
 
 const meta = {
   title: 'Components/Map/GeolocationConsent',
@@ -33,6 +32,12 @@ const meta = {
       control: 'text',
       description: 'Privacy policy link',
     },
+  },
+  args: {
+    isOpen: true,
+    onAccept: (purposes: GeolocationPurpose[]) => console.log('Accepted:', purposes),
+    onDecline: () => console.log('Declined'),
+    onClose: () => console.log('Closed'),
   },
 } satisfies Meta<typeof GeolocationConsent>;
 

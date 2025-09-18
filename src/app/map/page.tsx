@@ -4,8 +4,7 @@ import React, { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { LocationButton } from '@/components/map/LocationButton';
-import { GeolocationConsent } from '@/components/map/GeolocationConsent';
-import type { GeolocationPurpose } from '@/specs/014-geolocation-map/contracts/component-interfaces';
+import { GeolocationConsent, GeolocationPurpose } from '@/components/map/GeolocationConsent';
 import type { LatLngTuple } from 'leaflet';
 
 // Dynamic import for MapContainer to avoid SSR issues

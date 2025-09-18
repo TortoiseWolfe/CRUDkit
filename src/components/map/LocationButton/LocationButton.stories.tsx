@@ -8,6 +8,9 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    onClick: () => console.log('Location button clicked'),
+  },
   argTypes: {
     onClick: { action: 'clicked' },
     loading: {

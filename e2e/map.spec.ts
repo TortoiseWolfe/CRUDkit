@@ -15,7 +15,8 @@ async function mockGeolocation(page: Page, latitude = 51.505, longitude = -0.09)
             altitudeAccuracy: null,
             heading: null,
             speed: null,
-          },
+            toJSON: () => ({ latitude: lat, longitude: lng, accuracy: 10 }),
+          } as GeolocationCoordinates,
           timestamp: Date.now(),
         });
       }, 100);
@@ -23,7 +24,7 @@ async function mockGeolocation(page: Page, latitude = 51.505, longitude = -0.09)
 
     navigator.permissions.query = async (options: any) => {
       if (options.name === 'geolocation') {
-        return { state: 'prompt' };
+        return { state: 'prompt' } as PermissionStatus;
       }
       throw new Error('Permission not found');
     };
@@ -115,7 +116,7 @@ test.describe('Geolocation Map Page', () => {
         });
       };
 
-      navigator.permissions.query = async () => ({ state: 'prompt' });
+      navigator.permissions.query = async () => ({ state: 'prompt' } as PermissionStatus);
     });
 
     await page.goto('/map');
@@ -351,7 +352,8 @@ test.describe('Geolocation Map Page', () => {
               altitudeAccuracy: null,
               heading: null,
               speed: null,
-            },
+              toJSON: () => ({ latitude: 51.505 + count * 0.001, longitude: -0.09 + count * 0.001, accuracy: 10 }),
+            } as GeolocationCoordinates,
             timestamp: Date.now(),
           });
 

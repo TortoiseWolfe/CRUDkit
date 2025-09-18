@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useGeolocation } from './useGeolocation';
+
+type PositionCallback = (position: GeolocationPosition) => void;
+type PositionErrorCallback = (error: GeolocationPositionError) => void;
+type PositionOptions = { enableHighAccuracy?: boolean; timeout?: number; maximumAge?: number };
 
 describe('useGeolocation', () => {
   let mockGeolocation: any;
@@ -65,7 +68,7 @@ describe('useGeolocation', () => {
       timestamp: Date.now(),
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success) => {
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
       success(mockPosition);
     });
 
@@ -95,7 +98,7 @@ describe('useGeolocation', () => {
       TIMEOUT: 3,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success, error) => {
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
       error(mockError);
     });
 
@@ -123,7 +126,7 @@ describe('useGeolocation', () => {
       TIMEOUT: 3,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success, error) => {
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
       error(mockError);
     });
 
@@ -152,7 +155,7 @@ describe('useGeolocation', () => {
       TIMEOUT: 3,
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success, error) => {
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
       error(mockError);
     });
 
@@ -217,7 +220,7 @@ describe('useGeolocation', () => {
       timestamp: Date.now(),
     };
 
-    mockGeolocation.getCurrentPosition.mockImplementation((success) => {
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
       success(mockPosition);
     });
 

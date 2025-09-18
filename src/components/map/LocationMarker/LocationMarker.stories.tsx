@@ -103,9 +103,15 @@ export const Draggable: Story = {
 };
 
 export const MultipleAccuracyLevels: Story = {
-  render: () => (
+  args: {
+    position: [51.505, -0.09] as [number, number],
+    accuracy: 50,
+    showAccuracy: true,
+  },
+  render: (args) => (
     <>
       <LocationMarker
+        {...args}
         position={[51.505, -0.09]}
         accuracy={20}
         showAccuracy={true}

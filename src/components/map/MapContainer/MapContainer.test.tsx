@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MapContainer } from './MapContainer';
-import type { MapContainerProps } from '@/specs/014-geolocation-map/contracts/component-interfaces';
+import type { MapContainerProps } from './MapContainer';
 
 // Mock Leaflet and react-leaflet
 vi.mock('leaflet', () => ({

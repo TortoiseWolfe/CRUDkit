@@ -100,18 +100,5 @@ describe('LocationMarker Accessibility', () => {
     expect(circle).toHaveAttribute('role', 'presentation');
   });
 
-  it('should have no violations with React node popup', async () => {
-    const popup = (
-      <div>
-        <strong>Current Location</strong>
-        <p>Latitude: 51.505</p>
-      </div>
-    );
-
-    const { container } = render(
-      <LocationMarker {...defaultProps} popup={popup} />
-    );
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
+  // LocationMarker popup only accepts string content
 });

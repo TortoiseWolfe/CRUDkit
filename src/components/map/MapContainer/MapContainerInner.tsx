@@ -52,7 +52,12 @@ const MapEventHandler: React.FC<{
             altitudeAccuracy: null,
             heading: null,
             speed: null,
-          },
+            toJSON: () => ({
+              latitude: e.latlng.lat,
+              longitude: e.latlng.lng,
+              accuracy: e.accuracy
+            }),
+          } as GeolocationCoordinates,
           timestamp: Date.now(),
         };
         onLocationFound(position);
