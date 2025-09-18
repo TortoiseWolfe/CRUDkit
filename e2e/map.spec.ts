@@ -6,7 +6,7 @@ async function mockGeolocation(page: Page, latitude = 51.505, longitude = -0.09)
   await page.addInitScript(({ lat, lng }) => {
     navigator.geolocation.getCurrentPosition = (success) => {
       setTimeout(() => {
-        success({
+        const mockPosition: GeolocationPosition = {
           coords: {
             latitude: lat,
             longitude: lng,
@@ -18,7 +18,9 @@ async function mockGeolocation(page: Page, latitude = 51.505, longitude = -0.09)
             toJSON: () => ({ latitude: lat, longitude: lng, accuracy: 10 }),
           } as GeolocationCoordinates,
           timestamp: Date.now(),
-        });
+          toJSON: () => ({ coords: { latitude: lat, longitude: lng, accuracy: 10 }, timestamp: Date.now() }),
+        };
+        success(mockPosition);
       }, 100);
     };
 
@@ -107,7 +109,7 @@ test.describe('Geolocation Map Page', () => {
   test('should handle location permission denial', async ({ page }) => {
     await page.addInitScript(() => {
       navigator.geolocation.getCurrentPosition = (success, error) => {
-        error({
+        error?.({
           code: 1,
           message: 'User denied geolocation',
           PERMISSION_DENIED: 1,
@@ -343,7 +345,7 @@ test.describe('Geolocation Map Page', () => {
       navigator.geolocation.watchPosition = (success) => {
         const interval = setInterval(() => {
           count++;
-          success({
+          const mockPosition: GeolocationPosition = {
             coords: {
               latitude: 51.505 + count * 0.001,
               longitude: -0.09 + count * 0.001,
@@ -355,7 +357,9 @@ test.describe('Geolocation Map Page', () => {
               toJSON: () => ({ latitude: 51.505 + count * 0.001, longitude: -0.09 + count * 0.001, accuracy: 10 }),
             } as GeolocationCoordinates,
             timestamp: Date.now(),
-          });
+            toJSON: () => ({ coords: { latitude: 51.505 + count * 0.001, longitude: -0.09 + count * 0.001, accuracy: 10 }, timestamp: Date.now() }),
+          };
+          success(mockPosition);
 
           if (count >= 5) clearInterval(interval);
         }, 500);

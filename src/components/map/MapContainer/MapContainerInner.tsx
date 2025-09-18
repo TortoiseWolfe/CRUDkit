@@ -59,6 +59,14 @@ const MapEventHandler: React.FC<{
             }),
           } as GeolocationCoordinates,
           timestamp: Date.now(),
+          toJSON: () => ({
+            coords: {
+              latitude: e.latlng.lat,
+              longitude: e.latlng.lng,
+              accuracy: e.accuracy
+            },
+            timestamp: Date.now()
+          }),
         };
         onLocationFound(position);
       }

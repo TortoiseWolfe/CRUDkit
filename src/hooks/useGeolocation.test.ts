@@ -5,7 +5,6 @@ import { useGeolocation } from './useGeolocation';
 
 type PositionCallback = (position: GeolocationPosition) => void;
 type PositionErrorCallback = (error: GeolocationPositionError) => void;
-type PositionOptions = { enableHighAccuracy?: boolean; timeout?: number; maximumAge?: number };
 
 describe('useGeolocation', () => {
   let mockGeolocation: any;
@@ -55,7 +54,7 @@ describe('useGeolocation', () => {
   });
 
   it('should get current position when requested', async () => {
-    const mockPosition = {
+    const mockPosition: GeolocationPosition = {
       coords: {
         latitude: 51.505,
         longitude: -0.09,
@@ -64,8 +63,10 @@ describe('useGeolocation', () => {
         altitudeAccuracy: null,
         heading: null,
         speed: null,
-      },
+        toJSON: () => ({ latitude: 51.505, longitude: -0.09, accuracy: 10 }),
+      } as GeolocationCoordinates,
       timestamp: Date.now(),
+      toJSON: () => ({ coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 }, timestamp: Date.now() }),
     };
 
     mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
@@ -77,7 +78,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation());
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     expect(result.current.loading).toBe(true);
@@ -90,12 +91,12 @@ describe('useGeolocation', () => {
   });
 
   it('should handle permission denied error', async () => {
-    const mockError = {
+    const mockError: GeolocationPositionError = {
       code: 1,
       message: 'User denied geolocation',
-      PERMISSION_DENIED: 1,
-      POSITION_UNAVAILABLE: 2,
-      TIMEOUT: 3,
+      PERMISSION_DENIED: 1 as const,
+      POSITION_UNAVAILABLE: 2 as const,
+      TIMEOUT: 3 as const,
     };
 
     mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
@@ -107,7 +108,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation());
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     await waitFor(() => {
@@ -118,12 +119,12 @@ describe('useGeolocation', () => {
   });
 
   it('should handle position unavailable error', async () => {
-    const mockError = {
+    const mockError: GeolocationPositionError = {
       code: 2,
       message: 'Position unavailable',
-      PERMISSION_DENIED: 1,
-      POSITION_UNAVAILABLE: 2,
-      TIMEOUT: 3,
+      PERMISSION_DENIED: 1 as const,
+      POSITION_UNAVAILABLE: 2 as const,
+      TIMEOUT: 3 as const,
     };
 
     mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
@@ -135,7 +136,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation());
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     await waitFor(() => {
@@ -147,12 +148,12 @@ describe('useGeolocation', () => {
   });
 
   it('should handle timeout error', async () => {
-    const mockError = {
+    const mockError: GeolocationPositionError = {
       code: 3,
       message: 'Timeout',
-      PERMISSION_DENIED: 1,
-      POSITION_UNAVAILABLE: 2,
-      TIMEOUT: 3,
+      PERMISSION_DENIED: 1 as const,
+      POSITION_UNAVAILABLE: 2 as const,
+      TIMEOUT: 3 as const,
     };
 
     mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback) => {
@@ -164,7 +165,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation());
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     await waitFor(() => {
@@ -182,7 +183,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation({ watch: true }));
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     expect(mockGeolocation.watchPosition).toHaveBeenCalled();
@@ -196,7 +197,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation({ watch: true }));
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     act(() => {
@@ -207,7 +208,7 @@ describe('useGeolocation', () => {
   });
 
   it('should calculate distance from target correctly', () => {
-    const mockPosition = {
+    const mockPosition: GeolocationPosition = {
       coords: {
         latitude: 51.505,
         longitude: -0.09,
@@ -216,8 +217,10 @@ describe('useGeolocation', () => {
         altitudeAccuracy: null,
         heading: null,
         speed: null,
-      },
+        toJSON: () => ({ latitude: 51.505, longitude: -0.09, accuracy: 10 }),
+      } as GeolocationCoordinates,
       timestamp: Date.now(),
+      toJSON: () => ({ coords: { latitude: 51.505, longitude: -0.09, accuracy: 10 }, timestamp: Date.now() }),
     };
 
     mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback) => {
@@ -229,7 +232,7 @@ describe('useGeolocation', () => {
     const { result } = renderHook(() => useGeolocation());
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     waitFor(() => {
@@ -252,7 +255,7 @@ describe('useGeolocation', () => {
     expect(result.current.isSupported).toBe(false);
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     expect(result.current.error).toBeDefined();
@@ -301,7 +304,8 @@ describe('useGeolocation', () => {
   });
 
   it('should accept custom options', () => {
-    mockGeolocation.getCurrentPosition.mockImplementation((success, error, options) => {
+    type PositionOptions = { enableHighAccuracy?: boolean; timeout?: number; maximumAge?: number };
+    mockGeolocation.getCurrentPosition.mockImplementation((success: PositionCallback, error: PositionErrorCallback, options: PositionOptions) => {
       expect(options).toEqual({
         enableHighAccuracy: false,
         timeout: 10000,
@@ -320,7 +324,7 @@ describe('useGeolocation', () => {
     );
 
     act(() => {
-    act(() => {       result.current.getCurrentPosition(); });
+      result.current.getCurrentPosition();
     });
 
     expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
