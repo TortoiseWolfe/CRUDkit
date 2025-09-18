@@ -4,7 +4,7 @@
  */
 
 import { CSSProperties, ReactNode } from 'react';
-import { LatLngTuple, LatLngBounds } from 'leaflet';
+import { LatLngTuple } from 'leaflet';
 
 // ============================================================================
 // Type Definitions

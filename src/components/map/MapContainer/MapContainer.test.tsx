@@ -18,7 +18,7 @@ const mockMap = {
 
 // Mock dynamic import for MapContainerInner
 vi.mock('next/dynamic', () => ({
-  default: (fn: () => Promise<any>) => {
+  default: () => {
     // For MapContainerInner, return a component that calls onMapReady
     return ({ children, onMapReady, ...props }: any) => {
       // Call onMapReady with a mock map on mount
