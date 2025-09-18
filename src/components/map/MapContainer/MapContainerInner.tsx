@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
-import { MapContainer as LeafletMapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import {
+  MapContainer as LeafletMapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+} from 'react-leaflet';
 import type { Map as LeafletMap, LatLngTuple } from 'leaflet';
 import L from 'leaflet';
-import { OSM_TILE_URL, OSM_ATTRIBUTION, DEFAULT_MAP_CONFIG } from '@/utils/map-utils';
+import {
+  OSM_TILE_URL,
+  OSM_ATTRIBUTION,
+  DEFAULT_MAP_CONFIG,
+} from '@/utils/map-utils';
 
 interface MapContainerInnerProps {
   center: LatLngTuple;
@@ -23,6 +33,17 @@ interface MapContainerInnerProps {
   keyboardNavigation?: boolean;
   children?: React.ReactNode;
 }
+
+// Component to handle center updates after map is rendered
+const MapCenterUpdater: React.FC<{ center: LatLngTuple }> = ({ center }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView(center);
+  }, [map, center]);
+
+  return null;
+};
 
 const MapEventHandler: React.FC<{
   onMapReady?: (map: LeafletMap) => void;
@@ -55,7 +76,7 @@ const MapEventHandler: React.FC<{
             toJSON: () => ({
               latitude: e.latlng.lat,
               longitude: e.latlng.lng,
-              accuracy: e.accuracy
+              accuracy: e.accuracy,
             }),
           } as GeolocationCoordinates,
           timestamp: Date.now(),
@@ -63,9 +84,9 @@ const MapEventHandler: React.FC<{
             coords: {
               latitude: e.latlng.lat,
               longitude: e.latlng.lng,
-              accuracy: e.accuracy
+              accuracy: e.accuracy,
             },
-            timestamp: Date.now()
+            timestamp: Date.now(),
           }),
         };
         onLocationFound(position);
@@ -132,10 +153,7 @@ const MapContainerInner: React.FC<MapContainerInnerProps> = ({
       zoomControl={zoomControl}
       keyboard={keyboardNavigation}
     >
-      <TileLayer
-        attribution={attribution}
-        url={tileUrl}
-      />
+      <TileLayer attribution={attribution} url={tileUrl} />
 
       <MapEventHandler
         onMapReady={onMapReady}
@@ -143,6 +161,8 @@ const MapContainerInner: React.FC<MapContainerInnerProps> = ({
         onLocationFound={onLocationFound}
         onLocationError={onLocationError}
       />
+
+      <MapCenterUpdater center={center} />
 
       {markers.map((marker) => (
         <Marker key={marker.id} position={marker.position}>
