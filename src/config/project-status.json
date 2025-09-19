@@ -4,7 +4,14 @@
     "description": "Modern Next.js Starter with PWA",
     "repository": "https://github.com/TortoiseWolfe/CRUDkit",
     "startDate": "2025-09-10",
-    "isTemplate": true
+    "isTemplate": true,
+    "version": "0.3.5",
+    "currentSprint": "Sprint 3.5 Complete - Technical Debt Eliminated",
+    "sprintCompleted": "2025-09-19",
+    "methodology": "PRP (Product Requirements Prompts)",
+    "prpsCompleted": 12,
+    "prpsTotal": 14,
+    "nextPhase": "v0.4.0 Planning"
   },
   "features": [
     {
