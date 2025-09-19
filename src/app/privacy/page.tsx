@@ -9,11 +9,16 @@ export default function PrivacyPolicyPage() {
   const lastUpdated = '2025-09-15';
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      <h1 className="mb-8 text-4xl font-bold">Privacy Policy</h1>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <header>
+        <h1 className="mb-8 text-4xl font-bold">Privacy Policy</h1>
+      </header>
 
       {/* Quick Actions */}
-      <div className="mb-8 flex flex-wrap gap-4">
+      <nav
+        className="mb-8 flex flex-wrap gap-4"
+        aria-label="Privacy policy actions"
+      >
         <button
           onClick={openModal}
           className="btn btn-primary"
@@ -24,9 +29,9 @@ export default function PrivacyPolicyPage() {
         <Link href="/cookies" className="btn btn-outline">
           View Cookie Policy
         </Link>
-      </div>
+      </nav>
 
-      <div className="prose prose-lg max-w-none">
+      <article className="prose prose-lg max-w-none">
         <p className="text-base-content/70 mb-6 text-sm">
           Last updated: {lastUpdated}
         </p>
@@ -61,7 +66,7 @@ export default function PrivacyPolicyPage() {
             changes, we may request renewed consent.
           </p>
         </section>
-      </div>
-    </div>
+      </article>
+    </main>
   );
 }

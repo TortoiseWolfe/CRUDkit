@@ -9,11 +9,16 @@ export default function CookiePolicyPage() {
   const lastUpdated = '2025-09-15';
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      <h1 className="mb-8 text-4xl font-bold">Cookie Policy</h1>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <header>
+        <h1 className="mb-8 text-4xl font-bold">Cookie Policy</h1>
+      </header>
 
       {/* Quick Actions */}
-      <div className="mb-8 flex flex-wrap gap-4">
+      <nav
+        className="mb-8 flex flex-wrap gap-4"
+        aria-label="Cookie policy actions"
+      >
         <button
           onClick={openModal}
           className="btn btn-primary"
@@ -24,9 +29,9 @@ export default function CookiePolicyPage() {
         <Link href="/privacy" className="btn btn-outline">
           View Privacy Policy
         </Link>
-      </div>
+      </nav>
 
-      <div className="prose prose-lg max-w-none">
+      <article className="prose prose-lg max-w-none">
         <p className="text-base-content/70 mb-6 text-sm">
           Last updated: {lastUpdated}
         </p>
@@ -42,7 +47,7 @@ export default function CookiePolicyPage() {
             policy.
           </p>
         </section>
-      </div>
-    </div>
+      </article>
+    </main>
   );
 }

@@ -151,8 +151,8 @@ export default function MapPage() {
   ];
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="prose mb-6 max-w-none">
+    <main className="container mx-auto p-4">
+      <header className="prose mb-6 max-w-none">
         <h1>Interactive Map</h1>
         <p>
           Explore the map and enable location services to see your current
@@ -163,9 +163,9 @@ export default function MapPage() {
             </span>
           )}
         </p>
-      </div>
+      </header>
 
-      <div className="card bg-base-100 shadow-xl">
+      <section className="card bg-base-100 shadow-xl">
         <div className="card-body p-4">
           <div className="mb-4 flex flex-wrap gap-4">
             <LocationButton
@@ -224,7 +224,7 @@ export default function MapPage() {
             />
           </div>
         </div>
-      </div>
+      </section>
 
       <GeolocationConsent
         isOpen={showConsentModal}
@@ -235,6 +235,6 @@ export default function MapPage() {
         description="We'd like to use your location to show you on the map and help you explore nearby places."
         privacyPolicyUrl="/privacy"
       />
-    </div>
+    </main>
   );
 }
