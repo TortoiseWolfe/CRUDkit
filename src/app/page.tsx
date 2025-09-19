@@ -557,7 +557,7 @@ export default function Home() {
                             <p className="mb-2 text-sm font-semibold">
                               1. Fork this repo & setup Docker:
                             </p>
-                            <code className="bg-base-300 block overflow-x-auto rounded p-2 font-mono text-xs">
+                            <code className="bg-base-300 block rounded p-2 font-mono text-xs break-all whitespace-pre-wrap">
                               # In your terminal with Claude Code:
                               <br />
                               cd docs/spec-kit
@@ -608,7 +608,7 @@ export default function Home() {
                             <p className="mb-2 text-sm font-semibold">
                               2. Initialize YOUR project (or keep CRUDkit):
                             </p>
-                            <code className="bg-base-300 block overflow-x-auto rounded p-2 font-mono text-xs">
+                            <code className="bg-base-300 block rounded p-2 font-mono text-xs break-all whitespace-pre-wrap">
                               # Inside Docker container:
                               <br />
                               specify init YOUR_PROJECT --here
@@ -818,7 +818,7 @@ export default function Home() {
                     <p className="text-base-content/60 mt-3 text-xs">
                       Quick start without Docker:
                     </p>
-                    <code className="bg-base-300 mt-1 block rounded p-2 font-mono text-xs">
+                    <code className="bg-base-300 mt-1 block rounded p-2 font-mono text-xs break-words whitespace-pre-wrap">
                       uvx --from git+https://github.com/github/spec-kit.git
                       specify init YOUR_PROJECT
                     </code>
