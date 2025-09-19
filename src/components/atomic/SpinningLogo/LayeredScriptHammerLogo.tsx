@@ -15,7 +15,11 @@ export const LayeredScriptHammerLogo: React.FC<
   return (
     <div
       className={`relative ${className}`}
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.4))',
+      }}
     >
       {/* Rotating gear ring with hammer (hammer will be hidden by static layers) */}
       <SpinningLogo size={size} speed={speed} pauseOnHover={pauseOnHover}>

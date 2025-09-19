@@ -9,7 +9,7 @@ export const detectedConfig = {
   basePath: '',
   isGitHub: true,
   detectionSource: 'git',
-  generatedAt: '2025-09-19T19:33:39.199Z',
+  generatedAt: '2025-09-19T20:12:54.779Z',
 } as const;
 
 export type DetectedConfig = typeof detectedConfig;
