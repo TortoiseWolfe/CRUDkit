@@ -13,7 +13,7 @@ Security headers protect your application from common web vulnerabilities:
 ## Recommended Headers
 
 ```http
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; media-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://assets.calendly.com https://app.cal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com https://assets.calendly.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org https://api.emailjs.com https://api.web3forms.com https://calendly.com https://api.calendly.com https://app.cal.com wss://app.cal.com; media-src 'self'; object-src 'none'; frame-src 'self' https://calendly.com https://app.cal.com; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; upgrade-insecure-requests;
 X-DNS-Prefetch-Control: on
 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 X-Frame-Options: DENY
@@ -79,7 +79,7 @@ Create `_headers` file in your `public` directory:
 
 ```
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; media-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://assets.calendly.com https://app.cal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com https://assets.calendly.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org https://api.emailjs.com https://api.web3forms.com https://calendly.com https://api.calendly.com https://app.cal.com wss://app.cal.com; media-src 'self'; object-src 'none'; frame-src 'self' https://calendly.com https://app.cal.com; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; upgrade-insecure-requests;
   X-DNS-Prefetch-Control: on
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Frame-Options: DENY
@@ -134,7 +134,7 @@ Create `_headers` file in your output directory:
 
 ```
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; media-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://assets.calendly.com https://app.cal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com https://assets.calendly.com; img-src 'self' data: https: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com https://fonts.cdnfonts.com; connect-src 'self' https: https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.tile.openstreetmap.org https://api.emailjs.com https://api.web3forms.com https://calendly.com https://api.calendly.com https://app.cal.com wss://app.cal.com; media-src 'self'; object-src 'none'; frame-src 'self' https://calendly.com https://app.cal.com; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; upgrade-insecure-requests;
   X-DNS-Prefetch-Control: on
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Frame-Options: DENY
@@ -197,6 +197,27 @@ You may need to adjust the CSP policy based on your specific needs:
 - **Additional analytics**: Add domains for other analytics services
 - **External APIs**: Add to `connect-src` for API calls
 - **CDN assets**: Add to appropriate directives
+
+## Service-Specific CSP Requirements
+
+### EmailJS & Web3Forms
+- **connect-src**: `https://api.emailjs.com https://api.web3forms.com`
+- **form-action**: `'self' https://api.web3forms.com`
+
+### Calendly
+- **script-src**: `https://assets.calendly.com`
+- **style-src**: `https://assets.calendly.com`
+- **connect-src**: `https://calendly.com https://api.calendly.com`
+- **frame-src**: `https://calendly.com`
+
+### Cal.com
+- **script-src**: `https://app.cal.com`
+- **connect-src**: `https://app.cal.com wss://app.cal.com`
+- **frame-src**: `https://app.cal.com`
+
+### OpenStreetMap (Leaflet)
+- **img-src**: `https://*.tile.openstreetmap.org`
+- **connect-src**: `https://*.tile.openstreetmap.org`
 
 ## Important Notes
 

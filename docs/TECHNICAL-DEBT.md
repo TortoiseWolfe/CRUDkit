@@ -11,6 +11,10 @@ This document tracks known technical issues, workarounds, and future concerns th
 - ✅ Bundle Analyzer - Added for ongoing monitoring
 - ✅ E2E CI Integration - Multi-browser testing in GitHub Actions
 - ✅ CalendarEmbed Tests - Fixed for dynamic import compatibility
+- ✅ Security Headers Documentation - Complete guide for all platforms
+- ✅ Offline Queue Tests - All 12 tests passing
+- ✅ GoogleAnalytics Storybook - ConsentProvider already configured
+- ✅ PWA Manifest - Already using build-time generation
 
 ## Current Issues
 
@@ -102,25 +106,19 @@ With the removal of the `headers()` function from Next.js config (due to static 
 - ✅ Apache (.htaccess)
 - ✅ CloudFlare Pages (_headers or Workers)
 
-### 2. PWA Manifest API Route
+### ~~2. PWA Manifest API Route~~ ✅ RESOLVED (2025-09-18)
 
-**Impact**: PWA functionality
+**Impact**: ~~PWA functionality~~ None
+**Status**: Already using build-time generation
 
-The dynamic manifest generation via API route doesn't work with static export. Consider:
+The PWA manifest is properly generated at build time via `scripts/generate-manifest.js` which runs in the prebuild step. No API route exists - fully compatible with static export.
 
-- Generating manifest.json at build time
-- Using the static manifest file approach
-- Implementing a build script to generate manifest based on configuration
+### ~~3. Test Coverage for Offline Features~~ ✅ RESOLVED (2025-09-18)
 
-### 3. Test Coverage for Offline Features
+**Impact**: ~~Test reliability~~ None
+**Status**: All 12 offline queue tests now passing
 
-**Impact**: Test reliability
-
-The offline queue integration tests have known issues with React Hook Form timing in the test environment. Need to:
-
-- Split into focused unit tests
-- Add Playwright E2E tests for real browser validation
-- Fix async validation timing issues
+The offline queue integration tests previously had issues with React Hook Form timing but are now working correctly. No further action needed.
 
 ## Deprecated Code to Remove
 
