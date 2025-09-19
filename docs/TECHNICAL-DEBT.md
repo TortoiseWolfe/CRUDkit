@@ -2,6 +2,14 @@
 
 This document tracks known technical issues, workarounds, and future concerns that need to be addressed.
 
+## TODO Summary (2025-09-19)
+
+**Total TODOs in codebase**: 13
+
+- **Component Tests**: 6 (need expanded test coverage)
+- **Feature Extensions**: 3 (validation system, error handler integrations)
+- **Template TODOs**: 4 (intentional, part of code generation)
+
 ## Sprint 3.5 Progress (2025-09-18 - 2025-09-19)
 
 ### Completed
@@ -150,11 +158,11 @@ The PWA manifest is properly generated at build time via `scripts/generate-manif
 
 The offline queue integration tests previously had issues with React Hook Form timing but are now working correctly. No further action needed.
 
-## Deprecated Code to Remove
+## Code Cleanup Status
 
 1. ~~**Pages Router Dummy Files** (`src/pages/*`)~~ - ✅ Removed (2025-09-18)
-2. **Unused security headers constants** in next.config.ts - Currently defined but not used
-3. **Complex webpack workarounds** in project.config.ts - Simplified but old code comments remain
+2. ~~**Security headers constants**~~ - ✅ None found in next.config.ts (2025-09-19)
+3. ~~**Webpack workarounds**~~ - ✅ None found in project.config.ts (2025-09-19)
 
 ## Performance Optimizations ~~Needed~~ ✅ COMPLETED
 
@@ -206,20 +214,21 @@ The offline queue integration tests previously had issues with React Hook Form t
 ### Component Tests
 
 1. **CaptainShipCrewWithNPC** (`src/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC.test.tsx`)
+   - TODO comment on line 14: "Add more specific tests"
    - Currently only has basic render test
    - Need tests for game logic, player interactions, NPC behavior
 
 ### Accessibility Tests
 
-Multiple components have only basic accessibility violation checks. Need comprehensive testing for:
+Multiple components have TODO comments for expanding test coverage:
 
-- **CaptainShipCrewWithNPC** (`CaptainShipCrewWithNPC.accessibility.test.tsx`)
-- **CaptainShipCrew** (`CaptainShipCrew.accessibility.test.tsx`)
-- **Dice** (`Dice.accessibility.test.tsx`)
-- **DraggableDice** (`DraggableDice.accessibility.test.tsx`)
-- **DiceTray** (`DiceTray.accessibility.test.tsx`)
+- **CaptainShipCrewWithNPC** (`CaptainShipCrewWithNPC.accessibility.test.tsx`) - line 14
+- **CaptainShipCrew** (`CaptainShipCrew.accessibility.test.tsx`) - line 14
+- **Dice** (`Dice.accessibility.test.tsx`) - line 14
+- **DraggableDice** (`DraggableDice.accessibility.test.tsx`) - line 14
+- **DiceTray** (`DiceTray.accessibility.test.tsx`) - line 14
 
-Each needs:
+Each TODO indicates need for:
 
 - Tests with different prop combinations
 - Keyboard navigation testing
@@ -232,6 +241,7 @@ Each needs:
 ### Validation System Extension
 
 **Location**: `src/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC.tsx`
+**TODO**: Line 8 - "Add validation to other atomic components throughout the app"
 
 - Current implementation demonstrates validation system with ValidatedInput
 - Should extend to other atomic components: Button, Input, and other form components
@@ -241,12 +251,28 @@ Each needs:
 
 **Location**: `src/utils/error-handler.ts`
 
-1. **Logging Service Integration** (line 233)
+1. **Logging Service Integration**
+   - TODO on line 233: "Implement additional integration with logging service"
    - Currently only logs to console in development
    - Should integrate with services like Sentry, LogRocket, or DataDog
    - Would provide better production error tracking
 
-2. **Notification System Integration** (line 252)
+2. **Notification System Integration**
+   - TODO on line 252: "Integrate with your notification system"
    - Currently only logs user notifications to console
    - Should integrate with a proper toast/notification system
    - Would improve user experience for error feedback
+
+## Template TODOs (Intentional)
+
+The following TODO comments are part of code generation templates and are intentional:
+
+1. **migrate-components.js** (lines 304, 350)
+   - Template placeholders for generated test files
+   - Gets replaced with actual test code when components are migrated
+
+2. **validate-structure.test.js** (lines 152, 154)
+   - Test fixtures for validation testing
+   - Used to simulate incomplete component structures
+
+These TODOs should remain as they are part of the tooling infrastructure.
