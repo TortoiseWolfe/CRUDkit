@@ -48,6 +48,7 @@
     "ci:validate": "./scripts/validate-ci.sh",
     "ci:quick": "./scripts/validate-ci.sh --quick",
     "audit:components": "node scripts/audit-components.js",
+    "analyze": "ANALYZE=true pnpm run build",
     "migrate:components": "node scripts/migrate-components.js",
     "validate:structure": "node scripts/validate-structure.js",
     "generate:component": "plop component",
@@ -79,6 +80,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
     "@eslint/eslintrc": "^3.3.1",
+    "@next/bundle-analyzer": "^15.5.3",
     "@playwright/test": "^1.55.0",
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-docs": "^9.1.5",

@@ -2,6 +2,16 @@
 
 This document tracks known technical issues, workarounds, and future concerns that need to be addressed.
 
+## Sprint 3.5 Progress (2025-09-18)
+
+### Completed Today
+- ✅ Component Structure Audit - 100% compliance with 5-file pattern
+- ✅ Bundle Size Optimization - Met target of 102KB First Load JS
+- ✅ Dynamic Imports - Calendar providers now lazy-loaded
+- ✅ Bundle Analyzer - Added for ongoing monitoring
+- ✅ E2E CI Integration - Multi-browser testing in GitHub Actions
+- ✅ CalendarEmbed Tests - Fixed for dynamic import compatibility
+
 ## Current Issues
 
 ### ~~1. Next.js 15.5 Static Export Compatibility~~ ✅ RESOLVED
@@ -118,16 +128,29 @@ The offline queue integration tests have known issues with React Hook Form timin
 2. **Unused security headers constants** in next.config.ts - Currently defined but not used
 3. **Complex webpack workarounds** in project.config.ts - Simplified but old code comments remain
 
-## Performance Optimizations Needed
+## Performance Optimizations ~~Needed~~ ✅ COMPLETED
 
-1. **Bundle Size**: Current First Load JS is ~102KB, could be optimized
-2. **Lazy Loading**: Consider lazy loading heavy components like maps and calendar embeds
+### ~~1. Bundle Size~~ ✅ OPTIMIZED (2025-09-18)
+**Status**: Complete
+- Current First Load JS: 102KB (meets target)
+- Added @next/bundle-analyzer for monitoring
+- Run `pnpm run analyze` to view bundle composition
+
+### ~~2. Lazy Loading~~ ✅ IMPLEMENTED (2025-09-18)
+**Status**: Complete
+- Calendar providers (CalendlyProvider, CalComProvider) now use dynamic imports
+- Loading states implemented for better UX
+- Maps already use dynamic loading with SSR disabled
+
 3. **Font Loading**: Optimize font loading strategy to reduce CLS
 
 ## Testing Improvements
 
 1. **Storybook Coverage**: Restore full story coverage for ContactForm
-2. **E2E Tests**: Currently only running locally, need CI integration
+2. ~~**E2E Tests**: Currently only running locally, need CI integration~~ ✅ CI ADDED (2025-09-18)
+   - Created `.github/workflows/e2e.yml` with multi-browser testing
+   - Tests run on Chromium, Firefox, and WebKit
+   - Artifacts and reports uploaded for review
 3. **Visual Regression**: PRP-012 deferred but needed for UI stability
 
 ## Documentation Updates Needed
