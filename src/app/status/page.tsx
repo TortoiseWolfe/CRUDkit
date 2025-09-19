@@ -1630,7 +1630,7 @@ export default function StatusPage() {
                                     </span>
                                     <div className="flex-1">
                                       <span className="text-xs">
-                                        58% test coverage, 793+ tests, 33
+                                        58% test coverage, 793+ tests, 32
                                         features
                                       </span>
                                       <InfoTooltip
