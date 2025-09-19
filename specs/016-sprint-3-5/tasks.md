@@ -61,10 +61,10 @@
 ### Storybook Fixes
 
 - [x] T014 [P] Install and configure MSW (Mock Service Worker) for Storybook ✅
-- [ ] T015 Fix ContactForm stories in `/src/components/atomic/ContactForm/ContactForm.stories.tsx` using MSW
+- [x] T015 Fix ContactForm stories in `/src/components/atomic/ContactForm/ContactForm.stories.tsx` using MSW ✅
 - [x] T016 [P] Add ConsentProvider to `.storybook/preview.tsx` as global decorator ✅
-- [ ] T017 Fix GoogleAnalytics stories in `/src/components/privacy/GoogleAnalytics/GoogleAnalytics.stories.tsx`
-- [ ] T018 Verify all Storybook stories render without errors
+- [x] T017 Fix GoogleAnalytics stories in `/src/components/privacy/GoogleAnalytics/GoogleAnalytics.stories.tsx` ✅
+- [x] T018 Verify all Storybook stories render without errors ✅
 
 ### PWA Manifest Generation
 
@@ -98,9 +98,9 @@
 
 ### Configuration Simplification
 
-- [ ] T035 Clean up `/src/config/project-detected.ts` removing webpack workarounds
-- [ ] T036 Migrate complex config to environment variables
-- [ ] T037 Simplify project detection script
+- [x] T035 Clean up `/src/config/project-detected.ts` removing webpack workarounds ✅
+- [x] T036 Migrate complex config to environment variables ✅
+- [x] T037 Simplify project detection script ✅
 
 ### E2E Tests CI Integration
 
@@ -112,10 +112,10 @@
 ## Phase 3.4: Validation & Cleanup
 
 - [x] T042 Run full test suite (`pnpm test`) and fix any failures ✅
-- [ ] T043 Run Lighthouse audit and verify scores >90
+- [x] T043 Run Lighthouse audit and verify scores >90 ✅
 - [x] T044 Update `/docs/TECHNICAL-DEBT.md` marking resolved items ✅
-- [ ] T045 Execute quickstart.md validation steps
-- [ ] T046 Create PR description summarizing all fixes
+- [x] T045 Execute quickstart.md validation steps ✅
+- [x] T046 Create PR description summarizing all fixes ✅
 
 ## Dependencies
 

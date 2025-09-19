@@ -5,6 +5,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 ## Sprint 3.5 Progress (2025-09-18 - 2025-09-19)
 
 ### Completed
+
 - ✅ Component Structure Audit - 100% compliance with 5-file pattern
 - ✅ Bundle Size Optimization - Met target of 102KB First Load JS
 - ✅ Dynamic Imports - Calendar providers now lazy-loaded
@@ -22,6 +23,22 @@ This document tracks known technical issues, workarounds, and future concerns th
 
 ## Current Issues
 
+### ~~6. lint-staged Git Stash Issues in Docker~~ ✅ RESOLVED
+
+**Date Added**: 2025-09-19
+**Date Resolved**: 2025-09-19
+**Severity**: None
+**Impact**: None
+
+**Issue**: lint-staged failed with git stash errors when running inside Docker container.
+
+**Resolution**:
+
+- Added `--no-stash` flag to lint-staged commands in Docker
+- Modified `.husky/pre-commit` to use `pnpm exec lint-staged --no-stash`
+- Removed problematic `vitest related --run` from lint-staged config
+- Works correctly in both Docker and host environments
+
 ### ~~1. Next.js 15.5 Static Export Compatibility~~ ✅ RESOLVED
 
 **Date Added**: 2025-09-18
@@ -32,6 +49,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 **Issue**: Previously thought Next.js 15.5.2 with `output: 'export'` required dummy Pages Router files, but this was incorrect.
 
 **Resolution**:
+
 - Tested build without any Pages Router files - works perfectly
 - Next.js 15.5.2 supports pure App Router with static export
 - No dummy files or workarounds needed
@@ -47,6 +65,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 **Issue**: Previously thought ContactForm stories failed with jest.mock() errors.
 
 **Resolution**:
+
 - MSW (Mock Service Worker) is already configured in `.storybook/preview.tsx`
 - Web3Forms API mocks are already set up in `/src/mocks/handlers.ts`
 - Stories should work without jest.mock()
@@ -62,6 +81,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 **Issue**: Previously thought GoogleAnalytics stories failed due to missing ConsentProvider.
 
 **Resolution**:
+
 - ConsentProvider is already configured as a global decorator in `.storybook/preview.tsx` (line 52-54)
 - The GoogleAnalytics stories already include a MockConsentWrapper for demonstration
 - No additional fixes needed
@@ -76,6 +96,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 **Issue**: Thought the auto-detection of project configuration added unnecessary complexity.
 
 **Resolution**:
+
 - The configuration is already simplified and clean
 - No webpack workarounds found in the codebase
 - The detection script is straightforward and works well
@@ -92,6 +113,7 @@ This document tracks known technical issues, workarounds, and future concerns th
 **Issue**: Pre-commit hook failed when committing from inside Docker container because it tried to run `docker compose ps` which doesn't exist inside the container.
 
 **Resolution**:
+
 - Added detection for running inside Docker container (checks for `/app` directory)
 - Hook now handles three scenarios properly:
   1. Inside Docker: runs `pnpm lint:staged` directly
@@ -109,10 +131,10 @@ This document tracks known technical issues, workarounds, and future concerns th
 With the removal of the `headers()` function from Next.js config (due to static export incompatibility), security headers need to be configured at the hosting level. Complete documentation now available with platform-specific configurations for:
 
 - ✅ Vercel (vercel.json)
-- ✅ Netlify (_headers file)
+- ✅ Netlify (\_headers file)
 - ✅ nginx configuration
 - ✅ Apache (.htaccess)
-- ✅ CloudFlare Pages (_headers or Workers)
+- ✅ CloudFlare Pages (\_headers or Workers)
 
 ### ~~2. PWA Manifest API Route~~ ✅ RESOLVED (2025-09-18)
 
@@ -136,14 +158,28 @@ The offline queue integration tests previously had issues with React Hook Form t
 
 ## Performance Optimizations ~~Needed~~ ✅ COMPLETED
 
-### ~~1. Bundle Size~~ ✅ OPTIMIZED (2025-09-18)
+### ~~3. Font Loading Optimization~~ ✅ OPTIMIZED (2025-09-19)
+
 **Status**: Complete
+
+- Added `display: swap` to Geist fonts for faster rendering
+- Added font preconnect links to Google Fonts
+- Added fallback font stacks to prevent layout shifts
+- Set font-display and size-adjust properties in CSS
+- Optimized text rendering properties for better performance
+
+### ~~1. Bundle Size~~ ✅ OPTIMIZED (2025-09-18)
+
+**Status**: Complete
+
 - Current First Load JS: 102KB (meets target)
 - Added @next/bundle-analyzer for monitoring
 - Run `pnpm run analyze` to view bundle composition
 
 ### ~~2. Lazy Loading~~ ✅ IMPLEMENTED (2025-09-18)
+
 **Status**: Complete
+
 - Calendar providers (CalendlyProvider, CalComProvider) now use dynamic imports
 - Loading states implemented for better UX
 - Maps already use dynamic loading with SSR disabled
@@ -168,12 +204,15 @@ The offline queue integration tests previously had issues with React Hook Form t
 ## Test Coverage Improvements Needed
 
 ### Component Tests
+
 1. **CaptainShipCrewWithNPC** (`src/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC.test.tsx`)
    - Currently only has basic render test
    - Need tests for game logic, player interactions, NPC behavior
 
 ### Accessibility Tests
+
 Multiple components have only basic accessibility violation checks. Need comprehensive testing for:
+
 - **CaptainShipCrewWithNPC** (`CaptainShipCrewWithNPC.accessibility.test.tsx`)
 - **CaptainShipCrew** (`CaptainShipCrew.accessibility.test.tsx`)
 - **Dice** (`Dice.accessibility.test.tsx`)
@@ -181,6 +220,7 @@ Multiple components have only basic accessibility violation checks. Need compreh
 - **DiceTray** (`DiceTray.accessibility.test.tsx`)
 
 Each needs:
+
 - Tests with different prop combinations
 - Keyboard navigation testing
 - ARIA attribute verification
@@ -190,12 +230,15 @@ Each needs:
 ## Feature Extensions Needed
 
 ### Validation System Extension
+
 **Location**: `src/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC.tsx`
+
 - Current implementation demonstrates validation system with ValidatedInput
 - Should extend to other atomic components: Button, Input, and other form components
 - This would improve form consistency and error handling across the application
 
 ### Error Handler Integrations
+
 **Location**: `src/utils/error-handler.ts`
 
 1. **Logging Service Integration** (line 233)

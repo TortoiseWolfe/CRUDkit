@@ -15,11 +15,34 @@ import { projectConfig, getAssetUrl } from '@/config/project.config';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  fallback: [
+    'system-ui',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+  ],
 });
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  fallback: [
+    '"SF Mono"',
+    'Monaco',
+    '"Inconsolata"',
+    '"Fira Mono"',
+    '"Droid Sans Mono"',
+    '"Source Code Pro"',
+    'monospace',
+  ],
 });
 
 export const viewport: Viewport = {
@@ -75,6 +98,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -8,10 +8,29 @@
     lemonade, night, coffee, winter, dim, nord, sunset;
 }
 
+/* Font Loading Optimization */
+@font-face {
+  font-family: 'Geist';
+  font-display: swap;
+  size-adjust: 100%;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-display: swap;
+  size-adjust: 100%;
+}
+
 /* Accessibility Font Scaling System */
 :root {
   /* Base scale factor - controlled by accessibility settings */
   --font-scale-factor: 1;
+
+  /* Font loading optimization to reduce CLS */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   /* Scaled text sizes */
   --text-xs: calc(0.75rem * var(--font-scale-factor));

@@ -5,13 +5,13 @@ rm -rf .next/* .next/.* 2>/dev/null || true
 
 # Detect if we're running inside the Docker container
 if [ -d "/app" ] && [ "$PWD" = "/app" ]; then
-  # We're inside the Docker container, run directly
+  # We're inside the Docker container, run directly with --no-stash
   echo "📦 Running lint-staged inside Docker container..."
-  pnpm lint:staged
+  pnpm exec lint-staged --no-stash
 elif command -v docker >/dev/null 2>&1 && docker compose ps 2>/dev/null | grep -q crudkit; then
   # We're on the host and Docker is running
   echo "🐳 Running lint-staged via Docker..."
-  docker compose exec -T crudkit pnpm lint:staged
+  docker compose exec -T crudkit pnpm exec lint-staged --no-stash
 else
   # We're on the host without Docker or Docker isn't running
   echo "💻 Running lint-staged locally..."
