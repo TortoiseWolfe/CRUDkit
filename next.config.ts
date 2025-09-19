@@ -33,9 +33,6 @@ function detectProjectConfig() {
 
 const basePath = detectProjectConfig();
 
-// Security headers removed - not compatible with static export
-// See docs/deployment/security-headers.md for hosting-level configuration
-
 const nextConfig: NextConfig = {
   output: 'export',
   basePath: basePath,
@@ -44,8 +41,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Headers don't work with static export, removed to fix build
-  // Security headers should be set at the hosting level (nginx, Apache, etc.)
 };
 
 export default nextConfig;
