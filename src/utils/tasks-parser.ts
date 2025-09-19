@@ -68,7 +68,7 @@ export async function parseTasksFile(): Promise<TaskProgress> {
     // For completed sprints (Sprint 1 & 2), use hardcoded values since they're archived
     // Sprint 1 - Completed
     sprints.push({
-      name: 'Sprint 1: Core Implementation',
+      name: 'Sprint 1: Core',
       completedTasks: 95,
       totalTasks: 96,
       percentage: 99,
