@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { parseTasksFile, TaskProgress } from '@/utils/tasks-parser';
+import { TaskProgress } from '@/utils/tasks-parser';
 import CaptainShipCrewWithNPC from '@/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC';
 import projectConfig from '@/config/project-status.json';
 
