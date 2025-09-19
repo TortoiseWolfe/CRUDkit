@@ -53,6 +53,13 @@ jobs:
           NEXT_PUBLIC_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
           NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
 
+      - name: Debug - Check build output
+        run: |
+          echo "=== Build output structure ==="
+          ls -la out/
+          echo "=== Checking index.html ==="
+          head -20 out/index.html
+
       - name: Start server
         run: |
           # Serve static files from out directory at root
@@ -62,14 +69,24 @@ jobs:
         env:
           CI: true
 
+      - name: Debug - Check served content
+        run: |
+          echo "=== Checking homepage ==="
+          curl -s http://localhost:3000 | grep -o '<title>[^<]*</title>' || echo "No title found"
+          echo "=== Checking for progress badge ==="
+          curl -s http://localhost:3000 | grep -o 'badge.*badge-success' || echo "No progress badge found"
+          echo "=== Checking for CRUDkit text ==="
+          curl -s http://localhost:3000 | grep -o 'CRUDkit' | head -5 || echo "No CRUDkit text found"
+
       - name: Run E2E tests - ${{ matrix.browser }}
-        run: pnpm test:e2e --project=${{ matrix.browser }}
+        run: pnpm test:e2e --project=${{ matrix.browser }} --reporter=list --trace=on-first-retry
         env:
           CI: true
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
           SKIP_WEBSERVER: true
           # Tests expect app at root, not with base path
           BASE_URL: http://localhost:3000
+          DEBUG: pw:api
 
       - name: Upload test results
         if: always()
