@@ -1,6 +1,40 @@
  
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+
+// Mock next/dynamic first to prevent async loading
+vi.mock('next/dynamic', () => ({
+  default: (loader: () => Promise<{ default: React.ComponentType }>) => {
+    // Return the component directly without dynamic loading
+    const componentName = loader.toString();
+
+    if (componentName.includes('CalendlyProvider')) {
+      const CalendlyMock = ({ mode, url }: { mode: string; url: string }) => (
+        <div data-testid="calendly-provider">
+          Calendly Provider - Mode: {mode} - URL: {url}
+        </div>
+      );
+      CalendlyMock.displayName = 'CalendlyMock';
+      return CalendlyMock;
+    }
+
+    if (componentName.includes('CalComProvider')) {
+      const CalComMock = ({ mode, calLink }: { mode: string; calLink: string }) => (
+        <div data-testid="calcom-provider">
+          Cal.com Provider - Mode: {mode} - URL: {calLink}
+        </div>
+      );
+      CalComMock.displayName = 'CalComMock';
+      return CalComMock;
+    }
+
+    const DefaultMock = () => <div>Mock Dynamic Component</div>;
+    DefaultMock.displayName = 'DefaultMock';
+    return DefaultMock;
+  },
+}));
+
+// Import CalendarEmbed after mocking dynamic
 import CalendarEmbed from './CalendarEmbed';
 
 // Mock the consent context
@@ -12,23 +46,6 @@ vi.mock('@/contexts/ConsentContext', () => ({
     consent: mockConsent,
     updateConsent: mockUpdateConsent,
   }),
-}));
-
-// Mock the providers
-vi.mock('../../calendar/providers/CalendlyProvider', () => ({
-  CalendlyProvider: ({ mode, url }: { mode: string; url: string }) => (
-    <div data-testid="calendly-provider">
-      Calendly Provider - Mode: {mode} - URL: {url}
-    </div>
-  ),
-}));
-
-vi.mock('../../calendar/providers/CalComProvider', () => ({
-  CalComProvider: ({ mode, calLink }: { mode: string; calLink: string }) => (
-    <div data-testid="calcom-provider">
-      Cal.com Provider - Mode: {mode} - URL: {calLink}
-    </div>
-  ),
 }));
 
 // Mock calendar consent component
