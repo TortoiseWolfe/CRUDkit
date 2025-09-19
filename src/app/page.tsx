@@ -85,7 +85,7 @@ export default function Home() {
             {/* Content on the right - with proper padding */}
             <div className="max-w-4xl px-4 text-center sm:px-6 lg:px-0 lg:text-left">
               {/* Main Title with Animation */}
-              <h1 className="from-primary to-secondary mb-3 bg-gradient-to-r bg-clip-text text-transparent sm:mb-6">
+              <h1 className="mb-3 sm:mb-6">
                 <AnimatedLogo
                   text="CRUDkit"
                   size="lg"
@@ -96,7 +96,7 @@ export default function Home() {
 
               {/* Subtitle - better line breaks on mobile */}
               <p className="text-base-content/87 mb-4 text-base sm:mb-6 sm:text-xl md:text-2xl">
-                Modern Next.js Starter
+                Opinionated Next.js Template
                 <span className="hidden sm:inline">
                   {' '}
                   with Everything Built-In

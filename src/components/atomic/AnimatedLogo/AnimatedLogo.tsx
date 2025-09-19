@@ -36,7 +36,7 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({
 
   return (
     <span
-      className={`${styles.animatedLogo} ${sizeClasses[size]} ${className} inline-flex cursor-pointer font-bold`}
+      className={`${styles.animatedLogo} ${sizeClasses[size]} ${className} text-primary inline-flex cursor-pointer font-bold`}
     >
       {letters.map((letter, index) => (
         <span

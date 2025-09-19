@@ -1,4 +1,3 @@
- 
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -36,13 +35,10 @@ describe('CookieConsent Accessibility', () => {
 
     // Tab through interactive elements
     await user.tab();
-    const acceptButton = screen.getByRole('button', { name: /accept all/i });
+    const acceptButton = screen.getByRole('button', { name: /accept/i });
     expect(acceptButton).toHaveFocus();
 
-    await user.tab();
-    const rejectButton = screen.getByRole('button', { name: /reject all/i });
-    expect(rejectButton).toHaveFocus();
-
+    // Reject All button removed in compact design - skip to Settings
     await user.tab();
     const customizeButton = screen.getByRole('button', { name: /customize/i });
     expect(customizeButton).toHaveFocus();
@@ -51,12 +47,8 @@ describe('CookieConsent Accessibility', () => {
   it('should have accessible button labels', () => {
     renderComponent();
 
-    expect(
-      screen.getByRole('button', { name: /accept all/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /reject all/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /accept/i })).toBeInTheDocument();
+    // Reject All button removed in compact design
     expect(
       screen.getByRole('button', { name: /customize/i })
     ).toBeInTheDocument();

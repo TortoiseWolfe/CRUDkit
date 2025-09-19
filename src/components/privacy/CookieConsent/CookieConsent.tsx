@@ -58,79 +58,46 @@ export function CookieConsent({
       role="region"
       aria-label="Cookie consent banner"
       aria-live="polite"
-      className={`fixed right-0 left-0 ${positionClasses} bg-base-100 border-base-300 z-50 translate-y-0 transform border-t shadow-lg transition-transform duration-500 ${className} `}
+      className={`fixed right-0 left-0 ${positionClasses} bg-base-100/95 border-base-300 z-40 translate-y-0 transform border-t shadow-md backdrop-blur-sm transition-transform duration-500 ${className} `}
     >
-      <div className="container mx-auto px-4 py-4 md:py-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          {/* Message Section */}
+      <div className="container mx-auto px-4 py-2">
+        <div className="flex items-center justify-between gap-4">
+          {/* Message Section - Compact */}
           <div className="flex-1">
             {customContent || (
-              <div className="space-y-2">
-                <p className="text-sm font-medium md:text-base">
-                  We use cookies to enhance your experience
-                </p>
-                <p className="text-base-content/70 text-xs md:text-sm">
-                  We use cookies and similar technologies to help personalize
-                  content, tailor and measure ads, and provide a better
-                  experience. By clicking accept, you agree to this use.
-                  {(privacyPolicyUrl || cookiePolicyUrl) && (
-                    <span className="mt-1 block">
-                      Learn more in our{' '}
-                      {privacyPolicyUrl && (
-                        <>
-                          <a
-                            href={privacyPolicyUrl}
-                            className="link link-primary"
-                            aria-label="Privacy Policy"
-                          >
-                            Privacy Policy
-                          </a>
-                          {cookiePolicyUrl && ' and '}
-                        </>
-                      )}
-                      {cookiePolicyUrl && (
-                        <a
-                          href={cookiePolicyUrl}
-                          className="link link-primary"
-                          aria-label="Cookie Policy"
-                        >
-                          Cookie Policy
-                        </a>
-                      )}
-                      .
-                    </span>
-                  )}
-                </p>
-              </div>
+              <p className="text-xs sm:text-sm">
+                We use cookies to enhance your experience.
+                {privacyPolicyUrl && (
+                  <>
+                    {' '}
+                    <a
+                      href={privacyPolicyUrl}
+                      className="link link-primary text-xs"
+                      aria-label="Privacy Policy"
+                    >
+                      Learn more
+                    </a>
+                  </>
+                )}
+              </p>
             )}
           </div>
 
-          {/* Actions Section */}
-          <div
-            className="flex flex-col gap-2 sm:flex-row sm:gap-3"
-            role="group"
-            aria-label="Consent actions"
-          >
+          {/* Actions Section - Compact */}
+          <div className="flex gap-2" role="group" aria-label="Consent actions">
             <button
               onClick={handleAcceptAll}
-              className="btn btn-primary btn-sm md:btn-md"
+              className="btn btn-primary btn-xs sm:btn-sm"
               aria-label="Accept all cookies"
             >
-              Accept All
-            </button>
-            <button
-              onClick={handleRejectAll}
-              className="btn btn-ghost btn-sm md:btn-md"
-              aria-label="Reject all optional cookies"
-            >
-              Reject All
+              Accept
             </button>
             <button
               onClick={handleCustomize}
-              className="btn btn-outline btn-sm md:btn-md"
+              className="btn btn-ghost btn-xs sm:btn-sm"
               aria-label="Customize cookie preferences"
             >
-              Customize
+              Settings
             </button>
           </div>
         </div>

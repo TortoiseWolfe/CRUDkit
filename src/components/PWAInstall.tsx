@@ -204,10 +204,10 @@ export default function PWAInstall() {
   // Minimized CTA button
   if (isMinimized && !isInstalled) {
     return (
-      <div className="fixed right-4 bottom-4 z-50">
+      <div className="fixed top-4 left-4 z-50">
         <button
           onClick={handleExpand}
-          className="btn btn-circle btn-primary btn-lg transform shadow-lg transition-all hover:scale-110 hover:shadow-xl"
+          className="btn btn-circle btn-info btn-sm shadow-lg transition-all hover:scale-110"
           aria-label="Install CRUDkit App"
           title="Install CRUDkit App"
         >
@@ -229,76 +229,48 @@ export default function PWAInstall() {
     );
   }
 
-  // Full alert UI
+  // Compact pill UI
   return (
-    <div className="fixed right-4 bottom-4 left-4 z-50 md:right-4 md:left-auto md:w-auto md:max-w-lg">
-      <div className="alert alert-info text-base shadow-lg">
+    <div className="animate-fade-in fixed top-4 left-4 z-50">
+      <div className="bg-base-100/95 border-base-300 flex items-center gap-2 rounded-full border px-3 py-2 shadow-lg backdrop-blur-sm">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          className="shrink-0 stroke-current"
-          style={{ width: '1.5em', height: '1.5em' }}
+          className="stroke-info h-5 w-5"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            d="M13 10V3L4 14h7v7l9-11h-7z"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
           />
         </svg>
-        <div className="flex-1">
-          <div className="text-base font-bold">
-            Install CRUDkit App {isDebugMode && '(Debug Mode)'}
-          </div>
-          <p className="text-sm">
-            {isDebugMode
-              ? 'Debug mode active - Install prompt forced to show'
-              : 'Install for offline access and app-like experience!'}
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <div className="dropdown dropdown-top dropdown-end">
-            <label tabIndex={0} className="btn btn-sm btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-4 w-4 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                />
-              </svg>
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box mb-2 w-52 p-2 shadow"
-            >
-              <li>
-                <a onClick={handleMinimize}>Minimize</a>
-              </li>
-              <li>
-                <a onClick={handleHideForever}>Don&apos;t show again</a>
-              </li>
-            </ul>
-          </div>
-          <button
-            onClick={handleMinimize}
-            className="btn btn-sm btn-ghost text-sm"
+        <span className="hidden text-sm font-medium sm:inline">
+          Install App
+        </span>
+        <button onClick={handleInstallClick} className="btn btn-info btn-xs">
+          Install
+        </button>
+        <button
+          onClick={handleMinimize}
+          className="btn btn-ghost btn-circle btn-xs"
+          aria-label="Minimize"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="h-3 w-3 stroke-current"
           >
-            Later
-          </button>
-          <button
-            onClick={handleInstallClick}
-            className="btn btn-sm btn-primary text-sm"
-          >
-            Install
-          </button>
-        </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   );
