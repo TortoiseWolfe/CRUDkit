@@ -22,9 +22,9 @@ export interface SpinningLogoProps {
 }
 
 const speedMap = {
-  slow: 3,
-  normal: 1.5,
-  fast: 0.75,
+  slow: 30,
+  normal: 20,
+  fast: 10,
 };
 
 const sizeMap = {
@@ -36,7 +36,7 @@ const sizeMap = {
 
 export const SpinningLogo: React.FC<SpinningLogoProps> = ({
   children,
-  speed = 'normal',
+  speed = 'slow',
   size = 'md',
   pauseOnHover = false,
   direction = 'clockwise',
@@ -55,7 +55,7 @@ export const SpinningLogo: React.FC<SpinningLogoProps> = ({
 
   const classes = [
     'inline-flex items-center justify-center',
-    pauseOnHover && 'hover:[animation-play-state:paused]',
+    pauseOnHover && 'pause-on-hover',
     className,
   ]
     .filter(Boolean)

@@ -131,6 +131,11 @@ p:not([class*='text-']) {
   }
 }
 
+/* Pause animation on hover */
+.pause-on-hover:hover {
+  animation-play-state: paused !important;
+}
+
 /* Leaflet Map Styles */
 /* Note: Leaflet CSS is imported in map components that use it */
 

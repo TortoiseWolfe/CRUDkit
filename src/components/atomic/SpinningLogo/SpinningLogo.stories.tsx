@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { SpinningLogo } from './SpinningLogo';
+import { ScriptHammerLogo } from './ScriptHammerLogo';
+import { LayeredScriptHammerLogo } from './LayeredScriptHammerLogo';
 
 const meta = {
   title: 'Atomic/SpinningLogo',
@@ -40,7 +42,79 @@ const ReactLogo = () => (
   </svg>
 );
 
+// Layered ScriptHammer Logo as the primary/default story
 export const Default: Story = {
+  args: {
+    children: null,
+  },
+  render: () => (
+    <LayeredScriptHammerLogo size={250} speed="slow" pauseOnHover={true} />
+  ),
+};
+
+// Original simple ScriptHammer Logo
+export const SimpleScriptHammer: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 250,
+    pauseOnHover: true,
+  },
+};
+
+export const LayeredScriptHammerLarge: Story = {
+  args: {
+    children: null,
+  },
+  render: () => (
+    <LayeredScriptHammerLogo size={350} speed="slow" pauseOnHover={true} />
+  ),
+};
+
+export const ScriptHammerLarge: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 350,
+    pauseOnHover: true,
+  },
+};
+
+export const ScriptHammerFast: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 250,
+    speed: 'fast',
+    pauseOnHover: true,
+  },
+};
+
+export const ScriptHammerVerySlow: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 250,
+    speed: 60, // 60 second rotation - ultra smooth
+    pauseOnHover: true,
+  },
+};
+
+export const ScriptHammerStatic: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 250,
+    isSpinning: false,
+  },
+};
+
+export const ScriptHammerCounterClockwise: Story = {
+  args: {
+    children: <ScriptHammerLogo />,
+    size: 250,
+    direction: 'counter-clockwise',
+    pauseOnHover: true,
+  },
+};
+
+// Original React Logo stories
+export const ReactLogoDefault: Story = {
   args: {
     children: <ReactLogo />,
   },

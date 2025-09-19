@@ -48,7 +48,7 @@ describe('SpinningLogo', () => {
     );
     let container = screen.getByTestId('spinning-logo');
     expect(container).toHaveStyle({
-      animation: 'spin-clockwise 3s linear infinite',
+      animation: 'spin-clockwise 30s linear infinite',
     });
 
     rerender(
@@ -58,7 +58,7 @@ describe('SpinningLogo', () => {
     );
     container = screen.getByTestId('spinning-logo');
     expect(container).toHaveStyle({
-      animation: 'spin-clockwise 0.75s linear infinite',
+      animation: 'spin-clockwise 10s linear infinite',
     });
   });
 
@@ -82,7 +82,7 @@ describe('SpinningLogo', () => {
     );
     let container = screen.getByTestId('spinning-logo');
     expect(container).toHaveStyle({
-      animation: 'spin-clockwise 1.5s linear infinite',
+      animation: 'spin-clockwise 30s linear infinite',
     });
 
     rerender(
@@ -92,7 +92,7 @@ describe('SpinningLogo', () => {
     );
     container = screen.getByTestId('spinning-logo');
     expect(container).toHaveStyle({
-      animation: 'spin-counter-clockwise 1.5s linear infinite',
+      animation: 'spin-counter-clockwise 30s linear infinite',
     });
   });
 
@@ -113,7 +113,7 @@ describe('SpinningLogo', () => {
       </SpinningLogo>
     );
     const container = screen.getByTestId('spinning-logo');
-    expect(container).toHaveClass('hover:[animation-play-state:paused]');
+    expect(container).toHaveClass('pause-on-hover');
   });
 
   it('applies custom className', () => {
