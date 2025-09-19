@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { SpinningLogo } from './SpinningLogo';
+import { detectedConfig } from '@/config/project-detected';
 
 export interface LayeredScriptHammerLogoProps {
   className?: string;
@@ -26,7 +27,7 @@ export const LayeredScriptHammerLogo: React.FC<
       {/* Rotating gear ring with hammer (hammer will be hidden by static layers) */}
       <SpinningLogo size={size} speed={speed} pauseOnHover={pauseOnHover}>
         <Image
-          src="/scripthammer-logo.svg"
+          src={`${detectedConfig.basePath}/scripthammer-logo.svg`}
           alt="Gear Ring"
           width={400}
           height={400}
@@ -39,7 +40,7 @@ export const LayeredScriptHammerLogo: React.FC<
       {/* Static script tags in center - covers rotating hammer */}
       <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
         <Image
-          src="/script-tags.svg"
+          src={`${detectedConfig.basePath}/script-tags.svg`}
           alt="Script Tags"
           width={size * 0.4}
           height={size * 0.4}
@@ -51,7 +52,7 @@ export const LayeredScriptHammerLogo: React.FC<
       {/* Static printing mallet layer - nudged up and right */}
       <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
         <Image
-          src="/printing-mallet.svg"
+          src={`${detectedConfig.basePath}/printing-mallet.svg`}
           alt="Printing Mallet"
           width={size * 0.45}
           height={size * 0.45}
