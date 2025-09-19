@@ -11,6 +11,11 @@ import { ConsentModal } from '@/components/privacy/ConsentModal';
 import GoogleAnalytics from '@/components/atomic/GoogleAnalytics';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { projectConfig, getAssetUrl } from '@/config/project.config';
+import {
+  generateMetadata,
+  generateJsonLd,
+  JsonLdScript,
+} from '@/utils/metadata';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -55,9 +60,14 @@ export const viewport: Viewport = {
   ],
 };
 
+// Generate comprehensive metadata using the utility function
 export const metadata: Metadata = {
-  title: projectConfig.projectName,
-  description: `${projectConfig.projectDescription}`,
+  ...generateMetadata({
+    title: projectConfig.projectName,
+    description: projectConfig.projectDescription,
+    path: '/',
+    tags: ['Next.js', 'React', 'TypeScript', 'PWA', 'DaisyUI', 'TailwindCSS'],
+  }),
   manifest: projectConfig.manifestPath,
   icons: {
     icon: getAssetUrl('/favicon.svg'),
@@ -67,20 +77,6 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'default',
     title: projectConfig.projectName,
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  openGraph: {
-    type: 'website',
-    siteName: projectConfig.projectName,
-    title: `${projectConfig.projectName} - Modern Web Starter`,
-    description: projectConfig.projectDescription,
-  },
-  twitter: {
-    card: 'summary',
-    title: `${projectConfig.projectName} - Modern Web Starter`,
-    description: projectConfig.projectDescription,
   },
   other: {
     'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -108,6 +104,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <JsonLdScript data={generateJsonLd()} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
