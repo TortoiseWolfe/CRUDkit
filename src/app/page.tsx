@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { TaskProgress } from '@/utils/tasks-parser';
 import CaptainShipCrewWithNPC from '@/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC';
-import { LayeredScriptHammerLogo } from '@/components/atomic/SpinningLogo/LayeredScriptHammerLogo';
+import { LayeredScriptHammerLogo } from '@/components/atomic/SpinningLogo';
 import projectConfig from '@/config/project-status.json';
 
 export default function Home() {
