@@ -1,9 +1,24 @@
 export default function ThemeScript() {
   const themeScript = `
     (function() {
+      function getSystemTheme() {
+        // Check if user prefers dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark'; // You can change this to 'dracula', 'night', etc.
+        }
+        return 'light'; // You can change this to 'corporate', 'cupcake', etc.
+      }
+
       function applyTheme() {
         try {
-          const theme = localStorage.getItem('theme') || 'light';
+          // First check if user has manually selected a theme
+          let theme = localStorage.getItem('theme');
+
+          // If no saved theme, use system preference
+          if (!theme) {
+            theme = getSystemTheme();
+          }
+
           document.documentElement.setAttribute('data-theme', theme);
           // Also set on body as backup
           if (document.body) {
@@ -11,7 +26,7 @@ export default function ThemeScript() {
           }
         } catch (e) {
           // Fallback if localStorage is not available
-          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.setAttribute('data-theme', getSystemTheme());
         }
       }
       
@@ -46,6 +61,16 @@ export default function ThemeScript() {
           }
         });
         observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
+
+      // Listen for system theme changes
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          // Only apply system theme if user hasn't manually selected a theme
+          if (!localStorage.getItem('theme')) {
+            applyTheme();
+          }
+        });
       }
     })();
   `;
