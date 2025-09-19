@@ -74,21 +74,30 @@ export default function Home() {
       >
         <div className="hero-content py-6 sm:py-12 md:py-16 lg:py-20">
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
-            {/* Logo on the left */}
-            <div className="flex-shrink-0 p-8">
-              <LayeredScriptHammerLogo size={350} speed="slow" pauseOnHover />
+            {/* Logo on the left - responsive sizing */}
+            <div className="flex-shrink-0 p-4 sm:p-6 md:p-8">
+              <div className="h-48 w-48 sm:h-64 sm:w-64 md:h-80 md:w-80 lg:h-[350px] lg:w-[350px]">
+                <LayeredScriptHammerLogo size={350} speed="slow" pauseOnHover />
+              </div>
             </div>
 
-            {/* Content on the right */}
-            <div className="max-w-4xl text-center lg:text-left">
+            {/* Content on the right - with proper padding */}
+            <div className="max-w-4xl px-4 text-center sm:px-6 lg:px-0 lg:text-left">
               {/* Main Title */}
-              <h1 className="from-primary to-secondary mb-3 bg-gradient-to-r bg-clip-text text-3xl font-bold text-transparent sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="from-primary to-secondary mb-3 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent sm:mb-6 sm:text-5xl md:text-6xl lg:text-7xl">
                 CRUDkit
               </h1>
 
-              {/* Subtitle */}
+              {/* Subtitle - better line breaks on mobile */}
               <p className="text-base-content/87 mb-4 text-base sm:mb-6 sm:text-xl md:text-2xl">
-                Modern Next.js Starter with Everything Built-In
+                Modern Next.js Starter
+                <span className="hidden sm:inline">
+                  {' '}
+                  with Everything Built-In
+                </span>
+                <span className="block sm:hidden">
+                  with Everything Built-In
+                </span>
               </p>
 
               {/* Tech Stack */}
@@ -368,19 +377,24 @@ export default function Home() {
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-base-content/60 mx-auto max-w-full px-2 text-sm sm:max-w-2xl sm:px-0">
-              🎯 Tournament Mode • 🤖 3 AI Opponents • 🏆 First to 50 Points
-              Wins
+            <p className="text-base-content/60 mx-auto max-w-full px-4 text-xs sm:max-w-2xl sm:px-0 sm:text-sm">
+              <span className="block sm:inline">🎯 Tournament Mode</span>
+              <span className="hidden sm:inline"> • </span>
+              <span className="block sm:inline">🤖 3 AI Opponents</span>
+              <span className="hidden sm:inline"> • </span>
+              <span className="block sm:inline">
+                🏆 First to 50 Points Wins
+              </span>
             </p>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section - responsive padding */}
       {taskProgress && (
         <section
           aria-label="Project statistics"
-          className="bg-base-200/50 px-4 py-20"
+          className="bg-base-200/50 px-4 py-12 sm:py-16 md:py-20"
         >
           <div className="container mx-auto">
             <h2 className="mb-4 text-center text-3xl font-bold">
@@ -389,7 +403,7 @@ export default function Home() {
             <p className="text-base-content/70 mx-auto mb-8 max-w-2xl text-center">
               Built with Product Requirements Prompts (PRPs)
               <br />
-              <span className="text-sm">
+              <span className="block px-4 text-xs sm:px-0 sm:text-sm">
                 Fork this project to get a production-ready Next.js 15.5 starter
                 with <strong>32 features</strong>, <strong>793+ tests</strong>,
                 and <strong>Sprint 3.5 technical debt eliminated</strong>!
@@ -543,7 +557,7 @@ export default function Home() {
                             <p className="mb-2 text-sm font-semibold">
                               1. Fork this repo & setup Docker:
                             </p>
-                            <code className="bg-base-300 block rounded p-2 font-mono text-xs">
+                            <code className="bg-base-300 block overflow-x-auto rounded p-2 font-mono text-xs">
                               # In your terminal with Claude Code:
                               <br />
                               cd docs/spec-kit
@@ -594,7 +608,7 @@ export default function Home() {
                             <p className="mb-2 text-sm font-semibold">
                               2. Initialize YOUR project (or keep CRUDkit):
                             </p>
-                            <code className="bg-base-300 block rounded p-2 font-mono text-xs">
+                            <code className="bg-base-300 block overflow-x-auto rounded p-2 font-mono text-xs">
                               # Inside Docker container:
                               <br />
                               specify init YOUR_PROJECT --here

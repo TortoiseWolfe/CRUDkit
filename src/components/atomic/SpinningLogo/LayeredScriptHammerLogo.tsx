@@ -19,8 +19,11 @@ export const LayeredScriptHammerLogo: React.FC<
     <div
       className={`relative ${className}`}
       style={{
-        width: size,
-        height: size,
+        width: '100%',
+        maxWidth: size,
+        height: '100%',
+        maxHeight: size,
+        aspectRatio: '1 / 1',
         filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.4))',
       }}
     >
