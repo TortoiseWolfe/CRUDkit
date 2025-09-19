@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.5] - 2025-09-19
+
+### Added
+
+- **Sprint 3.5: Technical Debt Elimination** - Complete overhaul of accumulated technical debt
+  - Fixed Next.js 15.5 build issues (no dummy Pages Router files needed)
+  - Resolved Husky pre-commit Docker detection
+  - Fixed lint-staged git stash issues with --no-stash flag
+  - Optimized font loading for CLS reduction (display:swap, preconnect)
+  - Documented 13 remaining TODOs with categorization
+  - 46 technical debt tasks completed in 2 days
+
+- **PRP-014: Geolocation Map** (2025-09-18)
+  - Leaflet.js integration with OpenStreetMap tiles
+  - GDPR-compliant location consent modal
+  - Dynamic map loading with SSR disabled
+  - IP-based fallback for desktop browsers
+
+- **PRP-013: Calendar Integration** (2025-09-17)
+  - Calendly and Cal.com embedding support
+  - GDPR-compliant consent for third-party services
+  - Dynamic calendar provider selection
+  - Accessible scheduling interface
+
+### Changed
+
+- Updated package.json version from 0.3.0 to 0.3.5
+- Status dashboard now shows PRP methodology progress instead of S3T tasks
+- Deployment history uses ISO date format (YYYY-MM-DD)
+- Removed keyword filter from deployment history display
+
+### Fixed
+
+- Status page showing incorrect Sprint 3 progress (was 0/129, now 12/14 PRPs)
+- Feature count corrected from 33 to 32
+- Recent deployments section now properly populated
+- All Storybook stories now 100% functional
+- 793 tests passing with stable build
+
 ## [0.3.0] - 2025-09-16
 
 ### Added
