@@ -1,6 +1,5 @@
 import type { NextConfig } from 'next';
 import { execSync } from 'child_process';
-import withBundleAnalyzer from '@next/bundle-analyzer';
 
 // Run project detection at build time
 function detectProjectConfig() {
@@ -38,9 +37,15 @@ const nextConfig: NextConfig = {
   // Security headers should be set at the hosting level (nginx, Apache, etc.)
 };
 
-// Configure bundle analyzer
-const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
+// Configure bundle analyzer conditionally
+const configureAnalyzer = () => {
+  if (process.env.ANALYZE === 'true') {
+    const withBundleAnalyzer = require('@next/bundle-analyzer')({
+      enabled: true,
+    });
+    return withBundleAnalyzer(nextConfig);
+  }
+  return nextConfig;
+};
 
-export default bundleAnalyzer(nextConfig);
+export default configureAnalyzer();
