@@ -47,6 +47,8 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
+          # Don't use GitHub base path for E2E tests - build for local testing
+          GITHUB_ACTIONS: false
           NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
           NEXT_PUBLIC_EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
           NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
