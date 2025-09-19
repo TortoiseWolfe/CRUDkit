@@ -37,15 +37,4 @@ const nextConfig: NextConfig = {
   // Security headers should be set at the hosting level (nginx, Apache, etc.)
 };
 
-// Configure bundle analyzer conditionally
-const configureAnalyzer = () => {
-  if (process.env.ANALYZE === 'true') {
-    const withBundleAnalyzer = require('@next/bundle-analyzer')({
-      enabled: true,
-    });
-    return withBundleAnalyzer(nextConfig);
-  }
-  return nextConfig;
-};
-
-export default configureAnalyzer();
+export default nextConfig;
