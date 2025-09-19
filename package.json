@@ -1,6 +1,6 @@
 {
   "name": "crudkit",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "description": "CRUDkit - Modern Next.js starter with PWA, theming, and interactive components",
   "packageManager": "pnpm@10.16.1",
   "keywords": [
