@@ -15,16 +15,20 @@ function detectProjectConfig() {
     return process.env.NEXT_PUBLIC_BASE_PATH;
   }
 
-  // In GitHub Actions, use the repository name for base path
-  // Otherwise, use no base path for local development
-  const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
-  if (isGithubActions) {
-    // Try to get repo name from GitHub environment
-    const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
-    return repoName ? `/${repoName}` : '';
+  // Read the auto-detected configuration using require
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const fs = require('fs');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const path = require('path');
+    const configPath = path.join(__dirname, 'src', 'config', 'project-detected.json');
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    return config.basePath || '';
+  } catch {
+    // Final fallback if detection completely fails
+    console.warn('Could not read detected config, using empty base path');
+    return '';
   }
-
-  return '';
 }
 
 const basePath = detectProjectConfig();
