@@ -53,7 +53,7 @@ jobs:
 
       - name: Start server
         run: |
-          # Serve static files with base path for GitHub Pages
+          # Serve static files from out directory at root
           npx serve -s out -l 3000 --single &
           sleep 5
           npx wait-on http://localhost:3000 --timeout 60000
@@ -66,8 +66,8 @@ jobs:
           CI: true
           PLAYWRIGHT_BROWSER: ${{ matrix.browser }}
           SKIP_WEBSERVER: true
-          # Use localhost for CI but with the dynamic base path for GitHub Pages
-          BASE_URL: http://localhost:3000/${{ steps.repo.outputs.name }}
+          # Tests expect app at root, not with base path
+          BASE_URL: http://localhost:3000
 
       - name: Upload test results
         if: always()
