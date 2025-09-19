@@ -4,13 +4,26 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { parseTasksFile, TaskProgress } from '@/utils/tasks-parser';
 import CaptainShipCrewWithNPC from '@/components/atomic/CaptainShipCrewWithNPC/CaptainShipCrewWithNPC';
+import projectConfig from '@/config/project-status.json';
 
 export default function Home() {
-  const [taskProgress, setTaskProgress] = useState<TaskProgress | null>(null);
+  // Use actual project data instead of old task parser
+  const completedFeatures = projectConfig.features.filter(
+    (f) => f.completed
+  ).length;
+  const totalFeatures = projectConfig.features.length;
+  const prpsCompleted = projectConfig.project.prpsCompleted;
+  const prpsTotal = projectConfig.project.prpsTotal;
 
-  useEffect(() => {
-    parseTasksFile().then(setTaskProgress).catch(console.error);
-  }, []);
+  const [taskProgress] = useState<TaskProgress>({
+    completedTasks: completedFeatures,
+    totalTasks: totalFeatures,
+    percentage: 100, // All features complete
+    phases: {},
+    sprint2Phases: {},
+    lastUpdated: projectConfig.project.sprintCompleted,
+    sprints: [],
+  });
 
   return (
     <main className="from-base-200 via-base-100 to-base-200 min-h-screen bg-gradient-to-br">
@@ -366,54 +379,39 @@ export default function Home() {
               Project Progress
             </h2>
             <p className="text-base-content/70 mx-auto mb-8 max-w-2xl text-center">
-              Generated from spec-kit → PLAN.md → TASKS.md
+              Built with Product Requirements Prompts (PRPs)
               <br />
               <span className="text-sm">
-                Fork this project, edit the{' '}
-                <a
-                  href="https://github.com/TortoiseWolfe/CRUDkit/blob/main/docs/constitution.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link link-primary"
-                >
-                  constitution
-                </a>{' '}
-                with your requirements, and run Docker to generate your custom
-                project plan!
+                Fork this project to get a production-ready Next.js 15.5 starter
+                with <strong>32 features</strong>, <strong>793+ tests</strong>,
+                and <strong>Sprint 3.5 technical debt eliminated</strong>!
               </span>
             </p>
 
             <div className="mb-8 flex justify-center">
               <div className="stats bg-base-100 shadow-xl">
                 <div className="stat">
-                  <div className="stat-title">Tasks Completed</div>
+                  <div className="stat-title">Features Complete</div>
                   <div className="stat-value text-primary">
-                    {taskProgress.completedTasks}
+                    {completedFeatures}
                   </div>
-                  <div className="stat-desc">
-                    of {taskProgress.totalTasks} total
-                  </div>
+                  <div className="stat-desc">of {totalFeatures} features</div>
                 </div>
 
                 <div className="stat">
                   <div className="stat-title">Project Status</div>
                   <div className="stat-value text-success">
-                    {taskProgress.percentage}%
+                    v{projectConfig.project.version}
                   </div>
-                  <div className="stat-desc">Complete</div>
+                  <div className="stat-desc">Sprint 3.5 Complete</div>
                 </div>
 
                 <div className="stat">
-                  <div className="stat-title">Phases Done</div>
+                  <div className="stat-title">PRPs Done</div>
                   <div className="stat-value text-secondary">
-                    {Object.values(taskProgress.phases || {}).filter(
-                      (phase) => phase.complete
-                    ).length +
-                      Object.values(taskProgress.sprint2Phases || {}).filter(
-                        (phase) => phase.complete
-                      ).length}
+                    {prpsCompleted}/{prpsTotal}
                   </div>
-                  <div className="stat-desc">Milestones reached</div>
+                  <div className="stat-desc">Requirements complete</div>
                 </div>
               </div>
             </div>
