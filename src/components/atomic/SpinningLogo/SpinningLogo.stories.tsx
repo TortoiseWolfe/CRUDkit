@@ -61,6 +61,16 @@ export const SimpleScriptHammer: Story = {
   },
 };
 
+// Layered ScriptHammer Logo - the new composite logo
+export const LayeredScriptHammer: Story = {
+  args: {
+    children: null,
+  },
+  render: () => (
+    <LayeredScriptHammerLogo size={250} speed="slow" pauseOnHover={true} />
+  ),
+};
+
 export const LayeredScriptHammerLarge: Story = {
   args: {
     children: null,
