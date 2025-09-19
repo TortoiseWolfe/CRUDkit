@@ -1,9 +1,8 @@
 'use client';
 
 import { FC } from 'react';
+import dynamic from 'next/dynamic';
 import { useConsent } from '@/contexts/ConsentContext';
-import { CalendlyProvider } from '../../calendar/providers/CalendlyProvider';
-import { CalComProvider } from '../../calendar/providers/CalComProvider';
 import { calendarConfig } from '@/config/calendar.config';
 import CalendarConsent from '../../calendar/CalendarConsent';
 
@@ -17,6 +16,37 @@ export interface CalendarEmbedProps {
   };
   className?: string;
 }
+
+// Dynamic imports for calendar providers with loading state
+const CalendlyProvider = dynamic(
+  () => import('../../calendar/providers/CalendlyProvider').then(mod => ({ default: mod.CalendlyProvider })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-96 items-center justify-center">
+        <div className="text-center">
+          <span className="loading loading-spinner loading-lg"></span>
+          <p className="mt-4 text-base-content/70">Loading calendar...</p>
+        </div>
+      </div>
+    )
+  }
+);
+
+const CalComProvider = dynamic(
+  () => import('../../calendar/providers/CalComProvider').then(mod => ({ default: mod.CalComProvider })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-96 items-center justify-center">
+        <div className="text-center">
+          <span className="loading loading-spinner loading-lg"></span>
+          <p className="mt-4 text-base-content/70">Loading calendar...</p>
+        </div>
+      </div>
+    )
+  }
+);
 
 const CalendarEmbed: FC<CalendarEmbedProps> = ({
   mode = 'inline',
