@@ -112,6 +112,25 @@ p:not([class*='text-']) {
   font-size: var(--text-base);
 }
 
+/* Spinning Logo Animations */
+@keyframes spin-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counter-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 /* Leaflet Map Styles */
 /* Note: Leaflet CSS is imported in map components that use it */
 

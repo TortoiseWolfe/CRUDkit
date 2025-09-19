@@ -1,0 +1,1 @@
+export { SpinningLogo } from './SpinningLogo';

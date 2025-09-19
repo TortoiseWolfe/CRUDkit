@@ -1,0 +1,81 @@
+'use client';
+
+import React from 'react';
+
+export interface SpinningLogoProps {
+  /** Content to spin - can be an icon, image, text, or any React node */
+  children: React.ReactNode;
+  /** Animation speed - predefined or custom duration in seconds */
+  speed?: 'slow' | 'normal' | 'fast' | number;
+  /** Size of the container */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | number;
+  /** Pause animation on hover */
+  pauseOnHover?: boolean;
+  /** Direction of rotation */
+  direction?: 'clockwise' | 'counter-clockwise';
+  /** Additional CSS classes */
+  className?: string;
+  /** Accessibility label for screen readers */
+  ariaLabel?: string;
+  /** Whether the spinner is currently active */
+  isSpinning?: boolean;
+}
+
+const speedMap = {
+  slow: 3,
+  normal: 1.5,
+  fast: 0.75,
+};
+
+const sizeMap = {
+  sm: 32,
+  md: 48,
+  lg: 64,
+  xl: 96,
+};
+
+export const SpinningLogo: React.FC<SpinningLogoProps> = ({
+  children,
+  speed = 'normal',
+  size = 'md',
+  pauseOnHover = false,
+  direction = 'clockwise',
+  className,
+  ariaLabel = 'Spinning logo',
+  isSpinning = true,
+}) => {
+  const duration = typeof speed === 'number' ? speed : speedMap[speed];
+  const dimensions = typeof size === 'number' ? size : sizeMap[size];
+
+  const spinAnimation = {
+    animation: isSpinning
+      ? `spin-${direction} ${duration}s linear infinite`
+      : 'none',
+  };
+
+  const classes = [
+    'inline-flex items-center justify-center',
+    pauseOnHover && 'hover:[animation-play-state:paused]',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <div
+      className={classes}
+      style={{
+        ...spinAnimation,
+        width: dimensions,
+        height: dimensions,
+      }}
+      role="img"
+      aria-label={ariaLabel}
+      data-testid="spinning-logo"
+    >
+      {children}
+    </div>
+  );
+};
+
+SpinningLogo.displayName = 'SpinningLogo';
