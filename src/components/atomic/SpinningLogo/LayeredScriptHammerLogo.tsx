@@ -42,17 +42,18 @@ export const LayeredScriptHammerLogo: React.FC<
         />
       </div>
 
-      {/* Static printing mallet layer - also covers rotating hammer */}
+      {/* Static printing mallet layer - nudged up and right */}
       <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
         <Image
           src="/printing-mallet.svg"
           alt="Printing Mallet"
-          width={size * 0.5}
-          height={size * 0.5}
+          width={size * 0.45}
+          height={size * 0.45}
           style={{
-            width: `${size * 0.5}px`,
-            height: `${size * 0.5}px`,
+            width: `${size * 0.45}px`,
+            height: `${size * 0.45}px`,
             opacity: 0.9,
+            transform: 'translate(-20px, 20px)',
           }}
           priority
         />
