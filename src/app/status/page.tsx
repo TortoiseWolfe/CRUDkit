@@ -370,22 +370,22 @@ export default function StatusPage() {
       url: 'https://tortoisewolfe.github.io/CRUDkit/',
     },
     {
-      name: 'Storybook',
+      name: 'Contact Form',
       status: 'operational',
-      url: 'https://tortoisewolfe.github.io/CRUDkit/storybook/',
+      url: '/contact',
     },
     {
-      name: 'Theme System',
+      name: 'Calendar Booking',
       status: 'operational',
-      url: 'https://tortoisewolfe.github.io/CRUDkit/themes/',
+      url: '/calendar',
     },
     {
-      name: 'Component Gallery',
+      name: 'Maps Service',
       status: 'operational',
-      url: 'https://tortoisewolfe.github.io/CRUDkit/components/',
+      url: '/map',
     },
-    { name: 'PWA Install', status: 'operational', url: '#' },
-    { name: 'Service Worker', status: 'operational', url: '#' },
+    { name: 'PWA Support', status: 'operational', url: '#' },
+    { name: 'Analytics', status: 'operational', url: '#' },
   ]);
 
   useEffect(() => {
