@@ -360,19 +360,8 @@ export default function StatusPage() {
 
   // Deployment history generated from git commits at build time
   // Filter to show only major features (Complete Phase, Add feature, Implement system)
-  const majorKeywords = [
-    'Complete Sprint',
-    'Add ',
-    'Implement ',
-    'dice game',
-    'form validation',
-    'Automate',
-  ];
-  const [deployments] = useState(
-    deploymentHistory.filter((d: { feature: string }) =>
-      majorKeywords.some((keyword) => d.feature.includes(keyword))
-    )
-  );
+  // Show all deployments - they're all significant milestones
+  const [deployments] = useState(deploymentHistory);
 
   const [features] = useState([
     {
