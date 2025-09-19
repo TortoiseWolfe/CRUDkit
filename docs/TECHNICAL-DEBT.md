@@ -82,6 +82,23 @@ This document tracks known technical issues, workarounds, and future concerns th
 - Generated config is a simple TypeScript file with constants
 - No further simplification needed
 
+### ~~5. Husky Pre-commit Hook Docker Detection~~ ✅ RESOLVED
+
+**Date Added**: 2025-09-19
+**Date Resolved**: 2025-09-19
+**Severity**: None
+**Impact**: None
+
+**Issue**: Pre-commit hook failed when committing from inside Docker container because it tried to run `docker compose ps` which doesn't exist inside the container.
+
+**Resolution**:
+- Added detection for running inside Docker container (checks for `/app` directory)
+- Hook now handles three scenarios properly:
+  1. Inside Docker: runs `pnpm lint:staged` directly
+  2. Host with Docker: uses `docker compose exec`
+  3. Host without Docker: runs `pnpm` locally
+- No longer need `--no-verify` when committing from inside Docker
+
 ## Future Concerns
 
 ### ~~1. Security Headers~~ ✅ DOCUMENTED
