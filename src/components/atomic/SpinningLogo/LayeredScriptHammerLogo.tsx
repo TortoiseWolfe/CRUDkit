@@ -14,56 +14,82 @@ export interface LayeredScriptHammerLogoProps {
 
 export const LayeredScriptHammerLogo: React.FC<
   LayeredScriptHammerLogoProps
-> = ({ className = '', size = 250, speed = 'slow', pauseOnHover = true }) => {
+> = ({ className = '', speed = 'slow', pauseOnHover = true }) => {
   return (
     <div
       className={`relative ${className}`}
       style={{
         width: '100%',
-        maxWidth: size,
         height: '100%',
-        maxHeight: size,
         aspectRatio: '1 / 1',
-        filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.4))',
       }}
     >
-      {/* Rotating gear ring with hammer (hammer will be hidden by static layers) */}
-      <SpinningLogo size={size} speed={speed} pauseOnHover={pauseOnHover}>
+      {/* Rotating gear ring with hammer */}
+      <SpinningLogo speed={speed} pauseOnHover={pauseOnHover}>
         <Image
           src={`${detectedConfig.basePath}/scripthammer-logo.svg`}
           alt="Gear Ring"
           width={400}
           height={400}
-          className="h-full w-full"
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          className="absolute inset-0 h-full w-full"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.4))',
+          }}
           priority
         />
       </SpinningLogo>
 
-      {/* Static script tags in center - covers rotating hammer */}
-      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+      {/* Static printing mallet - positioned down and right between script tags */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          top: '56%',
+          left: '44%',
+          transform: 'translate(-50%, -50%)',
+          width: '45%',
+          height: '45%',
+          opacity: 0.9,
+        }}
+      >
         <Image
-          src={`${detectedConfig.basePath}/script-tags.svg`}
-          alt="Script Tags"
-          width={size * 0.4}
-          height={size * 0.4}
-          style={{ width: `${size * 0.4}px`, height: `${size * 0.4}px` }}
+          src={`${detectedConfig.basePath}/printing-mallet.svg`}
+          alt="Printing Mallet"
+          width={400}
+          height={400}
+          className="h-full w-full"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
           priority
         />
       </div>
 
-      {/* Static printing mallet layer - nudged up and right */}
-      <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
+      {/* Static script tags on top */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '40%',
+          height: '40%',
+        }}
+      >
         <Image
-          src={`${detectedConfig.basePath}/printing-mallet.svg`}
-          alt="Printing Mallet"
-          width={size * 0.45}
-          height={size * 0.45}
+          src={`${detectedConfig.basePath}/script-tags.svg`}
+          alt="Script Tags"
+          width={400}
+          height={400}
+          className="h-full w-full"
           style={{
-            width: `${size * 0.45}px`,
-            height: `${size * 0.45}px`,
-            opacity: 0.9,
-            transform: 'translate(-20px, 20px)',
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
           }}
           priority
         />

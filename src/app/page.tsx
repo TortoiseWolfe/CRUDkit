@@ -71,44 +71,41 @@ export default function Home() {
       <section
         id="main-content"
         aria-label="Welcome hero"
-        className="hero relative min-h-0 sm:min-h-[60vh] md:min-h-[70vh]"
+        className="hero relative min-h-screen sm:min-h-[60vh] md:min-h-[70vh]"
       >
-        <div className="hero-content py-6 sm:py-12 md:py-16 lg:py-20">
+        <div className="hero-content py-8 sm:py-12 md:py-16 lg:py-20">
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
-            {/* Logo on the left - responsive sizing */}
-            <div className="flex-shrink-0 p-4 sm:p-6 md:p-8">
-              <div className="h-48 w-48 sm:h-64 sm:w-64 md:h-80 md:w-80 lg:h-[350px] lg:w-[350px]">
-                <LayeredScriptHammerLogo size={350} speed="slow" pauseOnHover />
+            {/* Logo - responsive sizes */}
+            <div className="flex-shrink-0">
+              <div className="h-28 w-28 sm:h-40 sm:w-40 md:h-56 md:w-56 lg:h-[350px] lg:w-[350px]">
+                <LayeredScriptHammerLogo speed="slow" pauseOnHover />
               </div>
             </div>
 
-            {/* Content on the right - with proper padding */}
-            <div className="max-w-4xl px-4 text-center sm:px-6 lg:px-0 lg:text-left">
+            {/* Content - stacked below logo on mobile */}
+            <div className="max-w-full px-6 text-center sm:max-w-2xl sm:px-6 lg:max-w-4xl lg:px-0 lg:text-left">
               {/* Main Title with Animation */}
-              <h1 className="mb-3 sm:mb-6">
+              <h1 className="mb-4 sm:mb-6">
                 <AnimatedLogo
                   text="CRUDkit"
                   size="lg"
-                  className="sm:text-5xl md:text-6xl lg:text-7xl"
+                  className="text-5xl font-bold sm:text-5xl md:text-6xl lg:text-7xl"
                   animationSpeed="normal"
                 />
               </h1>
 
-              {/* Subtitle - better line breaks on mobile */}
-              <p className="text-base-content/87 mb-4 text-base sm:mb-6 sm:text-xl md:text-2xl">
+              {/* Subtitle - cleaner mobile text */}
+              <p className="text-base-content mb-6 text-base leading-relaxed font-medium sm:mb-6 sm:text-xl sm:leading-normal md:text-2xl">
                 Opinionated Next.js Template
-                <span className="hidden sm:inline">
-                  {' '}
-                  with Everything Built-In
-                </span>
-                <span className="block sm:hidden">
+                <br className="sm:hidden" />
+                <span className="mt-1 block sm:mt-0 sm:inline">
                   with Everything Built-In
                 </span>
               </p>
 
-              {/* Tech Stack */}
+              {/* Tech Stack - hide on smallest screens */}
               <div
-                className="mb-6 flex flex-wrap justify-center gap-1.5 sm:mb-8 sm:gap-2 md:mb-12"
+                className="mb-8 hidden flex-wrap justify-center gap-2 sm:mb-8 sm:flex md:mb-12 lg:justify-start"
                 role="list"
                 aria-label="Technology stack"
               >
@@ -144,17 +141,17 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Primary Actions */}
+              {/* Primary Actions - vertical stack on mobile */}
               <nav
                 aria-label="Primary navigation"
-                className="flex flex-wrap justify-center gap-2 sm:gap-4"
+                className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 lg:justify-start"
               >
                 <Link
                   href="/components"
-                  className="btn btn-primary btn-sm sm:btn-md md:btn-lg group"
+                  className="btn btn-primary btn-md sm:btn-md md:btn-lg group w-full sm:w-auto"
                 >
                   <svg
-                    className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
+                    className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -171,10 +168,10 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/themes"
-                  className="btn btn-secondary btn-sm sm:btn-md md:btn-lg group"
+                  className="btn btn-secondary btn-md sm:btn-md md:btn-lg group w-full sm:w-auto"
                 >
                   <svg
-                    className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
+                    className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -193,10 +190,10 @@ export default function Home() {
                   href="https://github.com/TortoiseWolfe/CRUDkit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-outline btn-sm sm:btn-md md:btn-lg group"
+                  className="btn btn-outline btn-md sm:btn-md md:btn-lg group w-full sm:w-auto"
                 >
                   <svg
-                    className="mr-1 h-4 w-4 transition-transform group-hover:scale-110 sm:mr-2 sm:h-5 sm:w-5"
+                    className="mr-2 h-5 w-5 transition-transform group-hover:scale-110"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -207,10 +204,10 @@ export default function Home() {
                 </a>
               </nav>
 
-              {/* Quick Links */}
+              {/* Quick Links - hide on mobile */}
               <nav
                 aria-label="Secondary navigation"
-                className="mt-6 flex flex-wrap justify-center gap-2 text-xs sm:mt-8 sm:gap-4 sm:text-sm md:mt-10"
+                className="mt-8 hidden flex-wrap justify-center gap-2 text-xs sm:mt-8 sm:flex sm:gap-4 sm:text-sm md:mt-10 lg:justify-start"
               >
                 <Link
                   href="/status"

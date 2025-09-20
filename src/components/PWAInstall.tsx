@@ -208,8 +208,8 @@ export default function PWAInstall() {
         <button
           onClick={handleExpand}
           className="btn btn-circle btn-info btn-sm shadow-lg transition-all hover:scale-110"
-          aria-label="Install CRUDkit App"
-          title="Install CRUDkit App"
+          aria-label="Install CRUDkit as Progressive Web App"
+          title="Install CRUDkit as PWA - Works offline!"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -247,9 +247,13 @@ export default function PWAInstall() {
           />
         </svg>
         <span className="hidden text-sm font-medium sm:inline">
-          Install App
+          Install as PWA
         </span>
-        <button onClick={handleInstallClick} className="btn btn-info btn-xs">
+        <button
+          onClick={handleInstallClick}
+          className="btn btn-info btn-xs"
+          title="Progressive Web App - Works offline, faster loading, no app store needed!"
+        >
           Install
         </button>
         <button

@@ -37,7 +37,7 @@ const sizeMap = {
 export const SpinningLogo: React.FC<SpinningLogoProps> = ({
   children,
   speed = 'slow',
-  size = 'md',
+  size,
   pauseOnHover = false,
   direction = 'clockwise',
   className,
@@ -45,7 +45,14 @@ export const SpinningLogo: React.FC<SpinningLogoProps> = ({
   isSpinning = true,
 }) => {
   const duration = typeof speed === 'number' ? speed : speedMap[speed];
-  const dimensions = typeof size === 'number' ? size : sizeMap[size];
+
+  // If no size provided, use 100% to fill container
+  const dimensions =
+    size === undefined
+      ? '100%'
+      : typeof size === 'number'
+        ? size
+        : sizeMap[size];
 
   const spinAnimation = {
     animation: isSpinning
