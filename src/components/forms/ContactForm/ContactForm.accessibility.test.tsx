@@ -1,4 +1,3 @@
- 
 import { describe, it, expect, vi } from 'vitest';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { axe } from 'jest-axe';
@@ -158,11 +157,11 @@ describe('ContactForm Accessibility', () => {
   it('should maintain focus management', () => {
     const { getByRole } = render(<ContactForm />);
 
-    // Submit button should be focusable (disabled initially until form is valid)
+    // Submit button should be focusable and enabled (we removed isValid check for performance)
     const submitButton = getByRole('button', { name: /send message/i });
     expect(submitButton).toBeTruthy();
-    // Button is disabled initially because form is not valid yet
-    expect(submitButton.hasAttribute('disabled')).toBe(true);
+    // Button is now enabled by default (only disabled during submission or if honeypot filled)
+    expect(submitButton.hasAttribute('disabled')).toBe(false);
   });
 
   it('should have proper ARIA attributes', () => {
