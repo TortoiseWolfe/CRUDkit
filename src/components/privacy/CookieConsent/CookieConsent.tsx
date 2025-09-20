@@ -25,8 +25,7 @@ export function CookieConsent({
   onRejectAll,
   onCustomize,
   privacyPolicyUrl,
-  // cookiePolicyUrl is reserved for future use
-  cookiePolicyUrl: _cookiePolicyUrl,
+  // cookiePolicyUrl is reserved for future use - omitting from destructuring
   customContent,
 }: CookieConsentProps) {
   const { showBanner, isLoading, acceptAll, rejectAll, openModal } =
