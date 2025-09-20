@@ -1,4 +1,3 @@
- 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -88,17 +87,18 @@ describe('ContactForm', () => {
 
         // Enter invalid name (too short)
         await user.type(nameInput, 'J');
-        await user.tab(); // Trigger blur
 
-        // Should show error message
+        // Try to submit with invalid data
+        await user.click(submitButton);
+
+        // Should show error message after submit attempt
         await waitFor(() => {
           expect(
             screen.getByText(/name must be at least 2 characters/i)
           ).toBeInTheDocument();
         });
 
-        // Submit button should be disabled with invalid form
-        await user.click(submitButton);
+        // Form should not have been submitted
         expect(mockSubmitForm).not.toHaveBeenCalled();
       });
 
@@ -107,9 +107,14 @@ describe('ContactForm', () => {
         render(<ContactForm />);
 
         const emailInput = screen.getByLabelText(/email address/i);
+        const submitButton = screen.getByRole('button', {
+          name: /send message/i,
+        });
 
         await user.type(emailInput, 'invalid-email');
-        await user.tab();
+
+        // Try to submit with invalid email
+        await user.click(submitButton);
 
         await waitFor(() => {
           expect(
@@ -123,9 +128,14 @@ describe('ContactForm', () => {
         render(<ContactForm />);
 
         const messageInput = screen.getByLabelText(/message/i);
+        const submitButton = screen.getByRole('button', {
+          name: /send message/i,
+        });
 
         await user.type(messageInput, 'Too short');
-        await user.tab();
+
+        // Try to submit with short message
+        await user.click(submitButton);
 
         await waitFor(() => {
           expect(
@@ -139,10 +149,13 @@ describe('ContactForm', () => {
         render(<ContactForm />);
 
         const nameInput = screen.getByLabelText(/full name/i);
+        const submitButton = screen.getByRole('button', {
+          name: /send message/i,
+        });
 
-        // Enter invalid name
+        // Enter invalid name and try to submit
         await user.type(nameInput, 'J');
-        await user.tab();
+        await user.click(submitButton);
 
         await waitFor(() => {
           expect(
@@ -153,7 +166,7 @@ describe('ContactForm', () => {
         // Fix the error
         await user.clear(nameInput);
         await user.type(nameInput, 'John Doe');
-        await user.tab();
+        await user.tab(); // Trigger revalidation
 
         await waitFor(() => {
           expect(
@@ -189,13 +202,11 @@ describe('ContactForm', () => {
         await user.type(messageInput, 'This is a test message');
         await user.tab();
 
-        // Wait for form to be valid
+        // Submit button should always be enabled now (no isValid check)
         const submitButton = screen.getByRole('button', {
           name: /send message/i,
         });
-        await waitFor(() => {
-          expect(submitButton).not.toBeDisabled();
-        });
+        expect(submitButton).not.toBeDisabled();
 
         // Submit form
         await user.click(submitButton);
@@ -338,9 +349,14 @@ describe('ContactForm', () => {
         render(<ContactForm />);
 
         const nameInput = screen.getByLabelText(/full name/i);
+        const submitButton = screen.getByRole('button', {
+          name: /send message/i,
+        });
 
         await user.type(nameInput, 'J');
-        await user.tab();
+
+        // Try to submit with invalid data
+        await user.click(submitButton);
 
         await waitFor(() => {
           const errorMessage = screen.getByText(
