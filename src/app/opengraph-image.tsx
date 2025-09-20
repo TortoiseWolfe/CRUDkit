@@ -11,11 +11,6 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
-  // Fetch the SVG content
-  const logoSvg = await fetch(
-    new URL('../../public/favicon.svg', import.meta.url)
-  ).then((res) => res.text());
-
   return new ImageResponse(
     (
       <div

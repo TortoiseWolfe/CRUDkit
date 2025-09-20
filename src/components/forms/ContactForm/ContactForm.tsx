@@ -21,7 +21,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
     watch,
   } = useForm<ContactFormData>({

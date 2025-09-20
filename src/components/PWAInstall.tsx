@@ -149,14 +149,7 @@ export default function PWAInstall() {
     trackPWAEvent('install_prompt_expanded');
   };
 
-  const handleHideForever = () => {
-    setShowInstallButton(false);
-    // Store permanent dismissal
-    localStorage.setItem('pwa-install-dismissed', 'true');
-
-    // Track permanent dismissal
-    trackPWAEvent('install_prompt_dismissed_forever');
-  };
+  // Removed unused handleHideForever - functionality handled by handleDismiss
 
   // Check localStorage for previous state
   useEffect(() => {

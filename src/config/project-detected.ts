@@ -2,14 +2,14 @@
 // DO NOT EDIT MANUALLY - This file is regenerated on each build
 
 export const detectedConfig = {
-  "projectName": "CRUDkit",
-  "projectOwner": "TortoiseWolfe",
-  "projectHost": "github.com",
-  "projectUrl": "https://github.com/TortoiseWolfe/CRUDkit",
-  "basePath": "",
-  "isGitHub": true,
-  "detectionSource": "git",
-  "generatedAt": "2025-09-20T07:57:31.806Z"
+  projectName: 'CRUDkit',
+  projectOwner: 'TortoiseWolfe',
+  projectHost: 'github.com',
+  projectUrl: 'https://github.com/TortoiseWolfe/CRUDkit',
+  basePath: '',
+  isGitHub: true,
+  detectionSource: 'git',
+  generatedAt: '2025-09-20T08:19:45.705Z',
 } as const;
 
 export type DetectedConfig = typeof detectedConfig;

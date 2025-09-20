@@ -112,7 +112,7 @@ describe('CookieConsent', () => {
 
     it('should call openModal when Customize button is clicked', async () => {
       const user = userEvent.setup();
-      const { container } = render(<CookieConsent />);
+      render(<CookieConsent />);
 
       const settingsButton = screen.getByRole('button', {
         name: /customize/i,
