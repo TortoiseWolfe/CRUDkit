@@ -10,7 +10,7 @@ import { CookieConsent } from '@/components/privacy/CookieConsent';
 import { ConsentModal } from '@/components/privacy/ConsentModal';
 import GoogleAnalytics from '@/components/atomic/GoogleAnalytics';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { projectConfig, getAssetUrl } from '@/config/project.config';
+import { projectConfig } from '@/config/project.config';
 import {
   generateMetadata,
   generateJsonLd,
@@ -70,8 +70,8 @@ export const metadata: Metadata = {
   }),
   manifest: projectConfig.manifestPath,
   icons: {
-    icon: getAssetUrl('/favicon.svg'),
-    apple: getAssetUrl('/apple-touch-icon.svg'),
+    icon: ['/favicon.ico', '/icon.svg'],
+    apple: '/apple-icon.png',
   },
   appleWebApp: {
     capable: true,

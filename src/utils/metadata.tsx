@@ -23,7 +23,7 @@ export function generateMetadata(options: MetadataOptions = {}): Metadata {
     title = projectConfig.projectName,
     description = projectConfig.projectDescription,
     path = '/',
-    image = '/opengraph-image',
+    image = '/opengraph-image.png',
     type = 'website',
     publishedTime,
     modifiedTime,
@@ -161,7 +161,7 @@ export function generateJsonLd(options: MetadataOptions = {}) {
       '@type': 'Article',
       headline: title,
       description,
-      image: getAssetUrl('/og-image.png'),
+      image: getAssetUrl('/opengraph-image.png'),
       datePublished: publishedTime,
       dateModified: modifiedTime || publishedTime,
       author: {
