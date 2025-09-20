@@ -26,7 +26,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     watch,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    mode: 'onBlur',
+    mode: 'onSubmit',
+    reValidateMode: 'onBlur',
     defaultValues: {
       name: '',
       email: '',
@@ -342,7 +343,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           <button
             type="submit"
             className={`btn btn-primary ${isSubmitting ? 'loading' : ''} ${!isOnline ? 'btn-warning' : ''}`}
-            disabled={isSubmitting || !isValid || !!honeypotValue}
+            disabled={isSubmitting || !!honeypotValue}
           >
             {isSubmitting
               ? !isOnline

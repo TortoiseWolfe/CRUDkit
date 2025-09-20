@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 // Apple touch icon
-export const runtime = 'edge';
+// Removed runtime = 'edge' for static export compatibility
 
 // Image metadata
 export const size = {
