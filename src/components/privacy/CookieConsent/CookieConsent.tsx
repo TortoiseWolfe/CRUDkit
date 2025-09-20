@@ -25,7 +25,8 @@ export function CookieConsent({
   onRejectAll,
   onCustomize,
   privacyPolicyUrl,
-  cookiePolicyUrl,
+  // cookiePolicyUrl is reserved for future use
+  cookiePolicyUrl: _cookiePolicyUrl,
   customContent,
 }: CookieConsentProps) {
   const { showBanner, isLoading, acceptAll, rejectAll, openModal } =
@@ -41,10 +42,14 @@ export function CookieConsent({
     onAcceptAll?.();
   };
 
-  const handleRejectAll = () => {
+  // handleRejectAll is defined but not currently used in the UI
+  // Keeping it for potential future use
+  const _handleRejectAll = () => {
     rejectAll();
     onRejectAll?.();
   };
+  // Suppress unused variable warning
+  void _handleRejectAll;
 
   const handleCustomize = () => {
     openModal();
