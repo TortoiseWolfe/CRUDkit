@@ -64,6 +64,7 @@ export const LayeredScriptHammerLogo: React.FC<
             width: '100%',
             height: '100%',
             objectFit: 'contain',
+            filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8))',
           }}
           priority
         />
@@ -90,6 +91,7 @@ export const LayeredScriptHammerLogo: React.FC<
             width: '100%',
             height: '100%',
             objectFit: 'contain',
+            filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8))',
           }}
           priority
         />

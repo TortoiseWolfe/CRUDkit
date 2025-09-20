@@ -99,6 +99,7 @@ export default function Home() {
                 Opinionated Next.js Template
                 <br className="sm:hidden" />
                 <span className="mt-1 block sm:mt-0 sm:inline">
+                  {' '}
                   with Everything Built-In
                 </span>
               </p>
@@ -213,7 +214,7 @@ export default function Home() {
                   href="/status"
                   className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100"
                 >
-                  Status Dashboard
+                  Status
                 </Link>
                 <span className="opacity-30" aria-hidden="true">
                   •
@@ -271,7 +272,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="link link-hover opacity-87 hover:opacity-100 focus:opacity-100"
                 >
-                  Fork on GitHub
+                  Fork
                 </a>
               </nav>
             </div>

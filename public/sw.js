@@ -4,8 +4,8 @@ const BUILD_TIMESTAMP = new Date().toISOString();
 const isDev =
   location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 const CACHE_NAME = isDev
-  ? 'crudkit-dev-' + BUILD_TIMESTAMP.slice(0, 10)
-  : 'crudkit-v4-' + BUILD_TIMESTAMP.slice(0, 10);
+  ? 'crudkit-dev-' + BUILD_TIMESTAMP
+  : 'crudkit-v5-' + BUILD_TIMESTAMP.slice(0, 10);
 
 console.log('[SW] Initializing Service Worker');
 console.log('[SW] Cache name:', CACHE_NAME);
