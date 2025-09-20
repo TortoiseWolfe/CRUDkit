@@ -77,7 +77,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16">
             {/* Logo - responsive sizes */}
             <div className="flex-shrink-0">
-              <div className="h-28 w-28 sm:h-40 sm:w-40 md:h-56 md:w-56 lg:h-[350px] lg:w-[350px]">
+              <div className="h-48 w-48 sm:h-52 sm:w-52 md:h-56 md:w-56 lg:h-[350px] lg:w-[350px]">
                 <LayeredScriptHammerLogo speed="slow" pauseOnHover />
               </div>
             </div>

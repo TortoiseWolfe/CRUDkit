@@ -36,7 +36,7 @@ export const LayeredScriptHammerLogo: React.FC<
             width: '100%',
             height: '100%',
             objectFit: 'contain',
-            filter: 'drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.4))',
+            filter: 'drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.7))',
           }}
           priority
         />
@@ -48,7 +48,7 @@ export const LayeredScriptHammerLogo: React.FC<
         style={{
           top: '56%',
           left: '44%',
-          transform: 'translate(calc(-50% + 3px), -50%)',
+          transform: 'translate(calc(-50% + 2px), -50%)',
           width: '45%',
           height: '45%',
           opacity: 0.9,
