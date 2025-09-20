@@ -1,7 +1,9 @@
 import { ImageResponse } from 'next/og';
 
 // App icon
-// Removed runtime = 'edge' for static export compatibility
+// Configure for static export
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 // Image metadata - increased to 48x48 for better visibility
 export const size = {

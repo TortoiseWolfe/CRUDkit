@@ -1,7 +1,9 @@
 import { ImageResponse } from 'next/og';
 import { projectConfig } from '@/config/project.config';
 
-// Removed runtime = 'edge' for static export compatibility
+// Configure for static export
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 export const alt = `${projectConfig.projectName} - Modern Web Starter`;
 export const size = {
