@@ -197,7 +197,7 @@ export default function PWAInstall() {
   // Minimized CTA button
   if (isMinimized && !isInstalled) {
     return (
-      <div className="fixed top-4 left-4 z-50">
+      <div className="fixed top-4 right-4 z-50">
         <button
           onClick={handleExpand}
           className="btn btn-circle btn-info btn-sm shadow-lg transition-all hover:scale-110"
@@ -224,7 +224,7 @@ export default function PWAInstall() {
 
   // Compact pill UI
   return (
-    <div className="animate-fade-in fixed top-4 left-4 z-50">
+    <div className="animate-fade-in fixed top-4 right-4 z-50">
       <div className="bg-base-100/95 border-base-300 flex items-center gap-2 rounded-full border px-3 py-2 shadow-lg backdrop-blur-sm">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -37,36 +37,6 @@ export default function Home() {
         Skip to main content
       </a>
 
-      {/* Floating Progress Badge */}
-      {taskProgress && (
-        <aside
-          aria-label="Project completion status"
-          className="fixed top-4 right-4 z-50"
-        >
-          <Link
-            href="/status"
-            className="badge badge-success badge-lg cursor-pointer gap-2 shadow-lg transition-transform hover:scale-105"
-            aria-label={`Project ${taskProgress.percentage}% complete. Click to view detailed status.`}
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{taskProgress.percentage}% Complete</span>
-          </Link>
-        </aside>
-      )}
-
       {/* Hero Section */}
       <section
         id="main-content"
