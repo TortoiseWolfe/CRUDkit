@@ -14,7 +14,7 @@ const defaultConfig = {
   projectName: 'CRUDkit',
   projectOwner: 'TortoiseWolfe',
   projectDescription:
-    'Modern Next.js starter with PWA, theming, and interactive components',
+    'Opinionated Next.js template with PWA, theming, and interactive components',
   basePath: '',
 };
 
@@ -23,6 +23,7 @@ const envConfig = {
   projectName: process.env.NEXT_PUBLIC_PROJECT_NAME,
   projectOwner: process.env.NEXT_PUBLIC_PROJECT_OWNER,
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
+  deployUrl: process.env.NEXT_PUBLIC_DEPLOY_URL,
 };
 
 /**
@@ -39,9 +40,14 @@ export function getProjectConfig() {
 
   // Computed values
   const projectUrl = `https://github.com/${config.projectOwner}/${config.projectName}`;
-  const deployUrl = config.basePath
+
+  // Deploy URL priority:
+  // 1. NEXT_PUBLIC_DEPLOY_URL (custom domain)
+  // 2. GitHub Pages (if basePath is set)
+  // 3. localhost (for development)
+  const deployUrl = envConfig.deployUrl || (config.basePath
     ? `https://${config.projectOwner.toLowerCase()}.github.io${config.basePath}`
-    : 'http://localhost:3000';
+    : 'http://localhost:3000');
 
   return {
     ...config,
