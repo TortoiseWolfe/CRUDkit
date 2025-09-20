@@ -18,10 +18,11 @@ Next.js 15.5.2 incorrectly generates Pages Router artifacts (pages-manifest.json
 
 **Attempted Solutions**:
 
-1. ✅ Removed twitter-image.tsx (helped but didn't fully resolve)
-2. ✅ Added stub pages/\_document.tsx and \_app.tsx files
-3. ✅ Cleaned all build caches and artifacts
-4. ⚠️ Still fails locally but GitHub Actions CI may handle differently
+1. ✅ Removed twitter-image.tsx (fixed CI/CD issue)
+2. ✅ Added stub pages/\_document.tsx and \_app.tsx files (didn't fix)
+3. ✅ Removed entire pages directory (still fails)
+4. ✅ Cleaned all build caches and artifacts
+5. ⚠️ This is a confirmed Next.js 15.5.2 bug with no current fix
 
 **Current Status**:
 
